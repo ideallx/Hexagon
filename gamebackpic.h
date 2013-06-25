@@ -8,6 +8,10 @@ public:
     gameBackPic(QPixmap picture);
     QPixmap getPixmap(void);
     QPointF getBeginPostion();
+    int getLineLength();
+    int getWidthCount();
+    int getHeightCount();
+
 
 private:
     QPixmap backgroundPicture;

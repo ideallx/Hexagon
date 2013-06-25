@@ -15,3 +15,18 @@ QPointF gameBackPic::getBeginPostion(void)
 {
     return QPointF(50.0, 50.0);
 }
+
+int gameBackPic::getLineLength()
+{
+    return 50;
+}
+
+int gameBackPic::getWidthCount()
+{
+    return 20;
+}
+
+int gameBackPic::getHeightCount()
+{
+    return 20;
+}
