@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QPainter>
-#include "gamebackpic.h"
+#include "../Game/gamebackpic.h"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -24,9 +24,9 @@ public:
 
 private:
     void paintInitial(void);
-    void paintFocus(void);
     void drawHexagonSeries(QPainter* painter, QPoint block);
     void variableInitial(void);
+    void deleteAllQlist();
     QPointF getBeginPosWithCoo(QPoint);
     QPoint getCooxWithPos(QPointF);
     QPoint goTopLeft(QPoint);
@@ -36,7 +36,8 @@ private:
     int lineLength;
     int printIndicator;
     QLabel *debugInfo;
-    QPoint curBlock;
+    QPoint curMoveBlock;
+    QPoint curChosenBlock;
     QList<QPushButton*> menuList;
 
     int widthCount;
@@ -54,7 +55,7 @@ private:
 
 
 signals:
-    void curBlockChanged(QPoint );
+    void curMoveBlockChanged(QPoint );
     
 public slots:
     void changeBlock(QPoint );

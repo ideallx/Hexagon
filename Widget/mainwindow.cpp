@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QLabel *statusContent = new QLabel(this);
     statusContent->setText("Test StatusBar Label");
     ui->statusBar->addWidget(statusContent);
+    connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
 }
 
 MainWindow::~MainWindow()

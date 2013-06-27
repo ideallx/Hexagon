@@ -12,14 +12,15 @@ TARGET = vv
 TEMPLATE = app
 
 
-SOURCES += main.cpp\
-        mainwindow.cpp \
-    widgetmain.cpp \
-    gamebackpic.cpp
+SOURCES  += main.cpp \
+    Game/gamebackpic.cpp \
+    Widget/widgetmain.cpp \
+    Widget/mainwindow.cpp
 
 HEADERS  += mainwindow.h \
-    widgetmain.h \
-    gamebackpic.h
+    Game/gamebackpic.h \
+    Widget/widgetmain.h \
+    Widget/mainwindow.h
 
 FORMS    += mainwindow.ui
 

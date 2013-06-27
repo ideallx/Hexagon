@@ -23,10 +23,10 @@ int gameBackPic::getLineLength()
 
 int gameBackPic::getWidthCount()
 {
-    return 20;
+    return 10;
 }
 
 int gameBackPic::getHeightCount()
 {
-    return 20;
+    return 10;
 }

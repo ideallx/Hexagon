@@ -4,12 +4,12 @@
 WidgetMain::WidgetMain(QWidget *parent) :
     QWidget(parent)
 {
-    gbp = new gameBackPic(QPixmap(":/images/wall2.jpg"));
+    gbp = new gameBackPic(QPixmap(":/images/wall3.jpg"));
     if(gbp->isNull())
         QMessageBox::warning(this, "Title", "No Picture");
 
     QPalette palette;
-    //palette.setBrush(QPalette::Background, QBrush(*gbp));
+    palette.setBrush(QPalette::Background, QBrush(*gbp));
     setFixedSize(gbp->width(), gbp->height());
     setPalette(palette);
     setAutoFillBackground(true);
@@ -20,7 +20,7 @@ WidgetMain::WidgetMain(QWidget *parent) :
     debugInfo->setText("Debug Info");
 
     variableInitial();
-    connect(this, SIGNAL(curBlockChanged(QPoint)), this, SLOT(changeBlock(QPoint)));
+    connect(this, SIGNAL(curMoveBlockChanged(QPoint)), this, SLOT(changeBlock(QPoint)));
 }
 
 void WidgetMain::variableInitial()
@@ -31,6 +31,7 @@ void WidgetMain::variableInitial()
     widthCount = gbp->getWidthCount()!=0?gbp->getWidthCount():(gbp->width()-beginX)/(sqrt(3.0)*lineLength);
     heightCount = gbp->getHeightCount()!=0?gbp->getHeightCount():(gbp->height()-beginY)/(1.5*lineLength);
     printIndicator = BLANK_BACKGROUND;
+    curChosenBlock = curMoveBlock = QPoint(-1, -1);
 
     qDebug("%d, %d, %d, %d, %d", beginX, beginY, widthCount, heightCount, lineLength);
 }
@@ -124,7 +125,7 @@ QPoint WidgetMain::goTopRight(QPoint coo)
     return result;
 }
 
-//略有问题 但影响不大
+//改好了。不需要第二次修正，double转int，负0.x会转成0，x--就可以了
 QPoint WidgetMain::getCooxWithPos(QPointF point)
 {
     double lineLenSqrt3 = sqrt(3.0)*lineLength;
@@ -135,6 +136,8 @@ QPoint WidgetMain::getCooxWithPos(QPointF point)
     double newX2 = (point.x()-beginX-(lineLenSqrt3/2))/lineLenSqrt3;
     coo.setY((point.y()-beginY)/(1.5*lineLength));
     double x = coo.y()%2?newX2:newX;
+    if(x<0)
+        x--;
     coo.setX((int)x);
 
     double offsetX = point.x() - beginX - coo.x()*lineLenSqrt3;
@@ -157,28 +160,34 @@ QPoint WidgetMain::getCooxWithPos(QPointF point)
         }
     }
 
-    //第二次修正，左侧边沿
-    //TODO
     return coo;
 }
 
 void WidgetMain::paintInitial()
 {
     QPainter *painter = new QPainter(this);
+    //painter->setRenderHint(QPainter::Antialiasing);
     painter->setPen(QColor("red"));
-    drawSingleHexagon(painter, QPointF(50, 50));
 
     for(int i=0; i<widthCount; i++)
     {
         for(int j=0; j<heightCount; j++)
         {
-            if(i == curBlock.x() && j == curBlock.y())
+            if(i == curMoveBlock.x() && j == curMoveBlock.y())
                 continue;
             drawHexagonSeries(painter, QPoint(i, j));
         }
     }
-    painter->setPen(QPen(Qt::black, 5));
-    drawHexagonSeries(painter, curBlock);
+    if(isPointAvailable(curMoveBlock))
+    {
+        painter->setPen(QPen(Qt::black, 5));
+        drawHexagonSeries(painter, curMoveBlock);
+    }
+    if(isPointAvailable(curChosenBlock))
+    {
+        painter->setPen(QPen(Qt::blue, 5));
+        drawHexagonSeries(painter, curChosenBlock);
+    }
     delete painter;
 }
 
@@ -187,53 +196,62 @@ WidgetMain::~WidgetMain()
 
 }
 
-
-void WidgetMain::mouseMoveEvent(QMouseEvent *e)
+void WidgetMain::deleteAllQlist()
 {
-    //获取六角形横纵坐标
-    QPoint newPoint = getCooxWithPos(e->pos());
-    if(curBlock != newPoint)
-    {
-        emit curBlockChanged(newPoint);
-    }
-}
-
-void WidgetMain::mousePressEvent(QMouseEvent *e)
-{
-    QPushButton *ddd = new QPushButton("ddd", this);
-    QPushButton *eee = new QPushButton("eee", this);
-    menuList.append(ddd);
-    menuList.append(eee);
-    ddd->show();
-    eee->show();
-    qDebug("fdsf");
-}
-
-void WidgetMain::mouseReleaseEvent(QMouseEvent *e)
-{
-    Q_UNUSED(e);
     for(int i=0; i<menuList.size(); i++)
     {
         delete menuList.at(i);
     }
     menuList.clear();
+}
+
+void WidgetMain::mouseMoveEvent(QMouseEvent *e)
+{
+    //获取六角形横纵坐标
+    QPoint newPoint = getCooxWithPos(e->pos());
+    if(curMoveBlock != newPoint)
+    {
+        emit curMoveBlockChanged(newPoint);
+    }
+}
+
+void WidgetMain::mousePressEvent(QMouseEvent *e)
+{
+    deleteAllQlist();
+    if((e->button() == Qt::LeftButton) && isPointAvailable(curMoveBlock))
+    {
+        QPushButton *ddd = new QPushButton("ddd", this);
+        QPushButton *eee = new QPushButton("eee", this);
+        ddd->setGeometry(e->pos().x(), e->pos().y(), 80, 30);
+        eee->setGeometry(e->pos().x(), e->pos().y()+30, 80, 30);
+        menuList.append(ddd);
+        menuList.append(eee);
+        ddd->show();
+        eee->show();
+
+        curChosenBlock = curMoveBlock;
+        update();
+    }
+}
+
+void WidgetMain::mouseReleaseEvent(QMouseEvent *e)
+{
+    Q_UNUSED(e);
 
 }
 
 void WidgetMain::changeBlock(QPoint p)
 {
-    curBlock = QPoint(p.x(), p.y());
-    if(curBlock.x()<0 || curBlock.y()<0 || curBlock.x()>=widthCount || curBlock.y()>=heightCount)
-        return;
+    curMoveBlock = QPoint(p.x(), p.y());
     qDebug("%d, %d", p.x(), p.y());
     printIndicator = BLOCK_CHOSEN;
     update();
 }
 
-void WidgetMain::paintFocus(void)
+bool WidgetMain::isPointAvailable(QPoint in)
 {
-    QPainter *painter = new QPainter(this);
-    painter->setPen(QColor("red"));
-
-    drawHexagonSeries(painter, curBlock);
+    if(in.x()<0 || in.y()<0 || in.x()>=widthCount || in.y()>=heightCount)
+        return false;
+    else
+        return true;
 }
