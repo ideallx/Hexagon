@@ -14,8 +14,8 @@ class WidgetMain : public QWidget
 
 public:
     WidgetMain(QWidget *parent = 0);
-    void drawSingleHexagon(QPainter* painter, QPointF begin);
     ~WidgetMain();
+    QSize getMaxSizeHint();
     void paintEvent(QPaintEvent *);
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
@@ -24,6 +24,7 @@ public:
 
 private:
     void paintInitial(void);
+    QPainterPath drawSingleHexagon(QPointF begin);
     void drawHexagonSeries(QPainter* painter, QPoint block);
     void variableInitial(void);
     void deleteAllQlist();
@@ -44,8 +45,9 @@ private:
     int heightCount;
     int beginX;
     int beginY;
+    QVector<int> mapElement;
 
-    gameBackPic *gbp;
+    gameBackInfo *gbp;
 
     enum printIndicator_t
     {

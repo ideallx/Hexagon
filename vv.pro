@@ -15,12 +15,14 @@ TEMPLATE = app
 SOURCES  += main.cpp \
     Game/gamebackpic.cpp \
     Widget/widgetmain.cpp \
-    Widget/mainwindow.cpp
+    Widget/mainwindow.cpp \
+    Widget/widgetmaintest.cpp
 
 HEADERS  += mainwindow.h \
     Game/gamebackpic.h \
     Widget/widgetmain.h \
-    Widget/mainwindow.h
+    Widget/mainwindow.h \
+    Widget/widgetmaintest.h
 
 FORMS    += mainwindow.ui
 

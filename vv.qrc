@@ -1,7 +1,10 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/wall1.jpg</file>
-        <file>images/wall2.jpg</file>
-        <file>images/wall3.jpg</file>
+        <file>resource/wall1.jpg</file>
+        <file>resource/wall2.jpg</file>
+        <file>resource/wall3.jpg</file>
+        <file>resource/SkinDefault/iconTest.jpg</file>
+        <file>resource/SkinDefault/wallpaper.jpg</file>
+        <file>Resource/SkinDefault/config.xml</file>
     </qresource>
 </RCC>

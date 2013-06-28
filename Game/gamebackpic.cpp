@@ -1,32 +1,53 @@
 #include "gamebackpic.h"
 
-gameBackPic::gameBackPic(QPixmap picture) :
+gameBackInfo::gameBackInfo(QPixmap picture, QString configFilePath) :
     QPixmap(picture)
 {
-
+    variableInitial(configFilePath);
 }
 
-QPixmap gameBackPic::getPixmap(void)
+void gameBackInfo::variableInitial(QString configFilePath)
+{
+    setMapElement();
+}
+
+QPixmap gameBackInfo::getPixmap(void)
 {
     return backgroundPicture;
 }
 
-QPointF gameBackPic::getBeginPostion(void)
+QPointF gameBackInfo::getBeginPosition(void)
 {
     return QPointF(50.0, 50.0);
 }
 
-int gameBackPic::getLineLength()
+int gameBackInfo::getLineLength()
 {
     return 50;
 }
 
-int gameBackPic::getWidthCount()
+int gameBackInfo::getWidthCount()
 {
-    return 10;
+    return 8;
 }
 
-int gameBackPic::getHeightCount()
+int gameBackInfo::getHeightCount()
 {
-    return 10;
+    return 8;
+}
+
+void gameBackInfo::setMapElement()
+{
+    for(int i=0; i<8; i++)
+    {
+        for(int j=0; j<8; j++)
+        {
+            mapElement.append(j);
+        }
+    }
+}
+
+QVector<int> gameBackInfo::getMapElement()
+{
+    return mapElement;
 }

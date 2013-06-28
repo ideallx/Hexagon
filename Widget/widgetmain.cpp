@@ -4,16 +4,16 @@
 WidgetMain::WidgetMain(QWidget *parent) :
     QWidget(parent)
 {
-    gbp = new gameBackPic(QPixmap(":/images/wall3.jpg"));
+    gbp = new gameBackInfo(QPixmap(":/resource/SkinDefault/wallpaper.jpg"), QString(":/resources/SkinDefault/config.xml"));
     if(gbp->isNull())
         QMessageBox::warning(this, "Title", "No Picture");
 
     QPalette palette;
     palette.setBrush(QPalette::Background, QBrush(*gbp));
-    setFixedSize(gbp->width(), gbp->height());
+
+    setFixedSize(gbp->size());
     setPalette(palette);
     setAutoFillBackground(true);
-
     setMouseTracking(true);
 
     debugInfo = new QLabel(this);
@@ -21,19 +21,32 @@ WidgetMain::WidgetMain(QWidget *parent) :
 
     variableInitial();
     connect(this, SIGNAL(curMoveBlockChanged(QPoint)), this, SLOT(changeBlock(QPoint)));
+
+}
+
+WidgetMain::~WidgetMain()
+{
+
 }
 
 void WidgetMain::variableInitial()
 {
-    beginX = gbp->getBeginPostion().x();
-    beginY = gbp->getBeginPostion().y();
+    beginX = gbp->getBeginPosition().x();
+    beginY = gbp->getBeginPosition().y();
     lineLength = gbp->getLineLength();
     widthCount = gbp->getWidthCount()!=0?gbp->getWidthCount():(gbp->width()-beginX)/(sqrt(3.0)*lineLength);
     heightCount = gbp->getHeightCount()!=0?gbp->getHeightCount():(gbp->height()-beginY)/(1.5*lineLength);
+    mapElement = gbp->getMapElement();
+
     printIndicator = BLANK_BACKGROUND;
     curChosenBlock = curMoveBlock = QPoint(-1, -1);
 
     qDebug("%d, %d, %d, %d, %d", beginX, beginY, widthCount, heightCount, lineLength);
+}
+
+QSize WidgetMain::getMaxSizeHint()
+{
+    return QSize(gbp->width()+20, gbp->height()+60);
 }
 
 //
@@ -47,8 +60,9 @@ void WidgetMain::variableInitial()
 //          r5
 //
 // 根据P0的坐标 画出六角形
-void WidgetMain::drawSingleHexagon(QPainter* painter, QPointF begin)
+QPainterPath WidgetMain::drawSingleHexagon(QPointF begin)
 {
+    QPainterPath path;
     QPointF p1 = QPointF(begin.x(),                        begin.y() + lineLength/2);
     QPointF p2 = QPointF(begin.x()+sqrt(3.0)/2*lineLength, begin.y());
     QPointF p3 = QPointF(begin.x()+sqrt(3.0)*lineLength,   begin.y() + lineLength/2);
@@ -56,22 +70,29 @@ void WidgetMain::drawSingleHexagon(QPainter* painter, QPointF begin)
     QPointF p5 = QPointF(begin.x()+sqrt(3.0)/2*lineLength, begin.y() + 2*lineLength);
     QPointF p6 = QPointF(begin.x(),                        begin.y() + 1.5*lineLength);
 
-    painter->drawLine(p1, p2);
-    painter->drawLine(p2, p3);
-    painter->drawLine(p3, p4);
-    painter->drawLine(p4, p5);
-    painter->drawLine(p5, p6);
-    painter->drawLine(p6, p1);
+    path.moveTo(p1);
+    path.lineTo(p2);
+    path.lineTo(p3);
+    path.lineTo(p4);
+    path.lineTo(p5);
+    path.lineTo(p6);
+    path.lineTo(p1);\
+
+    return path;
 }
 
 // 根据六角形的横纵坐标, 生成P0坐标, 画出六角形, 在图形中间填上横纵坐标
 void WidgetMain::drawHexagonSeries(QPainter* painter, QPoint block)
 {
     QPointF current = getBeginPosWithCoo(block);
-    drawSingleHexagon(painter, current);
-    painter->drawText(QPointF(current.x()+lineLength/2, current.y()+lineLength), QString::number(block.x()) + ',' + QString::number(block.y()));
+    QPainterPath path = drawSingleHexagon(current);
+    painter->drawPath(path);
+
+    int i = block.x()*widthCount+block.y();
+    painter->drawText(QPointF(current.x()+lineLength/2, current.y()+lineLength), QString::number(mapElement[i]));
 }
 
+//地图块不太好一块块画 setBrush所有块统一被画出来， 还是做地图的时候，自己手动画吧
 void WidgetMain::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
@@ -88,6 +109,36 @@ void WidgetMain::paintEvent(QPaintEvent *e)
 
     printIndicator = BLANK_BACKGROUND;
 }
+
+void WidgetMain::paintInitial()
+{
+    QPainter *painter = new QPainter(this);
+    //painter->setRenderHint(QPainter::Antialiasing);
+    painter->setPen(QColor("black"));
+    painter->setBrush(QBrush(Qt::white));
+    painter->setOpacity(0.5);
+
+    for(int i=0; i<widthCount; i++)
+    {
+        for(int j=0; j<heightCount; j++)
+        {
+            if(i == curMoveBlock.x() && j == curMoveBlock.y())
+                continue;
+            drawHexagonSeries(painter, QPoint(i, j));
+        }
+    }
+    if(isPointAvailable(curMoveBlock))
+    {
+        painter->setPen(QPen(Qt::black, 5));
+        drawHexagonSeries(painter, curMoveBlock);
+    }
+    if(isPointAvailable(curChosenBlock))
+    {
+        painter->setPen(QPen(Qt::blue, 5));
+        drawHexagonSeries(painter, curChosenBlock);
+    }
+    delete painter;
+}
 /*
  *  0,0   1,0   2,0   3,0
  *     0,1   1,1   2,1
@@ -97,9 +148,6 @@ void WidgetMain::paintEvent(QPaintEvent *e)
 // 根据六角形的横纵坐标, 生成P0坐标,
 QPointF WidgetMain::getBeginPosWithCoo(QPoint block)
 {
-    int beginX = gbp->getBeginPostion().x();
-    int beginY = gbp->getBeginPostion().y();
-
     if(block.y()%2)
         return QPointF(beginX + (block.x()+0.5)*sqrt(3.0)*lineLength, beginY + (block.y()/2+0.5)*3*lineLength);
     else
@@ -163,39 +211,6 @@ QPoint WidgetMain::getCooxWithPos(QPointF point)
     return coo;
 }
 
-void WidgetMain::paintInitial()
-{
-    QPainter *painter = new QPainter(this);
-    //painter->setRenderHint(QPainter::Antialiasing);
-    painter->setPen(QColor("red"));
-
-    for(int i=0; i<widthCount; i++)
-    {
-        for(int j=0; j<heightCount; j++)
-        {
-            if(i == curMoveBlock.x() && j == curMoveBlock.y())
-                continue;
-            drawHexagonSeries(painter, QPoint(i, j));
-        }
-    }
-    if(isPointAvailable(curMoveBlock))
-    {
-        painter->setPen(QPen(Qt::black, 5));
-        drawHexagonSeries(painter, curMoveBlock);
-    }
-    if(isPointAvailable(curChosenBlock))
-    {
-        painter->setPen(QPen(Qt::blue, 5));
-        drawHexagonSeries(painter, curChosenBlock);
-    }
-    delete painter;
-}
-
-WidgetMain::~WidgetMain()
-{
-
-}
-
 void WidgetMain::deleteAllQlist()
 {
     for(int i=0; i<menuList.size(); i++)
@@ -218,17 +233,19 @@ void WidgetMain::mouseMoveEvent(QMouseEvent *e)
 void WidgetMain::mousePressEvent(QMouseEvent *e)
 {
     deleteAllQlist();
-    if((e->button() == Qt::LeftButton) && isPointAvailable(curMoveBlock))
+    if((e->button() == Qt::LeftButton))
     {
-        QPushButton *ddd = new QPushButton("ddd", this);
-        QPushButton *eee = new QPushButton("eee", this);
-        ddd->setGeometry(e->pos().x(), e->pos().y(), 80, 30);
-        eee->setGeometry(e->pos().x(), e->pos().y()+30, 80, 30);
-        menuList.append(ddd);
-        menuList.append(eee);
-        ddd->show();
-        eee->show();
-
+        if(isPointAvailable(curMoveBlock))
+        {
+            QPushButton *ddd = new QPushButton("ddd", this);
+            QPushButton *eee = new QPushButton("eee", this);
+            ddd->setGeometry(e->pos().x(), e->pos().y(), 80, 30);
+            eee->setGeometry(e->pos().x(), e->pos().y()+30, 80, 30);
+            menuList.append(ddd);
+            menuList.append(eee);
+            ddd->show();
+            eee->show();
+        }
         curChosenBlock = curMoveBlock;
         update();
     }
@@ -240,18 +257,25 @@ void WidgetMain::mouseReleaseEvent(QMouseEvent *e)
 
 }
 
-void WidgetMain::changeBlock(QPoint p)
-{
-    curMoveBlock = QPoint(p.x(), p.y());
-    qDebug("%d, %d", p.x(), p.y());
-    printIndicator = BLOCK_CHOSEN;
-    update();
-}
-
 bool WidgetMain::isPointAvailable(QPoint in)
 {
     if(in.x()<0 || in.y()<0 || in.x()>=widthCount || in.y()>=heightCount)
         return false;
     else
         return true;
+}
+
+void WidgetMain::changeBlock(QPoint p)
+{
+    curMoveBlock = QPoint(p.x(), p.y());
+    if(isPointAvailable(curMoveBlock))
+    {
+        qDebug("%d, %d", p.x(), p.y());
+    }
+    else
+    {
+        qDebug("%d, %d out of range", p.x(), p.y());
+    }
+    printIndicator = BLOCK_CHOSEN;
+    update();
 }
