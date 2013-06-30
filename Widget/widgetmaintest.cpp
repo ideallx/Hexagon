@@ -8,6 +8,7 @@ WidgetMainTest::WidgetMainTest(QWidget *parent) :
 
 void WidgetMainTest::paintEvent(QPaintEvent *e)
 {
+    Q_UNUSED(e);
     QPainterPath path = WidgetMainTest::drawSingleHexagon(NULL, QPointF(0, 0));
     QPainterPath path2 = WidgetMainTest::drawSingleHexagon(NULL, QPointF(300, 300));
     QPainter *painter = new QPainter(this);
@@ -21,6 +22,7 @@ void WidgetMainTest::paintEvent(QPaintEvent *e)
 
 QPainterPath WidgetMainTest::drawSingleHexagon(QPainter* painter, QPointF begin)
 {
+    Q_UNUSED(painter);
     QPainterPath path;
     QPointF p1 = QPointF(begin.x(),                        begin.y() + lineLength/2);
     QPointF p2 = QPointF(begin.x()+sqrt(3.0)/2*lineLength, begin.y());

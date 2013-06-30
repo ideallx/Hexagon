@@ -2,6 +2,7 @@
 #define gameBackInfo_H
 #include <QWidget>
 #include <QFile>
+#include <QXmlStreamReader>
 
 class gameBackInfo : public QPixmap
 {
@@ -14,29 +15,19 @@ public:
     int getLineLength();
     int getWidthCount();
     int getHeightCount();
-    QVector<int> getMapElement();
-    void setMapElement();
+    QVector<char> getMapElement();
 
-    enum gameEnvironment_t
-    {
-        areaSpace,
-        areaGrass,
-        areaHome,
-        areaStone,
-        areaShop,
-        area
-    };
 
 
 private:
     void variableInitial(QString configFilePath);
 
     QPixmap backgroundPicture;
-    QVector<int> mapElement;
+    QVector<char> mapElement;
+    QPointF beginPosition;
     int lineLength;
-    int beginPosition;
     int widthCount;
-    int HeightCount;
+    int heightCount;
 
 
 };

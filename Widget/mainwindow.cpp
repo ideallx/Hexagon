@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     WidgetMainTest *dd = new WidgetMainTest();
     qDebug("fdsf");
 #else
+    setGeometry(400, 150, 1050, 850);
     WidgetMain *dd = new WidgetMain();
     setMaximumSize(dd->getMaxSizeHint());
 #endif

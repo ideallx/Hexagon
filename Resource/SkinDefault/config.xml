@@ -1,0 +1,29 @@
+<skin
+    name = "death desert one"
+    widthCount = "6"
+    heightCount = "21"
+    lineLength = "50"
+    mapElement = "ZKKK0Z,
+    0KK14Z,
+    10J002,
+    20009Z,
+    000902,
+    70200Z,
+    401614,
+    10020Z,
+    297109,
+    02000Z,
+    513043,
+    02000Z,
+    297109,
+    10020Z,
+    401614,
+    70200Z,
+    000902,
+    20009Z,
+    10L002,
+    0MM14Z,
+    ZMMM0Z"
+    beginPosition = "100.0, 50.0">
+</skin>
+

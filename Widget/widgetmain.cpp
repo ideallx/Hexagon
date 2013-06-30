@@ -4,7 +4,7 @@
 WidgetMain::WidgetMain(QWidget *parent) :
     QWidget(parent)
 {
-    gbp = new gameBackInfo(QPixmap(":/resource/SkinDefault/wallpaper.jpg"), QString(":/resources/SkinDefault/config.xml"));
+    gbp = new gameBackInfo(QPixmap(":/resource/SkinDefault/wallpaper.jpg"), QString(":/resource/SkinDefault/config.xml"));
     if(gbp->isNull())
         QMessageBox::warning(this, "Title", "No Picture");
 
@@ -41,6 +41,9 @@ void WidgetMain::variableInitial()
     printIndicator = BLANK_BACKGROUND;
     curChosenBlock = curMoveBlock = QPoint(-1, -1);
 
+
+    halfSqrt3 = sqrt(3.0)/2;
+
     qDebug("%d, %d, %d, %d, %d", beginX, beginY, widthCount, heightCount, lineLength);
 }
 
@@ -49,26 +52,31 @@ QSize WidgetMain::getMaxSizeHint()
     return QSize(gbp->width()+20, gbp->height()+60);
 }
 
-//
-//  p0  p2  q0  q2
-//  p1      p3     q3
+//before:                    /\
+//  p0  p2  q0  q2           ||
+//  p1      p3     q3        \/
 //
 //  p6  r0  p4     q4
 //      p5      q5
 //
 //      r6      r4
 //          r5
-//
+//after:                  /-\
+//  p0 p2 p3 q0 q2 q3     \_/
+//  p1       p4       q4
+//     p6 p5    q6 q5
+
 // 根据P0的坐标 画出六角形
 QPainterPath WidgetMain::drawSingleHexagon(QPointF begin)
 {
     QPainterPath path;
-    QPointF p1 = QPointF(begin.x(),                        begin.y() + lineLength/2);
-    QPointF p2 = QPointF(begin.x()+sqrt(3.0)/2*lineLength, begin.y());
-    QPointF p3 = QPointF(begin.x()+sqrt(3.0)*lineLength,   begin.y() + lineLength/2);
-    QPointF p4 = QPointF(begin.x()+sqrt(3.0)*lineLength,   begin.y() + 1.5*lineLength);
-    QPointF p5 = QPointF(begin.x()+sqrt(3.0)/2*lineLength, begin.y() + 2*lineLength);
-    QPointF p6 = QPointF(begin.x(),                        begin.y() + 1.5*lineLength);
+
+    QPointF p1 = QPointF(begin.x(),                begin.y() + halfSqrt3*lineLength);
+    QPointF p2 = QPointF(begin.x()+0.5*lineLength, begin.y());
+    QPointF p3 = QPointF(begin.x()+1.5*lineLength, begin.y());
+    QPointF p4 = QPointF(begin.x()+2.0*lineLength, begin.y() + halfSqrt3*lineLength);
+    QPointF p5 = QPointF(begin.x()+1.5*lineLength, begin.y() + 2*halfSqrt3*lineLength);
+    QPointF p6 = QPointF(begin.x()+0.5*lineLength, begin.y() + 2*halfSqrt3*lineLength);
 
     path.moveTo(p1);
     path.lineTo(p2);
@@ -76,20 +84,89 @@ QPainterPath WidgetMain::drawSingleHexagon(QPointF begin)
     path.lineTo(p4);
     path.lineTo(p5);
     path.lineTo(p6);
-    path.lineTo(p1);\
+    path.lineTo(p1);
 
+/*
+    //test shap square
+    QPointF p1 = QPointF(begin.x(), begin.y());
+    QPointF p2 = QPointF(begin.x()+1.5*lineLength, begin.y());
+    QPointF p3 = QPointF(begin.x()+1.5*lineLength, begin.y()+2*halfSqrt3*lineLength);
+    QPointF p4 = QPointF(begin.x(), begin.y()+2*halfSqrt3*lineLength);
+
+    path.moveTo(p1);
+    path.lineTo(p2);
+    path.lineTo(p3);
+    path.lineTo(p4);
+    path.lineTo(p1);
+*/
     return path;
 }
 
 // 根据六角形的横纵坐标, 生成P0坐标, 画出六角形, 在图形中间填上横纵坐标
 void WidgetMain::drawHexagonSeries(QPainter* painter, QPoint block)
 {
+    if(!isPointAvailable(block))
+        return;
     QPointF current = getBeginPosWithCoo(block);
+
     QPainterPath path = drawSingleHexagon(current);
     painter->drawPath(path);
+    QBrush brush;
 
-    int i = block.x()*widthCount+block.y();
-    painter->drawText(QPointF(current.x()+lineLength/2, current.y()+lineLength), QString::number(mapElement[i]));
+    switch(getBlockEnviroment(block))
+    {
+    case areaGrass:
+        brush = QBrush(Qt::green);
+        break;
+    case areaStone:
+        brush = QBrush(Qt::darkGray);
+        break;
+    case areaShop:
+        brush = QBrush(Qt::gray);
+        break;
+    case areaAlchemy:
+        brush = QBrush(Qt::lightGray);
+        break;
+    case areaSpring:
+        brush = QBrush(Qt::cyan);
+        break;
+    case areaCamp:
+        brush = QBrush(QPixmap(":/Resource/SkinDefault/test.jpg"));
+        break;
+    case areaSwamp:
+        brush = QBrush(Qt::darkRed);
+        break;
+    case areaDesert:
+        brush = QBrush(Qt::darkYellow);
+        break;
+    case areaWater:
+        brush = QBrush(Qt::blue);
+        break;
+    case areaFort:
+        brush = QBrush(QPixmap(":/Resource/SkinDefault/areaFort.jpg"));
+        break;
+    case areaRedHome:
+        brush = QBrush(Qt::magenta);
+        break;
+    case areaTree:
+        brush = QBrush(Qt::darkGreen);
+        break;
+    case areaBlueHome:
+        brush = QBrush(Qt::black);
+        break;
+    default:
+        brush = QBrush(Qt::white);
+
+
+    }
+    painter->fillPath(path, brush);
+
+    //painter->drawText(QPointF(current.x()+lineLength/2, current.y()+lineLength), QString::number(mapElement[i]));
+}
+
+char WidgetMain::getBlockEnviroment(QPoint block)
+{
+    return mapElement[block.x()+block.y()*widthCount];
 }
 
 //地图块不太好一块块画 setBrush所有块统一被画出来， 还是做地图的时候，自己手动画吧
@@ -116,7 +193,7 @@ void WidgetMain::paintInitial()
     //painter->setRenderHint(QPainter::Antialiasing);
     painter->setPen(QColor("black"));
     painter->setBrush(QBrush(Qt::white));
-    painter->setOpacity(0.5);
+    painter->setOpacity(0.3);
 
     for(int i=0; i<widthCount; i++)
     {
@@ -148,14 +225,13 @@ void WidgetMain::paintInitial()
 // 根据六角形的横纵坐标, 生成P0坐标,
 QPointF WidgetMain::getBeginPosWithCoo(QPoint block)
 {
-    if(block.y()%2)
-        return QPointF(beginX + (block.x()+0.5)*sqrt(3.0)*lineLength, beginY + (block.y()/2+0.5)*3*lineLength);
+    if(block.y()%2 == 0)
+        return QPointF(beginX + 3*block.x()*lineLength, beginY + block.y()*lineLength*halfSqrt3);
     else
-        return QPointF(beginX + block.x()*sqrt(3.0)*lineLength, beginY + block.y()/2*3*lineLength);
-
+        return QPointF(beginX + (3*block.x()+1.5)*lineLength, beginY + block.y()*lineLength*halfSqrt3);
 }
 
-QPoint WidgetMain::goTopLeft(QPoint coo)
+QPoint WidgetMain::goUpLeft(QPoint coo)
 {
     QPoint result(coo);
     if(coo.y()%2 == 0)
@@ -164,7 +240,7 @@ QPoint WidgetMain::goTopLeft(QPoint coo)
     return result;
 }
 
-QPoint WidgetMain::goTopRight(QPoint coo)
+QPoint WidgetMain::goUpRight(QPoint coo)
 {
     QPoint result(coo);
     if(coo.y()%2 == 1)
@@ -173,40 +249,76 @@ QPoint WidgetMain::goTopRight(QPoint coo)
     return result;
 }
 
-//改好了。不需要第二次修正，double转int，负0.x会转成0，x--就可以了
+QPoint WidgetMain::goDownLeft(QPoint coo)
+{
+    QPoint result(coo);
+    if(coo.y()%2 == 0)
+        result.setX(coo.x()-1);
+    result.setY(coo.y()+1);
+    return result;
+}
+
+QPoint WidgetMain::goDownRight(QPoint coo)
+{
+    QPoint result(coo);
+    if(coo.y()%2 == 1)
+        result.setX(coo.x()+1);
+    result.setY(coo.y()+1);
+    return result;
+}
+
 QPoint WidgetMain::getCooxWithPos(QPointF point)
 {
-    double lineLenSqrt3 = sqrt(3.0)*lineLength;
     QPoint coo;
 
     //获取粗略坐标
-    double newX = (point.x()-beginX)/lineLenSqrt3;
-    double newX2 = (point.x()-beginX-(lineLenSqrt3/2))/lineLenSqrt3;
-    coo.setY((point.y()-beginY)/(1.5*lineLength));
-    double x = coo.y()%2?newX2:newX;
-    if(x<0)
-        x--;
-    coo.setX((int)x);
+    double newX = (point.x()-beginX)/(3*lineLength);
+    double newY = (point.y()-beginY)/(halfSqrt3*lineLength);
+    if(newX<0)
+        newX--;
+    if(newY<0)
+        newY--;
+    int xInt = (int)newX;
+    int yInt = (int)newY;
 
-    double offsetX = point.x() - beginX - coo.x()*lineLenSqrt3;
-    offsetX -= coo.y()%2?(lineLenSqrt3/2):0;
-    double offsetY = point.y() - beginY - coo.y()*1.5*lineLength;
-
-    //第一次修正，上边沿
-    if((offsetX<(sqrt(3.0)*lineLength/2)) && (offsetY<lineLength/2))
+    if((int)(newX+0.5) <= xInt) //left part   y is even
     {
-        if(offsetY<(-1*offsetX/sqrt(3.0) + lineLength/2))
+        if(yInt%2 == 1)
+            yInt--;
+    }
+    else                        //right part  y is odd
+    {
+        if(yInt%2 == 0)
+            yInt--;
+    }
+
+    coo.setX(xInt);
+    coo.setY((int)yInt);
+
+
+
+    double offsetX = point.x() - beginX - coo.x()*3*lineLength;
+    offsetX -= coo.y()%2?lineLength*1.5:0;
+    double offsetY = point.y() - beginY - coo.y()*halfSqrt3*lineLength;
+
+
+    //up left fix
+    if((offsetX<(lineLength/2)) && (offsetY<lineLength*halfSqrt3))
+    {
+        if(offsetY<(-2*halfSqrt3*offsetX + lineLength*halfSqrt3))
         {
-            coo = goTopLeft(coo);
+            coo = goUpLeft(coo);
         }
     }
-    else if(offsetY<lineLength/2)
+    //down left fix
+    else if((offsetX<(lineLength/2)) && (offsetY>lineLength*halfSqrt3))
     {
-        if(offsetY<(offsetX/sqrt(3.0) - lineLength/2))
+        if(offsetY>(2*halfSqrt3*offsetX + lineLength*halfSqrt3))
         {
-            coo = goTopRight(coo);
+            coo = goDownLeft(coo);
         }
     }
+
 
     return coo;
 }
@@ -261,6 +373,10 @@ bool WidgetMain::isPointAvailable(QPoint in)
 {
     if(in.x()<0 || in.y()<0 || in.x()>=widthCount || in.y()>=heightCount)
         return false;
+    else if((in.x() == widthCount-1) && (in.y()%2 == 1))
+        return false;
+    else if(getBlockEnviroment(in) == areaNouse)
+        return false;
     else
         return true;
 }
@@ -274,7 +390,7 @@ void WidgetMain::changeBlock(QPoint p)
     }
     else
     {
-        qDebug("%d, %d out of range", p.x(), p.y());
+        qDebug("%d, %d unavailable point", p.x(), p.y());
     }
     printIndicator = BLOCK_CHOSEN;
     update();
