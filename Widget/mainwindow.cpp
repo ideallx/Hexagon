@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QLabel *statusContent = new QLabel(this);
+    statusContent = new QLabel(this);
     statusContent->setText("Test StatusBar Label");
     ui->statusBar->addWidget(statusContent);
 
@@ -22,9 +22,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->scrollArea->setWidget(dd);
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
+    connect(dd, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::changeStatusInfo(QString in)
+{
+    statusContent->setText(in);
 }

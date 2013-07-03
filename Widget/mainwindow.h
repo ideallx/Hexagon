@@ -22,9 +22,13 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+private slots:
+    void changeStatusInfo(QString);
     
 private:
     Ui::MainWindow *ui;
+    QLabel *statusContent;
 };
 
 #endif // MAINWINDOW_H

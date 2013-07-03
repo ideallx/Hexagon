@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <QPainter>
 #include "../Game/gamebackpic.h"
+#include "../Game/gamemapelement.h"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QtCore>
 
 class WidgetMain : public QWidget
 {
@@ -21,34 +23,16 @@ public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     //void mouseDoubleClickEvent(QMouseEvent *);
+    int getBlockEnviroment(QPoint);
 
 
-    enum gameEnvironment_t
-    {
-        areaSpace,
-        areaGrass   = '1',
-        areaStone   = '2',
-        areaShop    = '3',
-        areaAlchemy = '4',
-        areaSpring  = '5',
-        areaCamp    = '6',
-        areaSwamp   = '7',
-        areaDesert  = '8',
-        areaWater   = '9',
-
-
-        areaFort    = 'J',
-        areaRedHome = 'K',
-        areaTree    = 'L',
-        areaBlueHome= 'M',
-
-        areaNouse = 'Z'
-    };
 
 private:
     void paintInitial(void);
+    void paintFocus(void);
     QPainterPath drawSingleHexagon(QPointF begin);
     void drawHexagonSeries(QPainter* painter, QPoint block);
+
     void variableInitial(void);
     void deleteAllQlist();
     QPointF getBeginPosWithCoo(QPoint);
@@ -58,7 +42,6 @@ private:
     QPoint goDownLeft(QPoint);
     QPoint goDownRight(QPoint);
     bool isPointAvailable(QPoint);
-    char getBlockEnviroment(QPoint);
 
     int lineLength;
     int printIndicator;
@@ -66,6 +49,8 @@ private:
     QPoint curMoveBlock;
     QPoint curChosenBlock;
     QList<QPushButton*> menuList;
+
+    QList<gameMapElement*> map;
 
     int widthCount;
     int heightCount;
@@ -86,6 +71,7 @@ private:
 
 signals:
     void curMoveBlockChanged(QPoint );
+    void parentStatusChanged(QString);
     
 public slots:
     void changeBlock(QPoint );

@@ -15,6 +15,8 @@ void WidgetMainTest::paintEvent(QPaintEvent *e)
     painter->setBrush(QBrush(QPixmap(":images/SkinDefault/iconTest.jpg")));
     painter->drawPath(path);
     painter->drawPath(path2);
+    painter->fillPath(path, QBrush(QPixmap("://Resource/SkinDefault/test.jpg")));
+    painter->fillPath(path2, QBrush(QPixmap("://Resource/SkinDefault/test.jpg")));
     //painter->drawEllipse(0, 0, 200, 100);
     //drawSingleHexagon(painter, QPointF(50, 50));
 }

@@ -41,6 +41,14 @@ void WidgetMain::variableInitial()
     printIndicator = BLANK_BACKGROUND;
     curChosenBlock = curMoveBlock = QPoint(-1, -1);
 
+    for(int j=0; j<heightCount; j++)
+    {
+        for(int i=0; i<widthCount; i++)
+        {
+            gameMapElement *gme = new gameMapElement(mapElement[i+j*widthCount]);
+            map.append(gme);
+        }
+    }
 
     halfSqrt3 = sqrt(3.0)/2;
 
@@ -111,68 +119,23 @@ void WidgetMain::drawHexagonSeries(QPainter* painter, QPoint block)
 
     QPainterPath path = drawSingleHexagon(current);
     painter->drawPath(path);
-    QBrush brush;
+    QBrush brush = map.at(block.x()+block.y()*widthCount)->getBrush(); //TODO
 
-    switch(getBlockEnviroment(block))
-    {
-    case areaGrass:
-        brush = QBrush(Qt::green);
-        break;
-    case areaStone:
-        brush = QBrush(Qt::darkGray);
-        break;
-    case areaShop:
-        brush = QBrush(Qt::gray);
-        break;
-    case areaAlchemy:
-        brush = QBrush(Qt::lightGray);
-        break;
-    case areaSpring:
-        brush = QBrush(Qt::cyan);
-        break;
-    case areaCamp:
-        brush = QBrush(QPixmap(":/Resource/SkinDefault/test.jpg"));
-        break;
-    case areaSwamp:
-        brush = QBrush(Qt::darkRed);
-        break;
-    case areaDesert:
-        brush = QBrush(Qt::darkYellow);
-        break;
-    case areaWater:
-        brush = QBrush(Qt::blue);
-        break;
-    case areaFort:
-        brush = QBrush(QPixmap(":/Resource/SkinDefault/areaFort.jpg"));
-        break;
-    case areaRedHome:
-        brush = QBrush(Qt::magenta);
-        break;
-    case areaTree:
-        brush = QBrush(Qt::darkGreen);
-        break;
-    case areaBlueHome:
-        brush = QBrush(Qt::black);
-        break;
-    default:
-        brush = QBrush(Qt::white);
-
-
-    }
     painter->fillPath(path, brush);
 
     //painter->drawText(QPointF(current.x()+lineLength/2, current.y()+lineLength), QString::number(mapElement[i]));
 }
 
-char WidgetMain::getBlockEnviroment(QPoint block)
+int WidgetMain::getBlockEnviroment(QPoint block)
 {
-    return mapElement[block.x()+block.y()*widthCount];
+    return block.x()+block.y()*widthCount;
 }
 
 //地图块不太好一块块画 setBrush所有块统一被画出来， 还是做地图的时候，自己手动画吧
 void WidgetMain::paintEvent(QPaintEvent *e)
 {
     Q_UNUSED(e);
+    paintInitial();
     /*
     switch(printIndicator)
     {
@@ -181,16 +144,14 @@ void WidgetMain::paintEvent(QPaintEvent *e)
     case BLOCK_CHOSEN:
         paintFocus();
     }
-    */
-    paintInitial();
 
-    printIndicator = BLANK_BACKGROUND;
+    printIndicator = BLOCK_CHOSEN;
+    */
 }
 
 void WidgetMain::paintInitial()
 {
     QPainter *painter = new QPainter(this);
-    //painter->setRenderHint(QPainter::Antialiasing);
     painter->setPen(QColor("black"));
     painter->setBrush(QBrush(Qt::white));
     painter->setOpacity(0.3);
@@ -216,6 +177,7 @@ void WidgetMain::paintInitial()
     }
     delete painter;
 }
+
 /*
  *  0,0   1,0   2,0   3,0
  *     0,1   1,1   2,1
@@ -375,7 +337,7 @@ bool WidgetMain::isPointAvailable(QPoint in)
         return false;
     else if((in.x() == widthCount-1) && (in.y()%2 == 1))
         return false;
-    else if(getBlockEnviroment(in) == areaNouse)
+    else if(!map.at(getBlockEnviroment(in))->isPointAvailable())
         return false;
     else
         return true;
@@ -387,11 +349,14 @@ void WidgetMain::changeBlock(QPoint p)
     if(isPointAvailable(curMoveBlock))
     {
         qDebug("%d, %d", p.x(), p.y());
+        emit parentStatusChanged(map.at(getBlockEnviroment(p))->getElementName());
     }
     else
     {
         qDebug("%d, %d unavailable point", p.x(), p.y());
+        emit parentStatusChanged(QString::null);
     }
     printIndicator = BLOCK_CHOSEN;
     update();
+
 }
