@@ -50,6 +50,17 @@ void WidgetMain::variableInitial()
         }
     }
 
+
+    QPushButton *moveButton = new QPushButton("Move", this);
+    QPushButton *attackButton = new QPushButton("Attack", this);
+    moveButton->setGeometry(0, 0, 80, 30);
+    attackButton->setGeometry(0, 30, 80, 30);
+    menuList.append(moveButton);
+    menuList.append(attackButton);
+    hideAllQlist();
+
+    mouseIndicator = MOUSE_NORMAL;
+
     halfSqrt3 = sqrt(3.0)/2;
 
     qDebug("%d, %d, %d, %d, %d", beginX, beginY, widthCount, heightCount, lineLength);
@@ -119,11 +130,23 @@ void WidgetMain::drawHexagonSeries(QPainter* painter, QPoint block)
 
     QPainterPath path = drawSingleHexagon(current);
     painter->drawPath(path);
-    QBrush brush = map.at(block.x()+block.y()*widthCount)->getBrush(); //TODO
-
+    QBrush brush = map.at(block.x()+block.y()*widthCount)->getBrush();
     painter->fillPath(path, brush);
 
     //painter->drawText(QPointF(current.x()+lineLength/2, current.y()+lineLength), QString::number(mapElement[i]));
+}
+
+void WidgetMain::drawMovingLines(QPainter* painter)
+{
+    for(int i=0; i<moveList.size()-1; i++)
+    {
+        if((showSphere.indexOf(moveList.at(i)) != -1) && (showSphere.indexOf(moveList.at(i+1)) != -1))
+        {
+            QPointF display1 = getCenterPosWithCoo(moveList.at(i));
+            QPointF display2 = getCenterPosWithCoo(moveList.at(i+1));
+            painter->drawLine(display1, display2);
+        }
+    }
 }
 
 int WidgetMain::getBlockEnviroment(QPoint block)
@@ -175,6 +198,17 @@ void WidgetMain::paintInitial()
         painter->setPen(QPen(Qt::blue, 5));
         drawHexagonSeries(painter, curChosenBlock);
     }
+    if(mouseIndicator == MOUSE_MOVING)
+    {
+        painter->setPen(QPen(Qt::magenta, 10));
+        drawMovingLines(painter);
+
+        painter->setPen(QPen(Qt::yellow, 5));
+        for (int i=0; i<showSphere.size(); i++)
+        {
+            drawHexagonSeries(painter, showSphere.at(i));
+        }
+    }
     delete painter;
 }
 
@@ -193,6 +227,14 @@ QPointF WidgetMain::getBeginPosWithCoo(QPoint block)
         return QPointF(beginX + (3*block.x()+1.5)*lineLength, beginY + block.y()*lineLength*halfSqrt3);
 }
 
+QPointF WidgetMain::getCenterPosWithCoo(QPoint block)
+{
+    if(block.y()%2 == 0)
+        return QPointF(beginX + (3*block.x()+1)*lineLength, beginY + (block.y()+halfSqrt3)*lineLength*halfSqrt3);
+    else
+        return QPointF(beginX + (3*block.x()+2.5)*lineLength, beginY + (block.y()+halfSqrt3)*lineLength*halfSqrt3);
+}
+
 QPoint WidgetMain::goUpLeft(QPoint coo)
 {
     QPoint result(coo);
@@ -208,6 +250,20 @@ QPoint WidgetMain::goUpRight(QPoint coo)
     if(coo.y()%2 == 1)
         result.setX(coo.x()+1);
     result.setY(coo.y()-1);
+    return result;
+}
+
+QPoint WidgetMain::goUp(QPoint coo)
+{
+    QPoint result(coo);
+    result.setY(coo.y()-2);
+    return result;
+}
+
+QPoint WidgetMain::goDown(QPoint coo)
+{
+    QPoint result(coo);
+    result.setY(coo.y()+2);
     return result;
 }
 
@@ -294,6 +350,23 @@ void WidgetMain::deleteAllQlist()
     menuList.clear();
 }
 
+void WidgetMain::showAllQlist(QPoint begin)
+{
+    for(int i=0; i<menuList.size(); i++)
+    {
+        menuList.at(i)->setGeometry(begin.x(), begin.y()+30*i, 80, 30);
+        menuList.at(i)->show();
+    }
+}
+
+void WidgetMain::hideAllQlist()
+{
+    for(int i=0; i<menuList.size(); i++)
+    {
+        menuList.at(i)->hide();
+    }
+}
+
 void WidgetMain::mouseMoveEvent(QMouseEvent *e)
 {
     //获取六角形横纵坐标
@@ -306,29 +379,37 @@ void WidgetMain::mouseMoveEvent(QMouseEvent *e)
 
 void WidgetMain::mousePressEvent(QMouseEvent *e)
 {
-    deleteAllQlist();
-    if((e->button() == Qt::LeftButton))
+    hideAllQlist();
+    moveList.clear();
+    showSphere.clear();
+    mouseIndicator = MOUSE_NORMAL;
+    if(e->button() == Qt::LeftButton)
     {
         if(isPointAvailable(curMoveBlock))
         {
-            QPushButton *ddd = new QPushButton("ddd", this);
-            QPushButton *eee = new QPushButton("eee", this);
-            ddd->setGeometry(e->pos().x(), e->pos().y(), 80, 30);
-            eee->setGeometry(e->pos().x(), e->pos().y()+30, 80, 30);
-            menuList.append(ddd);
-            menuList.append(eee);
-            ddd->show();
-            eee->show();
+            showAllQlist(e->pos());
+            connect(menuList.at(0), SIGNAL(clicked()), this, SLOT(beginMoving()));
         }
         curChosenBlock = curMoveBlock;
-        update();
     }
+    update();
 }
 
 void WidgetMain::mouseReleaseEvent(QMouseEvent *e)
 {
     Q_UNUSED(e);
 
+}
+
+void WidgetMain::beginMoving()
+{
+    mouseIndicator = MOUSE_MOVING;
+    listAddAsSet(&moveList, curMoveBlock);
+    qDebug("click pos %d, %d", curMoveBlock.x(), curMoveBlock.y());
+
+    listMoveSphere(curChosenBlock, 3);
+    hideAllQlist();
+    update();
 }
 
 bool WidgetMain::isPointAvailable(QPoint in)
@@ -346,8 +427,13 @@ bool WidgetMain::isPointAvailable(QPoint in)
 void WidgetMain::changeBlock(QPoint p)
 {
     curMoveBlock = QPoint(p.x(), p.y());
+    printIndicator = BLOCK_CHOSEN;
     if(isPointAvailable(curMoveBlock))
     {
+        if(mouseIndicator == MOUSE_MOVING)
+        {
+            listAddAsSet(&moveList, curMoveBlock);
+        }
         qDebug("%d, %d", p.x(), p.y());
         emit parentStatusChanged(map.at(getBlockEnviroment(p))->getElementName());
     }
@@ -356,7 +442,52 @@ void WidgetMain::changeBlock(QPoint p)
         qDebug("%d, %d unavailable point", p.x(), p.y());
         emit parentStatusChanged(QString::null);
     }
-    printIndicator = BLOCK_CHOSEN;
     update();
+}
 
+void WidgetMain::listAddAsSet(QList<QPoint> *list, QPoint point)
+{
+    if(list->indexOf(point) == -1)
+    {
+        list->append(point);
+    }
+}
+
+bool WidgetMain::listAddSeies(QList<QPoint> *list, int sphere, QPoint point)
+{
+    if(isPointAvailable(point))
+    {
+        if(map.at(getBlockEnviroment(point))->isMoveAvailable())
+        {
+            listAddAsSet(list, point);
+            return true;
+        }
+    }
+    return false;
+}
+
+void WidgetMain::listMoveSphere(QPoint block, int sphere)
+{
+    if(!listAddSeies(&showSphere, sphere, block))
+        return;
+    if(sphere == 0)
+        return;
+    sphere--;
+
+    listMoveSphere(goUpLeft(block), sphere);
+    listMoveSphere(goUpRight(block), sphere);
+    listMoveSphere(goUp(block), sphere);
+    listMoveSphere(goDownLeft(block), sphere);
+    listMoveSphere(goDownRight(block), sphere);
+    listMoveSphere(goDown(block), sphere);
+
+    listAddSeies(&showSphere, sphere, goUpLeft(block));
+    listAddSeies(&showSphere, sphere, goUpRight(block));
+    listAddSeies(&showSphere, sphere, goUp(block));
+    listAddSeies(&showSphere, sphere, goDownLeft(block));
+    listAddSeies(&showSphere, sphere, goDownRight(block));
+    listAddSeies(&showSphere, sphere, goDown(block));
+
+
+    return;
 }

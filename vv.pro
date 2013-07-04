@@ -17,14 +17,16 @@ SOURCES  += main.cpp \
     Widget/widgetmain.cpp \
     Widget/mainwindow.cpp \
     Widget/widgetmaintest.cpp \
-    Game/gamemapelement.cpp
+    Game/gamemapelement.cpp \
+    Game/abstracthero.cpp
 
 HEADERS  += mainwindow.h \
     Game/gamebackpic.h \
     Widget/widgetmain.h \
     Widget/mainwindow.h \
     Widget/widgetmaintest.h \
-    Game/gamemapelement.h
+    Game/gamemapelement.h \
+    Game/abstracthero.h
 
 FORMS    += mainwindow.ui
 

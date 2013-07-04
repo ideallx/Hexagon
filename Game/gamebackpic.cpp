@@ -29,7 +29,7 @@ void gameBackInfo::variableInitial(QString configFilePath)
             QStringList temp = xml.attributes().value("beginPosition").toString().split(", ");
             beginPosition = QPointF(temp[0].toDouble(), temp[1].toDouble());
 
-            temp = xml.attributes().value("mapElement").toString().split(",     ");
+            temp = xml.attributes().value("mapElement").toString().simplified().split(", ");
             for(int i=0; i<heightCount; i++)
             {
                 if(temp[i].length() != widthCount)
@@ -45,34 +45,4 @@ void gameBackInfo::variableInitial(QString configFilePath)
         }
     }
 
-}
-
-QPixmap gameBackInfo::getPixmap(void)
-{
-    return backgroundPicture;
-}
-
-QPointF gameBackInfo::getBeginPosition(void)
-{
-    return beginPosition;
-}
-
-int gameBackInfo::getLineLength()
-{
-    return lineLength;
-}
-
-int gameBackInfo::getWidthCount()
-{
-    return widthCount;
-}
-
-int gameBackInfo::getHeightCount()
-{
-    return heightCount;
-}
-
-QVector<char> gameBackInfo::getMapElement()
-{
-    return mapElement;
 }

@@ -9,11 +9,10 @@ class gameMapElement
 public:
     gameMapElement(char elementType);
 
-    QBrush getBrush();
-    QString getElementName();
-    bool isPointAvailable();
-
-    void variableInitial();
+    QBrush getBrush() { return brush; }
+    QString getElementName() { return elementName; }
+    bool isPointAvailable() { return elementType != areaNouse; }
+    bool isMoveAvailable() { return moveAvailable; }
 
     enum gameEnvironment_t
     {
@@ -38,6 +37,9 @@ public:
     };
 
 private:
+    void variableInitial();
+
+    bool moveAvailable;
     char elementType;
     QBrush brush;
     QString elementName;

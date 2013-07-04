@@ -10,12 +10,12 @@ class gameBackInfo : public QPixmap
 
 public:
     gameBackInfo(QPixmap picture, QString configFilePath);
-    QPixmap getPixmap(void);
-    QPointF getBeginPosition();
-    int getLineLength();
-    int getWidthCount();
-    int getHeightCount();
-    QVector<char> getMapElement();
+    QPixmap getPixmap(void) { return backgroundPicture; }
+    QPointF getBeginPosition() { return beginPosition; }
+    int getLineLength() { return lineLength; }
+    int getWidthCount() { return widthCount; }
+    int getHeightCount() { return heightCount; }
+    QVector<char> getMapElement() { return mapElement; }
 
 
 

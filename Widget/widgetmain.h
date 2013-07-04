@@ -25,31 +25,50 @@ public:
     //void mouseDoubleClickEvent(QMouseEvent *);
     int getBlockEnviroment(QPoint);
 
+    void listMoveSphere(QPoint, int);
+
 
 
 private:
     void paintInitial(void);
     void paintFocus(void);
     QPainterPath drawSingleHexagon(QPointF begin);
+
     void drawHexagonSeries(QPainter* painter, QPoint block);
+    void drawMovingLines(QPainter* painter);
 
     void variableInitial(void);
+
     void deleteAllQlist();
+    void listAddAsSet(QList<QPoint>*, QPoint);
+    bool listAddSeies(QList<QPoint>*, int, QPoint);
+
     QPointF getBeginPosWithCoo(QPoint);
+    QPointF getCenterPosWithCoo(QPoint);
     QPoint getCooxWithPos(QPointF);
+
     QPoint goUpLeft(QPoint);
     QPoint goUpRight(QPoint);
+    QPoint goUp(QPoint);
     QPoint goDownLeft(QPoint);
     QPoint goDownRight(QPoint);
+    QPoint goDown(QPoint);
+
     bool isPointAvailable(QPoint);
+
+    void showAllQlist(QPoint);
+    void hideAllQlist();
 
     int lineLength;
     int printIndicator;
+    int mouseIndicator;
+
     QLabel *debugInfo;
     QPoint curMoveBlock;
     QPoint curChosenBlock;
     QList<QPushButton*> menuList;
-
+    QList<QPoint> showSphere;
+    QList<QPoint> moveList;
     QList<gameMapElement*> map;
 
     int widthCount;
@@ -68,13 +87,20 @@ private:
         BLOCK_CHOSEN
     };
 
+    enum mouseIndicator_t
+    {
+        MOUSE_NORMAL,
+        MOUSE_MOVING
+    };
+
 
 signals:
     void curMoveBlockChanged(QPoint );
     void parentStatusChanged(QString);
     
 public slots:
-    void changeBlock(QPoint );
+    void changeBlock(QPoint);
+    void beginMoving(void);
     
 };
 

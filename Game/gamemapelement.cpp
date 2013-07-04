@@ -8,6 +8,7 @@ gameMapElement::gameMapElement(char elementType)
 
 void gameMapElement::variableInitial()
 {
+    moveAvailable = true;
     switch(elementType)
     {
     case areaGrass:
@@ -17,10 +18,12 @@ void gameMapElement::variableInitial()
     case areaStone:
         brush = QBrush(Qt::darkGray);
         elementName = QString("石头");
+        moveAvailable = false;
         break;
     case areaShop:
         brush = QBrush(Qt::gray);
         elementName = QString("商店");
+        moveAvailable = false;
         break;
     case areaAlchemy:
         brush = QBrush(Qt::lightGray);
@@ -51,10 +54,12 @@ void gameMapElement::variableInitial()
         //brush = QBrush(QPixmap(":/Resource/SkinDefault/areaFort.jpg"));
         brush = QBrush(Qt::red);
         elementName = QString("堡垒");
+        moveAvailable = false;
         break;
     case areaRedHome:
         brush = QBrush(Qt::magenta);
         elementName = QString("红色基地");
+        moveAvailable = false;
         break;
     case areaTree:
         brush = QBrush(Qt::darkGreen);
@@ -68,19 +73,4 @@ void gameMapElement::variableInitial()
         brush = QBrush(Qt::white);
         elementName = QString("空地");
     }
-}
-
-QString gameMapElement::getElementName()
-{
-    return elementName;
-}
-
-QBrush gameMapElement::getBrush()
-{
-    return brush;
-}
-
-bool gameMapElement::isPointAvailable()
-{
-    return elementType != areaNouse;
 }
