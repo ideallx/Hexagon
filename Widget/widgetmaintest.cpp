@@ -4,6 +4,10 @@ WidgetMainTest::WidgetMainTest(QWidget *parent) :
     QWidget(parent)
 {
     lineLength = 200;
+    QGraphicsScene scene(-350, -350, 700, 700);
+    QGraphicsItem *buttonParent = new QGraphicsRectItem;
+    QGraphicsItem *item = new QGraphicsPolygonItem;
+    scene.addItem(item);
 }
 
 void WidgetMainTest::paintEvent(QPaintEvent *e)
@@ -42,14 +46,4 @@ QPainterPath WidgetMainTest::drawSingleHexagon(QPainter* painter, QPointF begin)
     path.lineTo(p1);\
 
     return path;
-
-
-    /*
-    painter->drawLine(p1, p2);
-    painter->drawLine(p2, p3);
-    painter->drawLine(p3, p4);
-    painter->drawLine(p4, p5);
-    painter->drawLine(p5, p6);
-    painter->drawLine(p6, p1);
-    */
 }

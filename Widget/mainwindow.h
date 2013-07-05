@@ -1,15 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-//#define debugWidget
-
 #include <QMainWindow>
 #include <QtWidgets>
-#ifdef debugWidget
 #include "widgetmaintest.h"
-#else
 #include "widgetmain.h"
-#endif
 
 namespace Ui {
 class MainWindow;
@@ -25,8 +20,12 @@ public:
 
 private slots:
     void changeStatusInfo(QString);
+    void changeViewGame(bool);
+    void changeViewTest(bool);
     
 private:
+    WidgetMainTest* testWidget;
+    WidgetMain* gameWidget;
     Ui::MainWindow *ui;
     QLabel *statusContent;
 };

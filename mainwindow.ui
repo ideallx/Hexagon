@@ -64,6 +64,14 @@
     </property>
     <addaction name="actionQt"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>切换视图</string>
+    </property>
+    <addaction name="actionGame"/>
+    <addaction name="actionTest"/>
+   </widget>
+   <addaction name="menu"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -78,6 +86,25 @@
   <action name="actionQt">
    <property name="text">
     <string>Qt</string>
+   </property>
+  </action>
+  <action name="actionGame">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>game</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>test</string>
    </property>
   </action>
  </widget>

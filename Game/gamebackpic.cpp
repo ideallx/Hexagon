@@ -9,40 +9,43 @@ gameBackInfo::gameBackInfo(QPixmap picture, QString configFilePath) :
 void gameBackInfo::variableInitial(QString configFilePath)
 {
     QFile file(configFilePath);
+    isLoadingCorrectly = true;
 
-    if(!file.open(QFile::ReadOnly | QFile::Text))
+    try
     {
-        qDebug("cant open file %s", configFilePath);
-        return;
-    }
-
-    QXmlStreamReader xml(file.readAll());
-    if(xml.readNextStartElement())
-    {
-        if(xml.name() == "skin")
+        if(!file.open(QFile::ReadOnly | QFile::Text))
         {
-            widthCount = xml.attributes().value("widthCount").toString().toInt();
-            heightCount = xml.attributes().value("heightCount").toString().toInt();
-            lineLength = xml.attributes().value("lineLength").toString().toInt();
-            qDebug("%d", lineLength);
+            throw QString("cant open file %1").arg(configFilePath);
+        }
 
-            QStringList temp = xml.attributes().value("beginPosition").toString().split(", ");
-            beginPosition = QPointF(temp[0].toDouble(), temp[1].toDouble());
-
-            temp = xml.attributes().value("mapElement").toString().simplified().split(", ");
-            for(int i=0; i<heightCount; i++)
+        QXmlStreamReader xml(file.readAll());
+        if(xml.readNextStartElement())
+        {
+            if(xml.name() == "skin")
             {
-                if(temp[i].length() != widthCount)
+                widthCount = xml.attributes().value("widthCount").toString().toInt();
+                heightCount = xml.attributes().value("heightCount").toString().toInt();
+                lineLength = xml.attributes().value("lineLength").toString().toInt();
+
+                QStringList temp = xml.attributes().value("beginPosition").toString().split(", ");
+                beginPosition = QPointF(temp[0].toDouble(), temp[1].toDouble());
+
+                temp = xml.attributes().value("mapElement").toString().simplified().split(", ");
+                for(int i=0; i<heightCount; i++)
                 {
-                    qDebug("wrong map element");
-                    return;
-                }
-                for(int j=0; j<widthCount; j++)
-                {
-                    mapElement.append(temp[i][j].toLatin1());
+                    if(temp[i].length() != widthCount)
+                    {
+                        throw QString("wrong map element");
+                    }
+                    for(int j=0; j<widthCount; j++)
+                    {
+                        mapElement.append(temp[i][j].toLatin1());
+                    }
                 }
             }
         }
+    }catch(QString e)
+    {
+        isLoadingCorrectly = false;
     }
-
 }

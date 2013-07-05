@@ -56,8 +56,8 @@ private:
 
     bool isPointAvailable(QPoint);
 
-    void showAllQlist(QPoint);
-    void hideAllQlist();
+    void showAllQlist(QList<QPushButton*>, QPoint);
+    void hideAllQlist(QList<QPushButton*>);
 
     int lineLength;
     int printIndicator;

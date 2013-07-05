@@ -26,11 +26,19 @@ WidgetMain::WidgetMain(QWidget *parent) :
 
 WidgetMain::~WidgetMain()
 {
+    deleteAllQlist();
+    qDeleteAll(map);
+    map.clear();
 
 }
 
 void WidgetMain::variableInitial()
 {
+    if(!gbp->isLoadSuccess())
+    {
+        emit parentStatusChanged("Loading Map Infomation Failed");
+        return;
+    }
     beginX = gbp->getBeginPosition().x();
     beginY = gbp->getBeginPosition().y();
     lineLength = gbp->getLineLength();
@@ -41,15 +49,12 @@ void WidgetMain::variableInitial()
     printIndicator = BLANK_BACKGROUND;
     curChosenBlock = curMoveBlock = QPoint(-1, -1);
 
-    for(int j=0; j<heightCount; j++)
-    {
-        for(int i=0; i<widthCount; i++)
-        {
-            gameMapElement *gme = new gameMapElement(mapElement[i+j*widthCount]);
-            map.append(gme);
-        }
-    }
 
+    for(int i=0; i<widthCount*heightCount; i++)
+    {
+        gameMapElement *gme = new gameMapElement(mapElement[i]);
+        map.append(gme);
+    }
 
     QPushButton *moveButton = new QPushButton("Move", this);
     QPushButton *attackButton = new QPushButton("Attack", this);
@@ -57,11 +62,12 @@ void WidgetMain::variableInitial()
     attackButton->setGeometry(0, 30, 80, 30);
     menuList.append(moveButton);
     menuList.append(attackButton);
-    hideAllQlist();
+    hideAllQlist(menuList);
 
     mouseIndicator = MOUSE_NORMAL;
 
     halfSqrt3 = sqrt(3.0)/2;
+    connect(menuList.at(0), SIGNAL(clicked()), this, SLOT(beginMoving()));
 
     qDebug("%d, %d, %d, %d, %d", beginX, beginY, widthCount, heightCount, lineLength);
 }
@@ -71,21 +77,6 @@ QSize WidgetMain::getMaxSizeHint()
     return QSize(gbp->width()+20, gbp->height()+60);
 }
 
-//before:                    /\
-//  p0  p2  q0  q2           ||
-//  p1      p3     q3        \/
-//
-//  p6  r0  p4     q4
-//      p5      q5
-//
-//      r6      r4
-//          r5
-//after:                  /-\
-//  p0 p2 p3 q0 q2 q3     \_/
-//  p1       p4       q4
-//     p6 p5    q6 q5
-
-// 根据P0的坐标 画出六角形
 QPainterPath WidgetMain::drawSingleHexagon(QPointF begin)
 {
     QPainterPath path;
@@ -105,19 +96,6 @@ QPainterPath WidgetMain::drawSingleHexagon(QPointF begin)
     path.lineTo(p6);
     path.lineTo(p1);
 
-/*
-    //test shap square
-    QPointF p1 = QPointF(begin.x(), begin.y());
-    QPointF p2 = QPointF(begin.x()+1.5*lineLength, begin.y());
-    QPointF p3 = QPointF(begin.x()+1.5*lineLength, begin.y()+2*halfSqrt3*lineLength);
-    QPointF p4 = QPointF(begin.x(), begin.y()+2*halfSqrt3*lineLength);
-
-    path.moveTo(p1);
-    path.lineTo(p2);
-    path.lineTo(p3);
-    path.lineTo(p4);
-    path.lineTo(p1);
-*/
     return path;
 }
 
@@ -350,20 +328,20 @@ void WidgetMain::deleteAllQlist()
     menuList.clear();
 }
 
-void WidgetMain::showAllQlist(QPoint begin)
+void WidgetMain::showAllQlist(QList<QPushButton*> list, QPoint begin)
 {
-    for(int i=0; i<menuList.size(); i++)
+    for(int i=0; i<list.size(); i++)
     {
-        menuList.at(i)->setGeometry(begin.x(), begin.y()+30*i, 80, 30);
-        menuList.at(i)->show();
+        list.at(i)->setGeometry(begin.x(), begin.y()+30*i, 80, 30);
+        list.at(i)->show();
     }
 }
 
-void WidgetMain::hideAllQlist()
+void WidgetMain::hideAllQlist(QList<QPushButton*> list)
 {
     for(int i=0; i<menuList.size(); i++)
     {
-        menuList.at(i)->hide();
+        list.at(i)->hide();
     }
 }
 
@@ -379,7 +357,7 @@ void WidgetMain::mouseMoveEvent(QMouseEvent *e)
 
 void WidgetMain::mousePressEvent(QMouseEvent *e)
 {
-    hideAllQlist();
+    hideAllQlist(menuList);
     moveList.clear();
     showSphere.clear();
     mouseIndicator = MOUSE_NORMAL;
@@ -387,8 +365,7 @@ void WidgetMain::mousePressEvent(QMouseEvent *e)
     {
         if(isPointAvailable(curMoveBlock))
         {
-            showAllQlist(e->pos());
-            connect(menuList.at(0), SIGNAL(clicked()), this, SLOT(beginMoving()));
+            showAllQlist(menuList, e->pos());
         }
         curChosenBlock = curMoveBlock;
     }
@@ -404,11 +381,12 @@ void WidgetMain::mouseReleaseEvent(QMouseEvent *e)
 void WidgetMain::beginMoving()
 {
     mouseIndicator = MOUSE_MOVING;
-    listAddAsSet(&moveList, curMoveBlock);
+    moveList.append(curMoveBlock);
+    //listAddAsSet(&moveList, curMoveBlock);
     qDebug("click pos %d, %d", curMoveBlock.x(), curMoveBlock.y());
 
     listMoveSphere(curChosenBlock, 3);
-    hideAllQlist();
+    hideAllQlist(menuList);
     update();
 }
 
@@ -432,7 +410,8 @@ void WidgetMain::changeBlock(QPoint p)
     {
         if(mouseIndicator == MOUSE_MOVING)
         {
-            listAddAsSet(&moveList, curMoveBlock);
+            //listAddAsSet(&moveList, curMoveBlock);
+            moveList.append(curMoveBlock);
         }
         qDebug("%d, %d", p.x(), p.y());
         emit parentStatusChanged(map.at(getBlockEnviroment(p))->getElementName());

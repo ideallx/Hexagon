@@ -59,11 +59,11 @@ void gameMapElement::variableInitial()
     case areaRedHome:
         brush = QBrush(Qt::magenta);
         elementName = QString("红色基地");
-        moveAvailable = false;
         break;
     case areaTree:
         brush = QBrush(Qt::darkGreen);
         elementName = QString("世界之树");
+        moveAvailable = false;
         break;
     case areaBlueHome:
         brush = QBrush(Qt::black);

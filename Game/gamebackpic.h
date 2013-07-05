@@ -16,6 +16,7 @@ public:
     int getWidthCount() { return widthCount; }
     int getHeightCount() { return heightCount; }
     QVector<char> getMapElement() { return mapElement; }
+    bool isLoadSuccess() { return isLoadingCorrectly; }
 
 
 
@@ -28,6 +29,7 @@ private:
     int lineLength;
     int widthCount;
     int heightCount;
+    bool isLoadingCorrectly;
 
 
 };

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QPainter>
+#include <QGraphicsScene>
 
 class WidgetMainTest : public QWidget
 {
