@@ -5,6 +5,7 @@
 #include <QtWidgets>
 #include "widgetmaintest.h"
 #include "widgetmain.h"
+#include "../Game/heroitem.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,12 +23,14 @@ private slots:
     void changeStatusInfo(QString);
     void changeViewGame(bool);
     void changeViewTest(bool);
+    void changeViewTest2(bool);
     
 private:
     WidgetMainTest* testWidget;
     WidgetMain* gameWidget;
     Ui::MainWindow *ui;
     QLabel *statusContent;
+    QGraphicsView *testWidget2;
 };
 
 #endif // MAINWINDOW_H

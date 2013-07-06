@@ -18,7 +18,8 @@ SOURCES  += main.cpp \
     Widget/mainwindow.cpp \
     Widget/widgetmaintest.cpp \
     Game/gamemapelement.cpp \
-    Game/abstracthero.cpp
+    Game/abstracthero.cpp \
+    Game/heroitem.cpp
 
 HEADERS  += mainwindow.h \
     Game/gamebackpic.h \
@@ -26,7 +27,8 @@ HEADERS  += mainwindow.h \
     Widget/mainwindow.h \
     Widget/widgetmaintest.h \
     Game/gamemapelement.h \
-    Game/abstracthero.h
+    Game/abstracthero.h \
+    Game/heroitem.h
 
 FORMS    += mainwindow.ui
 

@@ -70,6 +70,7 @@
     </property>
     <addaction name="actionGame"/>
     <addaction name="actionTest"/>
+    <addaction name="actionTest2"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menuAbout"/>
@@ -96,7 +97,7 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>game</string>
+    <string>游戏视图</string>
    </property>
   </action>
   <action name="actionTest">
@@ -104,7 +105,15 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>test</string>
+    <string>测试页面</string>
+   </property>
+  </action>
+  <action name="actionTest2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>测试页面2</string>
    </property>
   </action>
  </widget>

@@ -2,8 +2,7 @@
 #define WIDGETMAINTEST_H
 
 #include <QWidget>
-#include <QPainter>
-#include <QGraphicsScene>
+#include <QtWidgets>
 
 class WidgetMainTest : public QWidget
 {

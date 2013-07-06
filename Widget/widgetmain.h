@@ -26,6 +26,7 @@ public:
     int getBlockEnviroment(QPoint);
 
     void listMoveSphere(QPoint, int);
+    int getLineLength(){ return lineLength;}
 
 
 
@@ -41,7 +42,7 @@ private:
 
     void deleteAllQlist();
     void listAddAsSet(QList<QPoint>*, QPoint);
-    bool listAddSeies(QList<QPoint>*, int, QPoint);
+    bool listAddSeies(QList<QPoint>*, QPoint);
 
     QPointF getBeginPosWithCoo(QPoint);
     QPointF getCenterPosWithCoo(QPoint);

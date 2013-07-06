@@ -432,7 +432,7 @@ void WidgetMain::listAddAsSet(QList<QPoint> *list, QPoint point)
     }
 }
 
-bool WidgetMain::listAddSeies(QList<QPoint> *list, int sphere, QPoint point)
+bool WidgetMain::listAddSeies(QList<QPoint> *list, QPoint point)
 {
     if(isPointAvailable(point))
     {
@@ -447,7 +447,7 @@ bool WidgetMain::listAddSeies(QList<QPoint> *list, int sphere, QPoint point)
 
 void WidgetMain::listMoveSphere(QPoint block, int sphere)
 {
-    if(!listAddSeies(&showSphere, sphere, block))
+    if(!listAddSeies(&showSphere, block))
         return;
     if(sphere == 0)
         return;
@@ -460,12 +460,12 @@ void WidgetMain::listMoveSphere(QPoint block, int sphere)
     listMoveSphere(goDownRight(block), sphere);
     listMoveSphere(goDown(block), sphere);
 
-    listAddSeies(&showSphere, sphere, goUpLeft(block));
-    listAddSeies(&showSphere, sphere, goUpRight(block));
-    listAddSeies(&showSphere, sphere, goUp(block));
-    listAddSeies(&showSphere, sphere, goDownLeft(block));
-    listAddSeies(&showSphere, sphere, goDownRight(block));
-    listAddSeies(&showSphere, sphere, goDown(block));
+    listAddSeies(&showSphere, goUpLeft(block));
+    listAddSeies(&showSphere, goUpRight(block));
+    listAddSeies(&showSphere, goUp(block));
+    listAddSeies(&showSphere, goDownLeft(block));
+    listAddSeies(&showSphere, goDownRight(block));
+    listAddSeies(&showSphere, goDown(block));
 
 
     return;

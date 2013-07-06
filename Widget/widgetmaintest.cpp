@@ -4,10 +4,7 @@ WidgetMainTest::WidgetMainTest(QWidget *parent) :
     QWidget(parent)
 {
     lineLength = 200;
-    QGraphicsScene scene(-350, -350, 700, 700);
-    QGraphicsItem *buttonParent = new QGraphicsRectItem;
-    QGraphicsItem *item = new QGraphicsPolygonItem;
-    scene.addItem(item);
+
 }
 
 void WidgetMainTest::paintEvent(QPaintEvent *e)

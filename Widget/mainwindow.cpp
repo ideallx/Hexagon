@@ -18,12 +18,29 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setMaximumSize(gameWidget->getMaxSizeHint());
 
-    ui->scrollArea->setWidget(gameWidget);
+    //ui->scrollArea->setWidget(gameWidget);
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
     connect(ui->actionGame, SIGNAL(triggered(bool)), this, SLOT(changeViewGame(bool)));
     connect(ui->actionTest, SIGNAL(triggered(bool)), this, SLOT(changeViewTest(bool)));
+    connect(ui->actionTest2, SIGNAL(triggered(bool)), this, SLOT(changeViewTest2(bool)));
     connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
+
+
+    QGraphicsItem *item = new heroItem(QColor("red"), gameWidget->getLineLength());
+    QGraphicsScene *scene = new QGraphicsScene(0, 0, 700, 700);
+    scene->addItem(item);
+    scene->addText("fuck all");
+    testWidget2 = new QGraphicsView(scene);
+    QBrush b(QColor("darkGray"));
+    testWidget2->setBackgroundBrush(b);
+//    testWidget2->setBackgroundBrush(QBrush(QColor("red")));
+//    testWidget2->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Animated Tiles"));
+//    testWidget2->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
+//    testWidget2->setCacheMode(QGraphicsView::CacheBackground);
+//    testWidget2->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+
+    ui->scrollArea->setWidget(gameWidget);
 }
 
 MainWindow::~MainWindow()
@@ -46,6 +63,7 @@ void MainWindow::changeViewGame(bool ok)
     else
     {
         changeViewTest(false);
+        changeViewTest2(false);
         ui->scrollArea->setWidget(gameWidget);
     }
 
@@ -61,7 +79,24 @@ void MainWindow::changeViewTest(bool ok)
     else
     {
         changeViewGame(false);
+        changeViewTest2(false);
         ui->scrollArea->setWidget(testWidget);
+    }
+
+}
+
+void MainWindow::changeViewTest2(bool ok)
+{
+    ui->actionTest2->setChecked(ok);
+    if(ok == false)
+    {
+        ui->scrollArea->takeWidget();
+    }
+    else
+    {
+        changeViewGame(false);
+        changeViewTest(false);
+        ui->scrollArea->setWidget(testWidget2);
     }
 
 }
