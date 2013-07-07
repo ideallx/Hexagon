@@ -19,7 +19,9 @@ SOURCES  += main.cpp \
     Widget/widgetmaintest.cpp \
     Game/gamemapelement.cpp \
     Game/abstracthero.cpp \
-    Game/heroitem.cpp
+    Game/heroitem.cpp \
+    Widget/testview2.cpp \
+    Game/gamemenu.cpp
 
 HEADERS  += mainwindow.h \
     Game/gamebackpic.h \
@@ -28,7 +30,9 @@ HEADERS  += mainwindow.h \
     Widget/widgetmaintest.h \
     Game/gamemapelement.h \
     Game/abstracthero.h \
-    Game/heroitem.h
+    Game/heroitem.h \
+    Widget/testview2.h \
+    Game/gamemenu.h
 
 FORMS    += mainwindow.ui
 

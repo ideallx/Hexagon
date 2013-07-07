@@ -4,7 +4,7 @@
 #include <QtWidgets>
 #include "abstracthero.h"
 
-class heroItem : public QGraphicsItem, public abstractHero
+class heroItem : public abstractHero, public QObject, public QGraphicsEllipseItem
 {
 public:
     heroItem(const QColor &colork, int lineLength);

@@ -56,18 +56,12 @@ void WidgetMain::variableInitial()
         map.append(gme);
     }
 
-    QPushButton *moveButton = new QPushButton("Move", this);
-    QPushButton *attackButton = new QPushButton("Attack", this);
-    moveButton->setGeometry(0, 0, 80, 30);
-    attackButton->setGeometry(0, 30, 80, 30);
-    menuList.append(moveButton);
-    menuList.append(attackButton);
-    hideAllQlist(menuList);
+    //hideAllQlist(menuList);
 
     mouseIndicator = MOUSE_NORMAL;
 
     halfSqrt3 = sqrt(3.0)/2;
-    connect(menuList.at(0), SIGNAL(clicked()), this, SLOT(beginMoving()));
+    //connect(menuList.at(0), SIGNAL(clicked()), this, SLOT(beginMoving()));
 
     qDebug("%d, %d, %d, %d, %d", beginX, beginY, widthCount, heightCount, lineLength);
 }
@@ -127,27 +121,16 @@ void WidgetMain::drawMovingLines(QPainter* painter)
     }
 }
 
-int WidgetMain::getBlockEnviroment(QPoint block)
+int WidgetMain::getBlockNumber(QPoint block)
 {
     return block.x()+block.y()*widthCount;
 }
 
 //地图块不太好一块块画 setBrush所有块统一被画出来， 还是做地图的时候，自己手动画吧
 void WidgetMain::paintEvent(QPaintEvent *e)
-{
+{\
     Q_UNUSED(e);
-    paintInitial();
-    /*
-    switch(printIndicator)
-    {
-    case BLANK_BACKGROUND:
-        paintInitial();
-    case BLOCK_CHOSEN:
-        paintFocus();
-    }
-
-    printIndicator = BLOCK_CHOSEN;
-    */
+    paintInitial();\
 }
 
 void WidgetMain::paintInitial()
@@ -182,6 +165,7 @@ void WidgetMain::paintInitial()
         drawMovingLines(painter);
 
         painter->setPen(QPen(Qt::yellow, 5));
+        qDebug("begin ff");
         for (int i=0; i<showSphere.size(); i++)
         {
             drawHexagonSeries(painter, showSphere.at(i));
@@ -321,11 +305,11 @@ QPoint WidgetMain::getCooxWithPos(QPointF point)
 
 void WidgetMain::deleteAllQlist()
 {
-    for(int i=0; i<menuList.size(); i++)
-    {
-        delete menuList.at(i);
-    }
-    menuList.clear();
+//    for(int i=0; i<menuList.size(); i++)
+//    {
+//        delete menuList.at(i);
+//    }
+//    menuList.clear();
 }
 
 void WidgetMain::showAllQlist(QList<QPushButton*> list, QPoint begin)
@@ -339,7 +323,7 @@ void WidgetMain::showAllQlist(QList<QPushButton*> list, QPoint begin)
 
 void WidgetMain::hideAllQlist(QList<QPushButton*> list)
 {
-    for(int i=0; i<menuList.size(); i++)
+    for(int i=0; i<list.size(); i++)
     {
         list.at(i)->hide();
     }
@@ -357,7 +341,7 @@ void WidgetMain::mouseMoveEvent(QMouseEvent *e)
 
 void WidgetMain::mousePressEvent(QMouseEvent *e)
 {
-    hideAllQlist(menuList);
+    //hideAllQlist(menuList);
     moveList.clear();
     showSphere.clear();
     mouseIndicator = MOUSE_NORMAL;
@@ -365,7 +349,7 @@ void WidgetMain::mousePressEvent(QMouseEvent *e)
     {
         if(isPointAvailable(curMoveBlock))
         {
-            showAllQlist(menuList, e->pos());
+            //showAllQlist(menuList, e->pos());
         }
         curChosenBlock = curMoveBlock;
     }
@@ -386,8 +370,8 @@ void WidgetMain::beginMoving()
     qDebug("click pos %d, %d", curMoveBlock.x(), curMoveBlock.y());
 
     listMoveSphere(curChosenBlock, 3);
-    hideAllQlist(menuList);
-    update();
+    //hideAllQlist(menuList);
+    this->repaint();
 }
 
 bool WidgetMain::isPointAvailable(QPoint in)
@@ -396,7 +380,7 @@ bool WidgetMain::isPointAvailable(QPoint in)
         return false;
     else if((in.x() == widthCount-1) && (in.y()%2 == 1))
         return false;
-    else if(!map.at(getBlockEnviroment(in))->isPointAvailable())
+    else if(!map.at(getBlockNumber(in))->isPointAvailable())
         return false;
     else
         return true;
@@ -410,11 +394,10 @@ void WidgetMain::changeBlock(QPoint p)
     {
         if(mouseIndicator == MOUSE_MOVING)
         {
-            //listAddAsSet(&moveList, curMoveBlock);
             moveList.append(curMoveBlock);
         }
         qDebug("%d, %d", p.x(), p.y());
-        emit parentStatusChanged(map.at(getBlockEnviroment(p))->getElementName());
+        emit parentStatusChanged(map.at(getBlockNumber(p))->getElementName());
     }
     else
     {
@@ -436,7 +419,7 @@ bool WidgetMain::listAddSeies(QList<QPoint> *list, QPoint point)
 {
     if(isPointAvailable(point))
     {
-        if(map.at(getBlockEnviroment(point))->isMoveAvailable())
+        if(map.at(getBlockNumber(point))->isMoveAvailable())
         {
             listAddAsSet(list, point);
             return true;

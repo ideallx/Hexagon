@@ -23,11 +23,12 @@ public:
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     //void mouseDoubleClickEvent(QMouseEvent *);
-    int getBlockEnviroment(QPoint);
+    int getBlockNumber(QPoint);
 
     void listMoveSphere(QPoint, int);
     int getLineLength(){ return lineLength;}
 
+    QSize sizeHint() const {return gbp->size();}
 
 
 private:
@@ -67,7 +68,6 @@ private:
     QLabel *debugInfo;
     QPoint curMoveBlock;
     QPoint curChosenBlock;
-    QList<QPushButton*> menuList;
     QList<QPoint> showSphere;
     QList<QPoint> moveList;
     QList<gameMapElement*> map;

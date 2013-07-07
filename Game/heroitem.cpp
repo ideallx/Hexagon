@@ -7,7 +7,7 @@ heroItem::heroItem(const QColor &color, int lineLength)
 
     setFlags(ItemIsSelectable | ItemIsMovable);
     setAcceptHoverEvents(true);
-
+    setRect(0, 0, lineLength, lineLength);
 }
 
 
@@ -31,7 +31,6 @@ QString heroItem::getHeroName() const
     return heroName;
 }
 
-
 QRectF heroItem::boundingRect() const
 {
     return QRectF(0, 0, lineLength, lineLength);
@@ -39,11 +38,11 @@ QRectF heroItem::boundingRect() const
 
 void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QImage origin(":/resource/SkinDefault/iconTest.jpg");
-    QPixmap pictoshow = QPixmap::fromImage(origin.scaled(lineLength, lineLength, Qt::KeepAspectRatioByExpanding));
-    painter->setBrush(pictoshow);
-    painter->setPen(Qt::white);
-    painter->drawRect(0, 0, lineLength, lineLength);
+//    QImage origin(":/resource/SkinDefault/iconTest.jpg");
+//    QPixmap pictoshow = QPixmap::fromImage(origin.scaled(lineLength, lineLength, Qt::KeepAspectRatioByExpanding));
+    painter->setBrush(color);
+    //painter->setPen(Qt::white);
+    painter->drawEllipse(0, 0, lineLength, lineLength);
 }
 
 void heroItem::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
@@ -54,4 +53,8 @@ void heroItem::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 void heroItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
     QGraphicsItem::mousePressEvent(e);
+    if(e->button() & Qt::LeftButton)
+    {
+        showHideAllList(menuList, 's', e->pos());
+    }
 }

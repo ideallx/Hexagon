@@ -5,20 +5,23 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    //Now the testWidget2 is in leading role
     ui->setupUi(this);
 
     statusContent = new QLabel(this);
     statusContent->setText("Test StatusBar Label");
     ui->statusBar->addWidget(statusContent);
 
-    setGeometry(400, 150, 1050, 850);
 
     testWidget = new WidgetMainTest();
     gameWidget = new WidgetMain();
+    qDebug("%d, %d", gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
 
-    setMaximumSize(gameWidget->getMaxSizeHint());
-
-    //ui->scrollArea->setWidget(gameWidget);
+    QGraphicsScene *scene = new QGraphicsScene(0, 0, gameWidget->sizeHint().width(), gameWidget->sizeHint().height(), this);
+    scene->addWidget(gameWidget);
+    testWidget2 = new testView2(scene, (int)(gameWidget->getLineLength()*1.6)); //sqrt 3 and margin
+    qDebug("%d, %d", testWidget2->sizeHint().width(), testWidget2->sizeHint().height());
+    qDebug("%d, %d", testWidget2->size().width(), testWidget2->size().height());
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
     connect(ui->actionGame, SIGNAL(triggered(bool)), this, SLOT(changeViewGame(bool)));
@@ -27,20 +30,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
 
 
-    QGraphicsItem *item = new heroItem(QColor("red"), gameWidget->getLineLength());
-    QGraphicsScene *scene = new QGraphicsScene(0, 0, 700, 700);
-    scene->addItem(item);
-    scene->addText("fuck all");
-    testWidget2 = new QGraphicsView(scene);
-    QBrush b(QColor("darkGray"));
-    testWidget2->setBackgroundBrush(b);
-//    testWidget2->setBackgroundBrush(QBrush(QColor("red")));
-//    testWidget2->setWindowTitle(QT_TRANSLATE_NOOP(QGraphicsView, "Animated Tiles"));
-//    testWidget2->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
-//    testWidget2->setCacheMode(QGraphicsView::CacheBackground);
-//    testWidget2->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->scrollArea->setWidget(testWidget2);
 
-    ui->scrollArea->setWidget(gameWidget);
 }
 
 MainWindow::~MainWindow()

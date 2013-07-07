@@ -3,8 +3,7 @@
 WidgetMainTest::WidgetMainTest(QWidget *parent) :
     QWidget(parent)
 {
-    lineLength = 200;
-
+    lineLength = 90;
 }
 
 void WidgetMainTest::paintEvent(QPaintEvent *e)

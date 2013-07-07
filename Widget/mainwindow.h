@@ -6,6 +6,7 @@
 #include "widgetmaintest.h"
 #include "widgetmain.h"
 #include "../Game/heroitem.h"
+#include "testview2.h"
 
 namespace Ui {
 class MainWindow;

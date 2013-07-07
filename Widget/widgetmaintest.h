@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtWidgets>
+#include "testview2.h"
 
 class WidgetMainTest : public QWidget
 {
