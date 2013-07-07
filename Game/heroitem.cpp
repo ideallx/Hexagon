@@ -1,13 +1,15 @@
 #include "heroitem.h"
 
-heroItem::heroItem(const QColor &color, int lineLength)
+heroItem::heroItem(const QColor &color, int lineLength, gameMenu* menu)
 {
     this->lineLength = lineLength;
     this->color = color;
+    this->menu = menu;
 
-    setFlags(ItemIsSelectable | ItemIsMovable);
+    setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setRect(0, 0, lineLength, lineLength);
+   // emit heroInvokeMenu(QPointF(50, 50));
 }
 
 
@@ -55,6 +57,7 @@ void heroItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
     QGraphicsItem::mousePressEvent(e);
     if(e->button() & Qt::LeftButton)
     {
-        showHideAllList(menuList, 's', e->pos());
+        menu->hideAllMenu();
+        menu->showMenu(gameMenu::MENULIST, e->pos());
     }
 }

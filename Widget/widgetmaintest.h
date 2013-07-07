@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QtWidgets>
 #include "testview2.h"
+#include "../Game/gamemenu.h"
 
 class WidgetMainTest : public QWidget
 {
@@ -15,6 +16,7 @@ public:
 private:
     QPainterPath drawSingleHexagon(QPainter* painter, QPointF begin);
     int lineLength;
+
     
 signals:
     

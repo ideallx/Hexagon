@@ -3,11 +3,13 @@
 
 #include <QtWidgets>
 #include "abstracthero.h"
+#include "../Game/gamemenu.h"
 
 class heroItem : public abstractHero, public QObject, public QGraphicsEllipseItem
 {
+
 public:
-    heroItem(const QColor &colork, int lineLength);
+    heroItem(const QColor &colork, int lineLength, gameMenu* menu);
 
     char getSexual() const;
     char getMoveSphere() const;
@@ -26,8 +28,13 @@ private:
     QString playerName;
     QString heroName;
 
+    gameMenu* menu;
+
     int lineLength;
     QColor color;
+
+signals:
+    void heroInvokeMenu(QPointF);
 };
 
 #endif // HEROITEM_H

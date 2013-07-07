@@ -5,6 +5,7 @@
 #include <QtCore/qstate.h>
 #include <QtCore/qobject.h>
 #include "../Game/heroitem.h"
+#include "../Game/gamemenu.h"
 
 class testView2 : public QGraphicsView
 {
@@ -21,6 +22,7 @@ protected:
     QSize sizeHint() const {return QSize(scene->width(), scene->height());}
 
 private:
+    gameMenu* menu;
     int lineLength;
     QGraphicsScene *scene;
     QList<heroItem*> items;

@@ -14,9 +14,6 @@ protected:
     virtual QString getPlayerName() const = 0;
     virtual QString getHeroName() const = 0;
 
-    QList<QPushButton*> menuList;
-    void showHideAllList(QList<QPushButton*>, char, QPointF pos= QPointF());
-
 private:
     void variableInitial();
 
