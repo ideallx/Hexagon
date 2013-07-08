@@ -3,6 +3,11 @@
 
 #include <QtWidgets>
 
+class midClass : public QObject
+{
+
+};
+
 class abstractHero
 {
 public:

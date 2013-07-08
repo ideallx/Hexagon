@@ -21,7 +21,8 @@ SOURCES  += main.cpp \
     Game/abstracthero.cpp \
     Game/heroitem.cpp \
     Widget/testview2.cpp \
-    Game/gamemenu.cpp
+    Game/gamemenu.cpp \
+    commonvariable.cpp
 
 HEADERS  += mainwindow.h \
     Game/gamebackpic.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     Game/abstracthero.h \
     Game/heroitem.h \
     Widget/testview2.h \
-    Game/gamemenu.h
+    Game/gamemenu.h \
+    commonvariable.h
 
 FORMS    += mainwindow.ui
 

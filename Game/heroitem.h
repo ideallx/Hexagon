@@ -4,12 +4,14 @@
 #include <QtWidgets>
 #include "abstracthero.h"
 #include "../Game/gamemenu.h"
+#include "../commonvariable.h"
+
 
 class heroItem : public abstractHero, public QObject, public QGraphicsEllipseItem
 {
 
 public:
-    heroItem(const QColor &colork, int lineLength, gameMenu* menu);
+    heroItem(const QColor &colork, int lineLength);
 
     char getSexual() const;
     char getMoveSphere() const;
@@ -27,8 +29,6 @@ private:
     char moveSphere;
     QString playerName;
     QString heroName;
-
-    gameMenu* menu;
 
     int lineLength;
     QColor color;

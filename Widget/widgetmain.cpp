@@ -128,9 +128,9 @@ int WidgetMain::getBlockNumber(QPoint block)
 
 //地图块不太好一块块画 setBrush所有块统一被画出来， 还是做地图的时候，自己手动画吧
 void WidgetMain::paintEvent(QPaintEvent *e)
-{\
+{
     Q_UNUSED(e);
-    paintInitial();\
+    paintInitial();
 }
 
 void WidgetMain::paintInitial()
@@ -341,7 +341,7 @@ void WidgetMain::mouseMoveEvent(QMouseEvent *e)
 
 void WidgetMain::mousePressEvent(QMouseEvent *e)
 {
-    //hideAllQlist(menuList);
+    globol::menu->hideAllMenu();
     moveList.clear();
     showSphere.clear();
     mouseIndicator = MOUSE_NORMAL;
@@ -353,6 +353,7 @@ void WidgetMain::mousePressEvent(QMouseEvent *e)
         }
         curChosenBlock = curMoveBlock;
     }
+    emit mousePressed();
     update();
 }
 

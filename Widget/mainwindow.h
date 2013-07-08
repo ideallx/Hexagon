@@ -6,7 +6,9 @@
 #include "widgetmaintest.h"
 #include "widgetmain.h"
 #include "../Game/heroitem.h"
+#include "../Game/gamemenu.h"
 #include "testview2.h"
+#include "../commonvariable.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +34,7 @@ private:
     Ui::MainWindow *ui;
     QLabel *statusContent;
     QGraphicsView *testWidget2;
+    gameMenu* menu;
 };
 
 #endif // MAINWINDOW_H

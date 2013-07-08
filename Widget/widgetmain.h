@@ -5,6 +5,7 @@
 #include <QPainter>
 #include "../Game/gamebackpic.h"
 #include "../Game/gamemapelement.h"
+#include "../commonvariable.h"
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -98,6 +99,7 @@ private:
 signals:
     void curMoveBlockChanged(QPoint );
     void parentStatusChanged(QString);
+    void mousePressed();
     
 public slots:
     void changeBlock(QPoint);

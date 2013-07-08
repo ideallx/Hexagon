@@ -4,8 +4,9 @@
 #include <QtWidgets>
 
 
-class gameMenu
+class gameMenu : public QObject
 {
+    Q_OBJECT
 public:
     enum menu_type_t
     {
@@ -19,13 +20,15 @@ public:
     gameMenu(QWidget *parent = 0);
     void showMenu(gameMenu::menu_type_t, QPointF pos = QPointF());
     void hideMenu(gameMenu::menu_type_t);
-    void hideAllMenu();
-
 
 private:
     void menuInitial();
     QList<QPushButton*> menuList;
     QWidget* parent;
+
+public slots:
+    void hideAllMenu();
+
 };
 
 

@@ -20,6 +20,10 @@ protected:
         fitInView(sceneRect(), Qt::KeepAspectRatio);
     }
     QSize sizeHint() const {return QSize(scene->width(), scene->height());}
+    void mousePressEvent(QMouseEvent);
+    void setHeroPos(heroItem* item, QPointF pos){
+        item->setPos(pos);
+    }
 
 private:
     gameMenu* menu;

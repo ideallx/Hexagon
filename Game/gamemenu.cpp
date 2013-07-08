@@ -1,18 +1,19 @@
 #include "gamemenu.h"
 
 gameMenu::gameMenu(QWidget *parent)
+    :parent(parent)
 {
-    this->parent = parent;
     menuInitial();
 }
 
 void gameMenu::menuInitial()
 {
     // menuList
-    QPushButton *moveButton = new QPushButton("Move", parent);
-    QPushButton *attackButton = new QPushButton("Attack", parent);
-    QPushButton *abilityButton = new QPushButton("Ability", parent);
-    QPushButton *cancelButton = new QPushButton("cancel", parent);
+    QPushButton *moveButton = new QPushButton("移动", parent);
+    QPushButton *attackButton = new QPushButton("攻击", parent);
+    QPushButton *abilityButton = new QPushButton("能力", parent);
+    QPushButton *cancelButton = new QPushButton("后退", parent);
+
     moveButton->setGeometry(0, 0, 80, 30);
     attackButton->setGeometry(0, 30, 80, 30);
     abilityButton->setGeometry(0, 60, 80, 30);
@@ -62,5 +63,8 @@ void gameMenu::hideMenu(gameMenu::menu_type_t type)
 
 void gameMenu::hideAllMenu()
 {
-;
+    for(int i=0; i<menuList.count(); i++)
+    {
+        menuList[i]->hide();
+    }
 }

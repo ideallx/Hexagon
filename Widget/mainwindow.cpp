@@ -12,7 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     statusContent->setText("Test StatusBar Label");
     ui->statusBar->addWidget(statusContent);
 
-
     testWidget = new WidgetMainTest();
     gameWidget = new WidgetMain();
     qDebug("%d, %d", gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
@@ -29,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionTest2, SIGNAL(triggered(bool)), this, SLOT(changeViewTest2(bool)));
     connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
 
-
     ui->scrollArea->setWidget(testWidget2);
+    globol::menu = new gameMenu(testWidget2);
 
 }
 
