@@ -7,7 +7,7 @@
 #include "widgetmain.h"
 #include "../Game/heroitem.h"
 #include "../Game/gamemenu.h"
-#include "testview2.h"
+#include "backview.h"
 #include "../commonvariable.h"
 
 namespace Ui {

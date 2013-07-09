@@ -14,19 +14,19 @@ MainWindow::MainWindow(QWidget *parent) :
 
     testWidget = new WidgetMainTest();
     gameWidget = new WidgetMain();
-    qDebug("%d, %d", gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
+    //qDebug("%d, %d", gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
 
-    QGraphicsScene *scene = new QGraphicsScene(0, 0, gameWidget->sizeHint().width(), gameWidget->sizeHint().height(), this);
+    QGraphicsScene *scene = new QGraphicsScene(0, 0, gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
     scene->addWidget(gameWidget);
-    testWidget2 = new testView2(scene, (int)(gameWidget->getLineLength()*1.6)); //sqrt 3 and margin
-    qDebug("%d, %d", testWidget2->sizeHint().width(), testWidget2->sizeHint().height());
-    qDebug("%d, %d", testWidget2->size().width(), testWidget2->size().height());
+    testWidget2 = new backview(scene, (int)(gameWidget->getLineLength()*1.6)); //sqrt 3 and margin
+    //qDebug("%d, %d", testWidget2->sizeHint().width(), testWidget2->sizeHint().height());
+    //qDebug("%d, %d", testWidget2->size().width(), testWidget2->size().height());
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
     connect(ui->actionGame, SIGNAL(triggered(bool)), this, SLOT(changeViewGame(bool)));
     connect(ui->actionTest, SIGNAL(triggered(bool)), this, SLOT(changeViewTest(bool)));
     connect(ui->actionTest2, SIGNAL(triggered(bool)), this, SLOT(changeViewTest2(bool)));
-    connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
+    //connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
 
     ui->scrollArea->setWidget(testWidget2);
     globol::menu = new gameMenu(testWidget2);

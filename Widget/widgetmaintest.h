@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QtWidgets>
-#include "testview2.h"
+#include "backview.h"
 #include "../Game/gamemenu.h"
 
 class WidgetMainTest : public QWidget

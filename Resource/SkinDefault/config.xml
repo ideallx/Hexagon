@@ -1,5 +1,6 @@
 <skin
     name = "death desert one"
+    backpic = ":/resource/SkinDefault/wallpaper.jpg"
     widthCount = "6"
     heightCount = "21"
     lineLength = "50"

@@ -13,28 +13,28 @@ TEMPLATE = app
 
 
 SOURCES  += main.cpp \
-    Game/gamebackpic.cpp \
     Widget/widgetmain.cpp \
     Widget/mainwindow.cpp \
     Widget/widgetmaintest.cpp \
     Game/gamemapelement.cpp \
     Game/abstracthero.cpp \
     Game/heroitem.cpp \
-    Widget/testview2.cpp \
     Game/gamemenu.cpp \
-    commonvariable.cpp
+    commonvariable.cpp \
+    Game/gamebackinfo.cpp \
+    Widget/backview.cpp
 
 HEADERS  += mainwindow.h \
-    Game/gamebackpic.h \
     Widget/widgetmain.h \
     Widget/mainwindow.h \
     Widget/widgetmaintest.h \
     Game/gamemapelement.h \
     Game/abstracthero.h \
     Game/heroitem.h \
-    Widget/testview2.h \
     Game/gamemenu.h \
-    commonvariable.h
+    commonvariable.h \
+    Game/gamebackinfo.h \
+    Widget/backview.h
 
 FORMS    += mainwindow.ui
 

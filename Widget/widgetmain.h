@@ -1,9 +1,11 @@
 #ifndef WIDGETMAIN_H
 #define WIDGETMAIN_H
 
+// should be deleted
+
 #include <QWidget>
 #include <QPainter>
-#include "../Game/gamebackpic.h"
+#include "../Game/gamebackinfo.h"
 #include "../Game/gamemapelement.h"
 #include "../commonvariable.h"
 #include <QLabel>
@@ -23,14 +25,9 @@ public:
     void mouseMoveEvent(QMouseEvent *);
     void mousePressEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
-    //void mouseDoubleClickEvent(QMouseEvent *);
-    int getBlockNumber(QPoint);
 
-    void listMoveSphere(QPoint, int);
+    QSize sizeHint() const { return QSize(1024, 1536);}
     int getLineLength(){ return lineLength;}
-
-    QSize sizeHint() const {return gbp->size();}
-
 
 private:
     void paintInitial(void);
@@ -42,46 +39,20 @@ private:
 
     void variableInitial(void);
 
-    void deleteAllQlist();
-    void listAddAsSet(QList<QPoint>*, QPoint);
-    bool listAddSeies(QList<QPoint>*, QPoint);
-
-    QPointF getBeginPosWithCoo(QPoint);
-    QPointF getCenterPosWithCoo(QPoint);
-    QPoint getCooxWithPos(QPointF);
-
-    QPoint goUpLeft(QPoint);
-    QPoint goUpRight(QPoint);
-    QPoint goUp(QPoint);
-    QPoint goDownLeft(QPoint);
-    QPoint goDownRight(QPoint);
-    QPoint goDown(QPoint);
-
-    bool isPointAvailable(QPoint);
-
-    void showAllQlist(QList<QPushButton*>, QPoint);
-    void hideAllQlist(QList<QPushButton*>);
-
-    int lineLength;
-    int printIndicator;
-    int mouseIndicator;
-
     QLabel *debugInfo;
     QPoint curMoveBlock;
     QPoint curChosenBlock;
-    QList<QPoint> showSphere;
-    QList<QPoint> moveList;
-    QList<gameMapElement*> map;
 
     int widthCount;
     int heightCount;
     int beginX;
     int beginY;
-    QVector<char> mapElement;
-
+    int lineLength;
     double halfSqrt3;
 
-    gameBackInfo *gbp;
+    QVector<char> mapElement;
+
+    gameBackInfo *gbi;
 
     enum printIndicator_t
     {

@@ -2,7 +2,7 @@
 #define COMMONVARIABLE_H
 
 #include "game/gamemenu.h"
-#include "Game/gamebackpic.h"
+#include "game/gamebackinfo.h"
 
 class globol
 {

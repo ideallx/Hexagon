@@ -1,18 +1,20 @@
 #ifndef GAMEMAPELEMENT_H
 #define GAMEMAPELEMENT_H
 
-#include <QPoint>
-#include <QBrush>
+#include <QtWidgets>
 
-class gameMapElement
+class gameMapElement : public QGraphicsPolygonItem, public QObject
 {
 public:
-    gameMapElement(char elementType);
+    gameMapElement(char, QPoint);
 
+    QVector<QPointF> getPolygonPointf(QPointF);
     QBrush getBrush() { return brush; }
     QString getElementName() { return elementName; }
     bool isPointAvailable() { return elementType != areaNouse; }
     bool isMoveAvailable() { return moveAvailable; }
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
 
     enum gameEnvironment_t
     {
@@ -39,6 +41,7 @@ public:
 private:
     void variableInitial();
 
+    QPoint coo;
     bool moveAvailable;
     char elementType;
     QBrush brush;

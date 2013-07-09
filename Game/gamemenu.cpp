@@ -3,7 +3,7 @@
 gameMenu::gameMenu(QWidget *parent)
     :parent(parent)
 {
-    menuInitial();
+    //menuInitial();
 }
 
 void gameMenu::menuInitial()
