@@ -13,12 +13,6 @@ void gameBackInfo::variableInitial(QString configFilePath)
     beginX = beginPosition.x();
     beginY = beginPosition.y();
 
-    for(int i=0; i<widthCount*heightCount; i++)
-    {
-        //gameMapElement *gme = new gameMapElement(mapElement[i]);
-        //map.append(gme);
-    }
-
     try
     {
         if(!file.open(QFile::ReadOnly | QFile::Text))
@@ -37,6 +31,8 @@ void gameBackInfo::variableInitial(QString configFilePath)
 
                 QStringList temp = xml.attributes().value("beginPosition").toString().split(", ");
                 beginPosition = QPointF(temp[0].toDouble(), temp[1].toDouble());
+                beginX = beginPosition.x();
+                beginY = beginPosition.y();
                 backgroundPicture = QPixmap(xml.attributes().value("backpic").toString());
                 if(backgroundPicture.isNull())
                     throw QString("no pic");
@@ -68,7 +64,6 @@ void gameBackInfo::variableInitial(QString configFilePath)
  *  0,2   1,2   2,2   3,2
  *     0,3   1,3   2,3
  */
-// 根据六角形的横纵坐标, 生成P0坐标,
 QPointF gameBackInfo::getBeginPosWithCoo(QPoint block)
 {
     if(block.y()%2 == 0)
@@ -205,11 +200,8 @@ bool gameBackInfo::listAddSeies(QList<QPoint> *list, QPoint point)
 {
     if(isPointAvailable(point))
     {
-        if(map.at(getBlockNumber(point))->isMoveAvailable())
-        {
-            listAddAsSet(list, point);
-            return true;
-        }
+        listAddAsSet(list, point);
+        return true;
     }
     return false;
 }
@@ -245,7 +237,7 @@ bool gameBackInfo::isPointAvailable(QPoint in)
         return false;
     else if((in.x() == widthCount-1) && (in.y()%2 == 1))
         return false;
-    else if(!map.at(getBlockNumber(in))->isPointAvailable())
+    else if(mapElement[getBlockNumber(in)] == 'Z')
         return false;
     else
         return true;

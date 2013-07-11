@@ -4,8 +4,9 @@ heroItem::heroItem(const QColor &color, int lineLength)
 {
     this->lineLength = lineLength;
     this->color = color;
+    setZValue(0.6);
 
-    setFlags(ItemIsSelectable);
+    setFlags(ItemIsSelectable | ItemIsMovable);
     setAcceptHoverEvents(true);
     setRect(0, 0, lineLength, lineLength);
    // emit heroInvokeMenu(QPointF(50, 50));
@@ -49,14 +50,23 @@ void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 void heroItem::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
 {
     QGraphicsItem::mouseMoveEvent(e);
+    update();
 }
 
 void heroItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
     QGraphicsItem::mousePressEvent(e);
+    globol::menu->hideAllMenu();
     if(e->button() & Qt::LeftButton)
     {
-        globol::menu->hideAllMenu();
-        globol::menu->showMenu(gameMenu::MENULIST, e->pos());
+        globol::menu->showMenu(gameMenu::MENULIST, e->scenePos());
     }
+    update();
+}
+
+QPainterPath heroItem::shape() const
+{
+    QPainterPath path;
+    path.addEllipse(0, 0, lineLength, lineLength);
+    return path;
 }

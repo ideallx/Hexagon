@@ -6,15 +6,22 @@
 class gameMapElement : public QGraphicsPolygonItem, public QObject
 {
 public:
-    gameMapElement(char, QPoint);
+    gameMapElement(char);
 
     QVector<QPointF> getPolygonPointf(QPointF);
     QBrush getBrush() { return brush; }
     QString getElementName() { return elementName; }
     bool isPointAvailable() { return elementType != areaNouse; }
     bool isMoveAvailable() { return moveAvailable; }
+
     QRectF boundingRect() const;
+    QPainterPath shape() const;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 
     enum gameEnvironment_t
     {
@@ -38,14 +45,20 @@ public:
         areaNouse = 'Z'
     };
 
+signals:
+    void statusInfoChanged(QString);
+
+
 private:
     void variableInitial();
+    int lineLength;
+    double halfSqrt3;
 
-    QPoint coo;
     bool moveAvailable;
     char elementType;
     QBrush brush;
     QString elementName;
+    QPolygonF hexagon;
 };
 
 #endif // GAMEMAPELEMENT_H

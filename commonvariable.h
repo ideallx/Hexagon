@@ -10,6 +10,7 @@ public:
     static gameMenu* menu;
     static int i;
     static gameBackInfo *gbi;
+    static QLabel *statusLabel;
 };
 
 #endif // COMMONVARIABLE_H

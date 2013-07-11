@@ -3,7 +3,7 @@
 gameMenu::gameMenu(QWidget *parent)
     :parent(parent)
 {
-    //menuInitial();
+    menuInitial();
 }
 
 void gameMenu::menuInitial()
@@ -12,7 +12,7 @@ void gameMenu::menuInitial()
     QPushButton *moveButton = new QPushButton("移动", parent);
     QPushButton *attackButton = new QPushButton("攻击", parent);
     QPushButton *abilityButton = new QPushButton("能力", parent);
-    QPushButton *cancelButton = new QPushButton("后退", parent);
+    QPushButton *cancelButton = new QPushButton("取消", parent);
 
     moveButton->setGeometry(0, 0, 80, 30);
     attackButton->setGeometry(0, 30, 80, 30);

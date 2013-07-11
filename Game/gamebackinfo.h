@@ -36,7 +36,6 @@ public:
     void listMoveSphere(QPoint, int);
 
 private:
-    QList<gameMapElement*> map;
     void variableInitial(QString configFilePath);
 
     double halfSqrt3;

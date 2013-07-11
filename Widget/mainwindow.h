@@ -32,7 +32,6 @@ private:
     WidgetMainTest* testWidget;
     WidgetMain* gameWidget;
     Ui::MainWindow *ui;
-    QLabel *statusContent;
     QGraphicsView *testWidget2;
     gameMenu* menu;
 };

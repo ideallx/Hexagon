@@ -8,19 +8,25 @@ MainWindow::MainWindow(QWidget *parent) :
     //Now the testWidget2 is in leading role
     ui->setupUi(this);
 
-    statusContent = new QLabel(this);
-    statusContent->setText("Test StatusBar Label");
-    ui->statusBar->addWidget(statusContent);
+
+    globol::gbi = new gameBackInfo(QString(":/resource/SkinDefault/config.xml"));
+
+    globol::statusLabel = new QLabel(this);
+    globol::statusLabel->setText("Test StatusBar Label");
+    ui->statusBar->addWidget(globol::statusLabel);
 
     testWidget = new WidgetMainTest();
-    gameWidget = new WidgetMain();
+
+    //gameWidget = new WidgetMain();
     //qDebug("%d, %d", gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
 
-    QGraphicsScene *scene = new QGraphicsScene(0, 0, gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
-    scene->addWidget(gameWidget);
-    testWidget2 = new backview(scene, (int)(gameWidget->getLineLength()*1.6)); //sqrt 3 and margin
-    //qDebug("%d, %d", testWidget2->sizeHint().width(), testWidget2->sizeHint().height());
-    //qDebug("%d, %d", testWidget2->size().width(), testWidget2->size().height());
+    QGraphicsScene *scene = new QGraphicsScene(0, 0, 1024, 1536);
+    //scene->addWidget(gameWidget);
+    qDebug("%d", globol::gbi->getLineLength());
+    testWidget2 = new backview(scene, (int)(globol::gbi->getLineLength()));
+    globol::menu = new gameMenu(testWidget2);
+    qDebug("%d, %d", testWidget2->sizeHint().width(), testWidget2->sizeHint().height());
+    qDebug("%d, %d", testWidget2->size().width(), testWidget2->size().height());
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
     connect(ui->actionGame, SIGNAL(triggered(bool)), this, SLOT(changeViewGame(bool)));
@@ -29,7 +35,6 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
 
     ui->scrollArea->setWidget(testWidget2);
-    globol::menu = new gameMenu(testWidget2);
 
 }
 
@@ -40,7 +45,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeStatusInfo(QString in)
 {
-    statusContent->setText(in);
+    globol::statusLabel->setText(in);
 }
 
 void MainWindow::changeViewGame(bool ok)
