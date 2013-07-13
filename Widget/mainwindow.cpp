@@ -5,37 +5,58 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    //Now the testWidget2 is in leading role
+    //Now the widgetMain is in leading role
     ui->setupUi(this);
+    statusLabel = new QLabel(this);
+    statusLabel->setText("Test StatusBar Label");
+    ui->statusBar->addWidget(statusLabel);
 
+    gbi = new gameBackInfo(QString("F:/KuGou/vv/Resource/SkinDefault/config.xml"));
+    gc = new gameCoordinate(QPoint(0, 0), gbi);
 
-    globol::gbi = new gameBackInfo(QString(":/resource/SkinDefault/config.xml"));
+    int lineLength = gbi->getLineLength();
 
-    globol::statusLabel = new QLabel(this);
-    globol::statusLabel->setText("Test StatusBar Label");
-    ui->statusBar->addWidget(globol::statusLabel);
+    scene = new QGraphicsScene(gbi->getPixmap().rect());
+    widgetMain = new backview(scene, lineLength, gbi);
+    widgetMain->setParent(this);
+    menu = new gameMenu(widgetMain);
 
-    testWidget = new WidgetMainTest();
+    QVector<char> element = gbi->getMapElement();
+    int wid = gbi->getWidthCount();
+    int hei = gbi->getHeightCount();
 
-    //gameWidget = new WidgetMain();
-    //qDebug("%d, %d", gameWidget->sizeHint().width(), gameWidget->sizeHint().height());
+    for(int j=0; j<hei; j++)
+    {
+        for(int i=0; i<wid; i++)
+        {
+            gameMapElement *mapItem = new gameMapElement(element[i+j*wid], QPoint(i, j));
+            gc->addmapElement(mapItem);
+            mapItem->hide();
+            if(gc->isPointAvailable(QPoint(i, j)))
+            {
+                mapItem->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
+                scene->addItem(mapItem);
+                connect(mapItem, SIGNAL(statusInfoChanged(QString)), this, SLOT(changeStatusInfo(QString)));
+                connect(mapItem, SIGNAL(elementClicked(QGraphicsSceneMouseEvent*)), this, SLOT(elementClicked(QGraphicsSceneMouseEvent*)));
+                mapItem->show();
+            }
+        }
+    }
 
-    QGraphicsScene *scene = new QGraphicsScene(0, 0, 1024, 1536);
-    //scene->addWidget(gameWidget);
-    qDebug("%d", globol::gbi->getLineLength());
-    testWidget2 = new backview(scene, (int)(globol::gbi->getLineLength()));
-    globol::menu = new gameMenu(testWidget2);
-    qDebug("%d, %d", testWidget2->sizeHint().width(), testWidget2->sizeHint().height());
-    qDebug("%d, %d", testWidget2->size().width(), testWidget2->size().height());
+    heroItem *item = new heroItem(Qt::yellow, lineLength*1.6);
+    item->setPos(QPoint(1, 1));
+    connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
+    item->setPos(gc->getBeginPosWithCoo(QPoint(1, 1)) += QPoint(0.2*lineLength, 0.06*lineLength));
+    scene->addItem(item);
+
+    gc->setCurHero(item);
+    gc->getCurHero()->setPoint(QPoint(1, 1));
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
-    connect(ui->actionGame, SIGNAL(triggered(bool)), this, SLOT(changeViewGame(bool)));
-    connect(ui->actionTest, SIGNAL(triggered(bool)), this, SLOT(changeViewTest(bool)));
-    connect(ui->actionTest2, SIGNAL(triggered(bool)), this, SLOT(changeViewTest2(bool)));
-    //connect(gameWidget, SIGNAL(parentStatusChanged(QString)), this, SLOT(changeStatusInfo(QString)));
 
-    ui->scrollArea->setWidget(testWidget2);
-
+    ui->scrollArea->setWidget(widgetMain);
+    connect(menu, SIGNAL(moveClicked()), this, SLOT(showMoveSphere()));
+    connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClicked(QGraphicsSceneMouseEvent*)));
 }
 
 MainWindow::~MainWindow()
@@ -45,53 +66,64 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeStatusInfo(QString in)
 {
-    globol::statusLabel->setText(in);
+    statusLabel->setText(in);
 }
 
-void MainWindow::changeViewGame(bool ok)
+void MainWindow::showMoveSphere()
 {
-    ui->actionGame->setChecked(ok);
-    if(ok == false)
+    gc->listMoveSphere(gc->getCurHero()->getCurPos(), gc->getCurHero()->getMoveSphere());
+    QList<QPoint> point = gc->getMoveSphere();
+    QList<gameMapElement*> element = gc->getMapList();
+    for(int i=0; i<point.size(); ++i)
     {
-        ui->scrollArea->takeWidget();
+        qDebug("%d %d", point[i].x(), point[i].y());
+        element.at(gc->getBlockNumber(point[i]))->setPen(QPen(Qt::yellow, 5));
     }
-    else
-    {
-        changeViewTest(false);
-        changeViewTest2(false);
-        ui->scrollArea->setWidget(gameWidget);
-    }
-
 }
 
-void MainWindow::changeViewTest(bool ok)
+void MainWindow::heroClicked(QGraphicsSceneMouseEvent* e)
 {
-    ui->actionTest->setChecked(ok);
-    if(ok == false)
+    menu->hideAllMenu();
+    gc->restoreAllPen();
+    if(e->button() & Qt::LeftButton)
     {
-        ui->scrollArea->takeWidget();
+        menu->showMenu(gameMenu::MENULIST, e->scenePos());
     }
-    else
-    {
-        changeViewGame(false);
-        changeViewTest2(false);
-        ui->scrollArea->setWidget(testWidget);
-    }
-
 }
 
-void MainWindow::changeViewTest2(bool ok)
+void MainWindow::elementClicked(QGraphicsSceneMouseEvent *e)
 {
-    ui->actionTest2->setChecked(ok);
-    if(ok == false)
-    {
-        ui->scrollArea->takeWidget();
-    }
-    else
-    {
-        changeViewGame(false);
-        changeViewTest(false);
-        ui->scrollArea->setWidget(testWidget2);
-    }
+    menu->hideAllMenu();
+    gc->restoreAllPen();
+}
 
+void MainWindow::moveToPos(heroItem *hi, QPoint p)
+{
+
+    QGraphicsItemAnimation* gia = gc->getGia();
+    QTimeLine *giaTimer = gc->getGiaTimer();
+
+    QPointF oldPos = hi->scenePos();
+    QPointF newPos = gc->getBeginPosOfHero(p);
+
+    qDebug("%f, %f", oldPos.x(), oldPos.y());
+    qDebug("%f, %f", newPos.x(), newPos.y());
+
+    if(gc->isPointAvailable(p))
+    {
+        gc->setCurPoint(p);
+        gia->setItem(hi);
+        //giaTimer->setFrameRange(0, 100);
+        gia->setTimeLine(giaTimer);
+
+        double frame = giaTimer->duration()*60/1000;
+
+        double x = (newPos.x() - oldPos.x())/frame;
+        double y = (newPos.y() - oldPos.y())/frame;
+
+        for(int i=0; i<=frame; ++i)
+            gia->setPosAt(i/frame, oldPos+QPoint(x*i, y*i));
+
+        giaTimer->start();
+    }
 }

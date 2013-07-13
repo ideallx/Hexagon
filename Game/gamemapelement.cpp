@@ -1,158 +1,154 @@
 #include "gamemapelement.h"
-#include "../commonvariable.h"
 
-gameMapElement::gameMapElement(char elementType)
+gameMapElement::gameMapElement(char elementType, QPoint pos)
     :elementType(elementType)
 {
-    setFlags(ItemIsSelectable);
-    setAcceptHoverEvents(true);
-
-    lineLength = globol::gbi->getLineLength();
-    halfSqrt3 = 0.86;
+    this->lineLength = 50; //nnn
+    this->halfSqrt3 = 0.86;
 
     getPolygonPointf(QPointF(0, 0));
+
+    setFlags(ItemIsSelectable);
+    setAcceptHoverEvents(true);
     setPolygon(hexagon);
-    moveAvailable = true;
     setZValue(0);
+
+    this->pos = pos;
+    this->moveAvailable = true;
 
     variableInitial();
 }
 
 void gameMapElement::variableInitial()
 {
-
+    QPixmap block;
+    QString path = QString("F:/KuGou/vv/Resource/SkinDefault/");
     switch(elementType)
     {
     case areaGrass:
-        brush = QBrush(Qt::green);
+        block = QPixmap(path + "forest.png");
         elementName = QString("草地");
         break;
     case areaStone:
-        brush = QBrush(Qt::darkGray);
+        block = QPixmap(path + "stone.png");
         elementName = QString("石头");
         moveAvailable = false;
         break;
     case areaShop:
-        brush = QBrush(Qt::gray);
+        block = QPixmap(path + "shop.png");
         elementName = QString("商店");
         moveAvailable = false;
         break;
     case areaAlchemy:
-        brush = QBrush(Qt::lightGray);
+        block = QPixmap(path + "alchemy.png");
         elementName = QString("炼金之阵");
         break;
     case areaSpring:
-        brush = QBrush(Qt::cyan);
+        block = QPixmap(path + "spring.png");
         elementName = QString("泉水");
         break;
     case areaCamp:
-        //brush = QBrush(QPixmap(":/Resource/SkinDefault/test.jpg"));
-        brush = QBrush(Qt::yellow);
+        block = QPixmap(path + "camp.png");
         elementName = QString("营地");
         break;
     case areaSwamp:
-        brush = QBrush(Qt::darkRed);
+        block = QPixmap(path + "swamp.png");
         elementName = QString("沼泽");
         break;
     case areaDesert:
-        brush = QBrush(Qt::darkYellow);
+        block = QPixmap(path + "desert.png");
         elementName = QString("沙漠");
         break;
     case areaWater:
-        brush = QBrush(Qt::blue);
+        block = QPixmap(path + "water.png");
         elementName = QString("深水");
         break;
     case areaFort:
-        //brush = QBrush(QPixmap(":/Resource/SkinDefault/areaFort.jpg"));
-        brush = QBrush(Qt::red);
+        block = QPixmap(path + "fort.png");
         elementName = QString("要塞");
         moveAvailable = false;
         break;
     case areaRedHome:
-        brush = QBrush(Qt::magenta);
+        block = QPixmap(path + "red.png");
         elementName = QString("红方基地");
         break;
     case areaTree:
-        brush = QBrush(Qt::darkGreen);
+        block = QPixmap(path + "tree.png");
         elementName = QString("世界之树");
         moveAvailable = false;
         break;
     case areaBlueHome:
-        brush = QBrush(Qt::black);
+        block = QPixmap(path + "blue.png");
         elementName = QString("蓝方基地");
         break;
     default:
-        brush = QBrush(Qt::white);
+        block = QPixmap(path + "desert.png");
         elementName = QString("空白");
     }
+    brush = QBrush(block.scaledToWidth(2*lineLength));
 }
 
 QRectF gameMapElement::boundingRect() const
 {
     return QRectF(0, 0, 2*lineLength, 1.73*lineLength);
 }
+
 void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
+    Q_UNUSED(widget);
+    painter->setBrush(brush);
     if(item->state & QStyle::State_MouseOver)
     {
         painter->setPen(QPen(Qt::black, 5));
     }
     else
     {
-        painter->setPen(Qt::black);
+        painter->setPen(pen());
     }
+    painter->setOpacity(0.6);
+    //painter->drawPolygon(hexagon);
 
-    painter->setBrush(brush);
-    painter->setOpacity(0.4);
-    painter->drawPolygon(hexagon);
+    QPolygonF p = polygonDeleteBound(double(painter->pen().width()));
+    painter->drawPolygon(p);
 }
 
+//     2  3
+//   1      4
+//     6  5
 QVector<QPointF> gameMapElement::getPolygonPointf(QPointF begin)
 {
-    QVector<QPointF> result;
     QPointF p = QPointF(begin.x(),begin.y() + halfSqrt3*lineLength);
-    result.append(p);
     hexagon.append(p);
     p = QPointF(begin.x()+0.5*lineLength, begin.y());
-    result.append(p);
     hexagon.append(p);
     p = QPointF(begin.x()+1.5*lineLength, begin.y());
-    result.append(p);
     hexagon.append(p);
     p = QPointF(begin.x()+2.0*lineLength, begin.y() + halfSqrt3*lineLength);
-    result.append(p);
     hexagon.append(p);
     p = QPointF(begin.x()+1.5*lineLength, begin.y() + 2*halfSqrt3*lineLength);
-    result.append(p);
     hexagon.append(p);
     p = QPointF(begin.x()+0.5*lineLength, begin.y() + 2*halfSqrt3*lineLength);
-    result.append(p);
     hexagon.append(p);
-    return result;
-}
-
-void gameMapElement::mouseMoveEvent(QGraphicsSceneMouseEvent *e)
-{
-    QGraphicsItem::mouseMoveEvent(e);
-    globol::statusLabel->setText(elementName);
-    update();
+    return hexagon;
 }
 
 void gameMapElement::mousePressEvent(QGraphicsSceneMouseEvent *e)
 {
     QGraphicsItem::mousePressEvent(e);
-    update();
+    emit elementClicked(e);
 }
 
 void gameMapElement::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
-    globol::statusLabel->setText(elementName);
     QGraphicsItem::hoverEnterEvent(event);
+    emit elementHoverin(event);
+    emit statusInfoChanged(QString("坐标:(") + QString::number(pos.x()) + ", " + QString::number(pos.y()) + ") " + elementName);
+
 }
 
 void gameMapElement::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    globol::statusLabel->clear();
+    emit statusInfoChanged("");
     QGraphicsItem::hoverLeaveEvent(event);
 }
 
@@ -161,4 +157,19 @@ QPainterPath gameMapElement::shape() const
     QPainterPath path;
     path.addPolygon(hexagon);
     return path;
+}
+
+//     2  3
+//   1      4
+//     6  5
+QPolygonF gameMapElement::polygonDeleteBound(double width)
+{
+    QVector<QPointF> result;
+    result.append(hexagon.at(0)+QPointF(width/2, 0));
+    result.append(hexagon.at(1)+QPointF(0, width/2));
+    result.append(hexagon.at(2)+QPointF(0, width/2));
+    result.append(hexagon.at(3)+QPointF(-width/2, 0));
+    result.append(hexagon.at(4)+QPointF(0, -width/2));
+    result.append(hexagon.at(5)+QPointF(0, -width/2));
+    return result;
 }

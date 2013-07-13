@@ -3,12 +3,10 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
-#include "widgetmaintest.h"
-#include "widgetmain.h"
+#include "backview.h"
 #include "../Game/heroitem.h"
 #include "../Game/gamemenu.h"
-#include "backview.h"
-#include "../commonvariable.h"
+#include "../Game/gamecoordinate.h"
 
 namespace Ui {
 class MainWindow;
@@ -22,18 +20,29 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private:
+    void moveToPos(heroItem*, QPoint);
+    QStateMachine *stm;
+    QState *freeState;
+    QState *moveState;
+    QState *moveStateAssure;
+    QState *attackState;
+
+
+    backview *widgetMain;
+    gameMenu* menu;
+    QGraphicsScene *scene;
+    gameBackInfo* gbi;
+    gameCoordinate *gc;
+    QLabel *statusLabel;
+
+    Ui::MainWindow *ui;
+
 private slots:
     void changeStatusInfo(QString);
-    void changeViewGame(bool);
-    void changeViewTest(bool);
-    void changeViewTest2(bool);
-    
-private:
-    WidgetMainTest* testWidget;
-    WidgetMain* gameWidget;
-    Ui::MainWindow *ui;
-    QGraphicsView *testWidget2;
-    gameMenu* menu;
+    void showMoveSphere();
+    void heroClicked(QGraphicsSceneMouseEvent*);
+    void elementClicked(QGraphicsSceneMouseEvent*);
 };
 
 #endif // MAINWINDOW_H

@@ -1,6 +1,6 @@
 <skin
     name = "death desert one"
-    backpic = ":/resource/SkinDefault/wallpaper.jpg"
+    backpic = "://Resource/SkinDefault/wallpaper3.png"
     widthCount = "6"
     heightCount = "21"
     lineLength = "50"
@@ -25,6 +25,6 @@
     10L002,
     0MM14Z,
     ZMMM0Z"
-    beginPosition = "100.0, 50.0">
+    beginPosition = "400.0, 200.0">
 </skin>
 

@@ -3,12 +3,15 @@
 
 #include <QtWidgets>
 
-class gameMapElement : public QGraphicsPolygonItem, public QObject
+class gameMapElement : public QObject, public QGraphicsPolygonItem
 {
+    Q_OBJECT
+
 public:
-    gameMapElement(char);
+    gameMapElement(char, QPoint);
 
     QVector<QPointF> getPolygonPointf(QPointF);
+    QPolygonF polygonDeleteBound(double);
     QBrush getBrush() { return brush; }
     QString getElementName() { return elementName; }
     bool isPointAvailable() { return elementType != areaNouse; }
@@ -18,7 +21,6 @@ public:
     QPainterPath shape() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
@@ -45,12 +47,9 @@ public:
         areaNouse = 'Z'
     };
 
-signals:
-    void statusInfoChanged(QString);
-
-
 private:
     void variableInitial();
+    QPoint pos;
     int lineLength;
     double halfSqrt3;
 
@@ -59,6 +58,11 @@ private:
     QBrush brush;
     QString elementName;
     QPolygonF hexagon;
+
+signals:
+    void statusInfoChanged(QString);
+    void elementClicked(QGraphicsSceneMouseEvent*);
+    void elementHoverin(QGraphicsSceneHoverEvent*);
 };
 
 #endif // GAMEMAPELEMENT_H

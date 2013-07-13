@@ -3,7 +3,6 @@
 
 #include <QtWidgets>
 
-
 class gameMenu : public QObject
 {
     Q_OBJECT
@@ -25,6 +24,9 @@ private:
     void menuInitial();
     QList<QPushButton*> menuList;
     QWidget* parent;
+
+signals:
+    void moveClicked();
 
 public slots:
     void hideAllMenu();

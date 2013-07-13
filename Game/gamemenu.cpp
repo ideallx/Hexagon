@@ -25,6 +25,7 @@ void gameMenu::menuInitial()
     hideMenu(MENULIST);
 
 
+    connect(moveButton, SIGNAL(clicked()), this, SIGNAL(moveClicked()));
 }
 
 void gameMenu::showMenu(gameMenu::menu_type_t type, QPointF pos)

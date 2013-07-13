@@ -6,12 +6,15 @@
 #include <QtCore/qobject.h>
 #include "../Game/heroitem.h"
 #include "../Game/gamemenu.h"
+#include "../Game/gamebackinfo.h"
+#include "../Game/gamemapelement.h"
 
 class backview : public QGraphicsView
 {
     Q_OBJECT
 public:
-    backview(QGraphicsScene *scene, int lineLength);
+    backview(QGraphicsScene *scene, int lineLength, gameBackInfo*);
+    QSize sizeHint() const {return QSize(scene->width(), scene->height());}
 
 protected:
     void resizeEvent(QResizeEvent *event)
@@ -19,11 +22,7 @@ protected:
         QGraphicsView::resizeEvent(event);
         fitInView(sceneRect(), Qt::KeepAspectRatio);
     }
-    QSize sizeHint() const {return QSize(scene->width(), scene->height());}
     void mousePressEvent(QMouseEvent);
-    void setHeroPos(heroItem* item, QPointF pos){
-        item->setPos(pos);
-    }
 
 private:
     gameMenu* menu;
