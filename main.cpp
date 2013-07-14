@@ -3,7 +3,6 @@
 
 int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE(vv);
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

@@ -25,7 +25,6 @@ protected:
     void mousePressEvent(QMouseEvent);
 
 private:
-    gameMenu* menu;
     int lineLength;
     QGraphicsScene *scene;
     QList<heroItem*> items;
