@@ -21,7 +21,8 @@ SOURCES  += main.cpp \
     Game/gamemenu.cpp \
     Game/gamebackinfo.cpp \
     Game/gamecoordinate.cpp \
-    Widget/backscene.cpp
+    Widget/backscene.cpp \
+    Game/carditem.cpp
 
 HEADERS  += mainwindow.h \
     Widget/mainwindow.h \
@@ -32,7 +33,8 @@ HEADERS  += mainwindow.h \
     Game/gamemenu.h \
     Game/gamebackinfo.h \
     Game/gamecoordinate.h \
-    Widget/backscene.h
+    Widget/backscene.h \
+    Game/carditem.h
 
 FORMS    += mainwindow.ui
 

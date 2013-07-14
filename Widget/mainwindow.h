@@ -8,6 +8,7 @@
 #include "../Game/heroitem.h"
 #include "../Game/gamemenu.h"
 #include "../Game/gamecoordinate.h"
+#include "../Game/carditem.h"
 
 namespace Ui {
 class MainWindow;

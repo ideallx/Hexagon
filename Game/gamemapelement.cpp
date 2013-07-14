@@ -105,7 +105,7 @@ void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *it
     {
         painter->setPen(pen());
     }
-    painter->setOpacity(0.6);
+    painter->setOpacity(0.8);
     //painter->drawPolygon(hexagon);
 
     QPolygonF p = polygonDeleteBound(double(painter->pen().width()));

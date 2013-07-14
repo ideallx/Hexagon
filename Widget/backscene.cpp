@@ -12,6 +12,8 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 bool backScene::eventFilter(QObject *watched, QEvent *event)
 {
+    Q_UNUSED(watched);
+    Q_UNUSED(event);
     return false;
 }
 

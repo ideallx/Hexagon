@@ -9,7 +9,10 @@ public:
     gameBackInfo(QString configFilePath);
 
     QPixmap getPixmap(void) { return backgroundPicture; }
+    QRectF getCardRect(void) { return backCardRect; }
     QPointF getBeginPosition() { return beginPosition; }
+    QPointF getBackCardLeft() { return backCardLeft; }
+    QPointF getBackCardRight() { return backCardRight; }
     int getLineLength() { return lineLength; }
     int getWidthCount() { return widthCount; }
     int getHeightCount() { return heightCount; }
@@ -27,9 +30,14 @@ private:
     int beginY;
     QVector<char> mapElement;
 
+    QRectF backCardRect;
+
 
     QPixmap backgroundPicture;
     QPointF beginPosition;
+
+    QPointF backCardLeft;
+    QPointF backCardRight;
 
     int lineLength;
     int widthCount;

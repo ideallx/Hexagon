@@ -39,18 +39,18 @@ QString heroItem::getHeroName() const
 
 QRectF heroItem::boundingRect() const
 {
-    return QRectF(0, 0, lineLength, lineLength);
+    return QRectF(rect());
 }
 
 void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    painter->setOpacity(0.8);
+    painter->setOpacity(1.0);
     QBrush brush = QBrush(QPixmap("F:/KuGou/vv/Resource/SkinDefault/hero1.png").scaledToWidth(lineLength));
     painter->setBrush(brush);
     painter->setPen(QPen(Qt::black, 3));
-    painter->drawEllipse(0, 0, lineLength, lineLength);
+    painter->drawEllipse(rect());
 }
 
 void heroItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
@@ -62,7 +62,7 @@ void heroItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
 QPainterPath heroItem::shape() const
 {
     QPainterPath path;
-    path.addEllipse(0, 0, lineLength, lineLength);
+    path.addEllipse(rect());
     return path;
 }
 

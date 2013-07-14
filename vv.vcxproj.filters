@@ -19,22 +19,6 @@
       <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
       <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="Generated Files\Debug">
       <UniqueIdentifier>{0960edad-81a3-4b76-a5bb-0edbe61a8377}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
@@ -45,38 +29,37 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="All">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="All\game">
+      <UniqueIdentifier>{7976d466-6913-48c3-8bc8-e9ce505d156c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="All\widget">
+      <UniqueIdentifier>{dead8fc8-66fc-4c49-9ad5-97d48a3bdcab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="All\game\item">
+      <UniqueIdentifier>{5bbc5d91-6f87-4708-a977-c22ab426758b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="All\widget\back">
+      <UniqueIdentifier>{ab407076-6dff-4fdd-a827-10de3d014a1a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Widget\backscene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget\backview.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\gamebackinfo.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>All\game</Filter>
     </ClCompile>
     <ClCompile Include="Game\gamecoordinate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\gamemapelement.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>All\game</Filter>
     </ClCompile>
     <ClCompile Include="Game\gamemenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\heroitem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>All\game</Filter>
     </ClCompile>
     <ClCompile Include="Widget\mainwindow.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>All\widget</Filter>
     </ClCompile>
-    <ClCompile Include="Widget\widgetmaintest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Debug\moc_backscene.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -113,48 +96,60 @@
     <ClCompile Include="Release\moc_mainwindow.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\moc_widgetmaintest.cpp">
+    <ClCompile Include="Game\gamemapelement.cpp">
+      <Filter>All\game\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\heroitem.cpp">
+      <Filter>All\game\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\backscene.cpp">
+      <Filter>All\widget\back</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\backview.cpp">
+      <Filter>All\widget\back</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\carditem.cpp">
+      <Filter>All\game\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_carditem.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_widgetmaintest.cpp">
+    <ClCompile Include="Release\moc_carditem.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Widget\backscene.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="Game\gamebackinfo.h">
+      <Filter>All\game</Filter>
     </CustomBuild>
-    <CustomBuild Include="Widget\backview.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="Game\gamecoordinate.h">
+      <Filter>All\game</Filter>
     </CustomBuild>
-    <ClInclude Include="Game\gamebackinfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Game\gamecoordinate.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <CustomBuild Include="Game\gamemapelement.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Game\gamemenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>All\game\item</Filter>
     </CustomBuild>
     <CustomBuild Include="Game\heroitem.h">
-      <Filter>Header Files</Filter>
+      <Filter>All\game\item</Filter>
     </CustomBuild>
-    <CustomBuild Include="Widget\mainwindow.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="Widget\backscene.h">
+      <Filter>All\widget\back</Filter>
     </CustomBuild>
-    <ClInclude Include="mainwindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <CustomBuild Include="Widget\widgetmaintest.h">
-      <Filter>Header Files</Filter>
+    <CustomBuild Include="Widget\backview.h">
+      <Filter>All\widget\back</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Game\carditem.h">
+      <Filter>All\game\item</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="mainwindow.ui">
       <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Widget\mainwindow.h">
+      <Filter>All\widget</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Game\gamemenu.h">
+      <Filter>All\game</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>

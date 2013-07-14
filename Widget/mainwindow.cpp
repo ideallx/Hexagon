@@ -115,6 +115,10 @@ bool MainWindow::sceneInitial()
             }
         }
     }
+
+    cardItem* ci = new cardItem(gbi->getCardRect());
+    scene->addItem(ci);
+    ci->setPos(gbi->getBackCardLeft());
     qDebug("map load complete...");
     return true;
 }
@@ -139,7 +143,7 @@ void MainWindow::stateMachineInitial()
 
     QAbstractTransition *t1 = moveState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), moveComplete);
     QSequentialAnimationGroup *animation1SubGroup = new QSequentialAnimationGroup;
-    animation1SubGroup->addPause(250);
+    animation1SubGroup->addPause(100);
     animation1SubGroup->addAnimation(new QPropertyAnimation(gc->getCurHero(), "pos"));
     t1->addAnimation(animation1SubGroup);
 
@@ -188,7 +192,6 @@ void MainWindow::stateMachineInitial()
 void MainWindow::changeStatusInfo(QString in)
 {
     QStringList str = in.split(';');
-    qDebug("%d", str.size());
     statusLabel->setText(str[0]);
     if(str.size()>1)
         coordinateLabel->setText(str[1]);

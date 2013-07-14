@@ -29,13 +29,28 @@ void gameBackInfo::variableInitial(QString configFilePath)
                 heightCount = xml.attributes().value("heightCount").toString().toInt();
                 lineLength = xml.attributes().value("lineLength").toString().toInt();
 
+                backCardRect = QRectF(0, 0, 3.8*lineLength, 2.6*lineLength);
+
                 QStringList temp = xml.attributes().value("beginPosition").toString().split(", ");
                 beginPosition = QPointF(temp[0].toDouble(), temp[1].toDouble());
                 beginX = beginPosition.x();
                 beginY = beginPosition.y();
-                backgroundPicture = QPixmap(xml.attributes().value("backpic").toString());
+
+                temp = xml.attributes().value("backCardLeft").toString().split(", ");
+                backCardLeft = QPointF(temp[0].toDouble(), temp[1].toDouble());
+
+                temp = xml.attributes().value("backCardRight").toString().split(", ");
+                backCardRight = QPointF(temp[0].toDouble(), temp[1].toDouble());
+
+                temp = xml.attributes().value("backRect").toString().split(", ");
+                QRect rect = QRect(0, 0, temp[0].toInt(), temp[1].toInt());
+                qDebug("%d, %d", temp[0].toInt(), temp[1].toInt());
+
+                backgroundPicture = QPixmap(xml.attributes().value("backpic").toString()).scaled(rect.width(), rect.height());
                 if(backgroundPicture.isNull())
                     throw QString("no pic");
+
+
 
                 temp = xml.attributes().value("mapElement").toString().simplified().split(", ");
                 for(int i=0; i<heightCount; i++)
