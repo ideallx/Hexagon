@@ -13,29 +13,26 @@ public:
     QPointF getBeginPosition() { return beginPosition; }
     QPointF getBackCardLeft() { return backCardLeft; }
     QPointF getBackCardRight() { return backCardRight; }
+    QString getConfigDir() { return configDir; }
     int getLineLength() { return lineLength; }
     int getWidthCount() { return widthCount; }
     int getHeightCount() { return heightCount; }
-
     QVector<char> getMapElement() { return mapElement; }
+
 
     bool isLoadSuccess() { return isLoadingCorrectly; }
 
-
 private:
-    void variableInitial(QString configFilePath);
 
     double halfSqrt3;
     int beginX;
     int beginY;
+
     QVector<char> mapElement;
-
     QRectF backCardRect;
-
-
+    QString configDir;
     QPixmap backgroundPicture;
     QPointF beginPosition;
-
     QPointF backCardLeft;
     QPointF backCardRight;
 

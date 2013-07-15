@@ -228,7 +228,7 @@ bool gameCoordinate::isPointMovable(QPoint in)
     return mapList[getBlockNumber(in)]->isMoveAvailable();
 }
 
-gameMapElement* gameCoordinate::at(QPoint pos)
+gameMapElement* gameCoordinate::mapAtPos(QPoint pos)
 {
     int i = getBlockNumber(pos);
     if(i>=mapList.size())
@@ -236,7 +236,7 @@ gameMapElement* gameCoordinate::at(QPoint pos)
     return mapList.at(i);
 }
 
-heroItem* gameCoordinate::heroNum(int i)
+heroItem* gameCoordinate::heroAtNum(int i)
 {
     if(i>=heroList.size())
         return 0;

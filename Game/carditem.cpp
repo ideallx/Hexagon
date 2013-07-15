@@ -1,9 +1,9 @@
 #include "carditem.h"
 
-cardItem::cardItem(QRectF rec)
+cardItem::cardItem(QRectF rec, QString path)
 {
     setRect(rec);
-    qDebug()<<rec.x()<<rec.y()<<rec.width()<<rec.height();
+    this->path = path;
 }
 
 QRectF cardItem::boundingRect()
@@ -15,6 +15,6 @@ void cardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    painter->setBrush(QPixmap("F:/KuGou/vv/Resource/SkinDefault/backCard.png").scaledToHeight(rect().height()));
+    painter->setBrush(QPixmap(path + "backCard.png").scaledToHeight(rect().height()));
     painter->drawRect(rect());
 }

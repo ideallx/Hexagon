@@ -34,6 +34,7 @@ public:
 
 private:
     void menuInitial();
+
     QList<QPushButton*> menuList;
     QWidget* parent;
     bool isMoveAble;

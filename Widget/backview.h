@@ -2,19 +2,13 @@
 #define TESTVIEW2_H
 
 #include <QtWidgets>
-#include <QtCore/qstate.h>
-#include <QtCore/qobject.h>
-#include "../Game/heroitem.h"
-#include "../Game/gamemenu.h"
-#include "../Game/gamebackinfo.h"
-#include "../Game/gamemapelement.h"
 
 class backview : public QGraphicsView
 {
     Q_OBJECT
 public:
-    backview(QGraphicsScene *scene, int lineLength, gameBackInfo*);
-    QSize sizeHint() const {return QSize(scene->width(), scene->height());}
+    backview(QGraphicsScene *scene, int lineLength);
+    QSize sizeHint() const {return QSize(scene()->width(), scene()->height());}
 
 protected:
     void resizeEvent(QResizeEvent *event)
@@ -26,8 +20,6 @@ protected:
 
 private:
     int lineLength;
-    QGraphicsScene *scene;
-    QList<heroItem*> items;
 };
 
 #endif // TESTVIEW2_H

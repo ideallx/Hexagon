@@ -1,17 +1,17 @@
 #include "gamemapelement.h"
 
-gameMapElement::gameMapElement(char elementType, QPoint point)
+gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, QString path)
     :elementType(elementType)
 {
-    this->lineLength = 50; //nnn
+    this->lineLength = lineLength;
     this->halfSqrt3 = 0.86;
+    this->path = path;
 
     getPolygonPointf(QPointF(0, 0));
 
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setPolygon(hexagon);
-    setZValue(0);
 
     this->point = point;
     this->moveAvailable = true;
@@ -22,7 +22,6 @@ gameMapElement::gameMapElement(char elementType, QPoint point)
 void gameMapElement::variableInitial()
 {
     QPixmap block;
-    QString path = QString("F:/KuGou/vv/Resource/SkinDefault/");
     switch(elementType)
     {
     case areaGrass:
@@ -106,10 +105,10 @@ void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *it
         painter->setPen(pen());
     }
     painter->setOpacity(0.8);
-    //painter->drawPolygon(hexagon);
+    painter->drawPolygon(hexagon);
 
-    QPolygonF p = polygonDeleteBound(double(painter->pen().width()));
-    painter->drawPolygon(p);
+//    QPolygonF p = polygonDeleteBound(double(painter->pen().width()));
+//    painter->drawPolygon(p);
 }
 
 //     2  3
@@ -148,7 +147,7 @@ void gameMapElement::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 
 void gameMapElement::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
-    emit statusInfoChanged("");
+    //emit statusInfoChanged("");
     QGraphicsItem::hoverLeaveEvent(event);
 }
 

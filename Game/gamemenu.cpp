@@ -9,10 +9,10 @@ gameMenu::gameMenu(QWidget *parent)
 void gameMenu::menuInitial()
 {
     // menuList
-    moveButton = new QPushButton("移动", parent);
-    attackButton = new QPushButton("攻击", parent);
-    abilityButton = new QPushButton("能力", parent);
-    cancelButton = new QPushButton("取消", parent);
+    moveButton = new QPushButton(tr("move"), parent);
+    attackButton = new QPushButton(tr("attack"), parent);
+    abilityButton = new QPushButton(tr("ability"), parent);
+    cancelButton = new QPushButton(tr("cancel"), parent);
 
     moveButton->setGeometry(0, 0, 80, 30);
     attackButton->setGeometry(0, 30, 80, 30);

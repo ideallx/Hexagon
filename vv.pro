@@ -14,7 +14,6 @@ TEMPLATE = app
 
 SOURCES  += main.cpp \
     Widget/mainwindow.cpp \
-    Widget/widgetmaintest.cpp \
     Widget/backview.cpp \
     Game/gamemapelement.cpp \
     Game/heroitem.cpp \
@@ -26,7 +25,6 @@ SOURCES  += main.cpp \
 
 HEADERS  += mainwindow.h \
     Widget/mainwindow.h \
-    Widget/widgetmaintest.h \
     Widget/backview.h \
     Game/gamemapelement.h \
     Game/heroitem.h \
@@ -38,4 +36,7 @@ HEADERS  += mainwindow.h \
 
 FORMS    += mainwindow.ui
 
-RESOURCES +=
+TRANSLATIONS = lang__zhCN.ts
+
+RESOURCES += \
+    vv.qrc

@@ -11,28 +11,21 @@ class gameCoordinate
 public:
     gameCoordinate(QPoint, gameBackInfo* gbi);
 
-    QList<QPoint> getMovePoint() { return showSphere; }
+    QList<QPoint> getMovePoint() const { return showSphere; }
+    QPoint getCurPoint() const { return curPoint; }
+    heroItem* getCurHero() const { return curHero; }
+    QGraphicsItemAnimation* getGia() const { return gia; }
+    QTimeLine* getGiaTimer() const { return giaTimer; }
+    QList<gameMapElement*> getMapList() const { return mapList; }
 
-    void restoreAllPen();
 
-    QPointF getBeginPosWithCoo(QPoint);
-    QPointF getBeginPosOfHero(QPoint);
-    QPointF getCenterPosWithCoo(QPoint);
-    QPoint getCooxWithPos(QPointF);
-    void addmapElement(gameMapElement* gme){ mapList.append(gme); }
-    void clearMoveSphere() { showSphere.clear();}
-    void addHero(heroItem* hi){ heroList.append(hi); }
-
-    QPoint getCurPoint() { return curPoint; }
-    heroItem* getCurHero() { return curHero; }
-    QGraphicsItemAnimation* getGia() { return gia; }
-    QTimeLine* getGiaTimer() { return giaTimer; }
-    QList<gameMapElement*> getMapList() { return mapList; }
     void setCurPoint(QPoint p){ curPoint = p; }
     void setCurHero(heroItem* h) { curHero = h; }
 
-    heroItem* heroNum(int i);
-    gameMapElement* at(QPoint pos);
+    heroItem* heroAtNum(int i);
+    gameMapElement* mapAtPos(QPoint);
+    void addmapElement(gameMapElement* gme){ mapList.append(gme); }
+    void addHero(heroItem* hi){ heroList.append(hi); }
 
     QPoint goUpLeft(QPoint);
     QPoint goUpRight(QPoint);
@@ -40,12 +33,21 @@ public:
     QPoint goDownLeft(QPoint);
     QPoint goDownRight(QPoint);
     QPoint goDown(QPoint);
-
+    QPointF getBeginPosWithCoo(QPoint);
+    QPointF getBeginPosOfHero(QPoint);
+    QPointF getCenterPosWithCoo(QPoint);
+    QPoint getCooxWithPos(QPointF);
     int getBlockNumber(QPoint);
+
+
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
+
     bool listAddSeies(QPoint);
     void listMoveSphere(QPoint, int);
+    void restoreAllPen();
+    void clearMoveSphere() { showSphere.clear();}
+
 
 private:
     int beginX;

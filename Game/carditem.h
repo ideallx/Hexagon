@@ -7,12 +7,12 @@ class cardItem : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    explicit cardItem(QRectF);
+    explicit cardItem(QRectF, QString);
 
 private:
     QRectF boundingRect();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-
+    QString path;
 
 signals:
     

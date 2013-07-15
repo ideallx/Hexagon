@@ -8,15 +8,16 @@ class gameMapElement : public QObject, public QGraphicsPolygonItem
     Q_OBJECT
 
 public:
-    gameMapElement(char, QPoint);
+    gameMapElement(int, char, QPoint, QString);
 
     QVector<QPointF> getPolygonPointf(QPointF);
     QPolygonF polygonDeleteBound(double);
-    QBrush getBrush() { return brush; }
-    QPoint getPoint() { return point; }
-    QString getElementName() { return elementName; }
-    bool isPointAvailable() { return elementType != areaNouse; }
-    bool isMoveAvailable() { return moveAvailable; }
+
+    QBrush getBrush() const { return brush; }
+    QPoint getPoint() const { return point; }
+    QString getElementName() const { return elementName; }
+    bool isPointAvailable() const { return elementType != areaNouse; }
+    bool isMoveAvailable() const { return moveAvailable; }
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -50,6 +51,7 @@ public:
 
 private:
     void variableInitial();
+    QString path;
     QPoint point;
     int lineLength;
     double halfSqrt3;

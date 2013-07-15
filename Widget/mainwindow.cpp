@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
         qDebug("initial error");
         return;
     }
+    stateMachineInitial();
 
     statusLabel = new QLabel(this);
     statusLabel->setText(tr("Test StatusBar Label"));
@@ -23,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     campLabel->setFixedWidth(200);
 
     coordinateLabel = new QLabel(this);
-    coordinateLabel->setText("Coordinate: 1, 1");
+    coordinateLabel->setText(tr("Coordinate: 1, 1"));
     coordinateLabel->setFixedWidth(200);
 
     heroLabel = new QLabel(this);
@@ -35,25 +36,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->statusBar->addWidget(coordinateLabel);
     ui->statusBar->addWidget(heroLabel);
 
-    endTurnAction = new QAction(tr("End Turn"), this);
-    endTurnAction->setStatusTip(tr("End Current Turn"));
-    ui->mainToolBar->addAction(endTurnAction);
 
-    heroItem *item = new heroItem(Qt::yellow, lineLength*1.6);
-    connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
-    item->setPos(gc->getBeginPosWithCoo(QPoint(1, 1)) += QPoint(0.2*lineLength, 0.06*lineLength));
-    scene->addItem(item);
-    item->installEventFilter(this);
-    qDebug("hero load complete...");
-
-    gc->setCurHero(item);
-    gc->getCurHero()->setPoint(QPoint(1, 1));
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
 
     ui->scrollArea->setWidget(widgetMain);
-    connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClicked(QGraphicsSceneMouseEvent*)));
-    stateMachineInitial();
+    qDebug("initial complete...");
 }
 
 MainWindow::~MainWindow()
@@ -67,14 +55,17 @@ bool MainWindow::variableInitial()
     gbi = new gameBackInfo(QString("F:/KuGou/vv/Resource/SkinDefault/config.xml"));
     if(!gbi->isLoadSuccess())
     {
-        QMessageBox::critical(this, "LYBNS", "loading error");
+        QMessageBox::critical(this, tr("LYBNS"), tr("loading error"));
         return false;
     }
     qDebug("gbi load complete...");
 
     gc = new gameCoordinate(QPoint(0, 0), gbi);
-    lineLength = gbi->getLineLength();
     qDebug("gc load complete...");
+
+    endTurnAction = new QAction(tr("End Turn"), this);
+    endTurnAction->setStatusTip(tr("End Current Turn"));
+    ui->mainToolBar->addAction(endTurnAction);
 
     return true;
 }
@@ -83,15 +74,16 @@ bool MainWindow::sceneInitial()
 {
     scene = new backScene(this);
     scene->setSceneRect(gbi->getPixmap().rect());
-    widgetMain = new backview(scene, lineLength, gbi);
-    qDebug("backView load complete...");
-    widgetMain->setParent(this);
 
+    widgetMain = new backview(scene, gbi->getLineLength());
+    widgetMain->setBackgroundBrush(QBrush(gbi->getPixmap()));
+    widgetMain->setParent(this);
     menu = new gameMenu(widgetMain);
+    qDebug("backView load complete...");
+
     connect(menu, SIGNAL(moveClicked()), this, SLOT(showMoveSphere()));
     connect(menu, SIGNAL(attackClicked()), this, SLOT(showAttackSphere()));
     connect(menu, SIGNAL(cancelClicked()), this, SLOT(restoreAll()));
-
     qDebug("menu load complete...");
 
     QVector<char> element = gbi->getMapElement();
@@ -102,24 +94,39 @@ bool MainWindow::sceneInitial()
     {
         for(int i=0; i<wid; i++)
         {
-            gameMapElement *mapItem = new gameMapElement(element[i+j*wid], QPoint(i, j));
-            gc->addmapElement(mapItem);
+            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), element[i+j*wid], QPoint(i, j), gbi->getConfigDir());
+            gc->addmapElement(mapItem);  // gc->add should be deleted later...
             mapItem->hide();
             if(gc->isPointAvailable(QPoint(i, j)))
             {
                 mapItem->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
+                //mapItem->setZValue((i+j)/(hei*wid)); should be done later
+                mapItem->show();
                 scene->addItem(mapItem);
                 connect(mapItem, SIGNAL(statusInfoChanged(QString)), this, SLOT(changeStatusInfo(QString)));
                 connect(mapItem, SIGNAL(elementClicked(QGraphicsSceneMouseEvent*)), this, SLOT(elementClickedSlot(QGraphicsSceneMouseEvent*)));
-                mapItem->show();
             }
         }
     }
 
-    cardItem* ci = new cardItem(gbi->getCardRect());
+    cardItem* ci = new cardItem(gbi->getCardRect(), gbi->getConfigDir());
     scene->addItem(ci);
+    //gc->addCard(ci);
     ci->setPos(gbi->getBackCardLeft());
     qDebug("map load complete...");
+
+    heroItem *item = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
+    gc->addHero(item);
+    connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
+    item->setPos(gc->getBeginPosOfHero(QPoint(1, 1)));
+    scene->addItem(item);
+    item->installEventFilter(this);
+    qDebug("hero load complete...");
+
+    gc->setCurHero(item);
+    gc->getCurHero()->setPoint(QPoint(1, 1));
+    connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClicked(QGraphicsSceneMouseEvent*)));
+
     return true;
 }
 
@@ -147,7 +154,6 @@ void MainWindow::stateMachineInitial()
     animation1SubGroup->addAnimation(new QPropertyAnimation(gc->getCurHero(), "pos"));
     t1->addAnimation(animation1SubGroup);
 
-
     moveState->addTransition(menu, SIGNAL(attackClicked()), attackState);
     moveComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
     moveComplete->assignProperty(menu, "isMoveAble", false);
@@ -166,14 +172,12 @@ void MainWindow::stateMachineInitial()
     attackComplete->addTransition(ui->actionEndTurn, SIGNAL(triggered()), freeState);
     abilityComplete->addTransition(ui->actionEndTurn, SIGNAL(triggered()), freeState);
 
-
     moveComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
     moveState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
     attackComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
     attackState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
     abilityComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
     abilityState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-
 
     stm->addState(freeState);
     stm->addState(moveState);
@@ -194,7 +198,7 @@ void MainWindow::changeStatusInfo(QString in)
     QStringList str = in.split(';');
     statusLabel->setText(str[0]);
     if(str.size()>1)
-        coordinateLabel->setText(str[1]);
+        coordinateLabel->setText(tr("coordinate: ") + str[1]);
 }
 
 void MainWindow::showMoveSphere()

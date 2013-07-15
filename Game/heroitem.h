@@ -11,24 +11,32 @@ class heroItem : public QObject, public QGraphicsEllipseItem
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 
 public:
-    heroItem(const QColor &colork, int lineLength);
+    heroItem(int lineLength, QString);
 
-    char getSexual() const;
+    char getSexual() const { return sexual; }
     char getAttackSphere() const { return attackSphere; }
-    char getMoveSphere() const;
-    QString getPlayerName() const;
-    QString getHeroName() const;
-    QPoint getPoint() {return point;}
+    char getMoveSphere() const { return moveSphere; }
+    QString getPlayerName() const { return playerName; }
+    QString getHeroName() const { return heroName; }
+    QPoint getPoint() const { return point;}
     void setPoint(QPoint p) { point = p; }
 
     QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
     QPainterPath shape() const;
 
+    void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
     void mousePressEvent(QGraphicsSceneMouseEvent *);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *);
+
+    enum sexual_t
+    {
+        sex_male,
+        sex_female
+    };
 
 private:
+    QString path;
     QPoint point;
     char sexual;
     char moveSphere;
@@ -38,6 +46,7 @@ private:
 
     int lineLength;
     QColor color;
+
 
 signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);

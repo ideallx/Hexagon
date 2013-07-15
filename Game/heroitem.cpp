@@ -1,40 +1,20 @@
 #include "heroitem.h"
 
-heroItem::heroItem(const QColor &color, int lineLength)
+heroItem::heroItem(int lineLength, QString path)
 {
     this->lineLength = lineLength;
-    this->color = color;
+    this->path = path;
 
     playerName = QString(tr("player 1"));
     heroName = QString(tr("hero 1"));
-    moveSphere = 6;
+    sexual = sex_male;
+    moveSphere = 3;
     attackSphere = 1;
 
-    setZValue(0.6);
+    setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setRect(0, 0, lineLength, lineLength);
-}
-
-
-char heroItem::getSexual() const
-{
-    return sexual;
-}
-
-char heroItem::getMoveSphere() const
-{
-    return moveSphere;
-}
-
-QString heroItem::getPlayerName() const
-{
-    return playerName;
-}
-
-QString heroItem::getHeroName() const
-{
-    return heroName;
 }
 
 QRectF heroItem::boundingRect() const
@@ -47,7 +27,7 @@ void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->setOpacity(1.0);
-    QBrush brush = QBrush(QPixmap("F:/KuGou/vv/Resource/SkinDefault/hero1.png").scaledToWidth(lineLength));
+    QBrush brush = QBrush(QPixmap(path + "hero1.png").scaledToWidth(lineLength));
     painter->setBrush(brush);
     painter->setPen(QPen(Qt::black, 3));
     painter->drawEllipse(rect());

@@ -2,16 +2,13 @@
 
 gameBackInfo::gameBackInfo(QString configFilePath)
 {
-    variableInitial(configFilePath);
-}
-
-void gameBackInfo::variableInitial(QString configFilePath)
-{
     QFile file(configFilePath);
     isLoadingCorrectly = true;
     halfSqrt3 = sqrt(3.0)/2;
     beginX = beginPosition.x();
     beginY = beginPosition.y();
+    int i = configFilePath.lastIndexOf(QChar('/'));
+    configDir = configFilePath.left(i) + '/';
 
     try
     {
@@ -44,7 +41,6 @@ void gameBackInfo::variableInitial(QString configFilePath)
 
                 temp = xml.attributes().value("backRect").toString().split(", ");
                 QRect rect = QRect(0, 0, temp[0].toInt(), temp[1].toInt());
-                qDebug("%d, %d", temp[0].toInt(), temp[1].toInt());
 
                 backgroundPicture = QPixmap(xml.attributes().value("backpic").toString()).scaled(rect.width(), rect.height());
                 if(backgroundPicture.isNull())

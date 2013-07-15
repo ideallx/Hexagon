@@ -50,8 +50,6 @@ private:
 
     QAction *endTurnAction;
 
-    int lineLength;
-
     Ui::MainWindow *ui;
 
 signals:
