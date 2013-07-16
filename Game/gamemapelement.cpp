@@ -12,6 +12,7 @@ gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, Q
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setPolygon(hexagon);
+    setZValue(0.6);
 
     this->point = point;
     this->moveAvailable = true;
@@ -45,6 +46,7 @@ void gameMapElement::variableInitial()
     case areaSpring:
         block = QPixmap(path + "spring.png");
         elementName = QString(tr("spring"));
+        moveAvailable = false;
         break;
     case areaCamp:
         block = QPixmap(path + "camp.png");
@@ -98,10 +100,15 @@ void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *it
     painter->setBrush(brush);
     if(item->state & QStyle::State_MouseOver)
     {
-        painter->setPen(QPen(Qt::black, 5));
+        if(moveAvailable)
+            painter->setPen(QPen(Qt::black, 5));
+        else
+            painter->setPen(QPen(Qt::white, 5));
     }
     else
     {
+        if(moveAvailable)
+            pen().setColor(Qt::white);
         painter->setPen(pen());
     }
     painter->setOpacity(0.8);
@@ -140,6 +147,7 @@ void gameMapElement::mousePressEvent(QGraphicsSceneMouseEvent *e)
 void gameMapElement::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     QGraphicsItem::hoverEnterEvent(event);
+    setZValue(0.8);
     emit elementHoverin(event);
     emit statusInfoChanged(elementName + ";" + QString::number(point.x()) + ", " + QString::number(point.y()));
 
@@ -148,6 +156,7 @@ void gameMapElement::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 void gameMapElement::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     //emit statusInfoChanged("");
+    setZValue(0.6);
     QGraphicsItem::hoverLeaveEvent(event);
 }
 

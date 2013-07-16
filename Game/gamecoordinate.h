@@ -44,7 +44,7 @@ public:
     bool isPointMovable(QPoint);
 
     bool listAddSeies(QPoint);
-    void listMoveSphere(QPoint, int);
+    QList<QPoint> listMoveSphere(QPoint, int);
     void restoreAllPen();
     void clearMoveSphere() { showSphere.clear();}
 

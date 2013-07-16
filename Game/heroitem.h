@@ -13,11 +13,16 @@ class heroItem : public QObject, public QGraphicsEllipseItem
 public:
     heroItem(int lineLength, QString);
 
+    char getCamp() const { return camp;}
     char getSexual() const { return sexual; }
     char getAttackSphere() const { return attackSphere; }
     char getMoveSphere() const { return moveSphere; }
+
+    void setHeroProperty(char c, char s, char a, char m){ camp = c; sexual = s; attackSphere = a; moveSphere = m; }
+
     QString getPlayerName() const { return playerName; }
     QString getHeroName() const { return heroName; }
+
     QPoint getPoint() const { return point;}
     void setPoint(QPoint p) { point = p; }
 
@@ -29,6 +34,12 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *);
 
+    enum camp_t
+    {
+        camp_red,
+        camp_blue
+    };
+
     enum sexual_t
     {
         sex_male,
@@ -36,6 +47,7 @@ public:
     };
 
 private:
+    char camp;
     QString path;
     QPoint point;
     char sexual;

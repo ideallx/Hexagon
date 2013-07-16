@@ -116,37 +116,88 @@ bool MainWindow::sceneInitial()
     qDebug("map load complete...");
 
     heroItem *item = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
-    gc->addHero(item);
-    connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
+    item->setBrush(QPixmap(gbi->getConfigDir() + "hero1.png").scaledToWidth(gbi->getLineLength()*1.6));
     item->setPos(gc->getBeginPosOfHero(QPoint(1, 1)));
+    item->setHeroProperty(heroItem::camp_red, heroItem::sex_female, 2, 4);
+    connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
+    connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
+    gc->addHero(item);
     scene->addItem(item);
-    item->installEventFilter(this);
+
+
+    heroItem *item2 = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
+    item2->setBrush(QPixmap(gbi->getConfigDir() + "hero2.png").scaledToWidth(gbi->getLineLength()*1.6));
+    item2->setPos(gc->getBeginPosOfHero(QPoint(2, 20)));
+    item2->setHeroProperty(heroItem::camp_blue, heroItem::sex_male, 1, 3);
+    connect(item2, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
+    connect(item2, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
+    gc->addHero(item2);
+    scene->addItem(item2);
+
+
     qDebug("hero load complete...");
 
     gc->setCurHero(item);
     gc->getCurHero()->setPoint(QPoint(1, 1));
-    connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClicked(QGraphicsSceneMouseEvent*)));
 
     return true;
 }
+
 
 void MainWindow::stateMachineInitial()
 {
     stm = new QStateMachine();
     freeState = new QState();
+
     moveState = new QState();
-    moveComplete = new QState();
-    attackState = new QState();
-    attackComplete = new QState();
-    abilityState = new QState();
-    abilityComplete = new QState();
+    {
+        moveComplete = new QState(moveState);
+    }
+
+    attackAndAbility = new QState(QState::ParallelStates);
+    {
+        attackState = new QState(attackAndAbility);
+        {
+            attackComplete = new QState(attackState);
+        }
+        abilityState = new QState(attackAndAbility);
+        {
+            abilityComplete = new QState(abilityState);
+        }
+    }
+
+    finalState = new QFinalState();
+
+
 
     freeState->addTransition(menu, SIGNAL(moveClicked()), moveState);
-    freeState->addTransition(menu, SIGNAL(attackClicked()), attackState);
-    freeState->addTransition(menu, SIGNAL(abilityClicked()), abilityState);
+    freeState->addTransition(menu, SIGNAL(attackClicked()), attackAndAbility);
+    freeState->addTransition(menu, SIGNAL(abilityClicked()), attackAndAbility);
+    freeState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
+
+    moveState->addTransition(menu, SIGNAL(attackClicked()), attackState);
+    moveState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
+    moveComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
+    moveComplete->addTransition(menu, SIGNAL(abilityClicked()), abilityState);
+    moveComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
+
+
+
+    attackState->addTransition(this, SIGNAL(heroClickedSignal(QGraphicsSceneMouseEvent*)), attackComplete);
+    attackComplete->addTransition(menu, SIGNAL(abilityClicked()), abilityState);
+    abilityState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), abilityComplete);
+    abilityComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
+    attackAndAbility->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
+
+
     freeState->assignProperty(menu, "isMoveAble", true);
-    freeState->assignProperty(menu, "isAttackAble", true);
-    freeState->assignProperty(menu, "isAbilityAble", true);
+    moveComplete->assignProperty(menu, "isMoveAble", false);
+    attackComplete->assignProperty(menu, "isMoveAble", false);
+    attackComplete->assignProperty(menu, "isAttackAble", false);
+    attackAndAbility->assignProperty(menu, "isMoveAble", false);
+    abilityComplete->assignProperty(menu, "isAbilityAble", false);
+
+
 
     QAbstractTransition *t1 = moveState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), moveComplete);
     QSequentialAnimationGroup *animation1SubGroup = new QSequentialAnimationGroup;
@@ -154,38 +205,10 @@ void MainWindow::stateMachineInitial()
     animation1SubGroup->addAnimation(new QPropertyAnimation(gc->getCurHero(), "pos"));
     t1->addAnimation(animation1SubGroup);
 
-    moveState->addTransition(menu, SIGNAL(attackClicked()), attackState);
-    moveComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
-    moveComplete->assignProperty(menu, "isMoveAble", false);
-
-    attackState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), attackComplete);
-    attackComplete->addTransition(menu, SIGNAL(abilityClicked()), abilityState);
-    attackComplete->assignProperty(menu, "isMoveAble", false);
-    attackComplete->assignProperty(menu, "isAttackAble", false);
-
-    abilityState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), abilityComplete);
-    abilityComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
-    attackComplete->assignProperty(menu, "isMoveAble", false);
-    abilityComplete->assignProperty(menu, "isAbilityAble", false);
-
-    moveComplete->addTransition(ui->actionEndTurn, SIGNAL(triggered()), freeState);
-    attackComplete->addTransition(ui->actionEndTurn, SIGNAL(triggered()), freeState);
-    abilityComplete->addTransition(ui->actionEndTurn, SIGNAL(triggered()), freeState);
-
-    moveComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-    moveState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-    attackComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-    attackState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-    abilityComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-    abilityState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-
     stm->addState(freeState);
     stm->addState(moveState);
-    stm->addState(moveComplete);
-    stm->addState(attackState);
-    stm->addState(attackComplete);
-    stm->addState(abilityState);
-    stm->addState(abilityComplete);
+    stm->addState(attackAndAbility);
+    stm->addState(finalState);
 
     stm->setInitialState(freeState);
     stm->start();
@@ -204,8 +227,7 @@ void MainWindow::changeStatusInfo(QString in)
 void MainWindow::showMoveSphere()
 {
     gc->clearMoveSphere();
-    gc->listMoveSphere(gc->getCurHero()->getPoint(), gc->getCurHero()->getMoveSphere());
-    QList<QPoint> point = gc->getMovePoint();
+    QList<QPoint> point = gc->listMoveSphere(gc->getCurHero()->getPoint(), gc->getCurHero()->getMoveSphere());
     QList<gameMapElement*> element = gc->getMapList();
     for(int i=0; i<point.size(); ++i)
     {
@@ -227,16 +249,19 @@ void MainWindow::showAttackSphere()
 
 }
 
-void MainWindow::heroClicked(QGraphicsSceneMouseEvent* e)
+void MainWindow::heroClickedSlot(QGraphicsSceneMouseEvent* e)
 {
     menu->hideAllMenu();
     gc->restoreAllPen();
     gc->clearMoveSphere();
 
+    gc->setCurHero(static_cast<heroItem*>(this->sender()));
+
     if(e->button() & Qt::LeftButton)
     {
         menu->showMenu(gameMenu::MENULIST, e->scenePos());
     }
+    emit heroClickedSignal(e);
 }
 
 void MainWindow::elementClickedSlot(QGraphicsSceneMouseEvent *e)

@@ -27,8 +27,7 @@ void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option);
     Q_UNUSED(widget);
     painter->setOpacity(1.0);
-    QBrush brush = QBrush(QPixmap(path + "hero1.png").scaledToWidth(lineLength));
-    painter->setBrush(brush);
+    painter->setBrush(brush());
     painter->setPen(QPen(Qt::black, 3));
     painter->drawEllipse(rect());
 }

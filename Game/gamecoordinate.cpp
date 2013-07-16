@@ -160,12 +160,12 @@ bool gameCoordinate::listAddSeies(QPoint block)
     return false;
 }
 
-void gameCoordinate::listMoveSphere(QPoint block, int sphere)
+QList<QPoint> gameCoordinate::listMoveSphere(QPoint block, int sphere)
 {
     if(!listAddSeies(block))
-        return;
+        return showSphere;
     if(sphere == 0)
-        return;
+        return showSphere;
 
     sphere--;
 
@@ -207,8 +207,7 @@ void gameCoordinate::listMoveSphere(QPoint block, int sphere)
         listMoveSphere(pair, sphere);
     }
 
-
-    return;
+    return showSphere;
 }
 
 bool gameCoordinate::isPointAvailable(QPoint in)

@@ -36,6 +36,8 @@ private:
     QState *attackComplete;
     QState *abilityState;
     QState *abilityComplete;
+    QState *attackAndAbility;
+    QFinalState *finalState;
 
     backview *widgetMain;
     gameMenu* menu;
@@ -54,13 +56,14 @@ private:
 
 signals:
     void elementClickedSignal(QGraphicsSceneMouseEvent*);
+    void heroClickedSignal(QGraphicsSceneMouseEvent*);
 
 private slots:
     void restoreAll();
     void changeStatusInfo(QString);
     void showMoveSphere();
     void showAttackSphere();
-    void heroClicked(QGraphicsSceneMouseEvent*);
+    void heroClickedSlot(QGraphicsSceneMouseEvent*);
     void elementClickedSlot(QGraphicsSceneMouseEvent*);
 };
 
