@@ -116,9 +116,9 @@ bool MainWindow::sceneInitial()
     qDebug("map load complete...");
 
     heroItem *item = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
-    item->setBrush(QPixmap(gbi->getConfigDir() + "hero1.png").scaledToWidth(gbi->getLineLength()*1.6));
+    item->setBrush(QPixmap(gbi->getConfigDir() + "mieShaZhe_Head.png").scaledToWidth(gbi->getLineLength()*1.6));
     item->setPos(gc->getBeginPosOfHero(QPoint(1, 1)));
-    item->setHeroProperty(heroItem::camp_red, heroItem::sex_female, 2, 4);
+    item->setHeroProperty(heroItem::camp_red, heroItem::sex_female, 1, 4);
     connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
     connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
     gc->addHero(item);
@@ -126,13 +126,30 @@ bool MainWindow::sceneInitial()
 
 
     heroItem *item2 = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
-    item2->setBrush(QPixmap(gbi->getConfigDir() + "hero2.png").scaledToWidth(gbi->getLineLength()*1.6));
-    item2->setPos(gc->getBeginPosOfHero(QPoint(2, 20)));
-    item2->setHeroProperty(heroItem::camp_blue, heroItem::sex_male, 1, 3);
+    item2->setBrush(QPixmap(gbi->getConfigDir() + "leiShen_Head.png").scaledToWidth(gbi->getLineLength()*1.6));
+    item2->setPos(gc->getBeginPosOfHero(QPoint(0, 2)));
+    item2->setHeroProperty(heroItem::camp_blue, heroItem::sex_male, 1, 2);
     connect(item2, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
     connect(item2, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
     gc->addHero(item2);
     scene->addItem(item2);
+
+    heroWhole *whole = new heroWhole(gbi->getLineLength());
+    whole->setBrush(QPixmap(gbi->getConfigDir() + "mieShaZhe_Whole.png").scaledToWidth(whole->rect().width()));
+    whole->setPos(50, gbi->getBeginPosition().y());
+    whole->setToolTip(tr("Slay Assassin"));
+    scene->addItem(whole);
+
+    heroWhole *whole2 = new heroWhole(gbi->getLineLength());
+    whole2->setBrush(QPixmap(gbi->getConfigDir() + "leiShen_Whole.png").scaledToWidth(whole->rect().width()));
+    whole2->setPos(gbi->getBackCardRight().x()+450, 700);
+    whole2->setToolTip(tr("Thunder King"));
+    scene->addItem(whole2);
+
+    campHealth *chr = new campHealth(QRectF(0, 0, 1000, 60));
+    chr->setPixmap(QPixmap(gbi->getConfigDir() + "health1.png").scaledToWidth(1000));
+    chr->setPos(600, 1200);
+    scene->addItem(chr);
 
 
     qDebug("hero load complete...");

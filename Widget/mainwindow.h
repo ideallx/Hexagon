@@ -9,6 +9,8 @@
 #include "../Game/gamemenu.h"
 #include "../Game/gamecoordinate.h"
 #include "../Game/carditem.h"
+#include "../Game/herowhole.h"
+#include "../Game/camphealth.h"
 
 namespace Ui {
 class MainWindow;

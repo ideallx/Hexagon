@@ -21,7 +21,9 @@ SOURCES  += main.cpp \
     Game/gamebackinfo.cpp \
     Game/gamecoordinate.cpp \
     Widget/backscene.cpp \
-    Game/carditem.cpp
+    Game/carditem.cpp \
+    Game/herowhole.cpp \
+    Game/camphealth.cpp
 
 HEADERS  += mainwindow.h \
     Widget/mainwindow.h \
@@ -32,7 +34,9 @@ HEADERS  += mainwindow.h \
     Game/gamebackinfo.h \
     Game/gamecoordinate.h \
     Widget/backscene.h \
-    Game/carditem.h
+    Game/carditem.h \
+    Game/herowhole.h \
+    Game/camphealth.h
 
 FORMS    += mainwindow.ui
 
