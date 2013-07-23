@@ -164,68 +164,39 @@ bool MainWindow::sceneInitial()
 void MainWindow::stateMachineInitial()
 {
     stm = new QStateMachine();
-    freeState = new QState();
-
-    moveState = new QState();
+    freeState = new QState(stm);
+    moveState = new QState(stm);
+    actionState = new QState(QState::ParallelStates, stm);
     {
-        moveComplete = new QState(moveState);
+        attackState = new QState(actionState);
+        abilityState = new QState(actionState);
     }
-
-    attackAndAbility = new QState(QState::ParallelStates);
-    {
-        attackState = new QState(attackAndAbility);
-        {
-            attackComplete = new QState(attackState);
-        }
-        abilityState = new QState(attackAndAbility);
-        {
-            abilityComplete = new QState(abilityState);
-        }
-    }
-
-    finalState = new QFinalState();
+    finalState = new QFinalState(stm);
 
 
 
     freeState->addTransition(menu, SIGNAL(moveClicked()), moveState);
-    freeState->addTransition(menu, SIGNAL(attackClicked()), attackAndAbility);
-    freeState->addTransition(menu, SIGNAL(abilityClicked()), attackAndAbility);
+    freeState->addTransition(menu, SIGNAL(attackClicked()), actionState);
+    freeState->addTransition(menu, SIGNAL(abilityClicked()), actionState);
     freeState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
 
-    moveState->addTransition(menu, SIGNAL(attackClicked()), attackState);
+    moveState->addTransition(menu, SIGNAL(attackClicked()), actionState);
+    moveState->addTransition(menu, SIGNAL(abilityClicked()), actionState);
     moveState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-    moveComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
-    moveComplete->addTransition(menu, SIGNAL(abilityClicked()), abilityState);
-    moveComplete->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
 
-
-
-    attackState->addTransition(this, SIGNAL(heroClickedSignal(QGraphicsSceneMouseEvent*)), attackComplete);
-    attackComplete->addTransition(menu, SIGNAL(abilityClicked()), abilityState);
-    abilityState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), abilityComplete);
-    abilityComplete->addTransition(menu, SIGNAL(attackClicked()), attackState);
-    attackAndAbility->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
+    attackState->addTransition(this, SIGNAL(heroClickedSignal(QGraphicsSceneMouseEvent*)), finalState);
+    //abilityState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), finalState);
+    actionState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
 
 
     freeState->assignProperty(menu, "isMoveAble", true);
-    moveComplete->assignProperty(menu, "isMoveAble", false);
-    attackComplete->assignProperty(menu, "isMoveAble", false);
-    attackComplete->assignProperty(menu, "isAttackAble", false);
-    attackAndAbility->assignProperty(menu, "isMoveAble", false);
-    abilityComplete->assignProperty(menu, "isAbilityAble", false);
+    actionState->assignProperty(menu, "isMoveAble", false);
 
-
-
-    QAbstractTransition *t1 = moveState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), moveComplete);
+    QAbstractTransition *t1 = moveState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), actionState);
     QSequentialAnimationGroup *animation1SubGroup = new QSequentialAnimationGroup;
-    animation1SubGroup->addPause(100);
+    animation1SubGroup->addPause(200);
     animation1SubGroup->addAnimation(new QPropertyAnimation(gc->getCurHero(), "pos"));
     t1->addAnimation(animation1SubGroup);
-
-    stm->addState(freeState);
-    stm->addState(moveState);
-    stm->addState(attackAndAbility);
-    stm->addState(finalState);
 
     stm->setInitialState(freeState);
     stm->start();
@@ -272,13 +243,15 @@ void MainWindow::heroClickedSlot(QGraphicsSceneMouseEvent* e)
     gc->restoreAllPen();
     gc->clearMoveSphere();
 
-    gc->setCurHero(static_cast<heroItem*>(this->sender()));
-
-    if(e->button() & Qt::LeftButton)
+    if(gc->getCurHero() != static_cast<heroItem*>(this->sender()))
+    {
+        qDebug("not cur hero");
+        emit heroClickedSignal(e);
+    }
+    else if(e->button() & Qt::LeftButton)
     {
         menu->showMenu(gameMenu::MENULIST, e->scenePos());
     }
-    emit heroClickedSignal(e);
 }
 
 void MainWindow::elementClickedSlot(QGraphicsSceneMouseEvent *e)
@@ -290,8 +263,8 @@ void MainWindow::elementClickedSlot(QGraphicsSceneMouseEvent *e)
 
     if(gc->isPointAvailable(gc->getCurPoint()) && gc->getMovePoint().contains(gc->getCurPoint()))
     {
-        moveComplete->assignProperty(gc->getCurHero(), "point", gc->getCurPoint());
-        moveComplete->assignProperty(gc->getCurHero(), "pos", gc->getBeginPosOfHero(gc->getCurPoint()));
+        actionState->assignProperty(gc->getCurHero(), "point", gc->getCurPoint());
+        actionState->assignProperty(gc->getCurHero(), "pos", gc->getBeginPosOfHero(gc->getCurPoint()));
         if(e->button() == Qt::LeftButton)
         {
             emit elementClickedSignal(e);

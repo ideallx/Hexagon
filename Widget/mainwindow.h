@@ -33,12 +33,9 @@ private:
     QStateMachine *stm;
     QState *freeState;
     QState *moveState;
-    QState *moveComplete;
     QState *attackState;
-    QState *attackComplete;
     QState *abilityState;
-    QState *abilityComplete;
-    QState *attackAndAbility;
+    QState *actionState;
     QFinalState *finalState;
 
     backview *widgetMain;
