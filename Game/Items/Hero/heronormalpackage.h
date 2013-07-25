@@ -6,8 +6,17 @@
 class heroMieShaZhe : public heroItem
 {
     Q_OBJECT
+
 public:
-    heroMieShaZhe();
+    void initial();
+};
+
+class heroLeiShen : public heroItem
+{
+    Q_OBJECT
+
+public:
+    void initial();
 };
 
 #endif // HERONORMALPACKAGE_H

@@ -6,10 +6,6 @@ heroItem::heroItem(int lineLength, QString path)
     this->path = path;
 
     playerName = QString(tr("player 1"));
-    heroName = QString(tr("hero 1"));
-    sexual = sex_male;
-    moveSphere = 3;
-    attackSphere = 1;
 
     setZValue(1.2);
     setFlags(ItemIsSelectable);

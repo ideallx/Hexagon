@@ -12,6 +12,7 @@ class heroItem : public QObject, public QGraphicsEllipseItem
 
 public:
     heroItem(int lineLength, QString);
+    virtual void initial() {}
 
     char getCamp() const { return camp;}
     char getSexual() const { return sexual; }
@@ -24,6 +25,7 @@ public:
 
     QString getPlayerName() const { return playerName; }
     QString getHeroName() const { return heroName; }
+    void setHeroName(QString n) { heroName = n; }
 
     QPoint getPoint() const { return point;}
     void setPoint(QPoint p) { point = p; }

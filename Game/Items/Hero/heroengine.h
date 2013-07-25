@@ -8,11 +8,35 @@
 class heroFactory
 {
 public:
-    heroFactory();
-    createHero();
+    heroItem* createHero(enum heroNum_t hero);
 
     enum heroNum_t
     {
+        MieShaZhe,
+        RenZhe,
+        AnYingZhiRen,
+        LeiShen,
+        ShengQiShi,
+        KuangSha,
+        YingYan,
+        LingHunYiZhe,
+        BingZhiShengNv,
+        ZhongKaiZhanShi,
+        QiYueZhe,
+        BaoXiong,
+        ShiHunZhe,
+        FengXingZhe,
+        DuTu,
+        XueZhiLiZhua,
+        SiShen,
+        HuanYingZhiQiang,
+        ZhanLanZhiJian,
+        HuoWuZhe,
+
+        PackageII,
+
+        UserDefined
+
 
     };
 };
