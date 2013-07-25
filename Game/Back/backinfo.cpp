@@ -1,4 +1,4 @@
-#include "gamebackinfo.h"
+#include "backinfo.h"
 
 gameBackInfo::gameBackInfo(QString configFilePath)
 {

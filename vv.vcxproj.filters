@@ -117,6 +117,24 @@
     <ClCompile Include="Release\moc_carditem.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Game\camphealth.cpp">
+      <Filter>All\game\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_camphealth.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_camphealth.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\herowhole.cpp">
+      <Filter>All\game\item</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_herowhole.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_herowhole.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Game\gamebackinfo.h">
@@ -138,6 +156,12 @@
       <Filter>All\widget\back</Filter>
     </CustomBuild>
     <CustomBuild Include="Game\carditem.h">
+      <Filter>All\game\item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Game\camphealth.h">
+      <Filter>All\game\item</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Game\herowhole.h">
       <Filter>All\game\item</Filter>
     </CustomBuild>
   </ItemGroup>

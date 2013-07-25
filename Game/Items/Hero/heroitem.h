@@ -17,8 +17,10 @@ public:
     char getSexual() const { return sexual; }
     char getAttackSphere() const { return attackSphere; }
     char getMoveSphere() const { return moveSphere; }
+    int health() const { return innerHealth; }
+    void setHealth(int h) { innerHealth = h; }
 
-    void setHeroProperty(char c, char s, char a, char m){ camp = c; sexual = s; attackSphere = a; moveSphere = m; }
+    void setHeroProperty(char s, char a, char m, int h){sexual = s; attackSphere = a; moveSphere = m; innerHealth = h;}
 
     QString getPlayerName() const { return playerName; }
     QString getHeroName() const { return heroName; }
@@ -47,6 +49,7 @@ public:
     };
 
 private:
+    int innerHealth;
     char camp;
     QString path;
     QPoint point;

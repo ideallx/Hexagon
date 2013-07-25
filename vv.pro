@@ -13,30 +13,43 @@ TEMPLATE = app
 
 
 SOURCES  += main.cpp \
-    Widget/mainwindow.cpp \
-    Widget/backview.cpp \
-    Game/gamemapelement.cpp \
-    Game/heroitem.cpp \
-    Game/gamemenu.cpp \
-    Game/gamebackinfo.cpp \
-    Game/gamecoordinate.cpp \
-    Widget/backscene.cpp \
-    Game/carditem.cpp \
-    Game/herowhole.cpp \
-    Game/camphealth.cpp
+    Game/gameprocess.cpp \
+    Game/Back/menu.cpp \
+    Game/Back/coordinate.cpp \
+    Game/Back/backview.cpp \
+    Game/Back/backscene.cpp \
+    Game/Back/backinfo.cpp \
+    Game/Items/mapelement.cpp \
+    Game/Items/carditem.cpp \
+    Game/Items/camphealth.cpp \
+    Game/Items/Hero/herowhole.cpp \
+    Game/Items/Hero/heronormalpackage.cpp \
+    Game/Items/Hero/heroitem.cpp \
+    Game/Items/Hero/heroengine.cpp \
+    Widget/gameWidget.cpp
 
 HEADERS  += mainwindow.h \
-    Widget/mainwindow.h \
-    Widget/backview.h \
-    Game/gamemapelement.h \
-    Game/heroitem.h \
-    Game/gamemenu.h \
-    Game/gamebackinfo.h \
-    Game/gamecoordinate.h \
-    Widget/backscene.h \
-    Game/carditem.h \
-    Game/herowhole.h \
-    Game/camphealth.h
+    Game/gameprocess.h \
+    Game/Back/menu.h \
+    Game/Back/coordinate.h \
+    Game/Back/backview.h \
+    Game/Back/backscene.h \
+    Game/Back/backinfo.h \
+    Game/Items/mapelement.h \
+    Game/Items/carditem.h \
+    Game/Items/camphealth.h \
+    Game/Items/Hero/herowhole.h \
+    Game/Items/Hero/heronormalpackage.h \
+    Game/Items/Hero/heroitem.h \
+    Game/Items/Hero/heroengine.h \
+    Widget/gameWidget.h
+
+INCLUDEPATH += include
+INCLUDEPATH += Game
+INCLUDEPATH += Game/Back
+INCLUDEPATH += Game/Items
+INCLUDEPATH += Game/Items/Hero
+INCLUDEPATH += Widget
 
 FORMS    += mainwindow.ui
 

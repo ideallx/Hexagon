@@ -5,12 +5,12 @@
 #include <QtWidgets>
 #include "backview.h"
 #include "backscene.h"
-#include "../Game/heroitem.h"
-#include "../Game/gamemenu.h"
-#include "../Game/gamecoordinate.h"
-#include "../Game/carditem.h"
-#include "../Game/herowhole.h"
-#include "../Game/camphealth.h"
+#include "heroitem.h"
+#include "menu.h"
+#include "coordinate.h"
+#include "carditem.h"
+#include "herowhole.h"
+#include "camphealth.h"
 
 namespace Ui {
 class MainWindow;

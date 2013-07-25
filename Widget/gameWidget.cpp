@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "gameWidget.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -118,7 +118,6 @@ bool MainWindow::sceneInitial()
     heroItem *item = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
     item->setBrush(QPixmap(gbi->getConfigDir() + "mieShaZhe_Head.png").scaledToWidth(gbi->getLineLength()*1.6));
     item->setPos(gc->getBeginPosOfHero(QPoint(1, 1)));
-    item->setHeroProperty(heroItem::camp_red, heroItem::sex_female, 1, 4);
     connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
     connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
     gc->addHero(item);
@@ -128,7 +127,7 @@ bool MainWindow::sceneInitial()
     heroItem *item2 = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
     item2->setBrush(QPixmap(gbi->getConfigDir() + "leiShen_Head.png").scaledToWidth(gbi->getLineLength()*1.6));
     item2->setPos(gc->getBeginPosOfHero(QPoint(0, 2)));
-    item2->setHeroProperty(heroItem::camp_blue, heroItem::sex_male, 1, 2);
+    item2->setHeroProperty(heroItem::sex_male, 1, 2, 8);
     connect(item2, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
     connect(item2, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
     gc->addHero(item2);

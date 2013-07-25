@@ -1,4 +1,4 @@
-#include "gamemapelement.h"
+#include "mapelement.h"
 
 gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, QString path)
     :elementType(elementType)

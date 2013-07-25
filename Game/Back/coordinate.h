@@ -2,9 +2,9 @@
 #define GAMECOORDINATE_H
 
 #include <QtWidgets>
-#include "gamemapelement.h"
+#include "mapelement.h"
 #include "heroitem.h"
-#include "gamebackinfo.h"
+#include "backinfo.h"
 
 class gameCoordinate
 {

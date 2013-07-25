@@ -1,4 +1,4 @@
-#include "gamecoordinate.h"
+#include "coordinate.h"
 
 gameCoordinate::gameCoordinate(QPoint pos, gameBackInfo* gbi)
 {
