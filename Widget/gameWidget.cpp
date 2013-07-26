@@ -73,7 +73,6 @@ bool MainWindow::variableInitial()
 bool MainWindow::sceneInitial()
 {
     scene = new backScene(this);
-    scene->setSceneRect(gbi->getPixmap().rect());
 
     widgetMain = new backview(scene, gbi->getLineLength());
     widgetMain->setBackgroundBrush(QBrush(gbi->getPixmap()));
@@ -86,52 +85,11 @@ bool MainWindow::sceneInitial()
     connect(menu, SIGNAL(cancelClicked()), this, SLOT(restoreAll()));
     qDebug("menu load complete...");
 
-    QVector<char> element = gbi->getMapElement();
-    int wid = gbi->getWidthCount();
-    int hei = gbi->getHeightCount();
-
-    for(int j=0; j<hei; j++)
-    {
-        for(int i=0; i<wid; i++)
-        {
-            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), element[i+j*wid], QPoint(i, j), gbi->getConfigDir());
-            gc->addmapElement(mapItem);  // gc->add should be deleted later...
-            mapItem->hide();
-            if(gc->isPointAvailable(QPoint(i, j)))
-            {
-                mapItem->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
-                //mapItem->setZValue((i+j)/(hei*wid)); should be done later
-                mapItem->show();
-                scene->addItem(mapItem);
-                connect(mapItem, SIGNAL(statusInfoChanged(QString)), this, SLOT(changeStatusInfo(QString)));
-                connect(mapItem, SIGNAL(elementClicked(QGraphicsSceneMouseEvent*)), this, SLOT(elementClickedSlot(QGraphicsSceneMouseEvent*)));
-            }
-        }
-    }
-
     cardItem* ci = new cardItem(gbi->getCardRect(), gbi->getConfigDir());
     scene->addItem(ci);
     //gc->addCard(ci);
     ci->setPos(gbi->getBackCardLeft());
     qDebug("map load complete...");
-
-    heroItem *item = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
-    item->setBrush(QPixmap(gbi->getConfigDir() + "mieShaZhe_Head.png").scaledToWidth(gbi->getLineLength()*1.6));
-    item->setPos(gc->getBeginPosOfHero(QPoint(1, 1)));
-    connect(item, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
-    connect(item, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
-    gc->addHero(item);
-    scene->addItem(item);
-
-
-    heroItem *item2 = new heroItem(gbi->getLineLength()*1.6, gbi->getConfigDir());
-    item2->setBrush(QPixmap(gbi->getConfigDir() + "leiShen_Head.png").scaledToWidth(gbi->getLineLength()*1.6));
-    item2->setPos(gc->getBeginPosOfHero(QPoint(0, 2)));
-    item2->setHeroProperty(heroItem::sex_male, 1, 2, 8);
-    connect(item2, SIGNAL(changeStatus(QString)), this, SLOT(changeStatusInfo(QString)));
-    connect(item2, SIGNAL(mouseClicked(QGraphicsSceneMouseEvent*)), this, SLOT(heroClickedSlot(QGraphicsSceneMouseEvent*)));
-    gc->addHero(item2);
-    scene->addItem(item2);
 
     heroWhole *whole = new heroWhole(gbi->getLineLength());
     whole->setBrush(QPixmap(gbi->getConfigDir() + "mieShaZhe_Whole.png").scaledToWidth(whole->rect().width()));

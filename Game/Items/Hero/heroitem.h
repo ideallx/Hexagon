@@ -11,10 +11,23 @@ class heroItem : public QObject, public QGraphicsEllipseItem
     Q_PROPERTY(QPointF pos READ pos WRITE setPos)
 
 public:
-    heroItem(int lineLength, QString);
+    typedef enum camp_t
+    {
+        camp_red,
+        camp_blue
+    }heroCamp;
+
+    enum sexual_t
+    {
+        sex_male,
+        sex_female
+    };
+
+    heroItem(int lineLength);
     virtual void initial() {}
 
     char getCamp() const { return camp;}
+    void setCamp(heroCamp c) { camp = c; }
     char getSexual() const { return sexual; }
     char getAttackSphere() const { return attackSphere; }
     char getMoveSphere() const { return moveSphere; }
@@ -38,22 +51,9 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *);
 
-    enum camp_t
-    {
-        camp_red,
-        camp_blue
-    };
-
-    enum sexual_t
-    {
-        sex_male,
-        sex_female
-    };
-
 private:
     int innerHealth;
     char camp;
-    QString path;
     QPoint point;
     char sexual;
     char moveSphere;

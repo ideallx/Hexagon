@@ -1,16 +1,29 @@
 #ifndef HEROENGINE_H
 #define HEROENGINE_H
 
+#include <QtWidgets>
+
+#include "coordinate.h"
 #include "heroitem.h"
 #include "heronormalpackage.h"
 #include "herowhole.h"
+#include "backscene.h"
+
+
+struct heroInfo
+{
+    QString heroName;
+    int moveSphere;
+    int attackSphere;
+    int healthMax;
+    char sexual;
+
+};
 
 class heroFactory
 {
 public:
-    heroItem* createHero(enum heroNum_t hero);
-
-    enum heroNum_t
+    typedef enum heroNum_t
     {
         MieShaZhe,
         RenZhe,
@@ -36,9 +49,20 @@ public:
         PackageII,
 
         UserDefined
+    }heroNum;
 
+    heroFactory(QString dir, int lineLength, gameCoordinate* gc, backScene* scene);
+    heroItem* createHero(heroNum, QPoint, heroItem::heroCamp);
 
-    };
+private:
+    static const struct heroInfo msz;
+    static const struct heroInfo ls;
+
+    gameCoordinate* gc;
+    QMap<heroNum, struct heroInfo> heroInfoMap;
+    int lineLength;
+    backScene* scene;
+    QString innerDir;
 };
 
 #endif // HEROENGINE_H

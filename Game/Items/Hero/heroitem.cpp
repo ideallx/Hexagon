@@ -1,9 +1,8 @@
 #include "heroitem.h"
 
-heroItem::heroItem(int lineLength, QString path)
+heroItem::heroItem(int lineLength)
 {
     this->lineLength = lineLength;
-    this->path = path;
 
     playerName = QString(tr("player 1"));
 
