@@ -55,7 +55,7 @@ public:
         QPoint p;
     }ExternInfo;
 
-    heroFactory(gameBackInfo* gbi, QGraphicsScene* scene);
+    heroFactory(gameBackInfo* gbi);
     heroItem* createHero(heroNum, QPoint, heroItem::heroCamp);
     QList<heroItem*> generateHeroes(QList<ExternInfo>);
 

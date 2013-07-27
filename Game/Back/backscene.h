@@ -21,6 +21,7 @@ private:
     itemCollector *ic;
 
 signals:
+    void mapElementMovedIn(QPoint);
     
 public slots:
     

@@ -56,12 +56,12 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{38955cbf-2c08-49e3-9fc5-b9e133e84868}</UniqueIdentifier>
+      <UniqueIdentifier>{12775a23-71e0-4add-baf1-eeb64b3ea338}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{38f3e777-52fc-44f3-b613-12a050a75104}</UniqueIdentifier>
+      <UniqueIdentifier>{5a56b98c-d739-423b-9e53-dfc83fdf15e6}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -82,7 +82,16 @@
     <ClCompile Include="Game\Items\Card\cardBack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Items\Card\cardengine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Items\Card\carditem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Back\coordinate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\gameWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\gameprocess.cpp">
@@ -94,10 +103,10 @@
     <ClCompile Include="Game\Items\Hero\heroitem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Items\Hero\heronormalpackage.cpp">
+    <ClCompile Include="Game\Items\Hero\herowhole.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Items\Hero\herowhole.cpp">
+    <ClCompile Include="Game\Items\itemcollector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -107,6 +116,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Back\menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Back\sidescene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_backscene.cpp">
@@ -133,16 +145,16 @@
     <ClCompile Include="Release\moc_cardback.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\moc_gameWidget.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_gameWidget.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="Debug\moc_heroitem.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_heroitem.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_heronormalpackage.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_heronormalpackage.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_herowhole.cpp">
@@ -161,6 +173,12 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_menu.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_sidescene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_sidescene.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_vv.cpp">
@@ -183,12 +201,21 @@
     <CustomBuild Include="Game\Items\Card\cardback.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="Game\Items\Card\cardengine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Items\Card\carditem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Items\carditem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Back\coordinate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <CustomBuild Include="Widget\gameWidget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <ClInclude Include="Game\gameprocess.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -198,12 +225,12 @@
     <CustomBuild Include="Game\Items\Hero\heroitem.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Game\Items\Hero\heronormalpackage.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="Game\Items\Hero\herowhole.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="Game\Items\itemcollector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -211,6 +238,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Game\Back\menu.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Game\Back\sidescene.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">

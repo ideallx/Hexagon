@@ -21,10 +21,9 @@ const struct heroInfo heroFactory::ks   = {1, 3, 9,  heroItem::sex_male,   tr("k
 const struct heroInfo heroFactory::ss   = {1, 3, 9,  heroItem::sex_male,   tr("siShen")};
 const struct heroInfo heroFactory::bx   = {1, 4, 8,  heroItem::sex_male,   tr("baoXiong")};
 
-heroFactory::heroFactory(gameBackInfo* gbi, QGraphicsScene* scene):
+heroFactory::heroFactory(gameBackInfo* gbi):
     innerDir(gbi->getConfigDir()),
-    lineLength(gbi->getLineLength()),
-    scene(scene)
+    lineLength(gbi->getLineLength())
 {
     heroInfoMap[MieShaZhe] = msz;
     heroInfoMap[RenZhe] = rz;
@@ -55,7 +54,6 @@ heroItem* heroFactory::createHero(heroNum hero, QPoint pt, heroItem::heroCamp c)
     item->setHeroProperty(heroInfoMap[hero].sexual, heroInfoMap[hero].attackSphere, heroInfoMap[hero].moveSphere, heroInfoMap[hero].healthMax);
     item->setPoint(pt);
     item->setCamp(c);
-    scene->addItem(item);
     return item;
 }
 

@@ -15,6 +15,10 @@ public:
     void setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInfo> info);
     void setCardEngine(cardEngine* ce);
 
+    bool isPointHasHero(QPoint);
+    bool isPointAvailable(QPoint);
+    bool isPointMovable(QPoint);
+
     int getBlockNumber(QPoint);
 
     void restoreAllPen();
@@ -26,9 +30,6 @@ private:
     void addCardList();
     void addMapElementList();
 
-    bool isPointHasHero(QPoint);
-    bool isPointAvailable(QPoint);
-    bool isPointMovable(QPoint);
     bool listAddJudge(QList<QPoint>set, QPoint point);
     QList<QPoint> recursionSeries(QList<QPoint>set, QPoint point, int sphere);
 

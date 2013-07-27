@@ -75,7 +75,7 @@ bool itemCollector::isPointAvailable(QPoint in)
         return false;
     else if((in.x() == wid-1) && (in.y()%2 == 1))
         return false;
-    else if(elements[getBlockNumber(in)]->isPointAvailable())
+    else if(!elements[getBlockNumber(in)]->isPointAvailable())
         return false;
     else
         return true;
