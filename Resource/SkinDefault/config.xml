@@ -1,7 +1,7 @@
 <skin
     name = "death desert one"
     backpic = "F:/KuGou/vv/Resource/SkinDefault/wallpaper4.jpg"
-    backRect = "2200, 1400"
+    backRect = "1500, 1400"
     widthCount = "6"
     heightCount = "21"
     lineLength = "50"
@@ -26,8 +26,6 @@
     10L002,
     0MM14Z,
     ZMMM0Z"
-    beginPosition = "650.0, 200.0"
-    backCardLeft = "400, 500"
-    backCardRight = "1400, 70">
+    beginPosition = "250.0, 200.0">
 </skin>
 

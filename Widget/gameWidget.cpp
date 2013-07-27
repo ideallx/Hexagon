@@ -5,7 +5,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    //Now the widgetMain is in leading role
     ui->setupUi(this);
 
     if(!variableInitial() || !sceneInitial())
@@ -13,34 +12,12 @@ MainWindow::MainWindow(QWidget *parent) :
         qDebug("initial error");
         return;
     }
-    stateMachineInitial();
-
-    statusLabel = new QLabel(this);
-    statusLabel->setText(tr("Test StatusBar Label"));
-    statusLabel->setFixedWidth(300);
-
-    campLabel = new QLabel(this);
-    campLabel->setText(tr("Red Camp: Player 1"));
-    campLabel->setFixedWidth(200);
-
-    coordinateLabel = new QLabel(this);
-    coordinateLabel->setText(tr("Coordinate: 1, 1"));
-    coordinateLabel->setFixedWidth(200);
-
-    heroLabel = new QLabel(this);
-    heroLabel->setText(tr("Hero 1"));
-    heroLabel->setFixedWidth(100);
-
-    ui->statusBar->addWidget(statusLabel);
-    ui->statusBar->addWidget(campLabel);
-    ui->statusBar->addWidget(coordinateLabel);
-    ui->statusBar->addWidget(heroLabel);
-
-
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
+    endTurnAction = new QAction(tr("End Turn"), this);
+    endTurnAction->setStatusTip(tr("End Current Turn"));
+    ui->mainToolBar->addAction(endTurnAction);
 
-    ui->scrollArea->setWidget(widgetMain);
     qDebug("initial complete...");
 }
 
@@ -51,8 +28,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::variableInitial()
 {
-
-    gbi = new gameBackInfo(QString("F:/KuGou/vv/Resource/SkinDefault/config.xml"));
+    gbi = new gameBackInfo(QString("C:/Users/xiang/Documents/GitHub/Hexagon/Resource/SkinDefault/config.xml"));
     if(!gbi->isLoadSuccess())
     {
         QMessageBox::critical(this, tr("LYBNS"), tr("loading error"));
@@ -60,105 +36,33 @@ bool MainWindow::variableInitial()
     }
     qDebug("gbi load complete...");
 
-    gc = new gameCoordinate(QPoint(0, 0), gbi);
+    gc = new gameCoordinate(gbi);
     qDebug("gc load complete...");
-
-    endTurnAction = new QAction(tr("End Turn"), this);
-    endTurnAction->setStatusTip(tr("End Current Turn"));
-    ui->mainToolBar->addAction(endTurnAction);
 
     return true;
 }
 
 bool MainWindow::sceneInitial()
 {
-    scene = new backScene(this);
+    QList<heroFactory::ExternInfo> info;
+    heroFactory::ExternInfo exInfo;
+    exInfo.c = heroItem::camp_red;
+    exInfo.h = heroFactory::MieShaZhe;
+    exInfo.p = QPoint(1, 1);
+    info.append(exInfo);
 
-    widgetMain = new backview(scene, gbi->getLineLength());
+    exInfo.c = heroItem::camp_blue;
+    exInfo.h = heroFactory::LeiShen;
+    exInfo.p = QPoint(1, 20);
+    info.append(exInfo);
+
+    scene = new backScene(gbi, gc, info, this);
+    widgetMain = new backview(scene, this);
     widgetMain->setBackgroundBrush(QBrush(gbi->getPixmap()));
-    widgetMain->setParent(this);
-    menu = new gameMenu(widgetMain);
+    ui->scrollArea->setWidget(widgetMain);
     qDebug("backView load complete...");
 
-    connect(menu, SIGNAL(moveClicked()), this, SLOT(showMoveSphere()));
-    connect(menu, SIGNAL(attackClicked()), this, SLOT(showAttackSphere()));
-    connect(menu, SIGNAL(cancelClicked()), this, SLOT(restoreAll()));
-    qDebug("menu load complete...");
-
-    cardItem* ci = new cardItem(gbi->getCardRect(), gbi->getConfigDir());
-    scene->addItem(ci);
-    //gc->addCard(ci);
-    ci->setPos(gbi->getBackCardLeft());
-    qDebug("map load complete...");
-
-    heroWhole *whole = new heroWhole(gbi->getLineLength());
-    whole->setBrush(QPixmap(gbi->getConfigDir() + "mieShaZhe_Whole.png").scaledToWidth(whole->rect().width()));
-    whole->setPos(50, gbi->getBeginPosition().y());
-    whole->setToolTip(tr("Slay Assassin"));
-    scene->addItem(whole);
-
-    heroWhole *whole2 = new heroWhole(gbi->getLineLength());
-    whole2->setBrush(QPixmap(gbi->getConfigDir() + "leiShen_Whole.png").scaledToWidth(whole->rect().width()));
-    whole2->setPos(gbi->getBackCardRight().x()+450, 700);
-    whole2->setToolTip(tr("Thunder King"));
-    scene->addItem(whole2);
-
-    campHealth *chr = new campHealth(QRectF(0, 0, 1000, 60));
-    chr->setPixmap(QPixmap(gbi->getConfigDir() + "health1.png").scaledToWidth(1000));
-    chr->setPos(600, 1200);
-    scene->addItem(chr);
-
-
-    qDebug("hero load complete...");
-
-    gc->setCurHero(item);
-    gc->getCurHero()->setPoint(QPoint(1, 1));
-
     return true;
-}
-
-
-void MainWindow::stateMachineInitial()
-{
-    stm = new QStateMachine();
-    freeState = new QState(stm);
-    moveState = new QState(stm);
-    actionState = new QState(QState::ParallelStates, stm);
-    {
-        attackState = new QState(actionState);
-        abilityState = new QState(actionState);
-    }
-    finalState = new QFinalState(stm);
-
-
-
-    freeState->addTransition(menu, SIGNAL(moveClicked()), moveState);
-    freeState->addTransition(menu, SIGNAL(attackClicked()), actionState);
-    freeState->addTransition(menu, SIGNAL(abilityClicked()), actionState);
-    freeState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-
-    moveState->addTransition(menu, SIGNAL(attackClicked()), actionState);
-    moveState->addTransition(menu, SIGNAL(abilityClicked()), actionState);
-    moveState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-
-    attackState->addTransition(this, SIGNAL(heroClickedSignal(QGraphicsSceneMouseEvent*)), finalState);
-    //abilityState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), finalState);
-    actionState->addTransition(endTurnAction, SIGNAL(triggered()), freeState);
-
-
-    freeState->assignProperty(menu, "isMoveAble", true);
-    actionState->assignProperty(menu, "isMoveAble", false);
-
-    QAbstractTransition *t1 = moveState->addTransition(this, SIGNAL(elementClickedSignal(QGraphicsSceneMouseEvent*)), actionState);
-    QSequentialAnimationGroup *animation1SubGroup = new QSequentialAnimationGroup;
-    animation1SubGroup->addPause(200);
-    animation1SubGroup->addAnimation(new QPropertyAnimation(gc->getCurHero(), "pos"));
-    t1->addAnimation(animation1SubGroup);
-
-    stm->setInitialState(freeState);
-    stm->start();
-
-    qDebug("stm load complete...");
 }
 
 void MainWindow::changeStatusInfo(QString in)
@@ -171,6 +75,7 @@ void MainWindow::changeStatusInfo(QString in)
 
 void MainWindow::showMoveSphere()
 {
+    /*
     gc->clearMoveSphere();
     QList<QPoint> point = gc->listMoveSphere(gc->getCurHero()->getPoint(), gc->getCurHero()->getMoveSphere());
     QList<gameMapElement*> element = gc->getMapList();
@@ -178,11 +83,12 @@ void MainWindow::showMoveSphere()
     {
         element.at(gc->getBlockNumber(point[i]))->setPen(QPen(Qt::yellow, 5));
     }
+    */
 }
 
 void MainWindow::showAttackSphere()
 {
-
+    /*
     gc->clearMoveSphere();
     gc->listMoveSphere(gc->getCurHero()->getPoint(), gc->getCurHero()->getAttackSphere());
     QList<QPoint> point = gc->getMovePoint();
@@ -191,12 +97,13 @@ void MainWindow::showAttackSphere()
     {
         element.at(gc->getBlockNumber(point[i]))->setPen(QPen(Qt::red, 5));
     }
-
+    */
 }
 
 void MainWindow::heroClickedSlot(QGraphicsSceneMouseEvent* e)
 {
     menu->hideAllMenu();
+    /*
     gc->restoreAllPen();
     gc->clearMoveSphere();
 
@@ -209,19 +116,19 @@ void MainWindow::heroClickedSlot(QGraphicsSceneMouseEvent* e)
     {
         menu->showMenu(gameMenu::MENULIST, e->scenePos());
     }
+    */
 }
 
 void MainWindow::elementClickedSlot(QGraphicsSceneMouseEvent *e)
 {
     menu->hideAllMenu();
+    /*
     gc->restoreAllPen();
 
     gc->setCurPoint(static_cast<gameMapElement*>(this->sender())->getPoint());
 
     if(gc->isPointAvailable(gc->getCurPoint()) && gc->getMovePoint().contains(gc->getCurPoint()))
     {
-        actionState->assignProperty(gc->getCurHero(), "point", gc->getCurPoint());
-        actionState->assignProperty(gc->getCurHero(), "pos", gc->getBeginPosOfHero(gc->getCurPoint()));
         if(e->button() == Qt::LeftButton)
         {
             emit elementClickedSignal(e);
@@ -230,16 +137,12 @@ void MainWindow::elementClickedSlot(QGraphicsSceneMouseEvent *e)
         {
             restoreAll();
         }
-    }
+    }*/
 
 }
-
+/*
 void MainWindow::moveToPos(heroItem *hi, QPoint p)
 {
-
-    QGraphicsItemAnimation* gia = gc->getGia();
-    QTimeLine *giaTimer = gc->getGiaTimer();
-
     QPointF oldPos = hi->scenePos();
     QPointF newPos = gc->getBeginPosOfHero(p);
 
@@ -264,10 +167,8 @@ void MainWindow::moveToPos(heroItem *hi, QPoint p)
         giaTimer->start();
     }
 }
-
+*/
 void MainWindow::restoreAll()
 {
     menu->hideAllMenu();
-    gc->restoreAllPen();
-    gc->clearMoveSphere();
 }

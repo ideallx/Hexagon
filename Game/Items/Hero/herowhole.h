@@ -8,20 +8,25 @@ class heroWhole : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    explicit heroWhole(int lineLength, QObject *parent = 0);
+    heroWhole(int lineLength, QObject *parent = 0);
     
-signals:
-
 private:
-    QRectF heroWhole::boundingRect() const;
-    void heroWhole::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
     void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+};
 
-    int lineLength;
-    
-public slots:
-    
+class heroThumbnail : public QObject, public QGraphicsRectItem
+{
+public:
+    heroThumbnail(int lineLength, QObject *parent = 0);
+
+private:
+    QRectF boundingRect() const;
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
 };
 
 #endif // HEROWHOLE_H

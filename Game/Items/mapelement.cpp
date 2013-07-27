@@ -1,5 +1,6 @@
 #include "mapelement.h"
 
+
 gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, QString path)
     :elementType(elementType)
 {
@@ -113,14 +114,8 @@ void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *it
     }
     painter->setOpacity(0.8);
     painter->drawPolygon(hexagon);
-
-//    QPolygonF p = polygonDeleteBound(double(painter->pen().width()));
-//    painter->drawPolygon(p);
 }
 
-//     2  3
-//   1      4
-//     6  5
 QVector<QPointF> gameMapElement::getPolygonPointf(QPointF begin)
 {
     QPointF p = QPointF(begin.x(),begin.y() + halfSqrt3*lineLength);
@@ -150,7 +145,6 @@ void gameMapElement::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
     setZValue(0.8);
     emit elementHoverin(event);
     emit statusInfoChanged(elementName + ";" + QString::number(point.x()) + ", " + QString::number(point.y()));
-
 }
 
 void gameMapElement::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)

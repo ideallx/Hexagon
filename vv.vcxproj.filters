@@ -56,12 +56,12 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{8eddf232-3fc8-4dfa-b79f-1ee86b710af6}</UniqueIdentifier>
+      <UniqueIdentifier>{38955cbf-2c08-49e3-9fc5-b9e133e84868}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{91f940c7-b536-49e2-8c6a-422c817796bf}</UniqueIdentifier>
+      <UniqueIdentifier>{38f3e777-52fc-44f3-b613-12a050a75104}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -79,13 +79,10 @@
     <ClCompile Include="Game\Items\camphealth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Items\carditem.cpp">
+    <ClCompile Include="Game\Items\Card\cardBack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Back\coordinate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Widget\gameWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\gameprocess.cpp">
@@ -130,16 +127,10 @@
     <ClCompile Include="Release\moc_camphealth.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\moc_carditem.cpp">
+    <ClCompile Include="Debug\moc_cardback.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Release\moc_carditem.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_gameWidget.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_gameWidget.cpp">
+    <ClCompile Include="Release\moc_cardback.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_heroitem.cpp">
@@ -189,15 +180,15 @@
     <CustomBuild Include="Game\Items\camphealth.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Game\Items\carditem.h">
+    <CustomBuild Include="Game\Items\Card\cardback.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="Game\Items\carditem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Back\coordinate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <CustomBuild Include="Widget\gameWidget.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <ClInclude Include="Game\gameprocess.h">
       <Filter>Header Files</Filter>
     </ClInclude>

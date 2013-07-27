@@ -9,7 +9,7 @@ heroItem::heroItem(int lineLength)
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
-    setRect(0, 0, lineLength, lineLength);
+    setRect(0, 0, lineLength*1.6, lineLength*1.6);
 }
 
 QRectF heroItem::boundingRect() const

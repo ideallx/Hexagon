@@ -3,24 +3,21 @@
 
 #include <QtWidgets>
 
-#include "coordinate.h"
+#include "backinfo.h"
 #include "heroitem.h"
-#include "heronormalpackage.h"
 #include "herowhole.h"
-#include "backscene.h"
-
 
 struct heroInfo
 {
-    QString heroName;
     int moveSphere;
     int attackSphere;
     int healthMax;
     char sexual;
+    QString heroName;
 
 };
 
-class heroFactory
+class heroFactory : public QObject
 {
 public:
     typedef enum heroNum_t
@@ -51,17 +48,42 @@ public:
         UserDefined
     }heroNum;
 
-    heroFactory(QString dir, int lineLength, gameCoordinate* gc, backScene* scene);
+    typedef struct externInfo
+    {
+        heroNum h;
+        heroItem::heroCamp c;
+        QPoint p;
+    }ExternInfo;
+
+    heroFactory(gameBackInfo* gbi, QGraphicsScene* scene);
     heroItem* createHero(heroNum, QPoint, heroItem::heroCamp);
+    QList<heroItem*> generateHeroes(QList<ExternInfo>);
 
 private:
     static const struct heroInfo msz;
     static const struct heroInfo ls;
+    static const struct heroInfo bzsn;
+    static const struct heroInfo hwz;
+    static const struct heroInfo fxz;
+    static const struct heroInfo hyzq;
+    static const struct heroInfo lhyz;
+    static const struct heroInfo dt;
+    static const struct heroInfo yy;
+    static const struct heroInfo shz;
+    static const struct heroInfo ayzr;
+    static const struct heroInfo rz;
+    static const struct heroInfo xzlz;
+    static const struct heroInfo qyz;
+    static const struct heroInfo sqs;
+    static const struct heroInfo zlzj;
+    static const struct heroInfo zkzs;
+    static const struct heroInfo ks;
+    static const struct heroInfo ss;
+    static const struct heroInfo bx;
 
-    gameCoordinate* gc;
     QMap<heroNum, struct heroInfo> heroInfoMap;
     int lineLength;
-    backScene* scene;
+    QGraphicsScene* scene;
     QString innerDir;
 };
 

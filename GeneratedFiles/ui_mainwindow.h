@@ -13,14 +13,14 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGraphicsView>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
-#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -34,9 +34,10 @@ public:
     QAction *actionTest2;
     QAction *actionEndTurn;
     QWidget *centralWidget;
-    QVBoxLayout *verticalLayout;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
+    QHBoxLayout *horizontalLayout;
+    QGraphicsView *viewLeft;
+    backview *viewCenter;
+    QGraphicsView *viewRight;
     QMenuBar *menuBar;
     QMenu *menuAbout;
     QMenu *menu_2;
@@ -65,20 +66,35 @@ public:
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         centralWidget->setAutoFillBackground(false);
-        verticalLayout = new QVBoxLayout(centralWidget);
-        verticalLayout->setSpacing(6);
-        verticalLayout->setContentsMargins(11, 11, 11, 11);
-        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
-        scrollArea = new QScrollArea(centralWidget);
-        scrollArea->setObjectName(QStringLiteral("scrollArea"));
-        scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QStringLiteral("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 992, 599));
-        scrollArea->setWidget(scrollAreaWidgetContents);
+        horizontalLayout = new QHBoxLayout(centralWidget);
+        horizontalLayout->setSpacing(6);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        viewLeft = new QGraphicsView(centralWidget);
+        viewLeft->setObjectName(QStringLiteral("viewLeft"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(viewLeft->sizePolicy().hasHeightForWidth());
+        viewLeft->setSizePolicy(sizePolicy);
+        viewLeft->setMinimumSize(QSize(300, 0));
+        viewLeft->setMaximumSize(QSize(300, 16777215));
 
-        verticalLayout->addWidget(scrollArea);
+        horizontalLayout->addWidget(viewLeft);
+
+        viewCenter = new backview(centralWidget);
+        viewCenter->setObjectName(QStringLiteral("viewCenter"));
+
+        horizontalLayout->addWidget(viewCenter);
+
+        viewRight = new QGraphicsView(centralWidget);
+        viewRight->setObjectName(QStringLiteral("viewRight"));
+        sizePolicy.setHeightForWidth(viewRight->sizePolicy().hasHeightForWidth());
+        viewRight->setSizePolicy(sizePolicy);
+        viewRight->setMinimumSize(QSize(300, 0));
+        viewRight->setMaximumSize(QSize(300, 16777215));
+
+        horizontalLayout->addWidget(viewRight);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);

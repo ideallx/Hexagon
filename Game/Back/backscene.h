@@ -2,15 +2,13 @@
 #define BACKSCENE_H
 
 #include <QGraphicsScene>
-#include "coordinate.h"
-#include "backinfo.h"
-#include "heroengine.h"
+#include "itemcollector.h"
 
 class backScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    backScene(gameBackInfo*, gameCoordinate*, QObject *parent = 0);
+    backScene(gameBackInfo*, gameCoordinate*, QList<heroFactory::ExternInfo> i, QObject *parent = 0);
     
 private:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -20,6 +18,7 @@ private:
 private:
     gameBackInfo* gbi;
     gameCoordinate* gc;
+    itemCollector *ic;
 
 signals:
     

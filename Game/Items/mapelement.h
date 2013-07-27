@@ -2,6 +2,7 @@
 #define GAMEMAPELEMENT_H
 
 #include <QtWidgets>
+#include "backinfo.h"
 
 class gameMapElement : public QObject, public QGraphicsPolygonItem
 {
@@ -67,5 +68,6 @@ signals:
     void elementClicked(QGraphicsSceneMouseEvent*);
     void elementHoverin(QGraphicsSceneHoverEvent*);
 };
+
 
 #endif // GAMEMAPELEMENT_H

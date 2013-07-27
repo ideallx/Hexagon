@@ -3,14 +3,12 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
+
 #include "backview.h"
 #include "backscene.h"
-#include "heroitem.h"
 #include "menu.h"
 #include "coordinate.h"
-#include "carditem.h"
-#include "herowhole.h"
-#include "camphealth.h"
+
 
 namespace Ui {
 class MainWindow;
@@ -30,15 +28,7 @@ private:
     void stateMachineInitial();
     void moveToPos(heroItem*, QPoint);
 
-    QStateMachine *stm;
-    QState *freeState;
-    QState *moveState;
-    QState *attackState;
-    QState *abilityState;
-    QState *actionState;
-    QFinalState *finalState;
-
-    backview *widgetMain;
+    backview* widgetMain;
     gameMenu* menu;
     backScene *scene;
     gameBackInfo* gbi;

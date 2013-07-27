@@ -2,4 +2,5 @@
 
 gameProcess::gameProcess()
 {
+    void beforeGame();
 }

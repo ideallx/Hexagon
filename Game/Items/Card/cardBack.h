@@ -3,11 +3,11 @@
 
 #include <QtWidgets>
 
-class cardItem : public QObject, public QGraphicsRectItem
+class cardBack : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    explicit cardItem(QRectF, QString);
+    explicit cardBack(QRectF, QString);
 
 private:
     QRectF boundingRect();

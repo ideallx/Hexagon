@@ -1,17 +1,17 @@
-#include "carditem.h"
+#include "cardback.h"
 
-cardItem::cardItem(QRectF rec, QString path)
+cardBack::cardBack(QRectF rec, QString path)
 {
     setRect(rec);
     this->path = path;
 }
 
-QRectF cardItem::boundingRect()
+QRectF cardBack::boundingRect()
 {
     return rect();
 }
 
-void cardItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void cardBack::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);

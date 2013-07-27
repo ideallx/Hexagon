@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>include;Game;Game\Back;Game\Items;Game\Items\Hero;Widget;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore;debug;.;..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;Game;Game\Back;Game\Items;Game\Items\Hero;Game\Items\Card;Widget;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore;debug;.;..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -96,7 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>include;Game;Game\Back;Game\Items;Game\Items\Hero;Widget;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore;release;.;..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>include;Game;Game\Back;Game\Items;Game\Items\Hero;Game\Items\Card;Widget;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui;..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore;release;.;..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012;.\GeneratedFiles;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zm200 -w34100 -w34189 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -144,10 +144,7 @@
     <ClCompile Include="Debug\moc_camphealth.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_carditem.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_gameWidget.cpp">
+    <ClCompile Include="Debug\moc_cardback.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Debug\moc_heroitem.cpp">
@@ -169,14 +166,123 @@
     <ClCompile Include="Game\Back\backscene.cpp" />
     <ClCompile Include="Game\Back\backview.cpp" />
     <ClCompile Include="Game\Items\camphealth.cpp" />
-    <ClCompile Include="Game\Items\carditem.cpp" />
+    <ClCompile Include="Game\Items\Card\cardBack.cpp" />
     <ClCompile Include="Game\Back\coordinate.cpp" />
+    <ClCompile Include="Game\gameprocess.cpp" />
+    <ClCompile Include="Game\Items\Hero\heroengine.cpp" />
+    <ClCompile Include="Game\Items\Hero\heroitem.cpp" />
+    <ClCompile Include="Game\Items\Hero\heronormalpackage.cpp" />
+    <ClCompile Include="Game\Items\Hero\herowhole.cpp" />
     <ClCompile Include="GeneratedFiles\qrc_vv.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
       </PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Game\Items\mapelement.cpp" />
+    <ClCompile Include="Game\Back\menu.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Game\Back\backinfo.h" />
+    <CustomBuild Include="Game\Back\backscene.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backscene.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backscene.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="Game\Back\backview.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backview.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backview.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="Game\Items\camphealth.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing camphealth.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing camphealth.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="Game\Items\Card\cardback.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing cardback.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing cardback.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <ClInclude Include="Game\Items\carditem.h" />
+    <ClInclude Include="Game\Back\coordinate.h" />
+    <ClInclude Include="Game\gameprocess.h" />
+    <ClInclude Include="Game\Items\Hero\heroengine.h" />
+    <CustomBuild Include="Game\Items\Hero\heroitem.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing heroitem.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing heroitem.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="Game\Items\Hero\heronormalpackage.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing heronormalpackage.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing heronormalpackage.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="Game\Items\Hero\herowhole.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing herowhole.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing herowhole.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
+    <ClInclude Include="mainwindow.h" />
+    <CustomBuild Include="Game\Items\mapelement.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mapelement.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mapelement.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+    <CustomBuild Include="Game\Back\menu.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing menu.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG  "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012" "-I.\GeneratedFiles"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing menu.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="Release\moc_backscene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
@@ -186,10 +292,7 @@
     <ClCompile Include="Release\moc_camphealth.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_carditem.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="Release\moc_gameWidget.cpp">
+    <ClCompile Include="Release\moc_cardback.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Release\moc_heroitem.cpp">
@@ -207,123 +310,6 @@
     <ClCompile Include="Release\moc_menu.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Widget\gameWidget.cpp" />
-    <ClCompile Include="Game\gameprocess.cpp" />
-    <ClCompile Include="Game\Items\Hero\heroengine.cpp" />
-    <ClCompile Include="Game\Items\Hero\heroitem.cpp" />
-    <ClCompile Include="Game\Items\Hero\heronormalpackage.cpp" />
-    <ClCompile Include="Game\Items\Hero\herowhole.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Game\Items\mapelement.cpp" />
-    <ClCompile Include="Game\Back\menu.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Game\Back\backinfo.h" />
-    <CustomBuild Include="Game\Back\backscene.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backscene.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backscene.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Back\backview.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backview.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backview.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Items\camphealth.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing camphealth.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing camphealth.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Items\carditem.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing carditem.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing carditem.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <ClInclude Include="Game\Back\coordinate.h" />
-    <CustomBuild Include="Widget\gameWidget.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing gameWidget.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing gameWidget.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <ClInclude Include="Game\gameprocess.h" />
-    <ClInclude Include="Game\Items\Hero\heroengine.h" />
-    <CustomBuild Include="Game\Items\Hero\heroitem.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing heroitem.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing heroitem.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Items\Hero\heronormalpackage.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing heronormalpackage.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing heronormalpackage.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Items\Hero\herowhole.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing herowhole.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing herowhole.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <ClInclude Include="GeneratedFiles\ui_mainwindow.h" />
-    <ClInclude Include="mainwindow.h" />
-    <CustomBuild Include="Game\Items\mapelement.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mapelement.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing mapelement.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Back\menu.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing menu.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I." "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing menu.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="lang__zhCN.ts" />

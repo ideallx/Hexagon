@@ -11,8 +11,6 @@ public:
     QPixmap getPixmap(void) { return backgroundPicture; }
     QRectF getCardRect(void) { return backCardRect; }
     QPointF getBeginPosition() { return beginPosition; }
-    QPointF getBackCardLeft() { return backCardLeft; }
-    QPointF getBackCardRight() { return backCardRight; }
     QString getConfigDir() { return configDir; }
     int getLineLength() { return lineLength; }
     int getWidthCount() { return widthCount; }
@@ -33,8 +31,6 @@ private:
     QString configDir;
     QPixmap backgroundPicture;
     QPointF beginPosition;
-    QPointF backCardLeft;
-    QPointF backCardRight;
 
     int lineLength;
     int widthCount;

@@ -2,7 +2,9 @@
 
 campHealth::campHealth(QRectF rec, QObject *parent)
 {
+    Q_UNUSED(rec);
     setShapeMode(MaskShape);
+    this->setParent(parent);
 }
 
 QRectF campHealth::boundingRect()

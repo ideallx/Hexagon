@@ -20,13 +20,16 @@ SOURCES  += main.cpp \
     Game/Back/backscene.cpp \
     Game/Back/backinfo.cpp \
     Game/Items/mapelement.cpp \
-    Game/Items/carditem.cpp \
     Game/Items/camphealth.cpp \
     Game/Items/Hero/herowhole.cpp \
-    Game/Items/Hero/heronormalpackage.cpp \
     Game/Items/Hero/heroitem.cpp \
     Game/Items/Hero/heroengine.cpp \
-    Widget/gameWidget.cpp
+    Game/Items/Card/cardBack.cpp \
+    Game/Items/Card/cardengine.cpp \
+    Widget/gameWidget.cpp \
+    Game/Back/sidescene.cpp \
+    Game/Items/Card/carditem.cpp \
+    Game/Items/itemcollector.cpp
 
 HEADERS  += mainwindow.h \
     Game/gameprocess.h \
@@ -39,16 +42,21 @@ HEADERS  += mainwindow.h \
     Game/Items/carditem.h \
     Game/Items/camphealth.h \
     Game/Items/Hero/herowhole.h \
-    Game/Items/Hero/heronormalpackage.h \
     Game/Items/Hero/heroitem.h \
     Game/Items/Hero/heroengine.h \
-    Widget/gameWidget.h
+    Game/Items/Card/cardback.h \
+    Game/Items/Card/cardengine.h \
+    Widget/gameWidget.h \
+    Game/Back/sidescene.h \
+    Game/Items/Card/carditem.h \
+    Game/Items/itemcollector.h
 
 INCLUDEPATH += include
 INCLUDEPATH += Game
 INCLUDEPATH += Game/Back
 INCLUDEPATH += Game/Items
 INCLUDEPATH += Game/Items/Hero
+INCLUDEPATH += Game/Items/Card
 INCLUDEPATH += Widget
 
 FORMS    += mainwindow.ui
