@@ -10,18 +10,30 @@
 class itemCollector
 {
 public:
-    itemCollector(gameBackInfo* gbi, gameCoordinate* gc, QGraphicsScene* scene);
+    itemCollector(gameBackInfo*, gameCoordinate*, QGraphicsScene* c, QGraphicsScene* l, QGraphicsScene* r);
     void setMapElement();
     void setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInfo> info);
     void setCardEngine(cardEngine* ce);
+
 
     bool isPointHasHero(QPoint);
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
 
-    int getBlockNumber(QPoint);
+    gameMapElement* getMapElementByPoint(QPoint in){ return elements[getPointNumber(in)]; }
+    int getPointNumber(QPoint);
 
+
+    void setElementDefaultPen(QPoint);
+    void setElementRestorePen(QPoint point);
+    void setElementSpecialPen(QPoint, QPen);
+    void setElementSpecialPen(gameMapElement*, QPen pen);
+    void setElementBoldPen(QPoint, double width);
     void restoreAllPen();
+
+    heroItem* getHeroByPoint(QPoint);
+    void addLocalHero(heroItem* h){ localHeros.append(h);}
+    QVector<heroItem*> localHero() const { return localHeros; }
 
     QList<QPoint> listSphere(QPoint point, int sphere, char type);
 
@@ -29,14 +41,17 @@ private:
     void addHeroList(QList<heroFactory::ExternInfo> info);
     void addCardList();
     void addMapElementList();
+    void addHeroSide();
 
-    bool listAddJudge(QList<QPoint>set, QPoint point);
-    QList<QPoint> recursionSeries(QList<QPoint>set, QPoint point, int sphere);
+    bool listAddJudge(QList<QPoint>* set, QPoint point);
+    QList<QPoint> recursionSeries(QList<QPoint>* set, QPoint point, int sphere);
 
     int wid;
     int hei;
 
     char type;
+
+    QVector<heroItem*> localHeros;
 
     gameMapElement *gme;
     heroFactory* hf;
@@ -45,6 +60,8 @@ private:
     gameBackInfo* gbi;
     gameCoordinate* gc;
     QGraphicsScene* scene;
+    QGraphicsScene* sceneLeft;
+    QGraphicsScene* sceneRight;
 
     QList<heroItem*> redTeamHeros;
     QList<heroItem*> blueTeamHeros;

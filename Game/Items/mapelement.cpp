@@ -1,5 +1,6 @@
 #include "mapelement.h"
-
+//need to be changed later...
+//reduce member function...
 
 gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, QString path)
     :elementType(elementType)
@@ -13,12 +14,21 @@ gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, Q
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setPolygon(hexagon);
-    setZValue(0.6);
 
     this->point = point;
     this->moveAvailable = true;
 
     variableInitial();
+    setDefaultPen();
+    setDefaultZValue();
+}
+
+void gameMapElement::setDefaultZValue()
+{
+    if(moveAvailable)
+        setZValue(0.6);
+    else
+        setZValue(0.8);
 }
 
 void gameMapElement::variableInitial()
@@ -87,7 +97,7 @@ void gameMapElement::variableInitial()
         block = QPixmap(path + "desert.png");
         elementName = QString(tr("desert"));
     }
-    brush = QBrush(block.scaledToWidth(2*lineLength));
+    setBrush(QBrush(block.scaledToWidth(2*lineLength)));
 }
 
 QRectF gameMapElement::boundingRect() const
@@ -95,23 +105,21 @@ QRectF gameMapElement::boundingRect() const
     return QRectF(0, 0, 2*lineLength, 1.73*lineLength);
 }
 
+void gameMapElement::setDefaultPen()
+{
+    if(moveAvailable)
+        setPen(QPen(Qt::black));
+    else
+        setPen(QPen(Qt::white));
+}
+
 void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
 {
+    Q_UNUSED(item);
     Q_UNUSED(widget);
-    painter->setBrush(brush);
-    if(item->state & QStyle::State_MouseOver)
-    {
-        if(moveAvailable)
-            painter->setPen(QPen(Qt::black, 5));
-        else
-            painter->setPen(QPen(Qt::white, 5));
-    }
-    else
-    {
-        if(moveAvailable)
-            pen().setColor(Qt::white);
-        painter->setPen(pen());
-    }
+
+    painter->setBrush(brush());
+    painter->setPen(pen());
     painter->setOpacity(0.8);
     painter->drawPolygon(hexagon);
 }
@@ -131,27 +139,6 @@ QVector<QPointF> gameMapElement::getPolygonPointf(QPointF begin)
     p = QPointF(begin.x()+0.5*lineLength, begin.y() + 2*halfSqrt3*lineLength);
     hexagon.append(p);
     return hexagon;
-}
-
-void gameMapElement::mousePressEvent(QGraphicsSceneMouseEvent *e)
-{
-    QGraphicsItem::mousePressEvent(e);
-    emit elementClicked(e);
-}
-
-void gameMapElement::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-    QGraphicsItem::hoverEnterEvent(event);
-    setZValue(0.8);
-    emit elementHoverin(event);
-    emit statusInfoChanged(elementName + ";" + QString::number(point.x()) + ", " + QString::number(point.y()));
-}
-
-void gameMapElement::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
-{
-    //emit statusInfoChanged("");
-    setZValue(0.6);
-    QGraphicsItem::hoverLeaveEvent(event);
 }
 
 QPainterPath gameMapElement::shape() const
@@ -174,4 +161,10 @@ QPolygonF gameMapElement::polygonDeleteBound(double width)
     result.append(hexagon.at(4)+QPointF(0, -width/2));
     result.append(hexagon.at(5)+QPointF(0, -width/2));
     return result;
+}
+
+void gameMapElement::setPen(const QPen &pen)
+{
+    oldPen = this->pen();
+    QGraphicsPolygonItem::setPen(pen);
 }

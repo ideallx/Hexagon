@@ -24,8 +24,6 @@ public:
     QPointF getBeginPosOfHero(QPoint);
     QPointF getCenterPosWithCoo(QPoint);
 
-    int getBlockNumber(QPoint);
-
 
 private:
     int beginX;

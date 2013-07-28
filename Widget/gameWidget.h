@@ -8,6 +8,8 @@
 #include "backscene.h"
 #include "menu.h"
 #include "coordinate.h"
+#include "eventcenter.h"
+#include "sidescene.h"
 
 
 namespace Ui {
@@ -33,8 +35,12 @@ private:
     backScene *scene;
     gameBackInfo* gbi;
     gameCoordinate *gc;
+    eventCenter *ec;
 
-    QLabel *statusLabel;
+    sideScene* sceneLeft;
+    sideScene* sceneRight;
+
+    QLabel *itemLabel;
     QLabel *coordinateLabel;
     QLabel *heroLabel;
     QLabel *campLabel;
@@ -49,7 +55,7 @@ signals:
 
 private slots:
     void restoreAll();
-    void changeStatusInfo(QString);
+    void changeStatusInfo(QStringList);
     void showMoveSphere();
     void showAttackSphere();
     void heroClickedSlot(QGraphicsSceneMouseEvent*);

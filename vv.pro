@@ -29,7 +29,9 @@ SOURCES  += main.cpp \
     Widget/gameWidget.cpp \
     Game/Back/sidescene.cpp \
     Game/Items/Card/carditem.cpp \
-    Game/Items/itemcollector.cpp
+    Game/Items/itemcollector.cpp \
+    Game/eventcenter.cpp \
+    Game/animationcenter.cpp
 
 HEADERS  += mainwindow.h \
     Game/gameprocess.h \
@@ -49,7 +51,9 @@ HEADERS  += mainwindow.h \
     Widget/gameWidget.h \
     Game/Back/sidescene.h \
     Game/Items/Card/carditem.h \
-    Game/Items/itemcollector.h
+    Game/Items/itemcollector.h \
+    Game/eventcenter.h \
+    Game/animationcenter.h
 
 INCLUDEPATH += include
 INCLUDEPATH += Game

@@ -9,8 +9,8 @@
 
 struct heroInfo
 {
-    int moveSphere;
     int attackSphere;
+    int moveSphere;
     int healthMax;
     char sexual;
     QString heroName;

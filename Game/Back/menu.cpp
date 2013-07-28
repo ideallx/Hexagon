@@ -35,18 +35,15 @@ void gameMenu::menuInitial()
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
 }
 
-void gameMenu::showMenu(gameMenu::menu_type_t type, QPointF pos)
+void gameMenu::showMenu(QPointF pos)
 {
     QList<QPushButton*> list;
-    switch(type)
-    {
-    case MENULIST:
+
         list = menuList;
         moveButton->setEnabled(isMoveAble);
         attackButton->setEnabled(isAttackAble);
         abilityButton->setEnabled(isAbilityAble);
-        break;
-    }
+
 
 
     for(int i=0; i<list.count(); i++)

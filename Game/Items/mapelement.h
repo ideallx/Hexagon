@@ -14,19 +14,23 @@ public:
     QVector<QPointF> getPolygonPointf(QPointF);
     QPolygonF polygonDeleteBound(double);
 
-    QBrush getBrush() const { return brush; }
     QPoint getPoint() const { return point; }
     QString getElementName() const { return elementName; }
     bool isPointAvailable() const { return elementType != areaNouse; }
     bool isMoveAvailable() const { return moveAvailable; }
 
+    void setDefaultZValue();
+    void setDefaultPen();
+    QPen getDefaultPen() { if(moveAvailable) return QPen(Qt::black); else return QPen(Qt::white); }
+
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
+
+    void setPen(const QPen &pen);
+    QPen getOldPen() const { return oldPen; }
+    void restorePen() { QGraphicsPolygonItem::setPen(oldPen); }
 
     enum gameEnvironment_t
     {
@@ -52,6 +56,8 @@ public:
 
 private:
     void variableInitial();
+
+    QPen oldPen;
     QString path;
     QPoint point;
     int lineLength;
@@ -59,14 +65,8 @@ private:
 
     bool moveAvailable;
     char elementType;
-    QBrush brush;
     QString elementName;
     QPolygonF hexagon;
-
-signals:
-    void statusInfoChanged(QString);
-    void elementClicked(QGraphicsSceneMouseEvent*);
-    void elementHoverin(QGraphicsSceneHoverEvent*);
 };
 
 

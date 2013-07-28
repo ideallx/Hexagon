@@ -21,7 +21,6 @@ public:
     };
 
     gameMenu(QWidget *parent = 0);
-    void showMenu(gameMenu::menu_type_t, QPointF pos = QPointF());
     void hideMenu(gameMenu::menu_type_t);
 
     bool MoveAble() { return isMoveAble; }
@@ -54,6 +53,7 @@ signals:
 
 public slots:
     void hideAllMenu();
+    void showMenu(QPointF pos = QPointF());
 
 };
 

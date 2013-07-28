@@ -48,9 +48,6 @@ public:
 
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
-    void mousePressEvent(QGraphicsSceneMouseEvent *);
-    void hoverEnterEvent(QGraphicsSceneHoverEvent *);
-
 private:
     int innerHealth;
     char camp;

@@ -20,7 +20,7 @@ void backview::initialSettrings()
     this->setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed));
     this->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     this->setCacheMode(QGraphicsView::CacheBackground);
-    this->setRenderHints(QPainter::Antialiasing);
+    this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setUpdatesEnabled(true);
     this->setCacheMode(CacheBackground);
 }

@@ -27,21 +27,9 @@ void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawEllipse(rect());
 }
 
-void heroItem::mousePressEvent(QGraphicsSceneMouseEvent *e)
-{
-    QGraphicsItem::mousePressEvent(e);
-    emit mouseClicked(e);
-}
-
 QPainterPath heroItem::shape() const
 {
     QPainterPath path;
     path.addEllipse(rect());
     return path;
-}
-
-void heroItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
-{
-    QGraphicsItem::hoverEnterEvent(event);
-    emit changeStatus(playerName + ": " + heroName);
 }
