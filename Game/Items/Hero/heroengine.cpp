@@ -52,6 +52,7 @@ heroItem* heroFactory::createHero(heroNum hero, QPoint pt, heroItem::heroCamp c)
     heroItem * item = new heroItem(lineLength);
     item->setBrush(QPixmap(innerDir + heroInfoMap[hero].heroName + "_Head.png").scaledToWidth(item->rect().width()));
     item->setHeroProperty(heroInfoMap[hero].sexual, heroInfoMap[hero].attackSphere, heroInfoMap[hero].moveSphere, heroInfoMap[hero].healthMax);
+    item->setHeroName(heroInfoMap[hero].heroName);
     item->setPoint(pt);
     item->setCamp(c);
     return item;

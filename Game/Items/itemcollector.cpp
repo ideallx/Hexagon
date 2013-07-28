@@ -264,7 +264,7 @@ void itemCollector::setElementSpecialPen(QPoint point, QPen pen)
     if(!isPointAvailable(point))
         return;
     gameMapElement* gmeT = elements[getPointNumber(point)];
-    gmeT->setZValue(0.7);
+    gmeT->setDefaultZValue();
     gmeT->setPen(pen);
 }
 
@@ -279,6 +279,6 @@ void itemCollector::setElementBoldPen(QPoint point, double width)
 
 void itemCollector::setElementSpecialPen(gameMapElement* gmeT, QPen pen)
 {
-    gmeT->setZValue(0.7);
+    gmeT->setDefaultZValue();
     gmeT->setPen(pen);
 }

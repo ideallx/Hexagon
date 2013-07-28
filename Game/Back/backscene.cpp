@@ -32,7 +32,11 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
         return;
     }
-    ic->setElementRestorePen(oldPoint);
+    if(sphereList.contains(oldPoint))
+        ic->setElementRestorePen(oldPoint);
+    else
+        ic->setElementDefaultPen(oldPoint);
+
     ic->setElementBoldPen(newPoint, 5);
     oldPoint = newPoint;
 
@@ -74,8 +78,6 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
     else
     {
-        if(ic->isPointAvailable(oldPoint))
-            ic->getMapElementByPoint(oldPoint)->setDefaultPen();
         emit mapElementClicked(oldPoint);
     }
 }

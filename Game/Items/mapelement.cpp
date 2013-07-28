@@ -108,9 +108,9 @@ QRectF gameMapElement::boundingRect() const
 void gameMapElement::setDefaultPen()
 {
     if(moveAvailable)
-        setPen(QPen(Qt::black));
+        setPen(QPen(Qt::gray, 2));
     else
-        setPen(QPen(Qt::white));
+        setPen(QPen(Qt::white, 5));
 }
 
 void gameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
