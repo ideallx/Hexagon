@@ -30,15 +30,12 @@ private:
     void stateMachineInitial();
     void moveToPos(heroItem*, QPoint);
 
-    backview* widgetMain;
+    //QGraphicsView* widgetMain;
     gameMenu* menu;
     backScene *scene;
     gameBackInfo* gbi;
     gameCoordinate *gc;
     eventCenter *ec;
-
-    sideScene* sceneLeft;
-    sideScene* sceneRight;
 
     QLabel *itemLabel;
     QLabel *coordinateLabel;

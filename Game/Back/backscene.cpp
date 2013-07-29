@@ -1,17 +1,20 @@
 #include "backscene.h"
 
-backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<heroFactory::ExternInfo> i, QGraphicsScene* l, QGraphicsScene* r, QObject *parent) :
+backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<heroFactory::ExternInfo> i, QObject *parent) :
     gbi(gbi),
-    gc(gc),
-    left(l),
-    right(r)
+    gc(gc)
 {
     this->setSceneRect(gbi->getPixmap().rect());
 
-    ic = new itemCollector(gbi, gc, this, l, r);
+    ic = new itemCollector(gbi, gc, this);
     ic->setCardEngine(new cardEngine());
     ic->setHeroFactory(new heroFactory(gbi), i);
     ic->setMapElement();
+
+//    QGraphicsRectItem* rect = new QGraphicsRectItem();
+//    rect->setRect(0, 0, 200, 200);
+//    rect->setPen(QPen(Qt::black, 5));//??
+//    this->addItem(rect);
 
     this->setParent(parent);
 }
@@ -69,8 +72,10 @@ bool backScene::eventFilter(QObject *watched, QEvent *event)
 
 void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    qDebug()<<event->scenePos().x()<<event->scenePos().y();
     if(ic->isPointHasHero(oldPoint))
     {
+        qDebug("df");
         if(ic->localHero().contains(ic->getHeroByPoint(oldPoint)))
             emit localHeroClicked(event->scenePos());
         else

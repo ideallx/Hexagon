@@ -10,7 +10,7 @@
 class itemCollector
 {
 public:
-    itemCollector(gameBackInfo*, gameCoordinate*, QGraphicsScene* c, QGraphicsScene* l, QGraphicsScene* r);
+    itemCollector(gameBackInfo*, gameCoordinate*, QGraphicsScene* c);
     void setMapElement();
     void setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInfo> info);
     void setCardEngine(cardEngine* ce);
@@ -60,8 +60,6 @@ private:
     gameBackInfo* gbi;
     gameCoordinate* gc;
     QGraphicsScene* scene;
-    QGraphicsScene* sceneLeft;
-    QGraphicsScene* sceneRight;
 
     QList<heroItem*> redTeamHeros;
     QList<heroItem*> blueTeamHeros;

@@ -22,7 +22,7 @@ const struct heroInfo heroFactory::ss   = {1, 3, 9,  heroItem::sex_male,   tr("s
 const struct heroInfo heroFactory::bx   = {1, 4, 8,  heroItem::sex_male,   tr("baoXiong")};
 
 heroFactory::heroFactory(gameBackInfo* gbi):
-    innerDir(gbi->getConfigDir()),
+    innerDir(gbi->getConfigDir() + "heros/"),
     lineLength(gbi->getLineLength())
 {
     heroInfoMap[MieShaZhe] = msz;

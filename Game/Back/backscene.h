@@ -8,7 +8,7 @@ class backScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    backScene(gameBackInfo*, gameCoordinate*, QList<heroFactory::ExternInfo> i, QGraphicsScene* l, QGraphicsScene* r, QObject *parent = 0);
+    backScene(gameBackInfo*, gameCoordinate*, QList<heroFactory::ExternInfo> i, QObject *parent = 0);
     
 private:
     bool eventFilter(QObject *watched, QEvent *event);
@@ -23,9 +23,6 @@ private:
     QList<QPoint> sphereList;
 
     QPoint oldPoint;
-
-    QGraphicsScene* left;
-    QGraphicsScene* right;
 
 signals:
     void changeStatusBar(QStringList);

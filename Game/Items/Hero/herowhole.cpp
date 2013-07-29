@@ -5,7 +5,7 @@ heroWhole::heroWhole(int lineLength, QObject *parent)
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
-    setRect(0, 0, 6*lineLength, 8.75*lineLength);
+    setRect(0, 0, 2.88*lineLength, 4.2*lineLength);
     this->setParent(parent);
 }
 
@@ -38,7 +38,7 @@ heroThumbnail::heroThumbnail(int lineLength, QObject *parent)
 {
     setFlag(ItemIsSelectable);
     setAcceptHoverEvents(true);
-    setRect(0, 0, lineLength, lineLength);
+    setRect(0, 0, 2.8*lineLength, 2.8*lineLength);
     this->setParent(parent);
 }
 

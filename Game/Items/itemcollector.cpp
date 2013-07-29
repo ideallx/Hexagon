@@ -1,11 +1,9 @@
 #include "itemcollector.h"
 
-itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsScene* scenei, QGraphicsScene* l, QGraphicsScene* r):
+itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsScene* scenei):
       gbi(gbii),
       gc(gci),
-      scene(scenei),
-      sceneLeft(l),
-      sceneRight(r)
+      scene(scenei)
 {
     hei = gbi->getHeightCount();
     wid = gbi->getWidthCount();
@@ -91,7 +89,7 @@ void itemCollector::addMapElementList()
     {
         for(int i=0; i<wid; i++)
         {
-            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), map[i+j*wid], QPoint(i, j), gbi->getConfigDir());
+            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), map[i+j*wid], QPoint(i, j), gbi->getConfigDir()+"elements/");
             elements.append(mapItem);
             mapItem->hide();
             if(mapItem->isPointAvailable())

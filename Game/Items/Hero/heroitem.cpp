@@ -20,7 +20,6 @@ QRectF heroItem::boundingRect() const
 void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
-    Q_UNUSED(widget);
     painter->setOpacity(1.0);
     painter->setBrush(brush());
     painter->setPen(QPen(Qt::black, 3));

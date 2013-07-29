@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
 // HERO:heroName    coordinate:x, x    camp:hero
 bool MainWindow::variableInitial()
 {
-    gbi = new gameBackInfo(QString("C:/Users/xiang/Documents/GitHub/Hexagon/Resource/SkinDefault/config.xml"));
+    gbi = new gameBackInfo(QString("C:/Users/xiang/Documents/GitHub/rsc/config.xml"));
     if(!gbi->isLoadSuccess())
     {
         QMessageBox::critical(this, tr("LYBNS"), tr("loading error"));
@@ -77,18 +77,10 @@ bool MainWindow::sceneInitial()
     exInfo.p = QPoint(1, 1);
     info.append(exInfo);
 
-    sceneLeft = new sideScene();
-    sceneRight = new sideScene();
-    ui->viewLeft->setBackgroundBrush(QBrush(Qt::yellow));
-    ui->viewRight->setBackgroundBrush(QBrush(Qt::blue));
-    ui->viewLeft->setScene(sceneLeft);
-    ui->viewRight->setScene(sceneRight);
-
-    scene = new backScene(gbi, gc, info, sceneLeft, sceneRight, this);
-    widgetMain = new backview(scene, this);
-    widgetMain->setBackgroundBrush(QBrush(gbi->getPixmap()));
-    ui->scrollArea->setWidget(widgetMain);
-    menu = new gameMenu(widgetMain);
+    scene = new backScene(gbi, gc, info, this);
+    ui->graphicsView->setScene(scene);
+    ui->graphicsView->setBackgroundBrush(QBrush(gbi->getPixmap()));
+    menu = new gameMenu(ui->graphicsView);
     ec = new eventCenter(scene, menu);
     qDebug("backView load complete...");
 
