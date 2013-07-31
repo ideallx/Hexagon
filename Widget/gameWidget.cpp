@@ -81,8 +81,9 @@ bool MainWindow::sceneInitial()
     ui->graphicsView->setScene(scene);
     ui->graphicsView->setBackgroundBrush(QBrush(gbi->getPixmap()));
     menu = new gameMenu(ui->graphicsView);
-    ec = new eventCenter(scene, menu);
+    ec = new eventCenter(scene, menu, ui->graphicsView);
     qDebug("backView load complete...");
+
 
     return true;
 }

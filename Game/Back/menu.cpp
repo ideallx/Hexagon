@@ -1,9 +1,10 @@
 #include "menu.h"
 
-gameMenu::gameMenu(QWidget *parent)
+gameMenu::gameMenu(QGraphicsView *parent)
     :parent(parent)
 {
     menuInitial();
+    interfaceInitial();
 }
 
 void gameMenu::menuInitial()
@@ -24,7 +25,7 @@ void gameMenu::menuInitial()
     menuList.append(abilityButton);
     menuList.append(cancelButton);
 
-    hideMenu(MENULIST);
+    //hideMenu(MENULIST);
 
     isMoveAble = isAttackAble = isAbilityAble = true;
 
@@ -35,21 +36,25 @@ void gameMenu::menuInitial()
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
 }
 
+void gameMenu::interfaceInitial()
+{
+    mapTable = new QTableView(parent);
+    mapTable->hide();
+}
+
 void gameMenu::showMenu(QPointF pos)
 {
     QList<QPushButton*> list;
 
-        list = menuList;
-        moveButton->setEnabled(isMoveAble);
-        attackButton->setEnabled(isAttackAble);
-        abilityButton->setEnabled(isAbilityAble);
-
-
+    list = menuList;
+    moveButton->setEnabled(isMoveAble);
+    attackButton->setEnabled(isAttackAble);
+    abilityButton->setEnabled(isAbilityAble);
 
     for(int i=0; i<list.count(); i++)
     {
         list[i]->show();
-        list[i]->setGeometry(pos.x(), 30*i+pos.y(), list[i]->width(), list[i]->height());
+        //list[i]->setGeometry((int)pos.x(), (int)(30*i+pos.y()), list[i]->width(), list[i]->height());
     }
 }
 
@@ -75,4 +80,10 @@ void gameMenu::hideAllMenu()
     {
         menuList[i]->hide();
     }
+}
+
+void gameMenu::reSetInterface(QSize s)
+{
+    mapTable->setGeometry(0, s.height()-300, 300, 300);
+    mapTable->show();
 }

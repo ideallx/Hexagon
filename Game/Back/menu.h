@@ -20,7 +20,7 @@ public:
         CANCELLIST
     };
 
-    gameMenu(QWidget *parent = 0);
+    gameMenu(QGraphicsView *parent = 0);
     void hideMenu(gameMenu::menu_type_t);
 
     bool MoveAble() { return isMoveAble; }
@@ -33,6 +33,7 @@ public:
 
 private:
     void menuInitial();
+    void interfaceInitial();
 
     QList<QPushButton*> menuList;
     QWidget* parent;
@@ -45,6 +46,8 @@ private:
     QPushButton *abilityButton;
     QPushButton *cancelButton;
 
+    QTableView* mapTable;
+
 signals:
     void moveClicked();
     void attackClicked();
@@ -54,6 +57,7 @@ signals:
 public slots:
     void hideAllMenu();
     void showMenu(QPointF pos = QPointF());
+    void reSetInterface(QSize);
 
 };
 

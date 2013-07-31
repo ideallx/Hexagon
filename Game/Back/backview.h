@@ -11,12 +11,7 @@ public:
     backview(QWidget *parent = 0);
 
 protected:
-    void resizeEvent(QResizeEvent *event)
-    {
-        QGraphicsView::resizeEvent(event);
-        fitInView(sceneRect(), Qt::KeepAspectRatio);
-    }
-    QSize sizeHint() const {return QSize(scene()->width(), scene()->height());}
+    QSize sizeHint() const {return scene()->sceneRect().size().toSize();}
 
 private:
     void initialSettrings();

@@ -9,7 +9,6 @@ backview::backview(QWidget *parent)
 backview::backview(QGraphicsScene *scene, QWidget *parent)
     :QGraphicsView(scene)
 {
-    this->setScene(scene);
     this->setParent(parent);
     this->initialSettrings();
 }
@@ -22,5 +21,4 @@ void backview::initialSettrings()
     this->setCacheMode(QGraphicsView::CacheBackground);
     this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setUpdatesEnabled(true);
-    this->setCacheMode(CacheBackground);
 }

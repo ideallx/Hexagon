@@ -35,7 +35,6 @@ gameBackInfo::gameBackInfo(QString configFilePath)
 
                 temp = xml.attributes().value("backRect").toString().split(", ");
                 QRect rect = QRect(0, 0, temp[0].toInt(), temp[1].toInt());
-                qDebug("%d, %d", temp[0].toInt(), temp[1].toInt());
 
                 backgroundPicture = QPixmap(xml.attributes().value("backpic").toString()).scaled(rect.width(), rect.height());
                 if(backgroundPicture.isNull())

@@ -23,6 +23,7 @@ private:
     QList<QPoint> sphereList;
 
     QPoint oldPoint;
+    QSize oldViewSize;
 
 signals:
     void changeStatusBar(QStringList);
@@ -31,6 +32,7 @@ signals:
     void heroMovedIn(QPoint);
     void heroClicked(QPoint);
     void localHeroClicked(QPointF);
+    void viewSizeChanged(QSize);
     
 public slots:
     void clearSphere();
