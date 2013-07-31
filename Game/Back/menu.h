@@ -46,7 +46,7 @@ private:
     QPushButton *abilityButton;
     QPushButton *cancelButton;
 
-    QTableView* mapTable;
+    QTabWidget* mapTable;
 
 signals:
     void moveClicked();
