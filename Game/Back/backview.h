@@ -11,7 +11,8 @@ public:
     backview(QWidget *parent = 0);
 
 protected:
-    QSize sizeHint() const {return scene()->sceneRect().size().toSize();}
+    void resizeEvent(QResizeEvent *event);
+    //QSize sizeHint() const {return scene()->sceneRect().size().toSize();}
 
 private:
     void initialSettrings();

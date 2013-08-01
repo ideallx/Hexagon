@@ -1,7 +1,7 @@
 #include "menu.h"
 
-gameMenu::gameMenu(QGraphicsView *parent)
-    :parent(parent)
+gameMenu::gameMenu(QGraphicsView *parent) :
+    parent(parent)
 {
     menuInitial();
     interfaceInitial();
@@ -39,26 +39,6 @@ void gameMenu::menuInitial()
 void gameMenu::interfaceInitial()
 {
 
-    mapTable = new QTabWidget(parent);
-    QPushButton* pb = new QPushButton(parent);
-    QWidget* w1 = new QWidget(parent);
-    w1->setGeometry(0, 0, 300, 500);
-    QWidget* w2 = new QWidget(parent);
-    w2->setGeometry(300, 0, 300, 500);
-
-
-    mapTable->addTab(new QWidget(mapTable), tr("map"));
-    mapTable->addTab(new QWidget(mapTable), tr("log"));
-    mapTable->addTab(new QWidget(mapTable), tr("coolDown"));
-
-    QVBoxLayout *vb = new QVBoxLayout(w1);
-    vb->setContentsMargins(0, 0, 0, 20);
-    vb->addItem(new QSpacerItem(200, 400, QSizePolicy::Fixed, QSizePolicy::Expanding));
-    vb->addWidget(mapTable);
-
-    QVBoxLayout *vb2 = new QVBoxLayout(w2);
-    vb2->addItem(new QSpacerItem(200, 400, QSizePolicy::Fixed, QSizePolicy::Expanding));
-    vb2->addWidget(pb);
 }
 
 void gameMenu::showMenu(QPointF pos)
