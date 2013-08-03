@@ -16,6 +16,7 @@ protected:
 
 private:
     void initialSettrings();
+    QMatrix matrix;
 };
 
 #endif // TESTVIEW2_H

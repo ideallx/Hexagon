@@ -27,11 +27,11 @@ SOURCES  += main.cpp \
     Game/Items/Card/cardBack.cpp \
     Game/Items/Card/cardengine.cpp \
     Widget/gameWidget.cpp \
-    Game/Back/sidescene.cpp \
     Game/Items/Card/carditem.cpp \
     Game/Items/itemcollector.cpp \
     Game/eventcenter.cpp \
-    Game/animationcenter.cpp
+    Game/animationcenter.cpp \
+    Game/Items/buttomui.cpp
 
 HEADERS  += mainwindow.h \
     Game/gameprocess.h \
@@ -49,11 +49,11 @@ HEADERS  += mainwindow.h \
     Game/Items/Card/cardback.h \
     Game/Items/Card/cardengine.h \
     Widget/gameWidget.h \
-    Game/Back/sidescene.h \
     Game/Items/Card/carditem.h \
     Game/Items/itemcollector.h \
     Game/eventcenter.h \
-    Game/animationcenter.h
+    Game/animationcenter.h \
+    Game/Items/buttomui.h
 
 INCLUDEPATH += include
 INCLUDEPATH += Game
@@ -63,7 +63,8 @@ INCLUDEPATH += Game/Items/Hero
 INCLUDEPATH += Game/Items/Card
 INCLUDEPATH += Widget
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    front.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

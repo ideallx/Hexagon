@@ -1,8 +1,10 @@
 #include "menu.h"
 
 gameMenu::gameMenu(QGraphicsView *parent) :
-    parent(parent)
+    parent(parent),
+    ui(new Ui::Form)
 {
+    ui->setupUi(parent);
     menuInitial();
     interfaceInitial();
 }
@@ -25,7 +27,7 @@ void gameMenu::menuInitial()
     menuList.append(abilityButton);
     menuList.append(cancelButton);
 
-    //hideMenu(MENULIST);
+    hideMenu(MENULIST);
 
     isMoveAble = isAttackAble = isAbilityAble = true;
 
@@ -34,11 +36,35 @@ void gameMenu::menuInitial()
     connect(abilityButton, SIGNAL(clicked()), this, SIGNAL(abilityClicked()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
+
+    path = "C:/Users/xiang/Documents/GitHub/rsc/heros/";
+}
+
+gameMenu::~gameMenu()
+{
+    delete moveButton;
+    delete attackButton;
+    delete abilityButton;
+    delete cancelButton;
 }
 
 void gameMenu::interfaceInitial()
 {
+    ui->map->setFixedSize(200, 200);
+    ui->shop->setFixedSize(200, 200);
+    ui->head->setFixedSize(90, 150);
+    ui->items->setFixedHeight(150);
+    ui->essenial->setFixedSize(100, 100);
+    ui->ability->setFixedSize(300, 100);
+    ui->heroHp->setFixedWidth(420);
 
+    int height = 70;
+
+    ui->leftHero1->setPixmap(QPixmap(path + "mieShaZhe_Head.png").scaledToHeight(height));
+    ui->leftHero2->setPixmap(QPixmap(path + "leiShen_Head.png").scaledToHeight(height));
+    ui->leftHero3->setPixmap(QPixmap(path + "duTu_Head.png").scaledToHeight(height));
+    ui->leftHero4->setPixmap(QPixmap(path + "huoWuZhe_Head.png").scaledToHeight(height));
+    ui->leftHero5->setPixmap(QPixmap(path + "baoXiong_Head.png").scaledToHeight(height));
 }
 
 void gameMenu::showMenu(QPointF pos)

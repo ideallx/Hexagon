@@ -9,6 +9,21 @@ itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsS
     wid = gbi->getWidthCount();
 }
 
+itemCollector::~itemCollector()
+{
+    qDeleteAll(redTeamHeros);
+    qDeleteAll(blueTeamHeros);
+    qDeleteAll(unusedCards);
+    qDeleteAll(usedCards);
+    qDeleteAll(elements);
+
+    redTeamHeros.clear();
+    blueTeamHeros.clear();
+    unusedCards.clear();
+    usedCards.clear();
+    elements.clear();
+}
+
 void itemCollector::setMapElement()
 {
     addMapElementList();
@@ -25,6 +40,13 @@ void itemCollector::setCardEngine(cardEngine* ce)
 {
     this->ce = ce;
     addCardList();
+}
+
+void itemCollector::setButtomUi()
+{
+    buttomUi* bu = new buttomUi(gbi->getConfigDir());
+    scene->addItem(bu);
+    //qDebug()<<scene->views()[0]->viewport()->height();
 }
 
 void itemCollector::addHeroList(QList<heroFactory::ExternInfo> info)

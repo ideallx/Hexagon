@@ -7,6 +7,7 @@ cardEngine::cardEngine()
 QList<handCard*> cardEngine::generateHandCards(int package)
 {
     Q_UNUSED(package);
+    QList<handCard*> handList;
     int i=0;
 
     for(i=0; i<2; i++)

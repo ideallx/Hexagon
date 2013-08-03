@@ -1,7 +1,7 @@
 #ifndef BACKSCENE_H
 #define BACKSCENE_H
 
-#include <QGraphicsScene>
+#include <QtWidgets>
 #include "itemcollector.h"
 
 class backScene : public QGraphicsScene
@@ -9,11 +9,13 @@ class backScene : public QGraphicsScene
     Q_OBJECT
 public:
     backScene(gameBackInfo*, gameCoordinate*, QList<heroFactory::ExternInfo> i, QObject *parent = 0);
+    ~backScene();
     
 private:
     bool eventFilter(QObject *watched, QEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) { qDebug("sdfsf"); }
 
 private:
     gameBackInfo* gbi;

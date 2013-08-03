@@ -4,19 +4,24 @@ backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<heroFactory::E
     gbi(gbi),
     gc(gc)
 {
-    this->setSceneRect(gbi->getPixmap().rect());
+    this->setSceneRect(gbi->getPixmap().rect()-=QMargins(10, 10, 10, 10));
+    QGraphicsPixmapItem *back = new QGraphicsPixmapItem();
+    back->setPixmap(QPixmap(gbi->getPixmap()));
+    back->setZValue(-10);
+    this->addItem(back);
 
     ic = new itemCollector(gbi, gc, this);
     ic->setCardEngine(new cardEngine());
     ic->setHeroFactory(new heroFactory(gbi), i);
     ic->setMapElement();
-
-//    QGraphicsRectItem* rect = new QGraphicsRectItem();
-//    rect->setRect(0, 0, 200, 200);
-//    rect->setPen(QPen(Qt::black, 5));//??
-//    this->addItem(rect);
+    ic->setButtomUi();
 
     this->setParent(parent);
+}
+
+backScene::~backScene()
+{
+    delete ic;
 }
 
 void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -79,7 +84,8 @@ bool backScene::eventFilter(QObject *watched, QEvent *event)
 
 void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"P2"<<event->screenPos().x()<<event->screenPos().y();
+    qDebug()<<"Screen Position"<<event->screenPos().x()<<event->screenPos().y();
+    qDebug()<<"Scene Position"<<event->scenePos().x()<<event->scenePos().y();
     if(ic->isPointHasHero(oldPoint))
     {
         if(ic->localHero().contains(ic->getHeroByPoint(oldPoint)))

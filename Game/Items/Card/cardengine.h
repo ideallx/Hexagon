@@ -35,9 +35,6 @@ public:
 
     cardEngine();
     QList<handCard*> generateHandCards(int package = 0);
-
-private:
-    QList<handCard*> handList;
 };
 
 

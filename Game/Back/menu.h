@@ -2,6 +2,7 @@
 #define GAMEMENU_H
 
 #include <QtWidgets>
+#include "ui_front.h"
 
 class gameMenu : public QObject
 {
@@ -21,6 +22,8 @@ public:
     };
 
     gameMenu(QGraphicsView *parent = 0);
+    ~gameMenu();
+
     void hideMenu(gameMenu::menu_type_t);
 
     bool MoveAble() { return isMoveAble; }
@@ -35,11 +38,14 @@ private:
     void menuInitial();
     void interfaceInitial();
 
+    QString path;// for test TODO
     QList<QPushButton*> menuList;
     QWidget* parent;
     bool isMoveAble;
     bool isAttackAble;
     bool isAbilityAble;
+
+    Ui::Form* ui;
 
     QPushButton *moveButton;
     QPushButton *attackButton;

@@ -21,17 +21,28 @@ void backview::initialSettrings()
     this->setCacheMode(QGraphicsView::CacheBackground);
     this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setUpdatesEnabled(true);
+    this->centerOn(QPointF(0, 0));
 }
 
 void backview::resizeEvent(QResizeEvent *e)
 {
     qreal w1 = e->size().width();
-    qreal w2 = 1200;
-    qreal ff = w1/w2;
-    qDebug()<<ff<<w1<<w2;
-    //qDebug()<<ff<<e->size().width()<<size().width();
-    QMatrix matrix;
-    matrix.scale(ff, ff);
-    setMatrix(matrix);
+    qreal w2 = scene()->width();
+    qDebug()<<w1<<w2;
+    if(w1 <= w2)
+    {
+        this->centerOn(0, 0);
+        qreal ff = 1.0;
+        matrix.reset();
+        matrix.scale(ff, ff);
+        setMatrix(matrix);
+    }
+    else
+    {
+        qreal ff = w1/w2;
+        matrix.reset();
+        matrix.scale(ff, ff);
+        setMatrix(matrix);
+    }
 
 }
