@@ -12,7 +12,17 @@ class eventCenter : public QObject
 {
     Q_OBJECT
 public:
-    eventCenter(backScene* scene, gameMenu* menu, backview* view);
+    eventCenter(backScene* scene, gameMenu* menu);
+
+
+private:
+    backScene *scene;
+    gameMenu* menu;
+    itemCollector* ic;
+
+public slots:
+    void heroChosen(heroItem*);
+
 };
 
 #endif // EVENTCENTER_H

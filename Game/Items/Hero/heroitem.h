@@ -2,13 +2,13 @@
 #define HEROITEM_H
 
 #include <QtWidgets>
+#include "carditem.h"
 
 class heroItem : public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
 
-    Q_PROPERTY(QPoint point READ getPoint WRITE setPoint)
-    Q_PROPERTY(QPointF pos READ pos WRITE setPos)
+    Q_PROPERTY(QPoint point READ point WRITE setPoint)
 
 public:
     typedef enum camp_t
@@ -24,39 +24,61 @@ public:
     };
 
     heroItem(int lineLength);
-    virtual void initial() {}
+    void setHeroProperty(char s, char a, char m, int h);
 
-    char getCamp() const { return camp;}
-    void setCamp(heroCamp c) { camp = c; }
-    char getSexual() const { return sexual; }
-    char getAttackSphere() const { return attackSphere; }
-    char getMoveSphere() const { return moveSphere; }
-    int health() const { return innerHealth; }
-    void setHealth(int h) { innerHealth = h; }
+    char camp() const { return theCamp;}
+    void setCamp(heroCamp c) { theCamp = c; }
 
-    void setHeroProperty(char s, char a, char m, int h){sexual = s; attackSphere = a; moveSphere = m; innerHealth = h;}
+    char sexual() const { return theSexual; }
 
-    QString getPlayerName() const { return playerName; }
-    QString getHeroName() const { return heroName; }
-    void setHeroName(QString n) { heroName = n; }
+    char attackSphere() const { return theAttackSphere; }
+    char moveSphere() const { return theMoveSphere; }
 
-    QPoint getPoint() const { return point;}
-    void setPoint(QPoint p) { point = p; }
+    int health() const { return theHealth; }
+    int maxHealth() const { return theMaxHealth; }
+    void setHealth(int h) { theHealth = h; }
+
+    QPixmap* avaterPic() const { return theAvaPic; }
+    QPixmap* wholePic() const { return theWhoPic; }
+    void setAvaterPic(QPixmap* p) { theAvaPic = p;}
+    void setwholePic(QPixmap*p);
+    QList<QPixmap> skillButtons() { return theSkillButtons; }
+
+    int attack() const { return theAttack; }
+    void setAttack(int i) { theAttack = i; }
+
+    QString playerName() const { return thePlayerName; }
+    QString heroName() const { return theHeroName; }
+    void setHeroName(QString n) { theHeroName = n; }
+
+    QPoint point() const { return thePoint;}
+    void setPoint(QPoint p) { thePoint = p; }
+
+    void setCards(QList<handCard*> c){ theCards = c; }
+    void addCards(QList<handCard*> c){ theCards += c; }
+    QList<handCard*> cards() { return theCards; }
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
+
 private:
-    int innerHealth;
-    char camp;
-    QPoint point;
-    char sexual;
-    char moveSphere;
-    char attackSphere;
-    QString playerName;
-    QString heroName;
+    QList<handCard*> theCards;
+    QList<QPixmap> theSkillButtons;
+    int theAttack;
+    QPixmap* theAvaPic;
+    QPixmap* theWhoPic;
+    int theMaxHealth;
+    int theHealth;
+    char theCamp;
+    QPoint thePoint;
+    char theSexual;
+    char theMoveSphere;
+    char theAttackSphere;
+    QString thePlayerName;
+    QString theHeroName;
 
     int lineLength;
     QColor color;

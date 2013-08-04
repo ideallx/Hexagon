@@ -3,13 +3,12 @@
 
 #include <QtWidgets>
 #include "ui_front.h"
+#include "layoutscene.h"
+#include "carditem.h"
 
 class gameMenu : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(bool isMoveAble READ MoveAble WRITE setisMoveAble)
-    Q_PROPERTY(bool isAttackAble READ AttackAble WRITE setisAttackAble)
-    Q_PROPERTY(bool isAbilityAble READ AbilityAble WRITE setisAbilityAble)
 
 public:
     enum menu_type_t
@@ -30,20 +29,33 @@ public:
     bool AttackAble() { return isAttackAble; }
     bool AbilityAble() { return isAbilityAble; }
 
-    void setisMoveAble(bool b) { isMoveAble = b; }
-    void setisAttackAble(bool b) { isAttackAble = b; }
-    void setisAbilityAble(bool b) { isAbilityAble = b; }
+    void setMoveAble(bool b = true) { isMoveAble = b; }
+    void setAttackAble(bool b = true) { isAttackAble = b; }
+    void setAbilityAble(bool b = true) { isAbilityAble = b; }
+
+    void setMap(QGraphicsScene* s);
+    void setHeroAvaters(QPixmap *p);
+    void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }
+    void setHeroHp(int curHp, int maxHp);
+    void setEssenial(essenialContent ec) { es->setContent(ec); }
+
+    void setDisplayCards(QList<handCard*> cards);
 
 private:
     void menuInitial();
     void interfaceInitial();
 
-    QString path;// for test TODO
     QList<QPushButton*> menuList;
     QWidget* parent;
+
+    int heroHeadSlideLength;
     bool isMoveAble;
     bool isAttackAble;
     bool isAbilityAble;
+
+    essenialScene* es;
+    skillScene* ss;
+    cardScene* cs;
 
     Ui::Form* ui;
 
@@ -54,6 +66,7 @@ private:
 
     QTabWidget* mapTable;
 
+
 signals:
     void moveClicked();
     void attackClicked();
@@ -61,8 +74,9 @@ signals:
     void cancelClicked();
 
 public slots:
+    void listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn);
     void hideAllMenu();
-    void showMenu(QPointF pos = QPointF());
+    void showMenu(QPoint pos = QPoint());
     void reSetInterface(QSize);
 
 };

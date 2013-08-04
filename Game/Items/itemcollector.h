@@ -18,6 +18,9 @@ public:
     void setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInfo> info);
     void setCardEngine(cardEngine* ce);
     void setButtomUi();
+    QString rscPath() { return gbi->getConfigDir(); }
+
+    QList<QString> getHeroListAvaterPath(char);
 
 
     bool isPointHasHero(QPoint);
@@ -37,7 +40,9 @@ public:
 
     heroItem* getHeroByPoint(QPoint);
     void addLocalHero(heroItem* h){ localHeros.append(h);}
-    QVector<heroItem*> localHero() const { return localHeros; }
+    bool isLocalHero(heroItem* h) { return localHeros.contains(h); }
+
+    QList<handCard*> getCard(int n);
 
     QList<QPoint> listSphere(QPoint point, int sphere, char type);
 

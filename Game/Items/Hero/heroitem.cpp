@@ -4,7 +4,7 @@ heroItem::heroItem(int lineLength)
 {
     this->lineLength = lineLength;
 
-    playerName = QString(tr("player 1"));
+    thePlayerName = QString(tr("player 1"));
 
     setZValue(1.2);
     setFlags(ItemIsSelectable);
@@ -31,4 +31,30 @@ QPainterPath heroItem::shape() const
     QPainterPath path;
     path.addEllipse(rect());
     return path;
+}
+
+
+void heroItem::setHeroProperty(char s, char a, char m, int h)
+{
+    theSexual = s;
+    theAttackSphere = a;
+    theMoveSphere = m;
+    theMaxHealth = h;
+    theHealth = h;
+
+    theAttack = 1;
+}
+
+void heroItem::setwholePic(QPixmap*p)
+{
+    theWhoPic = p;
+    QPixmap skillPic;
+
+    skillPic = p->copy(0.098*p->width(), 0.895*p->height(), 0.1375*p->width(), 0.1375*p->width());
+    theSkillButtons.append(skillPic);
+    skillPic = p->copy(0.352*p->width(), 0.895*p->height(), 0.1375*p->width(), 0.1375*p->width());
+    theSkillButtons.append(skillPic);
+    skillPic = p->copy(0.602*p->width(), 0.895*p->height(), 0.1375*p->width(), 0.1375*p->width());
+    theSkillButtons.append(skillPic);
+
 }

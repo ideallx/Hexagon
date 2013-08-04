@@ -4,9 +4,10 @@ gameMenu::gameMenu(QGraphicsView *parent) :
     parent(parent),
     ui(new Ui::Form)
 {
+    heroHeadSlideLength = 100; //uncertain
     ui->setupUi(parent);
-    menuInitial();
     interfaceInitial();
+    menuInitial();
 }
 
 void gameMenu::menuInitial()
@@ -36,8 +37,6 @@ void gameMenu::menuInitial()
     connect(abilityButton, SIGNAL(clicked()), this, SIGNAL(abilityClicked()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
-
-    path = "C:/Users/xiang/Documents/GitHub/rsc/heros/";
 }
 
 gameMenu::~gameMenu()
@@ -46,28 +45,33 @@ gameMenu::~gameMenu()
     delete attackButton;
     delete abilityButton;
     delete cancelButton;
+    delete es;
+    delete ss;
 }
 
 void gameMenu::interfaceInitial()
 {
+    es = new essenialScene();
+    ss = new skillScene();
+    cs = new cardScene();
+
     ui->map->setFixedSize(200, 200);
     ui->shop->setFixedSize(200, 200);
-    ui->head->setFixedSize(90, 150);
+    ui->head->setFixedSize(137, 200);
     ui->items->setFixedHeight(150);
-    ui->essenial->setFixedSize(100, 100);
+    ui->essenial->setFixedSize(150, 100);
     ui->ability->setFixedSize(300, 100);
-    ui->heroHp->setFixedWidth(420);
+    ui->heroHp->setFixedWidth(470);
 
-    int height = 70;
-
-    ui->leftHero1->setPixmap(QPixmap(path + "mieShaZhe_Head.png").scaledToHeight(height));
-    ui->leftHero2->setPixmap(QPixmap(path + "leiShen_Head.png").scaledToHeight(height));
-    ui->leftHero3->setPixmap(QPixmap(path + "duTu_Head.png").scaledToHeight(height));
-    ui->leftHero4->setPixmap(QPixmap(path + "huoWuZhe_Head.png").scaledToHeight(height));
-    ui->leftHero5->setPixmap(QPixmap(path + "baoXiong_Head.png").scaledToHeight(height));
+    ui->essenial->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->essenial->setScene(es);
+    ui->ability->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->ability->setScene(ss);
+    ui->items->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->items->setScene(cs);
 }
 
-void gameMenu::showMenu(QPointF pos)
+void gameMenu::showMenu(QPoint pos)
 {
     QList<QPushButton*> list;
 
@@ -79,7 +83,7 @@ void gameMenu::showMenu(QPointF pos)
     for(int i=0; i<list.count(); i++)
     {
         list[i]->show();
-        //list[i]->setGeometry((int)pos.x(), (int)(30*i+pos.y()), list[i]->width(), list[i]->height());
+        list[i]->setGeometry(pos.x(), 30*i+pos.y(), list[i]->width(), list[i]->height());
     }
 }
 
@@ -111,4 +115,48 @@ void gameMenu::reSetInterface(QSize s)
 {
     mapTable->setGeometry(0, s.height()-300, 300, 300);
     mapTable->show();
+}
+
+void gameMenu::listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn)
+{
+    int num = leftColumn.size();
+    for(int i=0; i<num; i++)
+    {
+        QLabel *heroAvater = new QLabel();
+        heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
+        heroAvater->setPixmap(QPixmap(leftColumn[i]).scaledToHeight(heroHeadSlideLength));
+        ui->leftHeros->addWidget(heroAvater);
+    }
+    num = rightColumn.size();
+    for(int i=0; i<num; i++)
+    {
+        QLabel *heroAvater = new QLabel();
+        heroAvater->setAlignment(Qt::AlignRight);
+        heroAvater->setFixedSize(100, 100);
+        heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
+        heroAvater->setPixmap(QPixmap(rightColumn[i]).scaledToHeight(heroHeadSlideLength));
+        ui->rightHeros->addWidget(heroAvater);
+    }
+}
+
+void gameMenu::setHeroHp(int curHp, int maxHp)
+{
+    ui->heroHp->setMaximum(maxHp);
+    ui->heroHp->setValue(curHp);
+}
+
+
+void gameMenu::setHeroAvaters(QPixmap *p)
+{
+    ui->head->setPixmap(p->scaledToHeight(200));
+}
+
+void gameMenu::setDisplayCards(QList<handCard*> cards) //TOFIX
+{
+    cs->clear();
+    for(int i=0; i<cards.size(); i++)
+    {
+        cards[i]->setPos(20*i, 0);
+        cs->addItem(cards[i]);
+    }
 }

@@ -80,7 +80,8 @@ bool MainWindow::sceneInitial()
     scene = new backScene(gbi, gc, info, this);
     ui->graphicsView->setScene(scene);
     menu = new gameMenu(ui->graphicsView);
-    ec = new eventCenter(scene, menu, ui->graphicsView);
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath('r'), scene->getHeroListAvaterPath('b'));
+    ec = new eventCenter(scene, menu);
     qDebug("backView load complete...");
 
 

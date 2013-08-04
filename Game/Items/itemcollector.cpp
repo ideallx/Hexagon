@@ -33,7 +33,6 @@ void itemCollector::setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInf
 {
     this->hf = hf;
     addHeroList(info);
-    addHeroSide();
 }
 
 void itemCollector::setCardEngine(cardEngine* ce)
@@ -55,8 +54,8 @@ void itemCollector::addHeroList(QList<heroFactory::ExternInfo> info)
     for(int i=0; i<heros.size(); i++)
     {
         scene->addItem(heros.at(i));
-        heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->getPoint()));
-        if(heros.at(i)->getCamp() == heroItem::camp_red)
+        heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
+        if(heros.at(i)->camp() == heroItem::camp_red)
         {
             redTeamHeros.append(heros.at(i));
         }
@@ -66,37 +65,6 @@ void itemCollector::addHeroList(QList<heroFactory::ExternInfo> info)
         }
     }
     addLocalHero(heros.at(0));
-}
-
-void itemCollector::addHeroSide()
-{
-    QList<heroItem*> friendHeros;
-    QList<heroItem*> enemyHeros;
-    int i;
-    if(localHeros.at(0)->getCamp() == heroItem::camp_red)
-    {
-        friendHeros = redTeamHeros;
-        enemyHeros = blueTeamHeros;
-    }
-    else
-    {
-        friendHeros = blueTeamHeros;
-        enemyHeros = redTeamHeros;
-    }
-
-    /*
-    for(i=0; i<enemyHeros.size(); i++)
-    {
-        enemyHeros.at(i)->setPos(0, 0);
-        sceneLeft->addItem(enemyHeros.at(i));
-    }
-
-    for(i=0; i<friendHeros.size(); i++)
-    {
-        friendHeros.at(i)->setPos(0, 0);
-        sceneRight->addItem(friendHeros.at(i));
-    }
-    */
 }
 
 void itemCollector::addCardList()
@@ -155,18 +123,18 @@ int itemCollector::getPointNumber(QPoint point)
     return point.x()+point.y()*wid;
 }
 
-bool itemCollector::isPointHasHero(QPoint point)
+bool itemCollector::isPointHasHero(QPoint point)  //TODO change return type
 {
     for(int i=0; i<redTeamHeros.size(); i++)
     {
-        if(point == redTeamHeros.at(i)->getPoint())
+        if(point == redTeamHeros.at(i)->point())
         {
             return true;
         }
     }
     for(int i=0; i<blueTeamHeros.size(); i++)
     {
-        if(point == blueTeamHeros.at(i)->getPoint())
+        if(point == blueTeamHeros.at(i)->point())
         {
             return true;
         }
@@ -247,14 +215,14 @@ heroItem* itemCollector::getHeroByPoint(QPoint point)
 {
     for(int i=0; i<redTeamHeros.size(); i++)
     {
-        if(point == redTeamHeros.at(i)->getPoint())
+        if(point == redTeamHeros.at(i)->point())
         {
             return redTeamHeros.at(i);
         }
     }
     for(int i=0; i<blueTeamHeros.size(); i++)
     {
-        if(point == blueTeamHeros.at(i)->getPoint())
+        if(point == blueTeamHeros.at(i)->point())
         {
             return blueTeamHeros.at(i);
         }
@@ -301,4 +269,37 @@ void itemCollector::setElementSpecialPen(gameMapElement* gmeT, QPen pen)
 {
     gmeT->setDefaultZValue();
     gmeT->setPen(pen);
+}
+
+QList<QString> itemCollector::getHeroListAvaterPath(char in)  //TODO change ui
+{
+    QList<QString> result;
+    QList<heroItem*> recv;
+
+    if(in == 'r')
+    {
+        recv = redTeamHeros;
+    }
+    else
+    {
+        recv = blueTeamHeros;
+    }
+
+    for(int i=0; i<recv.size(); i++)
+    {
+        QString temp = gbi->getConfigDir() + "/heros/" + recv[i]->heroName() + "_Head.png";
+        result.append(temp);
+    }
+    return result;
+}
+
+QList<handCard*> itemCollector::getCard(int n)
+{
+    QList<handCard*> result;
+    for(int i=0; i<n; i++)
+    {
+        unusedCards.removeAt(0);
+        result.append(unusedCards[0]);
+    }
+    return result;
 }

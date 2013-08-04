@@ -9,7 +9,6 @@
 #include "menu.h"
 #include "coordinate.h"
 #include "eventcenter.h"
-#include "sidescene.h"
 
 
 namespace Ui {

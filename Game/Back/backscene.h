@@ -10,12 +10,13 @@ class backScene : public QGraphicsScene
 public:
     backScene(gameBackInfo*, gameCoordinate*, QList<heroFactory::ExternInfo> i, QObject *parent = 0);
     ~backScene();
+    itemCollector* pIc() { return ic;}
+    QList<QString> getHeroListAvaterPath(char in){ return ic->getHeroListAvaterPath(in); }
     
 private:
     bool eventFilter(QObject *watched, QEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) { qDebug("sdfsf"); }
 
 private:
     gameBackInfo* gbi;
@@ -32,9 +33,10 @@ signals:
     void mapElementMovedIn(QPoint);
     void mapElementClicked(QPoint);
     void heroMovedIn(QPoint);
-    void heroClicked(QPoint);
-    void localHeroClicked(QPointF);
+    void heroClicked(heroItem*);
+    void buildMenu(QPoint);
     void viewSizeChanged(QSize);
+    void listSlideAvaters(QList<QString>, QList<QString>);
     
 public slots:
     void clearSphere();

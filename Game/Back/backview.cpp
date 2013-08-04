@@ -21,17 +21,16 @@ void backview::initialSettrings()
     this->setCacheMode(QGraphicsView::CacheBackground);
     this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setUpdatesEnabled(true);
-    this->centerOn(QPointF(0, 0));
+    this->centerOn(QPointF(0, 0));//TODO
 }
 
 void backview::resizeEvent(QResizeEvent *e)
 {
     qreal w1 = e->size().width();
     qreal w2 = scene()->width();
-    qDebug()<<w1<<w2;
     if(w1 <= w2)
     {
-        this->centerOn(0, 0);
+        this->centerOn(0, 0); //TODO
         qreal ff = 1.0;
         matrix.reset();
         matrix.scale(ff, ff);
