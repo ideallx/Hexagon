@@ -71,9 +71,9 @@ skillScene::~skillScene()
 
 void skillScene::setHeroSkillButton(QList<QPixmap>in)
 {
-    skill1->setBrush(in[0].scaledToHeight(80));
-    skill2->setBrush(in[1].scaledToHeight(80));
-    skill3->setBrush(in[2].scaledToHeight(80));
+    skill1->setBrush(in[0].scaledToHeight(80, Qt::SmoothTransformation));
+    skill2->setBrush(in[1].scaledToHeight(80, Qt::SmoothTransformation));
+    skill3->setBrush(in[2].scaledToHeight(80, Qt::SmoothTransformation));
 }
 
 /*
@@ -97,10 +97,17 @@ QRectF skillButton::boundingRect() const
 
 cardScene::cardScene()
 {
+    cardGroup = this->createItemGroup(this->items());
 
 }
 
 cardScene::~cardScene()
 {
 
+}
+
+
+void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    qDebug()<<"cardScene"<<event->scenePos();
 }

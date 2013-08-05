@@ -36,6 +36,10 @@ class cardScene : public QGraphicsScene
 public:
     cardScene();
     ~cardScene();
+    QGraphicsItemGroup* cardGroup;
+
+private:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 };
 
 /*

@@ -55,10 +55,8 @@ void gameMenu::interfaceInitial()
     ss = new skillScene();
     cs = new cardScene();
 
-    ui->map->setFixedSize(200, 200);
-    ui->shop->setFixedSize(200, 200);
-    ui->head->setFixedSize(137, 200);
-    ui->items->setFixedHeight(150);
+    ui->head->setFixedSize(200, 290);
+    ui->items->setFixedHeight(250);
     ui->essenial->setFixedSize(150, 100);
     ui->ability->setFixedSize(300, 100);
     ui->heroHp->setFixedWidth(470);
@@ -69,6 +67,7 @@ void gameMenu::interfaceInitial()
     ui->ability->setScene(ss);
     ui->items->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->items->setScene(cs);
+    ui->items->setStyleSheet("background: transparent");
 }
 
 void gameMenu::showMenu(QPoint pos)
@@ -148,15 +147,19 @@ void gameMenu::setHeroHp(int curHp, int maxHp)
 
 void gameMenu::setHeroAvaters(QPixmap *p)
 {
-    ui->head->setPixmap(p->scaledToHeight(200));
+    ui->head->setPixmap(p->scaledToHeight(ui->head->height(), Qt::SmoothTransformation));
 }
 
-void gameMenu::setDisplayCards(QList<handCard*> cards) //TOFIX
+void gameMenu::setDisplayCards(QList<handCard*> cards)
 {
-    cs->clear();
+    QList<QGraphicsItem*> ims = cs->items();
+    for(int i=0; i<ims.size(); i++)
+    {
+        cs->removeItem(ims[i]);
+    }
     for(int i=0; i<cards.size(); i++)
     {
-        cards[i]->setPos(20*i, 0);
+        cards[i]->setPos(20*i, 0); //TODO scene coordination
         cs->addItem(cards[i]);
     }
 }

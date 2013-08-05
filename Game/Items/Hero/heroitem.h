@@ -55,7 +55,7 @@ public:
     void setPoint(QPoint p) { thePoint = p; }
 
     void setCards(QList<handCard*> c){ theCards = c; }
-    void addCards(QList<handCard*> c){ theCards += c; }
+    void addCards(QList<handCard*> c);
     QList<handCard*> cards() { return theCards; }
 
     QRectF boundingRect() const;

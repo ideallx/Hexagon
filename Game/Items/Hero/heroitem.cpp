@@ -58,3 +58,9 @@ void heroItem::setwholePic(QPixmap*p)
     theSkillButtons.append(skillPic);
 
 }
+
+
+void heroItem::addCards(QList<handCard*> c)
+{
+    theCards += c;
+}

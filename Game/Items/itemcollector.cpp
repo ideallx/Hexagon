@@ -296,10 +296,13 @@ QList<QString> itemCollector::getHeroListAvaterPath(char in)  //TODO change ui
 QList<handCard*> itemCollector::getCard(int n)
 {
     QList<handCard*> result;
+    if(unusedCards.size()<n)
+        n = unusedCards.size();
+    qDebug()<<"unused cards:"<<unusedCards.size()<<"used:"<<n;
     for(int i=0; i<n; i++)
     {
-        unusedCards.removeAt(0);
         result.append(unusedCards[0]);
+        unusedCards.removeAt(0);
     }
     return result;
 }
