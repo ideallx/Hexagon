@@ -22,6 +22,7 @@ private:
 
 public slots:
     void heroChosen(heroItem*);
+    void getCard(int num = 1);
 
 };
 

@@ -31,7 +31,11 @@ void eventCenter::heroChosen(heroItem* hero)
     menu->setHeroAvaters(hero->wholePic());
     menu->setEssenial(ec);
     menu->setHeroSkillButton(hero->skillButtons());
+}
 
-    hero->addCards(ic->getCard(5));
-    menu->setDisplayCards(hero->cards());
+void eventCenter::getCard(int num)
+{
+    qDebug()<<"get"<<num<<"cards";
+    ic->getLocalHero()->addCards(ic->getCard(num));
+    menu->updateCardsArea(ic->getLocalHero()->cards());
 }

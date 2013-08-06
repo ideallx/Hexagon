@@ -39,8 +39,6 @@ public:
     void setHeroHp(int curHp, int maxHp);
     void setEssenial(essenialContent ec) { es->setContent(ec); }
 
-    void setDisplayCards(QList<handCard*> cards);
-
 private:
     void menuInitial();
     void interfaceInitial();
@@ -74,10 +72,12 @@ signals:
     void cancelClicked();
 
 public slots:
+    void resizeItems();
     void listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn);
     void hideAllMenu();
     void showMenu(QPoint pos = QPoint());
     void reSetInterface(QSize);
+    void updateCardsArea(QList<handCard*> cards);
 
 };
 

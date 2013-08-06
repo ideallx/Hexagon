@@ -298,11 +298,11 @@ QList<handCard*> itemCollector::getCard(int n)
     QList<handCard*> result;
     if(unusedCards.size()<n)
         n = unusedCards.size();
-    qDebug()<<"unused cards:"<<unusedCards.size()<<"used:"<<n;
     for(int i=0; i<n; i++)
     {
         result.append(unusedCards[0]);
         unusedCards.removeAt(0);
     }
+    qDebug()<<"unused cards:"<<unusedCards.size()<<"used:"<<n;
     return result;
 }

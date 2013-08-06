@@ -111,3 +111,19 @@ void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug()<<"cardScene"<<event->scenePos();
 }
+
+viewSendResize::viewSendResize(QWidget *parent) :
+    QGraphicsView(parent)
+{
+
+}
+
+viewSendResize::~viewSendResize()
+{
+
+}
+
+void viewSendResize::resizeEvent(QResizeEvent *e)
+{
+    emit resized();
+}

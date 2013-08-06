@@ -41,6 +41,7 @@ public:
     heroItem* getHeroByPoint(QPoint);
     void addLocalHero(heroItem* h){ localHeros.append(h);}
     bool isLocalHero(heroItem* h) { return localHeros.contains(h); }
+    heroItem* getLocalHero() { return localHeros[0]; }
 
     QList<handCard*> getCard(int n);
 

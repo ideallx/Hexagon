@@ -97,7 +97,7 @@ void gameMapElement::variableInitial()
         block = QPixmap(path + "desert.png");
         elementName = QString(tr("desert"));
     }
-    setBrush(QBrush(block.scaledToWidth(2*lineLength)));
+    setBrush(QBrush(block.scaledToWidth(2*lineLength, Qt::SmoothTransformation)));
 }
 
 QRectF gameMapElement::boundingRect() const

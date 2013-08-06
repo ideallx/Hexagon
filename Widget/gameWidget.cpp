@@ -18,6 +18,11 @@ MainWindow::MainWindow(QWidget *parent) :
     endTurnAction->setStatusTip(tr("End Current Turn"));
     ui->mainToolBar->addAction(endTurnAction);
 
+    getCardAction = new QAction(tr("Get Card"), this);
+    getCardAction->setStatusTip(tr("Get A Card For Your Hero"));
+    ui->mainToolBar->addAction(getCardAction);
+
+    connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
     connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
 
     qDebug("initial complete...");

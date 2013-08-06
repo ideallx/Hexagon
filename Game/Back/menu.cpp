@@ -68,6 +68,8 @@ void gameMenu::interfaceInitial()
     ui->items->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->items->setScene(cs);
     ui->items->setStyleSheet("background: transparent");
+
+    connect(ui->items, SIGNAL(resized()), this, SLOT(resizeItems()));
 }
 
 void gameMenu::showMenu(QPoint pos)
@@ -150,16 +152,48 @@ void gameMenu::setHeroAvaters(QPixmap *p)
     ui->head->setPixmap(p->scaledToHeight(ui->head->height(), Qt::SmoothTransformation));
 }
 
-void gameMenu::setDisplayCards(QList<handCard*> cards)
+void gameMenu::updateCardsArea(QList<handCard*> cards)
 {
+    cs->setSceneRect(0, 0, ui->items->width(), ui->items->height());
     QList<QGraphicsItem*> ims = cs->items();
+
     for(int i=0; i<ims.size(); i++)
     {
         cs->removeItem(ims[i]);
     }
+
+    qDebug()<<"Update Card Area Total"<<cards.size()<<"Cards";
+    if(cards.size() == 0)
+        return;
+
     for(int i=0; i<cards.size(); i++)
     {
-        cards[i]->setPos(20*i, 0); //TODO scene coordination
         cs->addItem(cards[i]);
+    }
+    resizeItems();
+}
+
+void gameMenu::resizeItems()
+{
+    double y = 0.2*ui->items->height();
+    double cardWidth = 137.0;
+    QList<QGraphicsItem*> cards = cs->items();
+    int s = cards.size()-1;
+
+    if(cards.size()*cardWidth > ui->items->width())
+    {
+        double xInterval = (ui->items->width()-cardWidth)/(cards.size()-1);
+        qDebug()<<xInterval;
+        for(int i=0; i<cards.size(); i++)
+        {
+            cards[s-i]->setPos(i*xInterval, y);
+        }
+    }
+    else
+    {
+        for(int i=0; i<cards.size(); i++)
+        {
+            cards[s-i]->setPos(i*cardWidth, y);
+        }
     }
 }

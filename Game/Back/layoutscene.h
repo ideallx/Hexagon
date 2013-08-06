@@ -1,10 +1,7 @@
 #ifndef LAYOUTSCENE_H
 #define LAYOUTSCENE_H
 
-#include <QGraphicsScene>
-#include <QGraphicsTextItem>
-
-class QPainter;
+#include <QtWidgets>
 
 struct essenialContent
 {
@@ -69,6 +66,18 @@ private:
     QGraphicsEllipseItem *skill2;
     QGraphicsEllipseItem *skill3;
 
+};
+
+class viewSendResize : public QGraphicsView
+{
+    Q_OBJECT
+public:
+    viewSendResize(QWidget *parent = 0);
+    ~viewSendResize();
+    void resizeEvent(QResizeEvent *e);
+
+signals:
+    void resized();
 };
 
 #endif // LAYOUTSCENE_H

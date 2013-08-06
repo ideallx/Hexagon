@@ -42,6 +42,7 @@ private:
     QLabel *campLabel;
 
     QAction *endTurnAction;
+    QAction *getCardAction;
 
     Ui::MainWindow *ui;
 

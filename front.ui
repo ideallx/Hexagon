@@ -92,7 +92,14 @@
         <widget class="QGraphicsView" name="essenial"/>
        </item>
        <item>
-        <widget class="QGraphicsView" name="ability"/>
+        <widget class="QGraphicsView" name="ability">
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -141,9 +148,15 @@
           </spacer>
          </item>
          <item>
-          <widget class="QGraphicsView" name="items">
+          <widget class="viewSendResize" name="items">
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
            </property>
           </widget>
          </item>
@@ -157,8 +170,14 @@
   <zorder></zorder>
   <zorder></zorder>
   <zorder></zorder>
-  <zorder>horizontalSpacer</zorder>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>viewSendResize</class>
+   <extends>QGraphicsView</extends>
+   <header>layoutscene.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
