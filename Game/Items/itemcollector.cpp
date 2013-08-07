@@ -1,4 +1,11 @@
 #include "itemcollector.h"
+#include "heroengine.h"
+#include "heroitem.h"
+#include "heroengine.h"
+#include "cardengine.h"
+#include "mapelement.h"
+#include "coordinate.h"
+#include "backinfo.h"
 
 itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsScene* scenei):
       gbi(gbii),
@@ -29,7 +36,7 @@ void itemCollector::setMapElement()
     addMapElementList();
 }
 
-void itemCollector::setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInfo> info)
+void itemCollector::setHeroFactory(heroFactory* hf, QList<struct externInfo> info)
 {
     this->hf = hf;
     addHeroList(info);
@@ -41,21 +48,14 @@ void itemCollector::setCardEngine(cardEngine* ce)
     addCardList();
 }
 
-void itemCollector::setButtomUi()
-{
-    buttomUi* bu = new buttomUi(gbi->getConfigDir());
-    scene->addItem(bu);
-    //qDebug()<<scene->views()[0]->viewport()->height();
-}
-
-void itemCollector::addHeroList(QList<heroFactory::ExternInfo> info)
+void itemCollector::addHeroList(QList<struct externInfo> info)
 {
     QList<heroItem*> heros = hf->generateHeroes(info);
     for(int i=0; i<heros.size(); i++)
     {
         scene->addItem(heros.at(i));
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
-        if(heros.at(i)->camp() == heroItem::camp_red)
+        if(heros.at(i)->camp() == camp_red)
         {
             redTeamHeros.append(heros.at(i));
         }
@@ -305,4 +305,9 @@ QList<handCard*> itemCollector::getCard(int n)
     }
     qDebug()<<"unused cards:"<<unusedCards.size()<<"used:"<<n;
     return result;
+}
+
+QString itemCollector::rscPath()
+{
+    return gbi->getConfigDir();
 }

@@ -1,12 +1,25 @@
 #ifndef ITEMCOLLECTOR_H
 #define ITEMCOLLECTOR_H
 
-#include "heroengine.h"
-#include "cardengine.h"
-#include "mapelement.h"
-#include "coordinate.h"
-#include "backinfo.h"
-#include "buttomui.h"
+
+#include <QgraphicsScene>
+#include <QList>
+#include <QVector>
+#include <QPoint>
+#include <QPen>
+
+
+class heroItem;
+class gameBackInfo;
+class gameCoordinate;
+class heroFactory;
+class cardEngine;
+class gameMapElement;
+class handCard;
+
+
+struct externInfo;
+
 
 class itemCollector
 {
@@ -15,10 +28,9 @@ public:
     ~itemCollector();
 
     void setMapElement();
-    void setHeroFactory(heroFactory* hf, QList<heroFactory::ExternInfo> info);
+    void setHeroFactory(heroFactory* hf, QList<struct externInfo> info);
     void setCardEngine(cardEngine* ce);
-    void setButtomUi();
-    QString rscPath() { return gbi->getConfigDir(); }
+    QString rscPath();
 
     QList<QString> getHeroListAvaterPath(char);
 
@@ -48,7 +60,7 @@ public:
     QList<QPoint> listSphere(QPoint point, int sphere, char type);
 
 private:
-    void addHeroList(QList<heroFactory::ExternInfo> info);
+    void addHeroList(QList<struct externInfo> info);
     void addCardList();
     void addMapElementList();
     void addHeroSide();

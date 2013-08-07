@@ -1,4 +1,9 @@
 #include "eventcenter.h"
+#include "heroitem.h"
+#include "itemcollector.h"
+#include "backscene.h"
+#include "menu.h"
+#include "backview.h"
 
 eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     scene(scene),

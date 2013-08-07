@@ -5,8 +5,6 @@ handCard::handCard(int t, QString s):
     pixmapPath(QPixmap(s))
 {
     setRect(0, 0, 137, 200);
-    if(pixmapPath.isNull())  //TODO
-        qDebug()<<s;
     setBrush(pixmapPath.scaledToHeight(200, Qt::SmoothTransformation));
 }
 

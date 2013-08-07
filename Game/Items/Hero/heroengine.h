@@ -1,11 +1,48 @@
 #ifndef HEROENGINE_H
 #define HEROENGINE_H
 
-#include <QtWidgets>
+#include <QMap>
+#include <QString>
+#include <QPoint>
+#include <QGraphicsScene>
+#include <QDebug>
+#include <QMargins>
+#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 
-#include "backinfo.h"
-#include "heroitem.h"
-#include "herowhole.h"
+
+class gameBackInfo;
+class heroItem;
+enum heroCamp;
+
+
+enum heroNum_t
+{
+    MieShaZhe,
+    RenZhe,
+    AnYingZhiRen,
+    LeiShen,
+    ShengQiShi,
+    KuangSha,
+    YingYan,
+    LingHunYiZhe,
+    BingZhiShengNv,
+    ZhongKaiZhanShi,
+    QiYueZhe,
+    BaoXiong,
+    ShiHunZhe,
+    FengXingZhe,
+    DuTu,
+    XueZhiLiZhua,
+    SiShen,
+    HuanYingZhiQiang,
+    ZhanLanZhiJian,
+    HuoWuZhe,
+
+    PackageII,
+
+    UserDefined
+};
 
 struct heroInfo
 {
@@ -17,47 +54,22 @@ struct heroInfo
 
 };
 
+struct externInfo
+{
+    enum heroNum_t h;
+    enum camp_t c;
+    QPoint p;
+};
+
+
 class heroFactory : public QObject
 {
 public:
-    typedef enum heroNum_t
-    {
-        MieShaZhe,
-        RenZhe,
-        AnYingZhiRen,
-        LeiShen,
-        ShengQiShi,
-        KuangSha,
-        YingYan,
-        LingHunYiZhe,
-        BingZhiShengNv,
-        ZhongKaiZhanShi,
-        QiYueZhe,
-        BaoXiong,
-        ShiHunZhe,
-        FengXingZhe,
-        DuTu,
-        XueZhiLiZhua,
-        SiShen,
-        HuanYingZhiQiang,
-        ZhanLanZhiJian,
-        HuoWuZhe,
 
-        PackageII,
-
-        UserDefined
-    }heroNum;
-
-    typedef struct externInfo
-    {
-        heroNum h;
-        heroItem::heroCamp c;
-        QPoint p;
-    }ExternInfo;
 
     heroFactory(gameBackInfo* gbi);
-    heroItem* createHero(heroNum, QPoint, heroItem::heroCamp);
-    QList<heroItem*> generateHeroes(QList<ExternInfo>);
+    heroItem* createHero(enum heroNum_t, QPoint, enum camp_t);
+    QList<heroItem*> generateHeroes(QList<struct externInfo>);
 
 private:
     static const struct heroInfo msz;
@@ -81,10 +93,12 @@ private:
     static const struct heroInfo ss;
     static const struct heroInfo bx;
 
-    QMap<heroNum, struct heroInfo> heroInfoMap;
+    QMap<enum heroNum_t, struct heroInfo> heroInfoMap;
     int lineLength;
     QGraphicsScene* scene;
     QString innerDir;
 };
+
+
 
 #endif // HEROENGINE_H

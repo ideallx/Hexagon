@@ -1,7 +1,9 @@
 #ifndef gameBackInfo_H
 #define gameBackInfo_H
 
-#include <QtWidgets>
+#include <QPixmap>
+#include <QFile>
+#include <QXmlStreamReader>
 
 class gameBackInfo
 {

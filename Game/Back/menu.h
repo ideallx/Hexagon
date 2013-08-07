@@ -1,10 +1,18 @@
 #ifndef GAMEMENU_H
 #define GAMEMENU_H
 
-#include <QtWidgets>
+#include <QList>
+#include <QPixmap>
+#include <QGraphicsScene>
+#include <QPushButton>
+#include <QDebug>
+
 #include "ui_front.h"
-#include "layoutscene.h"
-#include "carditem.h"
+
+class essenialScene;
+class skillScene;
+class cardScene;
+class handCard;
 
 class gameMenu : public QObject
 {

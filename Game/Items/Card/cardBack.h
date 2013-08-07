@@ -1,7 +1,8 @@
 #ifndef CARDITEM_H
 #define CARDITEM_H
 
-#include <QtWidgets>
+#include <QGraphicsItem>
+#include <QPainter>
 
 class cardBack : public QObject, public QGraphicsRectItem
 {

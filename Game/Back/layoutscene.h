@@ -1,7 +1,11 @@
 #ifndef LAYOUTSCENE_H
 #define LAYOUTSCENE_H
 
-#include <QtWidgets>
+#include <QGraphicsScene>
+#include <QGraphicsItem>
+#include <QGraphicsView>
+#include <QDebug>
+#include <QGraphicsSceneMouseEvent>
 
 struct essenialContent
 {

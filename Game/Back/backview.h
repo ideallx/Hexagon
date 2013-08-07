@@ -1,7 +1,10 @@
 #ifndef TESTVIEW2_H
 #define TESTVIEW2_H
 
-#include <QtWidgets>
+#include <QGraphicsView>
+#include <QGraphicsScene>
+#include <QMatrix>
+#include <QResizeEvent>
 
 class backview : public QGraphicsView
 {

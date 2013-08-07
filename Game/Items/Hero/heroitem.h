@@ -1,8 +1,22 @@
 #ifndef HEROITEM_H
 #define HEROITEM_H
 
-#include <QtWidgets>
-#include "carditem.h"
+#include <QGraphicsItem>
+#include <QPainter>
+
+class handCard;
+
+enum camp_t
+{
+    camp_red,
+    camp_blue
+};
+
+enum sexual_t
+{
+    sex_male,
+    sex_female
+};
 
 class heroItem : public QObject, public QGraphicsEllipseItem
 {
@@ -11,23 +25,12 @@ class heroItem : public QObject, public QGraphicsEllipseItem
     Q_PROPERTY(QPoint point READ point WRITE setPoint)
 
 public:
-    typedef enum camp_t
-    {
-        camp_red,
-        camp_blue
-    }heroCamp;
-
-    enum sexual_t
-    {
-        sex_male,
-        sex_female
-    };
 
     heroItem(int lineLength);
     void setHeroProperty(char s, char a, char m, int h);
 
     char camp() const { return theCamp;}
-    void setCamp(heroCamp c) { theCamp = c; }
+    void setCamp(enum camp_t c) { theCamp = c; }
 
     char sexual() const { return theSexual; }
 

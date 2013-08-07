@@ -1,6 +1,5 @@
 #include "layoutscene.h"
-#include <QtWidgets>
-#include <cardengine.h>
+#include "cardengine.h"
 
 essenialScene::essenialScene()
 {
@@ -114,10 +113,10 @@ void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void cardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"move"; //TODO
-    QTransform qtf;
-    QGraphicsItem *i = itemAt(event->scenePos(), qtf);
-    i->setPos(i->pos().x(), 0);
+    qDebug()<<"move"<<event->scenePos(); //TODO
+//    QTransform qtf;
+//    QGraphicsItem *i = itemAt(event->scenePos(), qtf);
+//    i->setPos(i->pos().x(), 0);
 
 }
 

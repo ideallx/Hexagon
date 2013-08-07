@@ -1,5 +1,13 @@
 #include "gameWidget.h"
 #include "ui_mainwindow.h"
+#include "heroengine.h"
+#include "heroitem.h"
+#include "backinfo.h"
+#include "backview.h"
+#include "backscene.h"
+#include "menu.h"
+#include "coordinate.h"
+#include "eventcenter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -69,16 +77,16 @@ bool MainWindow::variableInitial()
 
 bool MainWindow::sceneInitial()
 {
-    QList<heroFactory::ExternInfo> info;
-    heroFactory::ExternInfo exInfo;
+    QList<struct externInfo> info;
+    struct externInfo exInfo;
 
-    exInfo.c = heroItem::camp_blue;
-    exInfo.h = heroFactory::LeiShen;
+    exInfo.c = camp_blue;
+    exInfo.h = LeiShen;
     exInfo.p = QPoint(1, 20);
     info.append(exInfo);
 
-    exInfo.c = heroItem::camp_red;
-    exInfo.h = heroFactory::MieShaZhe;
+    exInfo.c = camp_red;
+    exInfo.h = MieShaZhe;
     exInfo.p = QPoint(1, 1);
     info.append(exInfo);
 

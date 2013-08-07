@@ -1,9 +1,12 @@
 #ifndef CARDENGINE_H
 #define CARDENGINE_H
 
-#include <QtWidgets>
-#include "carditem.h"
-#include "backinfo.h"
+#include <QList>
+#include <QString>
+#include <QObject>
+
+class handCard;
+class gameBackInfo;
 
 struct cardInfo
 {

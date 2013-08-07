@@ -1,6 +1,14 @@
 #include "backscene.h"
+#include "itemcollector.h"
+#include "heroengine.h"
+#include "heroitem.h"
+#include "backinfo.h"
+#include "cardengine.h"
+#include "coordinate.h"
+#include "mapelement.h"
 
-backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<heroFactory::ExternInfo> i, QObject *parent) :
+
+backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externInfo> i, QObject *parent) :
     gbi(gbi),
     gc(gc)
 {
@@ -131,4 +139,9 @@ void backScene::showAttackSphere()
     {
         ic->setElementSpecialPen(sphereList.at(i), QPen(Qt::red, 5));
     }
+}
+
+QList<QString> backScene::getHeroListAvaterPath(char in)
+{
+    return ic->getHeroListAvaterPath(in);
 }

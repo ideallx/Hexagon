@@ -1,4 +1,6 @@
 #include "menu.h"
+#include "carditem.h"
+#include "layoutscene.h"
 
 gameMenu::gameMenu(QGraphicsView *parent) :
     parent(parent),

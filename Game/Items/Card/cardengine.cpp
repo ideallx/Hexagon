@@ -1,4 +1,6 @@
 #include "cardengine.h"
+#include "carditem.h"
+#include "backinfo.h"
 
 const struct cardInfo cardEngine::kb   = {cardEngine::KuangBao,          tr("KuangBao")};
 const struct cardInfo cardEngine::zy   = {cardEngine::ZheYue,            tr("ZheYue")};

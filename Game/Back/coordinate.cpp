@@ -1,4 +1,5 @@
 #include "coordinate.h"
+#include "backinfo.h"
 
 gameCoordinate::gameCoordinate(gameBackInfo* gbi)
 {

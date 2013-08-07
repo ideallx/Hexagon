@@ -31,7 +31,6 @@ SOURCES  += main.cpp \
     Game/Items/itemcollector.cpp \
     Game/eventcenter.cpp \
     Game/animationcenter.cpp \
-    Game/Items/buttomui.cpp \
     Game/Back/layoutscene.cpp
 
 HEADERS  += mainwindow.h \
@@ -54,7 +53,6 @@ HEADERS  += mainwindow.h \
     Game/Items/itemcollector.h \
     Game/eventcenter.h \
     Game/animationcenter.h \
-    Game/Items/buttomui.h \
     Game/Back/layoutscene.h
 
 INCLUDEPATH += include

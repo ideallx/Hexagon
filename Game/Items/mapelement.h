@@ -1,8 +1,14 @@
 #ifndef GAMEMAPELEMENT_H
 #define GAMEMAPELEMENT_H
 
-#include <QtWidgets>
-#include "backinfo.h"
+#include <QGraphicsItem>
+#include <QVector>
+#include <QPoint>
+#include <QString>
+#include <QPen>
+#include <QPainter>
+
+class gameBackInfo;
 
 class gameMapElement : public QObject, public QGraphicsPolygonItem
 {

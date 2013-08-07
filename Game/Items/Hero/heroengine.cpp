@@ -1,25 +1,27 @@
 #include "heroengine.h"
+#include "heroitem.h"
+#include "backinfo.h"
 
-const struct heroInfo heroFactory::msz  = {1, 4, 8,  heroItem::sex_female, tr("mieShaZhe")};
-const struct heroInfo heroFactory::ls   = {1, 2, 8,  heroItem::sex_male,   tr("leiShen")};
-const struct heroInfo heroFactory::bzsn = {1, 2, 8,  heroItem::sex_female, tr("bingZhiShengNv")};
-const struct heroInfo heroFactory::hwz  = {1, 2, 8,  heroItem::sex_female, tr("huoWuZhe")};
-const struct heroInfo heroFactory::fxz  = {1, 3, 7,  heroItem::sex_female, tr("fengXingZhe")};
-const struct heroInfo heroFactory::hyzq = {1, 3, 8,  heroItem::sex_female, tr("huanYingZhiQiang")};
-const struct heroInfo heroFactory::lhyz = {1, 3, 7,  heroItem::sex_female, tr("lingHunYiZhe")};
-const struct heroInfo heroFactory::dt   = {1, 4, 8,  heroItem::sex_male,   tr("duTu")};
-const struct heroInfo heroFactory::yy   = {1, 3, 8,  heroItem::sex_male,   tr("yingYan")};
-const struct heroInfo heroFactory::shz  = {1, 4, 8,  heroItem::sex_female, tr("shiHunZhe")};
-const struct heroInfo heroFactory::ayzr = {1, 4, 7,  heroItem::sex_male,   tr("anYingZhiRen")};
-const struct heroInfo heroFactory::rz   = {1, 4, 8,  heroItem::sex_male,   tr("renZhe")};
-const struct heroInfo heroFactory::xzlz = {1, 4, 8,  heroItem::sex_male,   tr("xueZhiLiZhua")};
-const struct heroInfo heroFactory::qyz  = {1, 4, 8,  heroItem::sex_male,   tr("qiYueZhe")};
-const struct heroInfo heroFactory::sqs  = {1, 3, 8,  heroItem::sex_female, tr("shengQiShi")};
-const struct heroInfo heroFactory::zlzj = {1, 3, 9,  heroItem::sex_male,   tr("zhanLanZhiJian")};
-const struct heroInfo heroFactory::zkzs = {1, 3, 10, heroItem::sex_male,  tr("zhongKaiZhanShi")};
-const struct heroInfo heroFactory::ks   = {1, 3, 9,  heroItem::sex_male,   tr("kuangSha")};
-const struct heroInfo heroFactory::ss   = {1, 3, 9,  heroItem::sex_male,   tr("siShen")};
-const struct heroInfo heroFactory::bx   = {1, 4, 8,  heroItem::sex_male,   tr("baoXiong")};
+const struct heroInfo heroFactory::msz  = {1, 4, 8,  sex_female, tr("mieShaZhe")};
+const struct heroInfo heroFactory::ls   = {1, 2, 8,  sex_male,   tr("leiShen")};
+const struct heroInfo heroFactory::bzsn = {1, 2, 8,  sex_female, tr("bingZhiShengNv")};
+const struct heroInfo heroFactory::hwz  = {1, 2, 8,  sex_female, tr("huoWuZhe")};
+const struct heroInfo heroFactory::fxz  = {1, 3, 7,  sex_female, tr("fengXingZhe")};
+const struct heroInfo heroFactory::hyzq = {1, 3, 8,  sex_female, tr("huanYingZhiQiang")};
+const struct heroInfo heroFactory::lhyz = {1, 3, 7,  sex_female, tr("lingHunYiZhe")};
+const struct heroInfo heroFactory::dt   = {1, 4, 8,  sex_male,   tr("duTu")};
+const struct heroInfo heroFactory::yy   = {1, 3, 8,  sex_male,   tr("yingYan")};
+const struct heroInfo heroFactory::shz  = {1, 4, 8,  sex_female, tr("shiHunZhe")};
+const struct heroInfo heroFactory::ayzr = {1, 4, 7,  sex_male,   tr("anYingZhiRen")};
+const struct heroInfo heroFactory::rz   = {1, 4, 8,  sex_male,   tr("renZhe")};
+const struct heroInfo heroFactory::xzlz = {1, 4, 8,  sex_male,   tr("xueZhiLiZhua")};
+const struct heroInfo heroFactory::qyz  = {1, 4, 8,  sex_male,   tr("qiYueZhe")};
+const struct heroInfo heroFactory::sqs  = {1, 3, 8,  sex_female, tr("shengQiShi")};
+const struct heroInfo heroFactory::zlzj = {1, 3, 9,  sex_male,   tr("zhanLanZhiJian")};
+const struct heroInfo heroFactory::zkzs = {1, 3, 10, sex_male,  tr("zhongKaiZhanShi")};
+const struct heroInfo heroFactory::ks   = {1, 3, 9,  sex_male,   tr("kuangSha")};
+const struct heroInfo heroFactory::ss   = {1, 3, 9,  sex_male,   tr("siShen")};
+const struct heroInfo heroFactory::bx   = {1, 4, 8,  sex_male,   tr("baoXiong")};
 
 heroFactory::heroFactory(gameBackInfo* gbi):
     innerDir(gbi->getConfigDir() + "heros/"),
@@ -47,7 +49,7 @@ heroFactory::heroFactory(gameBackInfo* gbi):
     heroInfoMap[HuoWuZhe] = hwz;
 }
 
-heroItem* heroFactory::createHero(heroNum hero, QPoint pt, heroItem::heroCamp c)
+heroItem* heroFactory::createHero(enum heroNum_t hero, QPoint pt, enum camp_t c)
 {
     heroItem * item = new heroItem(lineLength);
     item->setAvaterPic(new QPixmap(innerDir + heroInfoMap[hero].heroName + "_Head.png"));
@@ -60,7 +62,7 @@ heroItem* heroFactory::createHero(heroNum hero, QPoint pt, heroItem::heroCamp c)
     return item;
 }
 
-QList<heroItem*> heroFactory::generateHeroes(QList<ExternInfo> list)
+QList<heroItem*> heroFactory::generateHeroes(QList<struct externInfo> list)
 {
     QList<heroItem*> result;
     for(int i=0; i<list.size(); i++)

@@ -2,7 +2,7 @@
 #define CAMPHEALTH_H
 
 #include <QGraphicsRectItem>
-#include <QtWidgets>
+#include <QPainter>
 
 class campHealth : public QObject, public QGraphicsPixmapItem //pixmap later
 {

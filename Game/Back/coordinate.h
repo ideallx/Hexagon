@@ -1,8 +1,11 @@
 #ifndef GAMECOORDINATE_H
 #define GAMECOORDINATE_H
 
-#include <QtWidgets>
-#include "backinfo.h"
+#include <QPoint>
+#include <QList>
+#include <QVector>
+
+class gameBackInfo;
 
 class gameCoordinate
 {

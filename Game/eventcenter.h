@@ -1,12 +1,12 @@
 #ifndef EVENTCENTER_H
 #define EVENTCENTER_H
 
-#include <QtWidgets>
+#include <QObject>
 
-#include "itemcollector.h"
-#include "backscene.h"
-#include "menu.h"
-#include "backview.h"
+class backScene;
+class gameMenu;
+class itemCollector;
+class heroItem;
 
 class eventCenter : public QObject
 {

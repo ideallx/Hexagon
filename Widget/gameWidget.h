@@ -2,13 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QtWidgets>
+#include <QLabel>
+#include <QAction>
+#include <QPoint>
+#include <QGraphicsSceneMouseEvent>
+#include <QMessageBox>
 
-#include "backview.h"
-#include "backscene.h"
-#include "menu.h"
-#include "coordinate.h"
-#include "eventcenter.h"
+class gameMenu;
+class backScene;
+class gameBackInfo;
+class gameCoordinate;
+class eventCenter;
+class heroItem;
 
 
 namespace Ui {
@@ -29,7 +34,6 @@ private:
     void stateMachineInitial();
     void moveToPos(heroItem*, QPoint);
 
-    //QGraphicsView* widgetMain;
     gameMenu* menu;
     backScene *scene;
     gameBackInfo* gbi;

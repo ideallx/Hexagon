@@ -1,7 +1,9 @@
 #ifndef CARDITEM_H
 #define CARDITEM_H
 
-#include <QtWidgets>
+#include <QGraphicsItem>
+#include <QPixmap>
+#include <QPainter>
 
 class handCard : public QGraphicsRectItem
 {

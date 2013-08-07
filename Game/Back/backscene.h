@@ -1,17 +1,23 @@
 #ifndef BACKSCENE_H
 #define BACKSCENE_H
 
-#include <QtWidgets>
-#include "itemcollector.h"
+#include <QGraphicsScene>
+
+class itemCollector;
+class gameBackInfo;
+class gameCoordinate;
+class heroItem;
+class heroFactory;
+struct externInfo;
 
 class backScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    backScene(gameBackInfo*, gameCoordinate*, QList<heroFactory::ExternInfo> i, QObject *parent = 0);
+    backScene(gameBackInfo*, gameCoordinate*, QList<struct externInfo> i, QObject *parent = 0);
     ~backScene();
     itemCollector* pIc() { return ic;}
-    QList<QString> getHeroListAvaterPath(char in){ return ic->getHeroListAvaterPath(in); }
+    QList<QString> getHeroListAvaterPath(char in);
     
 private:
     bool eventFilter(QObject *watched, QEvent *event);
