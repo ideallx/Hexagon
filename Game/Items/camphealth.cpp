@@ -16,6 +16,6 @@ void campHealth::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    painter->setPen(Qt::PenStyle::NoPen);
+    painter->setPen(Qt::NoPen);
     painter->drawPixmap(pixmap().rect(), pixmap());
 }

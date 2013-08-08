@@ -13,7 +13,7 @@
 
 class gameBackInfo;
 class heroItem;
-enum heroCamp;
+enum camp_t;
 
 
 enum heroNum_t

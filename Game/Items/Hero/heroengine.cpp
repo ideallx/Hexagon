@@ -1,5 +1,5 @@
-#include "heroengine.h"
 #include "heroitem.h"
+#include "heroengine.h"
 #include "backinfo.h"
 
 const struct heroInfo heroFactory::msz  = {1, 4, 8,  sex_female, tr("mieShaZhe")};

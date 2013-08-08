@@ -4,7 +4,7 @@ gameBackInfo::gameBackInfo(QString configFilePath)
 {
     QFile file(configFilePath);
     isLoadingCorrectly = true;
-    halfSqrt3 = sqrt(3.0)/2;
+    halfSqrt3 = 0.86;
     beginX = beginPosition.x();
     beginY = beginPosition.y();
     int i = configFilePath.lastIndexOf(QChar('/'));

@@ -1,7 +1,7 @@
 #include "gameWidget.h"
 #include "ui_mainwindow.h"
-#include "heroengine.h"
 #include "heroitem.h"
+#include "heroengine.h"
 #include "backinfo.h"
 #include "backview.h"
 #include "backscene.h"

@@ -1,5 +1,4 @@
 #include "itemcollector.h"
-#include "heroengine.h"
 #include "heroitem.h"
 #include "heroengine.h"
 #include "cardengine.h"
