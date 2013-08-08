@@ -14,33 +14,35 @@ struct cardInfo
     QString name;
 };
 
+
+enum cardType_t
+{
+    KuangBao,
+    ZheYue,
+    FaLiRanShao,
+    ShengMingLiZan,
+    ChuanSong,
+    FangYuFuWen,
+    ZhuangTaiJingHua,
+    MoFaHuDun,
+    MoFaZhiHeng,
+    MoJingBaoDan,
+    NengLiangXianJing,
+    JinBi_2,
+    JinBi_3,
+    JinBi_4,
+    ZhengJingJi,
+    JiJiuYao,
+    ShanBi,
+
+    CardPackageII,
+
+    CardUserDefined
+};
+
 class cardEngine : public QObject
 {
 public:
-    enum cardType_t
-    {
-        KuangBao,
-        ZheYue,
-        FaLiRanShao,
-        ShengMingLiZan,
-        ChuanSong,
-        FangYuFuWen,
-        ZhuangTaiJingHua,
-        MoFaHuDun,
-        MoFaZhiHeng,
-        MoJingBaoDan,
-        NengLiangXianJing,
-        JinBi_2,
-        JinBi_3,
-        JinBi_4,
-        ZhengJingJi,
-        JiJiuYao,
-        ShanBi,
-
-        PackageII,
-
-        UserDefined
-    };
 
 
     cardEngine(gameBackInfo *gbi);

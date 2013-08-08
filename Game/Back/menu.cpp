@@ -70,6 +70,7 @@ void gameMenu::interfaceInitial()
     ui->items->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     ui->items->setScene(cs);
     ui->items->setStyleSheet("background: transparent");
+    ui->items->setMouseTracking(true);
 
     connect(ui->items, SIGNAL(resized()), this, SLOT(resizeItems()));
 }

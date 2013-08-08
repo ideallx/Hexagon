@@ -20,7 +20,6 @@ public:
     QList<QString> getHeroListAvaterPath(char in);
     
 private:
-    bool eventFilter(QObject *watched, QEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 

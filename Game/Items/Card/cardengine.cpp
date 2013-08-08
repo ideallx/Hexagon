@@ -2,23 +2,23 @@
 #include "carditem.h"
 #include "backinfo.h"
 
-const struct cardInfo cardEngine::kb   = {cardEngine::KuangBao,          tr("KuangBao")};
-const struct cardInfo cardEngine::zy   = {cardEngine::ZheYue,            tr("ZheYue")};
-const struct cardInfo cardEngine::flrs = {cardEngine::FaLiRanShao,       tr("FaLiRanShao")};
-const struct cardInfo cardEngine::smlz = {cardEngine::ShengMingLiZan,    tr("ShengMingLiZan")};
-const struct cardInfo cardEngine::cs   = {cardEngine::ChuanSong,         tr("ChuanSong")};
-const struct cardInfo cardEngine::fyfw = {cardEngine::FangYuFuWen,       tr("FangYuFuWen")};
-const struct cardInfo cardEngine::ztjh = {cardEngine::ZhuangTaiJingHua,  tr("ZhuangTaiJingHua")};
-const struct cardInfo cardEngine::mfhd = {cardEngine::MoFaHuDun,         tr("MoFaHuDun")};
-const struct cardInfo cardEngine::mfzh = {cardEngine::MoFaZhiHeng,       tr("MoFaZhiHeng")};
-const struct cardInfo cardEngine::mjbd = {cardEngine::MoJingBaoDan,      tr("MoJingBaoDan")};
-const struct cardInfo cardEngine::nlxj = {cardEngine::NengLiangXianJing, tr("NengLiangXianJing")};
-const struct cardInfo cardEngine::jb2  = {cardEngine::JinBi_2,           tr("JinBi_2")};
-const struct cardInfo cardEngine::jb3  = {cardEngine::JinBi_3,           tr("JinBi_3")};
-const struct cardInfo cardEngine::jb4  = {cardEngine::JinBi_4,           tr("JinBi_4")};
-const struct cardInfo cardEngine::zjj  = {cardEngine::ZhengJingJi,       tr("ZhengJingJi")};
-const struct cardInfo cardEngine::jjy  = {cardEngine::JiJiuYao,          tr("JiJiuYao")};
-const struct cardInfo cardEngine::sb   = {cardEngine::ShanBi,            tr("ShanBi")};
+const struct cardInfo cardEngine::kb   = {KuangBao,          tr("KuangBao")};
+const struct cardInfo cardEngine::zy   = {ZheYue,            tr("ZheYue")};
+const struct cardInfo cardEngine::flrs = {FaLiRanShao,       tr("FaLiRanShao")};
+const struct cardInfo cardEngine::smlz = {ShengMingLiZan,    tr("ShengMingLiZan")};
+const struct cardInfo cardEngine::cs   = {ChuanSong,         tr("ChuanSong")};
+const struct cardInfo cardEngine::fyfw = {FangYuFuWen,       tr("FangYuFuWen")};
+const struct cardInfo cardEngine::ztjh = {ZhuangTaiJingHua,  tr("ZhuangTaiJingHua")};
+const struct cardInfo cardEngine::mfhd = {MoFaHuDun,         tr("MoFaHuDun")};
+const struct cardInfo cardEngine::mfzh = {MoFaZhiHeng,       tr("MoFaZhiHeng")};
+const struct cardInfo cardEngine::mjbd = {MoJingBaoDan,      tr("MoJingBaoDan")};
+const struct cardInfo cardEngine::nlxj = {NengLiangXianJing, tr("NengLiangXianJing")};
+const struct cardInfo cardEngine::jb2  = {JinBi_2,           tr("JinBi_2")};
+const struct cardInfo cardEngine::jb3  = {JinBi_3,           tr("JinBi_3")};
+const struct cardInfo cardEngine::jb4  = {JinBi_4,           tr("JinBi_4")};
+const struct cardInfo cardEngine::zjj  = {ZhengJingJi,       tr("ZhengJingJi")};
+const struct cardInfo cardEngine::jjy  = {JiJiuYao,          tr("JiJiuYao")};
+const struct cardInfo cardEngine::sb   = {ShanBi,            tr("ShanBi")};
 
 cardEngine::cardEngine(gameBackInfo *gbi)
 {

@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
     a.installTranslator(&translator);
 */
     MainWindow w;
-    w.setWindowState(Qt::WindowMaximized);
+    //w.setWindowState(Qt::WindowMaximized);
     w.show();
     
     return a.exec();

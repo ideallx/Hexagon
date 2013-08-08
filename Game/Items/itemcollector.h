@@ -54,6 +54,7 @@ public:
     void addLocalHero(heroItem* h){ localHeros.append(h);}
     bool isLocalHero(heroItem* h) { return localHeros.contains(h); }
     heroItem* getLocalHero() { return localHeros[0]; }
+    QList<heroItem*> getActSequence();
 
     QList<handCard*> getCard(int n);
 

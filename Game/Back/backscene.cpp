@@ -76,20 +76,6 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     emit changeStatusBar(strList);
 }
 
-bool backScene::eventFilter(QObject *watched, QEvent *event)
-{
-    QSize newSize = this->views().at(0)->size();
-    if(oldViewSize != newSize)
-    {
-        oldViewSize = newSize;
-        emit viewSizeChanged(newSize);
-    }
-    //wait for event make a delay
-    Q_UNUSED(watched);
-    Q_UNUSED(event);
-    return false;
-}
-
 void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug()<<"Screen"<<event->screenPos();

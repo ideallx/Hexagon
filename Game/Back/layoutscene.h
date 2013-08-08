@@ -42,6 +42,8 @@ public:
 private:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+
+    QGraphicsItem* oldItem;
 };
 
 /*

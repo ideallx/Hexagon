@@ -1,13 +1,18 @@
 #ifndef GAMEPROCESS_H
 #define GAMEPROCESS_H
 
-
 class gameProcess
 {
 public:
     gameProcess();
-
     void gameBegin();
+
+private:
+    int curPlayerNum;
+    int thePlayerNum;
+
+signals:
+    void askForMove(int);
 
 
 

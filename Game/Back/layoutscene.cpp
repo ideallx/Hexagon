@@ -114,10 +114,22 @@ void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void cardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug()<<"move"<<event->scenePos(); //TODO
-//    QTransform qtf;
-//    QGraphicsItem *i = itemAt(event->scenePos(), qtf);
-//    i->setPos(i->pos().x(), 0);
 
+    if(oldItem)
+    {
+        oldItem->setPos(oldItem->pos().x(), 0.2*height());
+        oldItem->setScale(1.0);
+    }
+
+    QTransform qtf;
+    QGraphicsItem *i = itemAt(event->scenePos(), qtf);
+
+    if(i)
+    {
+        i->setPos(i->pos().x(), 0);
+        i->setScale(1.1);
+        oldItem = i;
+    }
 }
 
 viewSendResize::viewSendResize(QWidget *parent) :

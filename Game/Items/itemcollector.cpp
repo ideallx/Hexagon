@@ -310,3 +310,15 @@ QString itemCollector::rscPath()
 {
     return gbi->getConfigDir();
 }
+
+QList<heroItem*> itemCollector::getActSequence()
+{
+    QList<heroItem*> result;
+
+    for(int i=0; i<redTeamHeros.size(); i++)
+    {
+        result.append(redTeamHeros[i]);
+        result.append(blueTeamHeros[i]);
+    }
+    return result;
+}
