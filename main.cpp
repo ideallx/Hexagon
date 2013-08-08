@@ -1,4 +1,5 @@
-#include "gameWidget.h"
+//#include "gameWidget.h"
+#include "gameprocess.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -9,9 +10,12 @@ int main(int argc, char *argv[])
     translator.load("lang__zhCN.qm", ":/");
     a.installTranslator(&translator);
 */
-    MainWindow w;
+    //MainWindow w;
     //w.setWindowState(Qt::WindowMaximized);
-    w.show();
+    //w.show();
+
+    gameProcess gp(5);
+
     
     return a.exec();
 }

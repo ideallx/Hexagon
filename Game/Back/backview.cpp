@@ -26,6 +26,8 @@ void backview::initialSettrings()
 
 void backview::resizeEvent(QResizeEvent *e)
 {
+    if(scene() == NULL)
+        return;
     qreal w1 = e->size().width();
     qreal w2 = scene()->width();
     if(w1 <= w2)

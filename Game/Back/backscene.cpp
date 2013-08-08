@@ -99,6 +99,8 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void backScene::showMoveSphere()
 {
     heroItem* hi = ic->getHeroByPoint(oldPoint);
+    if(hi == NULL)
+        return;
     sphereList = ic->listSphere(oldPoint, hi->moveSphere(), 'm');
     for(int i=0; i<sphereList.size(); i++)
     {

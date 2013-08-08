@@ -31,7 +31,8 @@ SOURCES  += main.cpp \
     Game/Items/itemcollector.cpp \
     Game/eventcenter.cpp \
     Game/animationcenter.cpp \
-    Game/Back/layoutscene.cpp
+    Game/Back/layoutscene.cpp \
+    Widget/otherwidgets.cpp
 
 HEADERS  += mainwindow.h \
     Game/gameprocess.h \
@@ -53,7 +54,8 @@ HEADERS  += mainwindow.h \
     Game/Items/itemcollector.h \
     Game/eventcenter.h \
     Game/animationcenter.h \
-    Game/Back/layoutscene.h
+    Game/Back/layoutscene.h \
+    Widget/otherwidgets.h
 
 INCLUDEPATH += include
 INCLUDEPATH += Game
@@ -64,7 +66,8 @@ INCLUDEPATH += Game/Items/Card
 INCLUDEPATH += Widget
 
 FORMS    += mainwindow.ui \
-    front.ui
+    front.ui \
+    modechoose.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

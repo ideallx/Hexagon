@@ -7,6 +7,7 @@ class gameProcess : public QObject
 {
 public:
     gameProcess(int playerNum);
+
     void gameBegin();
 
 private:
