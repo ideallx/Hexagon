@@ -13,15 +13,15 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QGraphicsView>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "backview.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -34,10 +34,9 @@ public:
     QAction *actionTest2;
     QAction *actionEndTurn;
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout;
-    QGraphicsView *viewLeft;
-    backview *viewCenter;
-    QGraphicsView *viewRight;
+    QVBoxLayout *verticalLayout_2;
+    QVBoxLayout *verticalLayout;
+    backview *graphicsView;
     QMenuBar *menuBar;
     QMenu *menuAbout;
     QMenu *menu_2;
@@ -48,7 +47,8 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(994, 654);
+        MainWindow->resize(1200, 800);
+        MainWindow->setMinimumSize(QSize(1200, 800));
         actionQt = new QAction(MainWindow);
         actionQt->setObjectName(QStringLiteral("actionQt"));
         actionGame = new QAction(MainWindow);
@@ -65,41 +65,35 @@ public:
         actionEndTurn->setObjectName(QStringLiteral("actionEndTurn"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        centralWidget->setAutoFillBackground(false);
-        horizontalLayout = new QHBoxLayout(centralWidget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        viewLeft = new QGraphicsView(centralWidget);
-        viewLeft->setObjectName(QStringLiteral("viewLeft"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(viewLeft->sizePolicy().hasHeightForWidth());
-        viewLeft->setSizePolicy(sizePolicy);
-        viewLeft->setMinimumSize(QSize(300, 0));
-        viewLeft->setMaximumSize(QSize(300, 16777215));
+        sizePolicy.setHeightForWidth(centralWidget->sizePolicy().hasHeightForWidth());
+        centralWidget->setSizePolicy(sizePolicy);
+        centralWidget->setAutoFillBackground(false);
+        verticalLayout_2 = new QVBoxLayout(centralWidget);
+        verticalLayout_2->setSpacing(0);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setSpacing(0);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        graphicsView = new backview(centralWidget);
+        graphicsView->setObjectName(QStringLiteral("graphicsView"));
+        graphicsView->setLineWidth(0);
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        horizontalLayout->addWidget(viewLeft);
+        verticalLayout->addWidget(graphicsView);
 
-        viewCenter = new backview(centralWidget);
-        viewCenter->setObjectName(QStringLiteral("viewCenter"));
 
-        horizontalLayout->addWidget(viewCenter);
-
-        viewRight = new QGraphicsView(centralWidget);
-        viewRight->setObjectName(QStringLiteral("viewRight"));
-        sizePolicy.setHeightForWidth(viewRight->sizePolicy().hasHeightForWidth());
-        viewRight->setSizePolicy(sizePolicy);
-        viewRight->setMinimumSize(QSize(300, 0));
-        viewRight->setMaximumSize(QSize(300, 16777215));
-
-        horizontalLayout->addWidget(viewRight);
+        verticalLayout_2->addLayout(verticalLayout);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 994, 21));
+        menuBar->setGeometry(QRect(0, 0, 1200, 21));
         menuAbout = new QMenu(menuBar);
         menuAbout->setObjectName(QStringLiteral("menuAbout"));
         menu_2 = new QMenu(menuBar);

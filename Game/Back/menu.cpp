@@ -178,25 +178,6 @@ void gameMenu::updateCardsArea(QList<handCard*> cards)
 
 void gameMenu::resizeItems()
 {
-    double y = 0.2*ui->items->height();
-    double cardWidth = 137.0;
-    QList<QGraphicsItem*> cards = cs->items();
-    int s = cards.size()-1;
-
-    if(cards.size()*cardWidth > ui->items->width())
-    {
-        double xInterval = (ui->items->width()-cardWidth)/(cards.size()-1);
-        qDebug()<<xInterval;
-        for(int i=0; i<cards.size(); i++)
-        {
-            cards[s-i]->setPos(i*xInterval, y);
-        }
-    }
-    else
-    {
-        for(int i=0; i<cards.size(); i++)
-        {
-            cards[s-i]->setPos(i*cardWidth, y);
-        }
-    }
+    cs->clearChosenItems();
+    cs->listCards();
 }

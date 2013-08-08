@@ -56,17 +56,20 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{12775a23-71e0-4add-baf1-eeb64b3ea338}</UniqueIdentifier>
+      <UniqueIdentifier>{6a87e639-3613-4d3a-aa08-fcc68dc7068c}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{5a56b98c-d739-423b-9e53-dfc83fdf15e6}</UniqueIdentifier>
+      <UniqueIdentifier>{d4ad4547-5cb8-4ccd-b3ce-d3747275c111}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\animationcenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Back\backinfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,6 +94,9 @@
     <ClCompile Include="Game\Back\coordinate.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\eventcenter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Widget\gameWidget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -109,6 +115,9 @@
     <ClCompile Include="Game\Items\itemcollector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Back\layoutscene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -116,9 +125,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Back\menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Back\sidescene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_backscene.cpp">
@@ -145,6 +151,12 @@
     <ClCompile Include="Release\moc_cardback.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\moc_eventcenter.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_eventcenter.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="Debug\moc_gameWidget.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -163,6 +175,12 @@
     <ClCompile Include="Release\moc_herowhole.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\moc_layoutscene.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_layoutscene.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="Debug\moc_mapelement.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -175,17 +193,14 @@
     <ClCompile Include="Release\moc_menu.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\moc_sidescene.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_sidescene.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_vv.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Game\animationcenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Game\Back\backinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -213,6 +228,9 @@
     <ClInclude Include="Game\Back\coordinate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <CustomBuild Include="Game\eventcenter.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="Widget\gameWidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -231,6 +249,9 @@
     <ClInclude Include="Game\Items\itemcollector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <CustomBuild Include="Game\Back\layoutscene.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <ClInclude Include="mainwindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -240,9 +261,9 @@
     <CustomBuild Include="Game\Back\menu.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="Game\Back\sidescene.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
+    <ClInclude Include="GeneratedFiles\ui_front.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -253,6 +274,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="front.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="mainwindow.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>

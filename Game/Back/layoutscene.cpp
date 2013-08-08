@@ -97,7 +97,7 @@ QRectF skillButton::boundingRect() const
 cardScene::cardScene()
 {
     cardGroup = this->createItemGroup(this->items());
-
+    oldItem = 0;
 }
 
 cardScene::~cardScene()
@@ -105,30 +105,85 @@ cardScene::~cardScene()
 
 }
 
+void cardScene::clearChosenItems()
+{
+    chosenItem.clear();
+}
+
+void cardScene::listCards()
+{
+    double y = 0.2*height();
+    QList<QGraphicsItem*> cards = items();
+    if(cards.size() == 0)
+        return;
+    double cardWidth = cards[0]->boundingRect().width();
+    double xInterval;
+
+    if(cards.size()*cardWidth > width())
+        xInterval = (width()-cardWidth)/(cards.size()-1);
+    else
+        xInterval = cardWidth;
+
+    for(int i=0; i<cards.size(); i++)
+    {
+        cards[cards.size()-1-i]->setPos(i*xInterval, y);
+    }
+}
 
 void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"cardScene"<<event->scenePos();
+    if(event->button() & Qt::RightButton)
+    {
+        clearChosenItems();
+        listCards();
+        return;
+    }
+
+    if(!oldItem)
+        return;
+
+    if(chosenItem.contains(oldItem))
+    {
+        oldItem->setPos(oldItem->pos().x(), 0.2*height());
+        chosenItem.remove(chosenItem.indexOf(oldItem));
+    }
+    else
+    {
+        oldItem->setPos(oldItem->pos().x(), 0);
+        chosenItem.append(oldItem);
+    }
+
+    qDebug()<<"append";
 }
 
 void cardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"move"<<event->scenePos(); //TODO
+    curItem = itemAt(event->scenePos(), qtf);
 
-    if(oldItem)
+    if(event->scenePos().x() == 0 ||
+            event->scenePos().x() == width() ||
+            event->scenePos().y() == height() ||
+            event->scenePos().y() == 0)
     {
-        oldItem->setPos(oldItem->pos().x(), 0.2*height());
-        oldItem->setScale(1.0);
+        if(oldItem)
+            if(!chosenItem.contains(oldItem))
+                oldItem->setPos(oldItem->pos().x(), 0.2*height());
     }
 
-    QTransform qtf;
-    QGraphicsItem *i = itemAt(event->scenePos(), qtf);
+    if(oldItem == curItem)
+        return;
 
-    if(i)
+    if(oldItem)
+        if(!chosenItem.contains(oldItem))
+            oldItem->setPos(oldItem->pos().x(), 0.2*height());
+
+    if(curItem)
     {
-        i->setPos(i->pos().x(), 0);
-        i->setScale(1.1);
-        oldItem = i;
+        if(!chosenItem.contains(curItem))
+        {
+            curItem->setPos(curItem->pos().x(), 0.1*height());
+        }
+        oldItem = curItem;
     }
 }
 

@@ -1,27 +1,25 @@
 #ifndef GAMEPROCESS_H
 #define GAMEPROCESS_H
 
-class gameProcess
+#include <QObject>
+
+class gameProcess : public QObject
 {
 public:
-    gameProcess();
+    gameProcess(int playerNum);
     void gameBegin();
 
 private:
     int curPlayerNum;
     int thePlayerNum;
 
+    int gamePhase;
+
 signals:
     void askForMove(int);
 
 
 
-
-
-
-
-private:
-    int gamePhase;
 };
 
 #endif // GAMEPROCESS_H

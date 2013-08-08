@@ -5,6 +5,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsView>
 #include <QDebug>
+#include <QVector>
 #include <QGraphicsSceneMouseEvent>
 
 struct essenialContent
@@ -37,6 +38,8 @@ class cardScene : public QGraphicsScene
 public:
     cardScene();
     ~cardScene();
+    void clearChosenItems();
+    void listCards();
     QGraphicsItemGroup* cardGroup;
 
 private:
@@ -44,6 +47,9 @@ private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
     QGraphicsItem* oldItem;
+    QGraphicsItem* curItem;
+    QVector<QGraphicsItem*> chosenItem;
+    QTransform qtf;
 };
 
 /*
