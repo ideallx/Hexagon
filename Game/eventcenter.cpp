@@ -11,14 +11,19 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     ic(scene->pIc())
 {
     connect(scene, SIGNAL(heroClicked(heroItem*)), this, SLOT(heroChosen(heroItem*)));
-    connect(scene, SIGNAL(buildMenu(QPoint)), menu, SLOT(showMenu(QPoint)));
+    connect(scene, SIGNAL(sphereClicked(QPoint)), this, SLOT(targetClicked(QPoint)));
+
     connect(scene, SIGNAL(mapElementClicked(QPoint)), menu, SLOT(hideAllMenu()));
     connect(scene, SIGNAL(mapElementClicked(QPoint)), scene, SLOT(clearSphere()));
+
+
+    connect(scene, SIGNAL(buildMenu(QPoint)), menu, SLOT(showMenu(QPoint)));
     connect(scene, SIGNAL(viewSizeChanged(QSize)), menu, SLOT(reSetInterface(QSize)));
     connect(scene, SIGNAL(listSlideAvaters(QList<QString>,QList<QString>)), menu, SLOT(listSlideHeroHead(QList<QString>,QList<QString>)));
 
-    connect(menu, SIGNAL(moveClicked()), scene, SLOT(clearSphere()));
-    connect(menu, SIGNAL(moveClicked()), scene, SLOT(showMoveSphere()));
+    connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
+
+
     connect(menu, SIGNAL(attackClicked()), scene, SLOT(clearSphere()));
     connect(menu, SIGNAL(attackClicked()), scene, SLOT(showAttackSphere()));
 
@@ -43,4 +48,16 @@ void eventCenter::getCard(int num)
     qDebug()<<"get"<<num<<"cards";
     ic->getLocalHero()->addCards(ic->getCard(num));
     menu->updateCardsArea(ic->getLocalHero()->cards());
+}
+
+void eventCenter::gameFlow()
+{
+
+}
+
+
+void eventCenter::moveBegin()
+{
+    scene->clearSphere();
+    scene->showMoveSphere();
 }

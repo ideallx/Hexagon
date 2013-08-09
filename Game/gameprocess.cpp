@@ -1,18 +1,48 @@
 #include "gameprocess.h"
 #include "otherwidgets.h"
+#include "itemcollector.h"
+#include "heroitem.h"
+#include "eventcenter.h"
 #include <QDebug>
+#include <QState>
+#include <QFinalState>
 
-gameProcess::gameProcess(int playerNum)
+gameProcess::gameProcess()
 {
-    thePlayerNum = playerNum;
-    curPlayerNum = 0;
-    qDebug()<<"sfa";
 
+    preGame();
+    gameBegin();
+}
+
+void gameProcess::preGame()
+{
     modeChooseWidget* mcw = new modeChooseWidget();
-    mcw->show();
+    roundNum = 0;
 }
 
 void gameProcess::gameBegin()
 {
-    qDebug()<<"game begin";
+    QList<heroItem*> heroSeq = ic->getActSequence();
+
+    while(true)
+    {
+        roundNum ++;
+        roundBegin();
+        for(int i=0; i<heroSeq.size(); i++)
+        {
+            ec->gameFlow();
+        }
+        roundEnd();
+    }
+}
+
+void gameProcess::roundBegin()
+{
+    ic->herosLoadPassiveSkill();
+    ic->mapElementAward();
+}
+
+void gameProcess::roundEnd()
+{
+
 }

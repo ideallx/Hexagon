@@ -2,19 +2,29 @@
 #define GAMEPROCESS_H
 
 #include <QObject>
+#include <QStateMachine>
+
+class eventCenter;
+class itemCollector;
 
 class gameProcess : public QObject
 {
 public:
-    gameProcess(int playerNum);
+    gameProcess();
 
-    void gameBegin();
 
 private:
-    int curPlayerNum;
-    int thePlayerNum;
+    void initStatusMachine();
+    void preGame();
+    void gameBegin();
 
-    int gamePhase;
+    void roundBegin();
+    void roundEnd();
+
+    int roundNum;
+
+    eventCenter* ec;
+    itemCollector* ic;
 
 signals:
     void askForMove(int);

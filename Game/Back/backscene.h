@@ -42,6 +42,7 @@ signals:
     void buildMenu(QPoint);
     void viewSizeChanged(QSize);
     void listSlideAvaters(QList<QString>, QList<QString>);
+    void sphereClicked(QPoint);
     
 public slots:
     void clearSphere();

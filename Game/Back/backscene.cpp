@@ -81,6 +81,13 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     qDebug()<<"Screen"<<event->screenPos();
     qDebug()<<"Scene "<<event->scenePos();
     qDebug()<<"View  "<<this->views()[0]->mapFromScene(event->scenePos());
+
+    if(sphereList.contains(oldPoint))
+    {
+        emit sphereClicked(oldPoint);
+        return;
+    }
+
     if(ic->isPointHasHero(oldPoint))
     {
         heroItem* hero = ic->getHeroByPoint(oldPoint);

@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     //w.setWindowState(Qt::WindowMaximized);
     //w.show();
 
-    gameProcess gp(5);
+    gameProcess gp;
 
     
     return a.exec();
