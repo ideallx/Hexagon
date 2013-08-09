@@ -5,14 +5,14 @@
 #include "ui_modechoose.h"
 
 
-class otherWidgets : public QMainWindow
+class modeChooseWidget : public QMainWindow
 {
     Q_OBJECT
 public:
-    explicit otherWidgets(QWidget *parent = 0);
+    explicit modeChooseWidget(QWidget *parent = 0);
 
 private:
-    Ui::MainWindow *ui;
+    Ui::modeChoose *ui;
     
 signals:
     

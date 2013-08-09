@@ -8,17 +8,14 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMessageBox>
 
+#include "ui_mainwindow.h"
+
 class gameMenu;
 class backScene;
 class gameBackInfo;
 class gameCoordinate;
 class eventCenter;
 class heroItem;
-
-
-namespace Ui {
-class MainWindow;
-}
 
 class MainWindow : public QMainWindow
 {

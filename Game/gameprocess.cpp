@@ -8,8 +8,8 @@ gameProcess::gameProcess(int playerNum)
     curPlayerNum = 0;
     qDebug()<<"sfa";
 
-    otherWidgets* ow = new otherWidgets();
-    ow->show();
+    modeChooseWidget* mcw = new modeChooseWidget();
+    mcw->show();
 }
 
 void gameProcess::gameBegin()
