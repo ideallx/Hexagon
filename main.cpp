@@ -1,6 +1,7 @@
 //#include "gameWidget.h"
 #include "gameprocess.h"
 #include <QApplication>
+#include <QDateTime>
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +14,7 @@ int main(int argc, char *argv[])
     //MainWindow w;
     //w.setWindowState(Qt::WindowMaximized);
     //w.show();
-
+    qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     gameProcess gp;
 
     

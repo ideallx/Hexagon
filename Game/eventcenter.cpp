@@ -27,20 +27,13 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     connect(menu, SIGNAL(attackClicked()), scene, SLOT(clearSphere()));
     connect(menu, SIGNAL(attackClicked()), scene, SLOT(showAttackSphere()));
 
+    menu->setHeroInfo(ic->getLocalHero());
     qDebug()<<"event center initialized";
 }
 
 void eventCenter::heroChosen(heroItem* hero)
 {
-    struct essenialContent ec;
-    ec.mr = hero->moveSphere();
-    ec.a  = hero->attack();
-    ec.ar = hero->attackSphere();
-
-    menu->setHeroHp(hero->health(), hero->maxHealth());
-    menu->setHeroAvaters(hero->wholePic());
-    menu->setEssenial(ec);
-    menu->setHeroSkillButton(hero->skillButtons());
+    menu->setHeroInfo(hero);
 }
 
 void eventCenter::getCard(int num)
@@ -60,4 +53,14 @@ void eventCenter::moveBegin()
 {
     scene->clearSphere();
     scene->showMoveSphere();
+}
+
+void eventCenter::targetClicked(QPoint)
+{
+
+}
+
+void eventCenter::attackBegin()
+{
+
 }

@@ -67,7 +67,9 @@ INCLUDEPATH += Widget
 
 FORMS    += mainwindow.ui \
     front.ui \
-    modechoose.ui
+    modechoose.ui \
+    gameSetting.ui \
+    enviroSettings.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

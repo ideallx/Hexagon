@@ -31,11 +31,11 @@ essenialScene::~essenialScene()
 }
 
 
-void essenialScene::setContent(struct essenialContent ec)
+void essenialScene::setContent(struct panelInfo pi)
 {
-    moveRange->setPlainText(preMr + QString::number(ec.mr));
-    attackRange->setPlainText(preAr + QString::number(ec.ar));
-    attack->setPlainText(preA + QString::number(ec.a));
+    moveRange->setPlainText(preMr + pi.moveRange);
+    attackRange->setPlainText(preAr + pi.attackRange);
+    attack->setPlainText(preA + pi.attack);
 }
 
 

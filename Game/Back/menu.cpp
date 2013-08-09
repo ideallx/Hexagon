@@ -1,12 +1,13 @@
 #include "menu.h"
 #include "carditem.h"
 #include "layoutscene.h"
+#include "heroitem.h"
 
 gameMenu::gameMenu(QGraphicsView *parent) :
     parent(parent),
     ui(new Ui::Form)
 {
-    heroHeadSlideLength = 100; //uncertain
+    heroHeadSlideLength = 80; //uncertain
     ui->setupUi(parent);
     interfaceInitial();
     menuInitial();
@@ -147,6 +148,18 @@ void gameMenu::setHeroHp(int curHp, int maxHp)
 {
     ui->heroHp->setMaximum(maxHp);
     ui->heroHp->setValue(curHp);
+}
+
+void gameMenu::setHeroInfo(heroItem* hero)
+{
+    setHeroHp(hero->health(), hero->maxHealth());
+    setHeroAvaters(hero->wholePic());
+    struct panelInfo pi;
+    pi.attack = QString::number(hero->attack());
+    pi.attackRange = QString::number(hero->attackSphere());
+    pi.moveRange = QString::number(hero->moveSphere());
+    setEssenial(pi);
+    setHeroSkillButton(hero->skillButtons());
 }
 
 

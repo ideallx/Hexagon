@@ -8,11 +8,12 @@
 #include <QVector>
 #include <QGraphicsSceneMouseEvent>
 
-struct essenialContent
+
+struct panelInfo
 {
-    int mr;
-    int ar;
-    int a;
+    QString attackRange;
+    QString moveRange;
+    QString attack;
 };
 
 class essenialScene : public QGraphicsScene
@@ -21,7 +22,7 @@ public:
     essenialScene();
     ~essenialScene();
 
-    void setContent(struct essenialContent);
+    void setContent(struct panelInfo);
 
 private:
     QString preMr;

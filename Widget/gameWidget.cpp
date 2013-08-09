@@ -9,17 +9,17 @@
 #include "coordinate.h"
 #include "eventcenter.h"
 
+#define CONFIGPATH "C:/Users/xiang/Documents/GitHub/rsc/config.xml"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    if(!variableInitial() || !sceneInitial())
-    {
-        qDebug("initial error");
-        return;
-    }
+
+    variableInitial();
+    sceneInitial();
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
     endTurnAction = new QAction(tr("End Turn"), this);
@@ -45,11 +45,11 @@ MainWindow::~MainWindow()
 // HERO:heroName    coordinate:x, x    camp:hero
 bool MainWindow::variableInitial()
 {
-    gbi = new gameBackInfo(QString("C:/Users/xiang/Documents/GitHub/rsc/config.xml"));
+    gbi = new gameBackInfo(QString(CONFIGPATH));
     if(!gbi->isLoadSuccess())
     {
         QMessageBox::critical(this, tr("LYBNS"), tr("loading error"));
-        return false;
+        exit(0x11);
     }
     qDebug("gbi load complete...");
 
@@ -77,23 +77,12 @@ bool MainWindow::variableInitial()
 
 bool MainWindow::sceneInitial()
 {
-    QList<struct externInfo> info;
-    struct externInfo exInfo;
-
-    exInfo.c = camp_blue;
-    exInfo.h = LeiShen;
-    exInfo.p = QPoint(1, 20);
-    info.append(exInfo);
-
-    exInfo.c = camp_red;
-    exInfo.h = MieShaZhe;
-    exInfo.p = QPoint(1, 1);
-    info.append(exInfo);
+    QList<struct externInfo> info = chooseHero();
 
     scene = new backScene(gbi, gc, info, this);
     ui->graphicsView->setScene(scene);
     menu = new gameMenu(ui->graphicsView);
-    menu->listSlideHeroHead(scene->getHeroListAvaterPath('r'), scene->getHeroListAvaterPath('b'));
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
     ec = new eventCenter(scene, menu);
     qDebug("backView load complete...");
 
@@ -121,73 +110,6 @@ void MainWindow::changeStatusInfo(QStringList in)
         */
 }
 
-void MainWindow::showMoveSphere()
-{
-    /*
-    gc->clearMoveSphere();
-    QList<QPoint> point = gc->listMoveSphere(gc->getCurHero()->getPoint(), gc->getCurHero()->getMoveSphere());
-    QList<gameMapElement*> element = gc->getMapList();
-    for(int i=0; i<point.size(); ++i)
-    {
-        element.at(gc->getBlockNumber(point[i]))->setPen(QPen(Qt::yellow, 5));
-    }
-    */
-}
-
-void MainWindow::showAttackSphere()
-{
-    /*
-    gc->clearMoveSphere();
-    gc->listMoveSphere(gc->getCurHero()->getPoint(), gc->getCurHero()->getAttackSphere());
-    QList<QPoint> point = gc->getMovePoint();
-    QList<gameMapElement*> element = gc->getMapList();
-    for(int i=0; i<point.size(); ++i)
-    {
-        element.at(gc->getBlockNumber(point[i]))->setPen(QPen(Qt::red, 5));
-    }
-    */
-}
-
-void MainWindow::heroClickedSlot(QGraphicsSceneMouseEvent* e)
-{
-    menu->hideAllMenu();
-    /*
-    gc->restoreAllPen();
-    gc->clearMoveSphere();
-
-    if(gc->getCurHero() != static_cast<heroItem*>(this->sender()))
-    {
-        qDebug("not cur hero");
-        emit heroClickedSignal(e);
-    }
-    else if(e->button() & Qt::LeftButton)
-    {
-        menu->showMenu(gameMenu::MENULIST, e->scenePos());
-    }
-    */
-}
-
-void MainWindow::elementClickedSlot(QGraphicsSceneMouseEvent *e)
-{
-    menu->hideAllMenu();
-    /*
-    gc->restoreAllPen();
-
-    gc->setCurPoint(static_cast<gameMapElement*>(this->sender())->getPoint());
-
-    if(gc->isPointAvailable(gc->getCurPoint()) && gc->getMovePoint().contains(gc->getCurPoint()))
-    {
-        if(e->button() == Qt::LeftButton)
-        {
-            emit elementClickedSignal(e);
-        }
-        else
-        {
-            restoreAll();
-        }
-    }*/
-
-}
 /*
 void MainWindow::moveToPos(heroItem *hi, QPoint p)
 {
@@ -216,7 +138,31 @@ void MainWindow::moveToPos(heroItem *hi, QPoint p)
     }
 }
 */
-void MainWindow::restoreAll()
+
+QList<struct externInfo> MainWindow::chooseHero()
 {
-    menu->hideAllMenu();
+    QList<struct externInfo> result;
+    struct externInfo ei;
+
+    ei.c = camp_blue;
+    ei.h = (enum heroNum_t)(rand()%20);
+    ei.p = QPoint(1, 20);
+    result.append(ei);
+
+    ei.c = camp_red;
+    ei.h = (enum heroNum_t)(rand()%20);
+    ei.p = QPoint(1, 0);
+    result.append(ei);
+
+    ei.c = camp_blue;
+    ei.h = (enum heroNum_t)(rand()%20);
+    ei.p = QPoint(2, 20);
+    result.append(ei);
+
+    ei.c = camp_red;
+    ei.h = (enum heroNum_t)(rand()%20);
+    ei.p = QPoint(2, 0);
+    result.append(ei);
+
+    return result;
 }

@@ -13,6 +13,9 @@ class essenialScene;
 class skillScene;
 class cardScene;
 class handCard;
+class heroItem;
+struct heroInfo;
+
 
 class gameMenu : public QObject
 {
@@ -45,7 +48,9 @@ public:
     void setHeroAvaters(QPixmap *p);
     void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }
     void setHeroHp(int curHp, int maxHp);
-    void setEssenial(essenialContent ec) { es->setContent(ec); }
+    void setEssenial(struct panelInfo pi) { es->setContent(pi); }
+
+    void setHeroInfo(heroItem* hero);
 
 private:
     void menuInitial();

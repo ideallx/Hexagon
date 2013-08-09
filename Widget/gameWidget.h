@@ -28,6 +28,7 @@ public:
 private:
     bool variableInitial();
     bool sceneInitial();
+    QList<struct externInfo> chooseHero();
     void stateMachineInitial();
     void moveToPos(heroItem*, QPoint);
 
@@ -47,17 +48,8 @@ private:
 
     Ui::MainWindow *ui;
 
-signals:
-    void elementClickedSignal(QGraphicsSceneMouseEvent*);
-    void heroClickedSignal(QGraphicsSceneMouseEvent*);
-
 private slots:
-    void restoreAll();
     void changeStatusInfo(QStringList);
-    void showMoveSphere();
-    void showAttackSphere();
-    void heroClickedSlot(QGraphicsSceneMouseEvent*);
-    void elementClickedSlot(QGraphicsSceneMouseEvent*);
 };
 
 #endif // MAINWINDOW_H

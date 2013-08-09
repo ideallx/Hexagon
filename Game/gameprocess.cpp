@@ -9,15 +9,15 @@
 
 gameProcess::gameProcess()
 {
-
     preGame();
-    gameBegin();
+    //gameBegin();
 }
 
 void gameProcess::preGame()
 {
     modeChooseWidget* mcw = new modeChooseWidget();
-    roundNum = 0;
+    mcw->show();
+    qDebug()<<"fff";
 }
 
 void gameProcess::gameBegin()
@@ -38,8 +38,8 @@ void gameProcess::gameBegin()
 
 void gameProcess::roundBegin()
 {
-    ic->herosLoadPassiveSkill();
-    ic->mapElementAward();
+    //ic->herosLoadPassiveSkill();
+    //ic->mapElementAward();
 }
 
 void gameProcess::roundEnd()

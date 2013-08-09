@@ -2,6 +2,7 @@
 #define EVENTCENTER_H
 
 #include <QObject>
+#include <QPoint>
 
 class backScene;
 class gameMenu;
