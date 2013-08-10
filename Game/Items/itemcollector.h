@@ -16,6 +16,8 @@ class heroFactory;
 class cardEngine;
 class gameMapElement;
 class handCard;
+class mapEngine;
+class campHealth;
 
 
 struct externInfo;
@@ -27,9 +29,10 @@ public:
     itemCollector(gameBackInfo*, gameCoordinate*, QGraphicsScene* c);
     ~itemCollector();
 
-    void setMapElement();
+    void setMapElement(mapEngine *me);
     void setHeroFactory(heroFactory* hf, QList<struct externInfo> info);
     void setCardEngine(cardEngine* ce);
+    void setCampHealth();
     QString rscPath();
 
     QList<QString> getHeroListAvaterPath(char);
@@ -66,17 +69,18 @@ private:
     void addMapElementList();
     void addHeroSide();
 
+
     bool listAddJudge(QList<QPoint>* set, QPoint point);
     QList<QPoint> recursionSeries(QList<QPoint>* set, QPoint point, int sphere);
 
-    int wid;
-    int hei;
-
     char type;
+
+    int hei;
+    int wid;
 
     QVector<heroItem*> localHeros;
 
-    gameMapElement *gme;
+    mapEngine* me;
     heroFactory* hf;
     cardEngine* ce;
 
@@ -89,6 +93,7 @@ private:
     QList<handCard*> unusedCards;
     QList<handCard*> usedCards;
     QList<gameMapElement*> elements;
+    QList<campHealth*> campLifes;
 
 };
 

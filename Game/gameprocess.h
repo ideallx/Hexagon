@@ -14,20 +14,12 @@ public:
 
 
 private:
-    void initStatusMachine();
     void preGame();
-    void gameBegin();
 
-    void roundBegin();
-    void roundEnd();
 
-    int roundNum;
 
     eventCenter* ec;
     itemCollector* ic;
-
-signals:
-    void askForMove(int);
 
 
 

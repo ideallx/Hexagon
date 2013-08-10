@@ -56,12 +56,12 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{6a87e639-3613-4d3a-aa08-fcc68dc7068c}</UniqueIdentifier>
+      <UniqueIdentifier>{4d2724e0-5d44-43ab-b425-4f7581f4be9c}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{d4ad4547-5cb8-4ccd-b3ce-d3747275c111}</UniqueIdentifier>
+      <UniqueIdentifier>{d621e0c6-4d35-4a11-9d0d-047857d8c3b3}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -125,6 +125,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Back\menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Widget\otherwidgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_backscene.cpp">
@@ -191,6 +194,12 @@
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_menu.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_otherwidgets.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_otherwidgets.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\qrc_vv.cpp">
@@ -261,10 +270,22 @@
     <CustomBuild Include="Game\Back\menu.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="Widget\otherwidgets.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="GeneratedFiles\ui_enviroSettings.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_front.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_gameSetting.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_modechoose.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -274,10 +295,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="enviroSettings.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="front.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="gameSetting.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="mainwindow.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="modechoose.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
   </ItemGroup>

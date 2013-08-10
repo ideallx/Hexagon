@@ -37,11 +37,7 @@ enum heroNum_t
     SiShen,
     HuanYingZhiQiang,
     ZhanLanZhiJian,
-    HuoWuZhe,
-
-    PackageII,
-
-    UserDefined
+    HuoWuZhe
 };
 
 struct heroInfo
@@ -70,6 +66,7 @@ public:
     heroFactory(gameBackInfo* gbi);
     heroItem* createHero(enum heroNum_t, QPoint, enum camp_t);
     QList<heroItem*> generateHeroes(QList<struct externInfo>);
+    int getHeroAmount() { heroInfoMap.size(); }
 
 private:
     static const struct heroInfo msz;
@@ -99,6 +96,11 @@ private:
     QString innerDir;
 };
 
+class heroPackage : QObject
+{
+    virtual int packageHeroBeginNum();
+    virtual int packageHeroAmount();
+};
 
 
 #endif // HEROENGINE_H

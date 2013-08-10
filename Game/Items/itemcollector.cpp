@@ -5,6 +5,7 @@
 #include "mapelement.h"
 #include "coordinate.h"
 #include "backinfo.h"
+#include "camphealth.h"
 
 itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsScene* scenei):
       gbi(gbii),
@@ -30,8 +31,9 @@ itemCollector::~itemCollector()
     elements.clear();
 }
 
-void itemCollector::setMapElement()
+void itemCollector::setMapElement(mapEngine *me)
 {
+    this->me = me;
     addMapElementList();
 }
 
@@ -45,6 +47,20 @@ void itemCollector::setCardEngine(cardEngine* ce)
 {
     this->ce = ce;
     addCardList();
+}
+
+void itemCollector::setCampHealth()
+{
+    campHealth* ch = new campHealth(gbi->getConfigDir()+"health2.png");
+    scene->addItem(ch);
+    campLifes.append(ch);
+    ch->setPos(200, 50);
+
+    ch = new campHealth(gbi->getConfigDir()+"health1.png");
+    scene->addItem(ch);
+    campLifes.append(ch);
+    ch->setPos(200, gbi->getPixmap().height()-200);
+
 }
 
 void itemCollector::addHeroList(QList<struct externInfo> info)
@@ -73,20 +89,13 @@ void itemCollector::addCardList()
 
 void itemCollector::addMapElementList()
 {
-    QVector<char> map = gbi->getMapElement();
+    elements = me->generateMapElements(wid, hei);
     for(int j=0; j<hei; j++)
     {
         for(int i=0; i<wid; i++)
         {
-            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), map[i+j*wid], QPoint(i, j), gbi->getConfigDir()+"elements/");
-            elements.append(mapItem);
-            mapItem->hide();
-            if(mapItem->isPointAvailable())
-            {
-                mapItem->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
-                mapItem->show();
-                scene->addItem(mapItem);
-            }
+            elements[j*wid+i]->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
+            scene->addItem(elements[j*wid+i]);
         }
     }
 }
@@ -148,7 +157,7 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
         if(isPointAvailable(point) && isPointMovable(point))
         {
             if(isPointHasHero(point))
-                return true;
+                return false;
             if(!set->contains(point))
                 set->append(point);
             return true;
@@ -168,8 +177,6 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
 
 QList<QPoint> itemCollector::recursionSeries(QList<QPoint>*set, QPoint point, int sphere)
 {
-    if(!listAddJudge(set, point))
-        return *set;
     if(sphere == 0)
         return *set;
     sphere--;
@@ -251,8 +258,7 @@ void itemCollector::setElementSpecialPen(QPoint point, QPen pen)
     if(!isPointAvailable(point))
         return;
     gameMapElement* gmeT = elements[getPointNumber(point)];
-    gmeT->setDefaultZValue();
-    gmeT->setPen(pen);
+    setElementSpecialPen(gmeT, pen);
 }
 
 void itemCollector::setElementBoldPen(QPoint point, double width)
@@ -266,7 +272,7 @@ void itemCollector::setElementBoldPen(QPoint point, double width)
 
 void itemCollector::setElementSpecialPen(gameMapElement* gmeT, QPen pen)
 {
-    gmeT->setDefaultZValue();
+    gmeT->setZValue(0.65); //TODO
     gmeT->setPen(pen);
 }
 
@@ -317,8 +323,8 @@ QList<heroItem*> itemCollector::getActSequence()
 
     for(int i=0; i<redTeamHeros.size(); i++)
     {
-        result.append(redTeamHeros[i]);
         result.append(blueTeamHeros[i]);
+        result.append(redTeamHeros[i]);
     }
     return result;
 }

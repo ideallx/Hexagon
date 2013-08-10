@@ -8,7 +8,7 @@ class campHealth : public QObject, public QGraphicsPixmapItem //pixmap later
 {
     Q_OBJECT
 public:
-    explicit campHealth(QRectF rec, QObject *parent = 0);
+    explicit campHealth(const QPixmap &pixmap, QGraphicsItem *parent = 0);
 
 private:
     QRectF boundingRect();

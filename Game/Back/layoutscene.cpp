@@ -152,8 +152,6 @@ void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         oldItem->setPos(oldItem->pos().x(), 0);
         chosenItem.append(oldItem);
     }
-
-    qDebug()<<"append";
 }
 
 void cardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

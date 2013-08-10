@@ -7,6 +7,7 @@
 #include <QPoint>
 #include <QGraphicsSceneMouseEvent>
 #include <QMessageBox>
+#include <QStringList>
 
 #include "ui_mainwindow.h"
 
@@ -42,14 +43,16 @@ private:
     QLabel *coordinateLabel;
     QLabel *heroLabel;
     QLabel *campLabel;
+    QLabel *roundLabel;
 
     QAction *endTurnAction;
     QAction *getCardAction;
 
     Ui::MainWindow *ui;
 
-private slots:
+public slots:
     void changeStatusInfo(QStringList);
+    void changeRoundInfo(QStringList);
 };
 
 #endif // MAINWINDOW_H

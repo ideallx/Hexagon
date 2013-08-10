@@ -44,6 +44,8 @@ public:
     void setAttackAble(bool b = true) { isAttackAble = b; }
     void setAbilityAble(bool b = true) { isAbilityAble = b; }
 
+    void resetMenuEnable();
+
     void setMap(QGraphicsScene* s);
     void setHeroAvaters(QPixmap *p);
     void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }

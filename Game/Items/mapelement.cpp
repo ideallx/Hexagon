@@ -1,6 +1,29 @@
 #include "mapelement.h"
-//need to be changed later...
-//reduce member function...
+#include "backinfo.h"
+
+mapEngine::mapEngine(gameBackInfo* gbii) :
+    gbi(gbii)
+{
+}
+
+QList<gameMapElement*> mapEngine::generateMapElements(int wid, int hei)
+{
+    QList<gameMapElement*> elements;
+    QVector<char> map = gbi->getMapElement();
+    for(int j=0; j<hei; j++)
+    {
+        for(int i=0; i<wid; i++)
+        {
+            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), map[i+j*wid], QPoint(i, j), gbi->getConfigDir()+"elements/");
+            elements.append(mapItem);
+            if(!mapItem->isPointAvailable())
+            {
+                mapItem->hide();
+            }
+        }
+    }
+    return elements;
+}
 
 gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, QString path)
     :elementType(elementType)

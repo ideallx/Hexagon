@@ -21,10 +21,11 @@ backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externI
     ic = new itemCollector(gbi, gc, this);
     ic->setCardEngine(new cardEngine(gbi));
     ic->setHeroFactory(new heroFactory(gbi), i);
-    ic->setCardEngine(new cardEngine(gbi));
-    ic->setMapElement();
+    ic->setMapElement(new mapEngine(gbi));
+    ic->setCampHealth();
 
     this->setParent(parent);
+    isPressing = false;
 }
 
 backScene::~backScene()
@@ -35,6 +36,35 @@ backScene::~backScene()
 void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QStringList strList;
+/*
+    if(isPressing)
+    {
+        //TODO has Delay
+        qDebug()<<sceneRect()<<event->scenePos()<<oldPointF;
+        double xLength = - event->scenePos().x() + oldPointF.x();
+        double yLength = - event->scenePos().y() + oldPointF.y();
+        qDebug()<<xLength<<yLength;
+
+        qDebug()<<sceneRect().x()+xLength<<sceneRect().y()+yLength;
+        if((xLength+sceneRect().x()<0) ||
+                (xLength + sceneRect().width() > this->gbi->getPixmap().width()))
+            return;
+
+        if((yLength+sceneRect().y()<0) ||
+                (yLength + sceneRect().height() > this->gbi->getPixmap().height()))
+            return;
+
+        QPointF ff = event->scenePos();
+//        setSceneRect(sceneRect().x() + xLength,
+//                     sceneRect().y() + yLength,
+//                     sceneRect().width(),
+//                     sceneRect().height());
+
+
+        oldPointF = ff;
+        return;
+    }
+    */
     QPoint newPoint = gc->getCooxWithPos(event->scenePos());
     if(!ic->isPointAvailable(newPoint))
     {
@@ -63,7 +93,7 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         heroItem* hero = ic->getHeroByPoint(oldPoint);
         QString strHero = tr("hero: ") + hero->heroName();
         strList.append(strHero);
-        emit heroMovedIn(oldPoint);
+        emit heroClicked(hero);
     }
     else
     {
@@ -76,11 +106,35 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     emit changeStatusBar(strList);
 }
 
+
+void backScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    isPressing = false;
+
+}
+
+
+void backScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    heroItem* hi;
+    if(hi = ic->getHeroByPoint(oldPoint))
+    {
+//        heroItem* hero = ic->getHeroByPoint(oldPoint);
+        emit buildMenu(hi, this->views()[0]->mapFromScene(event->scenePos()));
+//        if(ic->isLocalHero(hero))
+//        {
+//        }
+    }
+}
+
 void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug()<<"Screen"<<event->screenPos();
-    qDebug()<<"Scene "<<event->scenePos();
-    qDebug()<<"View  "<<this->views()[0]->mapFromScene(event->scenePos());
+//    qDebug()<<"Screen"<<event->screenPos();
+//    qDebug()<<"Scene "<<event->scenePos();
+//    qDebug()<<"View  "<<this->views()[0]->mapFromScene(event->scenePos());
+
+    isPressing = true;
+    oldPointF = event->scenePos();
 
     if(sphereList.contains(oldPoint))
     {
@@ -92,10 +146,6 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     {
         heroItem* hero = ic->getHeroByPoint(oldPoint);
         emit heroClicked(hero);
-        if(ic->isLocalHero(hero))
-        {
-            emit buildMenu(this->views()[0]->mapFromScene(event->scenePos()));
-        }
     }
     else
     {
@@ -103,12 +153,11 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void backScene::showMoveSphere()
+void backScene::showMoveSphere(heroItem* hi)
 {
-    heroItem* hi = ic->getHeroByPoint(oldPoint);
     if(hi == NULL)
         return;
-    sphereList = ic->listSphere(oldPoint, hi->moveSphere(), 'm');
+    sphereList = ic->listSphere(hi->point(), hi->moveSphere(), 'm');
     for(int i=0; i<sphereList.size(); i++)
     {
         ic->setElementSpecialPen(sphereList.at(i), QPen(Qt::yellow, 5));
@@ -125,11 +174,9 @@ void backScene::clearSphere()
 }
 
 
-void backScene::showAttackSphere()
+void backScene::showAttackSphere(heroItem* hi)
 {
-    heroItem* hi = ic->getHeroByPoint(oldPoint);
-    sphereList = ic->listSphere(oldPoint, hi->attackSphere(), 'a');
-    sphereList.removeFirst();
+    sphereList = ic->listSphere(hi->point(), hi->attackSphere(), 'a');
     for(int i=0; i<sphereList.size(); i++)
     {
         ic->setElementSpecialPen(sphereList.at(i), QPen(Qt::red, 5));

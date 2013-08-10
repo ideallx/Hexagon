@@ -18,21 +18,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
 
+    endTurnAction = new QAction(tr("End Turn"), this);
+    ui->mainToolBar->addAction(endTurnAction);
+
+    getCardAction = new QAction(tr("Get Card"), this);
+    ui->mainToolBar->addAction(getCardAction);
+
     variableInitial();
     sceneInitial();
 
     connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
-    endTurnAction = new QAction(tr("End Turn"), this);
-    endTurnAction->setStatusTip(tr("End Current Turn"));
-    ui->mainToolBar->addAction(endTurnAction);
-
-    getCardAction = new QAction(tr("Get Card"), this);
-    getCardAction->setStatusTip(tr("Get A Card For Your Hero"));
-    ui->mainToolBar->addAction(getCardAction);
 
     connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
+    connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
     connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
+    connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
 
+    changeRoundInfo(ec->buildRoundInfo());
     qDebug("initial complete...");
 }
 
@@ -61,16 +63,20 @@ bool MainWindow::variableInitial()
     ui->statusBar->addWidget(itemLabel);
 
     coordinateLabel = new QLabel(this);
-    coordinateLabel->setFixedWidth(400);
+    coordinateLabel->setFixedWidth(200);
     ui->statusBar->addWidget(coordinateLabel);
 
     campLabel = new QLabel(this);
-    campLabel->setFixedWidth(100);
+    campLabel->setFixedWidth(200);
     ui->statusBar->addWidget(campLabel);
 
     heroLabel = new QLabel(this);
-    heroLabel->setFixedWidth(100);
+    heroLabel->setFixedWidth(200);
     ui->statusBar->addWidget(heroLabel);
+
+    roundLabel = new QLabel(this);
+    roundLabel->setFixedWidth(200);
+    ui->statusBar->addWidget(roundLabel);
 
     return true;
 }
@@ -102,65 +108,50 @@ void MainWindow::changeStatusInfo(QStringList in)
         itemLabel->setText(in.at(0));
         coordinateLabel->setText(in.at(1));
     }
-    /*
-    QStringList str = in.split(';');
-    statusLabel->setText(str[0]);
-    if(str.size()>1)
-        coordinateLabel->setText(tr("coordinate: ") + str[1]);
-        */
 }
 
-/*
-void MainWindow::moveToPos(heroItem *hi, QPoint p)
+void MainWindow::changeRoundInfo(QStringList in)
 {
-    QPointF oldPos = hi->scenePos();
-    QPointF newPos = gc->getBeginPosOfHero(p);
-
-    qDebug("%f, %f", oldPos.x(), oldPos.y());
-    qDebug("%f, %f", newPos.x(), newPos.y());
-
-    if(gc->isPointAvailable(p))
-    {
-        gc->setCurPoint(p);
-        gia->setItem(hi);
-        //giaTimer->setFrameRange(0, 100);
-        gia->setTimeLine(giaTimer);
-
-        double frame = giaTimer->duration()*60/1000;
-
-        double x = (newPos.x() - oldPos.x())/frame;
-        double y = (newPos.y() - oldPos.y())/frame;
-
-        for(int i=0; i<=frame; ++i)
-            gia->setPosAt(i/frame, oldPos+QPoint(x*i, y*i));
-
-        giaTimer->start();
-    }
+    campLabel->setText(in[0]);
+    heroLabel->setText(in[1]);
+    roundLabel->setText(in[2]);
 }
-*/
 
 QList<struct externInfo> MainWindow::chooseHero()
 {
     QList<struct externInfo> result;
     struct externInfo ei;
 
+    QVector<int> heroCode;
+    for(int i=0; i<4; i++)
+    {
+        int code;
+        do
+        {
+            code = rand()%20;
+            qDebug()<<code;
+        }
+        while(heroCode.contains(code));
+        heroCode.append(code);
+    }
+
     ei.c = camp_blue;
-    ei.h = (enum heroNum_t)(rand()%20);
+    ei.h = (enum heroNum_t)(heroCode[0]);
     ei.p = QPoint(1, 20);
     result.append(ei);
 
     ei.c = camp_red;
-    ei.h = (enum heroNum_t)(rand()%20);
+    ei.h = (enum heroNum_t)(heroCode[1]);
     ei.p = QPoint(1, 0);
     result.append(ei);
 
     ei.c = camp_blue;
-    ei.h = (enum heroNum_t)(rand()%20);
+    ei.h = (enum heroNum_t)(heroCode[2]);
     ei.p = QPoint(2, 20);
     result.append(ei);
 
     ei.c = camp_red;
-    ei.h = (enum heroNum_t)(rand()%20);
+    ei.h = (enum heroNum_t)(heroCode[3]);
     ei.p = QPoint(2, 0);
     result.append(ei);
 

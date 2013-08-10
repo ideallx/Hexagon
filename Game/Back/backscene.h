@@ -16,12 +16,17 @@ class backScene : public QGraphicsScene
 public:
     backScene(gameBackInfo*, gameCoordinate*, QList<struct externInfo> i, QObject *parent = 0);
     ~backScene();
+
     itemCollector* pIc() { return ic;}
+    gameCoordinate* pGc() { return gc; }
     QList<QString> getHeroListAvaterPath(char in);
+
     
 private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     gameBackInfo* gbi;
@@ -31,23 +36,25 @@ private:
     QList<QPoint> sphereList;
 
     QPoint oldPoint;
+
+    QPointF oldPointF;
     QSize oldViewSize;
+    bool isPressing;
 
 signals:
     void changeStatusBar(QStringList);
     void mapElementMovedIn(QPoint);
     void mapElementClicked(QPoint);
-    void heroMovedIn(QPoint);
     void heroClicked(heroItem*);
-    void buildMenu(QPoint);
+    void buildMenu(heroItem*, QPoint);
     void viewSizeChanged(QSize);
     void listSlideAvaters(QList<QString>, QList<QString>);
     void sphereClicked(QPoint);
     
 public slots:
     void clearSphere();
-    void showMoveSphere();
-    void showAttackSphere();
+    void showMoveSphere(heroItem*);
+    void showAttackSphere(heroItem* hero);
     
 };
 

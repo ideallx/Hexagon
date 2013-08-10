@@ -76,4 +76,16 @@ private:
 };
 
 
+class mapEngine
+{
+public:
+    mapEngine(gameBackInfo* gbii);
+    QList<gameMapElement*> generateMapElements(int width, int height);
+
+private:
+    gameBackInfo* gbi;
+
+};
+
+
 #endif // GAMEMAPELEMENT_H

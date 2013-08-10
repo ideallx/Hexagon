@@ -29,7 +29,7 @@ public:
     heroItem(int lineLength);
     void setHeroProperty(char s, char a, char m, int h);
 
-    char camp() const { return theCamp;}
+    enum camp_t camp() const { return theCamp;}
     void setCamp(enum camp_t c) { theCamp = c; }
 
     char sexual() const { return theSexual; }
@@ -75,7 +75,7 @@ private:
     QPixmap* theWhoPic;
     int theMaxHealth;
     int theHealth;
-    char theCamp;
+    enum camp_t theCamp;
     QPoint thePoint;
     char theSexual;
     char theMoveSphere;

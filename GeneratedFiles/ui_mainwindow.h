@@ -39,7 +39,6 @@ public:
     backview *graphicsView;
     QMenuBar *menuBar;
     QMenu *menuAbout;
-    QMenu *menu_2;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -82,8 +81,8 @@ public:
         graphicsView = new backview(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
         graphicsView->setLineWidth(0);
-        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
         verticalLayout->addWidget(graphicsView);
 
@@ -96,8 +95,6 @@ public:
         menuBar->setGeometry(QRect(0, 0, 1200, 21));
         menuAbout = new QMenu(menuBar);
         menuAbout->setObjectName(QStringLiteral("menuAbout"));
-        menu_2 = new QMenu(menuBar);
-        menu_2->setObjectName(QStringLiteral("menu_2"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -108,10 +105,8 @@ public:
         statusBar->setObjectName(QStringLiteral("statusBar"));
         MainWindow->setStatusBar(statusBar);
 
-        menuBar->addAction(menu_2->menuAction());
         menuBar->addAction(menuAbout->menuAction());
         menuAbout->addAction(actionQt);
-        menu_2->addAction(actionEndTurn);
 
         retranslateUi(MainWindow);
 
@@ -127,7 +122,6 @@ public:
         actionTest2->setText(QApplication::translate("MainWindow", "\346\265\213\350\257\225\351\241\265\351\235\2422", 0));
         actionEndTurn->setText(QApplication::translate("MainWindow", "\345\275\223\345\211\215\345\233\236\345\220\210\347\273\223\346\235\237", 0));
         menuAbout->setTitle(QApplication::translate("MainWindow", "About", 0));
-        menu_2->setTitle(QApplication::translate("MainWindow", "\346\265\213\350\257\225\351\241\271", 0));
     } // retranslateUi
 
 };

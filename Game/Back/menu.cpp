@@ -32,8 +32,7 @@ void gameMenu::menuInitial()
     menuList.append(cancelButton);
 
     hideMenu(MENULIST);
-
-    isMoveAble = isAttackAble = isAbilityAble = true;
+    resetMenuEnable();
 
     connect(moveButton, SIGNAL(clicked()), this, SIGNAL(moveClicked()));
     connect(attackButton, SIGNAL(clicked()), this, SIGNAL(attackClicked()));
@@ -110,10 +109,19 @@ void gameMenu::hideMenu(gameMenu::menu_type_t type)
 
 void gameMenu::hideAllMenu()
 {
-    for(int i=0; i<menuList.count(); i++)
+    for(int i=0; i<menuList.size(); i++)
     {
         menuList[i]->hide();
     }
+}
+
+void gameMenu::resetMenuEnable()
+{
+    for(int i=0; i<menuList.size(); i++)
+    {
+        menuList[i]->setEnabled(true);
+    }
+    isMoveAble = isAttackAble = isAbilityAble = true;
 }
 
 void gameMenu::reSetInterface(QSize s)
@@ -178,7 +186,6 @@ void gameMenu::updateCardsArea(QList<handCard*> cards)
         cs->removeItem(ims[i]);
     }
 
-    qDebug()<<"Update Card Area Total"<<cards.size()<<"Cards";
     if(cards.size() == 0)
         return;
 
