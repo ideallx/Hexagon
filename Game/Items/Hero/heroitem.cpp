@@ -22,7 +22,7 @@ void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     Q_UNUSED(option);
     painter->setOpacity(1.0);
     painter->setBrush(brush());
-    painter->setPen(QPen(Qt::black, 3));
+    painter->setPen(pen());
     painter->drawEllipse(rect());
 }
 

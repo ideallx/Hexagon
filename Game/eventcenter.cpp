@@ -23,9 +23,8 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     qDebug()<<"event center initialized";
 
     heroSeq = ic->getActSequence();
-    curHero = heroSeq[0];
     roundNum = 1;
-    menu->setHeroInfo(curHero);
+    setCurHero(heroSeq[0]);
 }
 
 void eventCenter::setupConnection()
@@ -70,30 +69,44 @@ void eventCenter::moveBegin()
 
 void eventCenter::heroMoveToPoint(QPoint in)
 {
+    if(!ic->isPointAvailable(in))
+        return;
+
     QPointF oldPos = curHero->scenePos();
     QPointF newPos = gc->getBeginPosOfHero(in);
 
-    if(ic->isPointAvailable(in))
-    {
-        gia->setItem(curHero);
-        gia->setTimeLine(giaTimer);
+    ac->moveAnimate(curHero, oldPos, newPos);
 
-        double frame = giaTimer->duration()*60/1000;
+    scene->clearSphere();
+    menu->hideAllMenu();
+    menu->setMoveAble(false);
 
-        double x = (newPos.x() - oldPos.x())/frame;
-        double y = (newPos.y() - oldPos.y())/frame;
+    curHero->setPoint(in);
+    curPhase = BeginPhase;
 
-        for(int i=0; i<=frame; ++i)
-            gia->setPosAt(i/frame, oldPos+QPoint(x*i, y*i));
+    qDebug()<<curHero->heroName()<<"Move To Point"<<curHero->point();
+}
 
-        giaTimer->start();
-        scene->clearSphere();
-        menu->hideAllMenu();
-        menu->setMoveAble(false);
+void eventCenter::heroAttackPoint(QPoint in)
+{
+    if(!ic->isPointAvailable(in))
+        return;
 
-        curHero->setPoint(in);
-        curPhase = BeginPhase;
-    }
+    QPointF oldPos = curHero->scenePos();
+    QPointF newPos = gc->getBeginPosOfHero(in);
+
+    heroItem* hi = ic->getHeroByPoint(in);
+    hi->setHealth(hi->health()-curHero->attack());
+
+    ac->attackAnimate(curHero, oldPos, newPos, curHero->attack());
+
+    scene->clearSphere();
+    menu->hideAllMenu();
+    menu->setMoveAble(false);
+    menu->setAttackAble(false);
+    curPhase = BeginPhase;
+
+    qDebug()<<curHero->heroName()<<"Attack"<<hi->heroName()<<"And Made"<<curHero->attack()<<"Damage";
 }
 
 void eventCenter::targetClicked(QPoint in)
@@ -104,13 +117,7 @@ void eventCenter::targetClicked(QPoint in)
     }
     else if(curPhase == AttackPhase)
     {
-        heroItem* hi = ic->getHeroByPoint(in);
-        hi->setHealth(hi->health()-curHero->attack());
-        menu->hideAllMenu();
-        menu->setMoveAble(false);
-        menu->setAttackAble(false);
-        curPhase = BeginPhase;
-        scene->clearSphere();
+        heroAttackPoint(in);
     }
 }
 
@@ -125,6 +132,8 @@ void eventCenter::endTurn()
 {
     curPhase = FinalPhase;
     menu->resetMenuEnable();
+    curHero->setPen(QPen(Qt::black, 3));
+    qDebug()<<curHero->heroName()+"'s"<<"Turn End";
 
     if(curHero == heroSeq.last())
     {
@@ -136,10 +145,9 @@ void eventCenter::endTurn()
     else
         curHero = heroSeq[heroSeq.indexOf(curHero)+1];
 
-
+    qDebug()<<curHero->heroName()+"'s"<<"Turn Begin";
     curPhase = BeginPhase;
-    menu->setHeroInfo(curHero);
-    menu->updateCardsArea(curHero->cards());
+    setCurHero(curHero);
     emit roundInfoChanged(buildRoundInfo());
 }
 
@@ -147,11 +155,12 @@ void eventCenter::roundBegin()
 {
     //ic->herosLoadPassiveSkill();
     //ic->mapElementAward();
+    qDebug()<<"Round"<<roundNum<<"Begin";
 }
 
 void eventCenter::roundEnd()
 {
-
+    qDebug()<<"Round"<<roundNum<<"End";
 }
 
 
@@ -178,4 +187,14 @@ void eventCenter::showMenu(heroItem* hi, QPoint p)
     {
         menu->showMenu(p);
     }
+}
+
+void eventCenter::setCurHero(heroItem* hi)
+{
+    curHero = hi;
+    menu->setHeroInfo(curHero);
+    curHero->setPen(QPen(Qt::darkMagenta, 3));
+    scene->views()[0]->centerOn(curHero);
+    menu->updateCardsArea(curHero->cards());
+
 }

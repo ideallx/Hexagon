@@ -36,6 +36,9 @@ private:
     void setupConnection();
     void roundBegin();
     void roundEnd();
+    void setCurHero(heroItem*);
+    void heroMoveToPoint(QPoint);
+    void heroAttackPoint(QPoint);
 
     int roundNum;
 
@@ -56,7 +59,6 @@ signals:
     void roundInfoChanged(QStringList);
 
 public slots:
-    void heroMoveToPoint(QPoint);
     void targetClicked(QPoint);
     void heroChosen(heroItem*);
     void getCard(int num = 1);

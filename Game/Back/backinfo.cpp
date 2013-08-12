@@ -1,4 +1,5 @@
 #include "backinfo.h"
+#include <QDebug>
 
 gameBackInfo::gameBackInfo(QString configFilePath)
 {
@@ -9,6 +10,7 @@ gameBackInfo::gameBackInfo(QString configFilePath)
     beginY = beginPosition.y();
     int i = configFilePath.lastIndexOf(QChar('/'));
     configDir = configFilePath.left(i) + '/';
+    qDebug()<<configDir;
 
     try
     {

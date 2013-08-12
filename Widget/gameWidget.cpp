@@ -9,7 +9,7 @@
 #include "coordinate.h"
 #include "eventcenter.h"
 
-#define CONFIGPATH "C:/Users/xiang/Documents/GitHub/rsc/config.xml"
+#define CONFIGPATH "C:/rsc/config.xml"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
