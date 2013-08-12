@@ -56,12 +56,12 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{4d2724e0-5d44-43ab-b425-4f7581f4be9c}</UniqueIdentifier>
+      <UniqueIdentifier>{6a581cb9-f58b-47d7-aeca-bc0113d86aea}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{d621e0c6-4d35-4a11-9d0d-047857d8c3b3}</UniqueIdentifier>
+      <UniqueIdentifier>{71db2273-078e-4ca3-8f02-9e8c67800642}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -128,6 +128,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Widget\otherwidgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\skillcenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_backscene.cpp">
@@ -273,6 +276,9 @@
     <CustomBuild Include="Widget\otherwidgets.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="Game\skillcenter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_enviroSettings.h">
       <Filter>Generated Files</Filter>
     </ClInclude>

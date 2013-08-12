@@ -187,7 +187,7 @@ void backScene::showAttackRange(heroItem* hi)
 void backScene::showSkillRange(heroItem* hi, enum mapRangeType_t t, int range)
 {
     rangeList.clear();
-    rangeList = ic->listRange(hi, ModeAttack);
+    rangeList = ic->listRange(hi, ModeMove);
     for(int i=0; i<rangeList.size(); i++)
     {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::cyan, 5));

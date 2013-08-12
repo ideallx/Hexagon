@@ -234,6 +234,7 @@
     <ClCompile Include="Game\Items\mapelement.cpp" />
     <ClCompile Include="Game\Back\menu.cpp" />
     <ClCompile Include="Widget\otherwidgets.cpp" />
+    <ClCompile Include="Game\skillcenter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game\animationcenter.h" />
@@ -371,6 +372,7 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
+    <ClInclude Include="Game\skillcenter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lang__zhCN.ts" />

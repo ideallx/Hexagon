@@ -18,7 +18,7 @@ void gameMenu::menuInitial()
     // menuList
     moveButton = new QPushButton(tr("move"), parent);
     attackButton = new QPushButton(tr("attack"), parent);
-    skillButton = new QPushButton(tr("ability"), parent);
+    skillButton = new QPushButton(tr("skill"), parent);
     cancelButton = new QPushButton(tr("cancel"), parent);
 
     moveButton->setGeometry(0, 0, 80, 30);
