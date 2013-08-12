@@ -84,7 +84,10 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
     {
         QGraphicsLineItem *targetLine = new QGraphicsLineItem();
         scene->addItem(targetLine);
-        targetLine->hide();
+		targetLine->setPos(0, 0);
+		targetLine->hide();
+        targetLine->setPen(QPen(Qt::red, 5));
+        targetLine->setZValue(2);
         targetLines.append(targetLine);
     }
     addLocalHero(heros.at(0));

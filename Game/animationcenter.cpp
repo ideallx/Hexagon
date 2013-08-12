@@ -68,9 +68,12 @@ void animationCenter::skillAnimate(heroItem* item, gameMapElement* gme)
     double x = (newP.x() - oldP.x())/frame*2;
     double y = (newP.y() - oldP.y())/frame*2;
 
-    targetLines[0]->setLine(oldP.x(), oldP.y(), newP.x(), newP.y());
+    targetLines[0]->setLine(0, 0, newP.x()-oldP.x(), newP.y()-oldP.y());
     targetLines[0]->setPos(oldP);
+    targetLines[0]->show();
 
+
+    //TODO
     for(int i=0; i<=frame/2; ++i)
     {
         theGia->setShearAt(i/frame, oldP.x()+x*i, oldP.y()+y*i);
