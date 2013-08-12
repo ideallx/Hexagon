@@ -32,7 +32,8 @@ SOURCES  += main.cpp \
     Game/eventcenter.cpp \
     Game/animationcenter.cpp \
     Game/Back/layoutscene.cpp \
-    Widget/otherwidgets.cpp
+    Widget/otherwidgets.cpp \
+    Game/skillcenter.cpp
 
 HEADERS  += mainwindow.h \
     Game/gameprocess.h \
@@ -55,7 +56,8 @@ HEADERS  += mainwindow.h \
     Game/eventcenter.h \
     Game/animationcenter.h \
     Game/Back/layoutscene.h \
-    Widget/otherwidgets.h
+    Widget/otherwidgets.h \
+    Game/skillcenter.h
 
 INCLUDEPATH += include
 INCLUDEPATH += Game

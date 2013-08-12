@@ -38,11 +38,11 @@ public:
 
     bool MoveAble() { return isMoveAble; }
     bool AttackAble() { return isAttackAble; }
-    bool AbilityAble() { return isAbilityAble; }
+    bool AbilityAble() { return isSkillAble; }
 
     void setMoveAble(bool b = true) { isMoveAble = b; }
     void setAttackAble(bool b = true) { isAttackAble = b; }
-    void setAbilityAble(bool b = true) { isAbilityAble = b; }
+    void setSkillAble(bool b = true) { isSkillAble = b; }
 
     void resetMenuEnable();
 
@@ -64,7 +64,7 @@ private:
     int heroHeadSlideLength;
     bool isMoveAble;
     bool isAttackAble;
-    bool isAbilityAble;
+    bool isSkillAble;
 
     essenialScene* es;
     skillScene* ss;
@@ -74,7 +74,7 @@ private:
 
     QPushButton *moveButton;
     QPushButton *attackButton;
-    QPushButton *abilityButton;
+    QPushButton *skillButton;
     QPushButton *cancelButton;
 
     QTabWidget* mapTable;
@@ -83,7 +83,7 @@ private:
 signals:
     void moveClicked();
     void attackClicked();
-    void abilityClicked();
+    void skillClicked();
     void cancelClicked();
 
 public slots:

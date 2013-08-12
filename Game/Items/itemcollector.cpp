@@ -79,6 +79,14 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
             blueTeamHeros.append(heros.at(i));
         }
     }
+
+    for(int i=0; i<heros.size(); i++)
+    {
+        QGraphicsLineItem *targetLine = new QGraphicsLineItem();
+        scene->addItem(targetLine);
+        targetLine->hide();
+        targetLines.append(targetLine);
+    }
     addLocalHero(heros.at(0));
 }
 
@@ -131,28 +139,28 @@ int itemCollector::getPointNumber(QPoint point)
     return point.x()+point.y()*wid;
 }
 
-bool itemCollector::isPointHasHero(QPoint point)  //TODO change return type
+heroItem* itemCollector::isPointHasHero(QPoint point)  //TODO change return type
 {
     for(int i=0; i<redTeamHeros.size(); i++)
     {
         if(point == redTeamHeros.at(i)->point())
         {
-            return true;
+            return redTeamHeros.at(i);
         }
     }
     for(int i=0; i<blueTeamHeros.size(); i++)
     {
         if(point == blueTeamHeros.at(i)->point())
         {
-            return true;
+            return blueTeamHeros.at(i);
         }
     }
-    return false;
+    return NULL;
 }
 
 bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
 {
-    if(type == 'm')
+    if(type == ModeMove)
     {
         if(isPointAvailable(point) && isPointMovable(point))
         {
@@ -163,10 +171,13 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
             return true;
         }
     }
-    else if(type == 'a')
+    else if(type == ModeAttack)
     {
-        if(isPointAvailable(point) && isPointHasHero(point))
+        heroItem* hi = isPointHasHero(point);
+        if(isPointAvailable(point) && hi)
         {
+            if(hi->camp() == tempHero->camp())
+                return false;
             if(!set->contains(point))
                 set->append(point);
             return true;
@@ -175,45 +186,50 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
     return false;
 }
 
-QList<QPoint> itemCollector::recursionSeries(QList<QPoint>*set, QPoint point, int sphere)
+QList<QPoint> itemCollector::recursionSeries(QList<QPoint>*set, QPoint point, int range)
 {
-    if(sphere == 0)
+    if(range == 0)
         return *set;
-    sphere--;
+    range--;
     QPoint pair;
 
     pair = gc->goUpLeft(point);
     if(listAddJudge(set, pair))
-        recursionSeries(set, pair, sphere);
+        recursionSeries(set, pair, range);
 
     pair = gc->goUpRight(point);
     if(listAddJudge(set, pair))
-        recursionSeries(set, pair, sphere);
+        recursionSeries(set, pair, range);
 
     pair = gc->goUp(point);
     if(listAddJudge(set, pair))
-        recursionSeries(set, pair, sphere);
+        recursionSeries(set, pair, range);
 
     pair = gc->goDownLeft(point);
     if(listAddJudge(set, pair))
-        recursionSeries(set, pair, sphere);
+        recursionSeries(set, pair, range);
 
     pair = gc->goDownRight(point);
     if(listAddJudge(set, pair))
-        recursionSeries(set, pair, sphere);
+        recursionSeries(set, pair, range);
 
     pair = gc->goDown(point);
     if(listAddJudge(set, pair))
-        recursionSeries(set, pair, sphere);
+        recursionSeries(set, pair, range);
 
     return *set;
 }
 
-QList<QPoint> itemCollector::listSphere(QPoint point, int sphere, char t)
+QList<QPoint> itemCollector::listRange(heroItem* hero, enum rangeMode_t t)
 {
-    QList<QPoint> set;
     type = t;
-    return recursionSeries(&set, point, sphere);
+    tempHero = hero;
+    QList<QPoint> set;
+
+    if(type == ModeMove)
+        return recursionSeries(&set, hero->point(), hero->moveRange());
+    else if(type == ModeAttack)
+        return recursionSeries(&set, hero->point(), hero->attackRange());
 }
 
 
@@ -249,7 +265,7 @@ void itemCollector::setElementRestorePen(QPoint point)
     if(!isPointAvailable(point))
         return;
     gameMapElement* gmeT = elements[getPointNumber(point)];
-    gmeT->setDefaultZValue();
+    gmeT->setZValue(0.7);
     gmeT->restorePen();
 }
 

@@ -37,8 +37,8 @@ QPainterPath heroItem::shape() const
 void heroItem::setHeroProperty(char s, char a, char m, int h)
 {
     theSexual = s;
-    theAttackSphere = a;
-    theMoveSphere = m;
+    theAttackRange = a;
+    theMoveRange = m;
     theMaxHealth = h;
     theHealth = h;
 

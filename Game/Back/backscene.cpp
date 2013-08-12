@@ -70,7 +70,7 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
         emit changeStatusBar(strList);
         newPoint = QPoint(-1, -1);
-        ic->setElementRestorePen(oldPoint);
+        ic->setElementDefaultPen(oldPoint);
         oldPoint = newPoint;
         return;
     }
@@ -78,7 +78,7 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     {
         return;
     }
-    if(sphereList.contains(oldPoint))
+    if(rangeList.contains(oldPoint))
         ic->setElementRestorePen(oldPoint);
     else
         ic->setElementDefaultPen(oldPoint);
@@ -136,9 +136,9 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     isPressing = true;
     oldPointF = event->scenePos();
 
-    if(sphereList.contains(oldPoint))
+    if(rangeList.contains(oldPoint))
     {
-        emit sphereClicked(oldPoint);
+        emit rangeClicked(oldPoint);
         return;
     }
 
@@ -153,34 +153,46 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void backScene::showMoveSphere(heroItem* hi)
+void backScene::showMoveRange(heroItem* hi)
 {
     if(hi == NULL)
         return;
-    sphereList = ic->listSphere(hi->point(), hi->moveSphere(), 'm');
-    for(int i=0; i<sphereList.size(); i++)
+    rangeList = ic->listRange(hi, ModeMove);
+    for(int i=0; i<rangeList.size(); i++)
     {
-        ic->setElementSpecialPen(sphereList.at(i), QPen(Qt::yellow, 5));
+        ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::yellow, 5));
     }
 }
 
-void backScene::clearSphere()
+void backScene::clearRange()
 {
-    for(int i=0; i<sphereList.size(); i++)
+    for(int i=0; i<rangeList.size(); i++)
     {
-        ic->setElementDefaultPen(sphereList.at(i));
+        ic->setElementDefaultPen(rangeList.at(i));
     }
-    sphereList.clear();
+    rangeList.clear();
 }
 
 
-void backScene::showAttackSphere(heroItem* hi)
+void backScene::showAttackRange(heroItem* hi)
 {
-    sphereList = ic->listSphere(hi->point(), hi->attackSphere(), 'a');
-    for(int i=0; i<sphereList.size(); i++)
+    rangeList.clear();
+    rangeList = ic->listRange(hi, ModeAttack);
+    for(int i=0; i<rangeList.size(); i++)
     {
-        ic->setElementSpecialPen(sphereList.at(i), QPen(Qt::red, 5));
+        ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::red, 5));
     }
+}
+
+void backScene::showSkillRange(heroItem* hi, enum mapRangeType_t t, int range)
+{
+    rangeList.clear();
+    rangeList = ic->listRange(hi, ModeAttack);
+    for(int i=0; i<rangeList.size(); i++)
+    {
+        ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::cyan, 5));
+    }
+
 }
 
 QList<QString> backScene::getHeroListAvaterPath(char in)

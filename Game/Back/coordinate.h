@@ -12,7 +12,7 @@ class gameCoordinate
 public:
     gameCoordinate(gameBackInfo* gbi);
 
-    QList<QPoint> getMovePoint() const { return showSphere; }
+    QList<QPoint> getMovePoint() const { return showRange; }
 
     QPoint goUpLeft(QPoint);
     QPoint goUpRight(QPoint);
@@ -37,7 +37,7 @@ private:
     int heightCount;
 
     QVector<char> mapElement;
-    QList<QPoint> showSphere;
+    QList<QPoint> showRange;
 
 };
 

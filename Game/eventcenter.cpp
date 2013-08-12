@@ -25,16 +25,14 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     heroSeq = ic->getActSequence();
     roundNum = 1;
     setCurHero(heroSeq[0]);
+
+    ac->setLines(ic->getLines());
 }
 
 void eventCenter::setupConnection()
 {
     connect(scene, SIGNAL(heroClicked(heroItem*)), this, SLOT(heroChosen(heroItem*)));
-    connect(scene, SIGNAL(sphereClicked(QPoint)), this, SLOT(targetClicked(QPoint)));
-
-    connect(scene, SIGNAL(mapElementClicked(QPoint)), menu, SLOT(hideAllMenu()));
-    connect(scene, SIGNAL(mapElementClicked(QPoint)), scene, SLOT(clearSphere()));
-
+    connect(scene, SIGNAL(rangeClicked(QPoint)), this, SLOT(targetClicked(QPoint)));
 
     connect(scene, SIGNAL(buildMenu(heroItem*, QPoint)), this, SLOT(showMenu(heroItem*, QPoint)));
     connect(scene, SIGNAL(viewSizeChanged(QSize)), menu, SLOT(reSetInterface(QSize)));
@@ -42,6 +40,7 @@ void eventCenter::setupConnection()
 
     connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
     connect(menu, SIGNAL(attackClicked()), this, SLOT(attackBegin()));
+    connect(menu, SIGNAL(skillClicked()), this, SLOT(skillBegin()));
 
 }
 
@@ -61,8 +60,8 @@ void eventCenter::getCard(int num)
 
 void eventCenter::moveBegin()
 {
-    scene->clearSphere();
-    scene->showMoveSphere(curHero);
+    scene->clearRange();
+    scene->showMoveRange(curHero);
     curPhase = MovePhase;
 }
 
@@ -72,12 +71,11 @@ void eventCenter::heroMoveToPoint(QPoint in)
     if(!ic->isPointAvailable(in))
         return;
 
-    QPointF oldPos = curHero->scenePos();
-    QPointF newPos = gc->getBeginPosOfHero(in);
+    gameMapElement* gme = ic->getMapElementByPoint(in);
 
-    ac->moveAnimate(curHero, oldPos, newPos);
+    ac->moveAnimate(curHero, gme);
 
-    scene->clearSphere();
+    scene->clearRange();
     menu->hideAllMenu();
     menu->setMoveAble(false);
 
@@ -92,21 +90,31 @@ void eventCenter::heroAttackPoint(QPoint in)
     if(!ic->isPointAvailable(in))
         return;
 
-    QPointF oldPos = curHero->scenePos();
-    QPointF newPos = gc->getBeginPosOfHero(in);
-
     heroItem* hi = ic->getHeroByPoint(in);
-    hi->setHealth(hi->health()-curHero->attack());
 
-    ac->attackAnimate(curHero, oldPos, newPos, curHero->attack());
+    ac->attackAnimate(curHero, hi);
+    hi->setHealth(hi->health() - curHero->attack());
 
-    scene->clearSphere();
+    scene->clearRange();
     menu->hideAllMenu();
     menu->setMoveAble(false);
     menu->setAttackAble(false);
     curPhase = BeginPhase;
 
     qDebug()<<curHero->heroName()<<"Attack"<<hi->heroName()<<"And Made"<<curHero->attack()<<"Damage";
+}
+
+void eventCenter::skillStraightTest(QPoint in)
+{
+    gameMapElement* gme = ic->getMapElementByPoint(in);
+
+    ac->skillAnimate(curHero, gme);
+
+    scene->clearRange();
+    menu->hideAllMenu();
+    menu->setMoveAble(false);
+    menu->setSkillAble(false);
+    curPhase = BeginPhase;
 }
 
 void eventCenter::targetClicked(QPoint in)
@@ -119,13 +127,23 @@ void eventCenter::targetClicked(QPoint in)
     {
         heroAttackPoint(in);
     }
+    else if(curPhase == SkillPhase)
+    {
+        skillStraightTest(in);
+    }
 }
 
 void eventCenter::attackBegin()
 {
-    scene->clearSphere();
-    scene->showAttackSphere(curHero);
+    scene->clearRange();
+    scene->showAttackRange(curHero);
     curPhase = AttackPhase;
+}
+
+void eventCenter::mapClear()
+{
+    scene->clearRange();
+    menu->hideAllMenu();
 }
 
 void eventCenter::endTurn()
@@ -197,4 +215,11 @@ void eventCenter::setCurHero(heroItem* hi)
     scene->views()[0]->centerOn(curHero);
     menu->updateCardsArea(curHero->cards());
 
+}
+
+void eventCenter::skillBegin()
+{
+    scene->clearRange();
+    scene->showSkillRange(curHero, RangeTypeStraight, 5);
+    curPhase = SkillPhase;
 }

@@ -39,6 +39,7 @@ private:
     void setCurHero(heroItem*);
     void heroMoveToPoint(QPoint);
     void heroAttackPoint(QPoint);
+    void skillStraightTest(QPoint);
 
     int roundNum;
 
@@ -64,7 +65,9 @@ public slots:
     void getCard(int num = 1);
     void moveBegin();
     void attackBegin();
+    void skillBegin();
     void endTurn();
+    void mapClear();
     void showMenu(heroItem*, QPoint p);
 
 };

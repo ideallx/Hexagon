@@ -42,8 +42,8 @@ enum heroNum_t
 
 struct heroInfo
 {
-    int attackSphere;
-    int moveSphere;
+    int attackRange;
+    int moveRange;
     int healthMax;
     char sexual;
     QString heroName;

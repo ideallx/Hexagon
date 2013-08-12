@@ -18,17 +18,17 @@ void gameMenu::menuInitial()
     // menuList
     moveButton = new QPushButton(tr("move"), parent);
     attackButton = new QPushButton(tr("attack"), parent);
-    abilityButton = new QPushButton(tr("ability"), parent);
+    skillButton = new QPushButton(tr("ability"), parent);
     cancelButton = new QPushButton(tr("cancel"), parent);
 
     moveButton->setGeometry(0, 0, 80, 30);
     attackButton->setGeometry(0, 30, 80, 30);
-    abilityButton->setGeometry(0, 60, 80, 30);
+    skillButton->setGeometry(0, 60, 80, 30);
     cancelButton->setGeometry(0, 90, 80, 30);
 
     menuList.append(moveButton);
     menuList.append(attackButton);
-    menuList.append(abilityButton);
+    menuList.append(skillButton);
     menuList.append(cancelButton);
 
     hideMenu(MENULIST);
@@ -36,7 +36,7 @@ void gameMenu::menuInitial()
 
     connect(moveButton, SIGNAL(clicked()), this, SIGNAL(moveClicked()));
     connect(attackButton, SIGNAL(clicked()), this, SIGNAL(attackClicked()));
-    connect(abilityButton, SIGNAL(clicked()), this, SIGNAL(abilityClicked()));
+    connect(skillButton, SIGNAL(clicked()), this, SIGNAL(skillClicked()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
 }
@@ -45,7 +45,7 @@ gameMenu::~gameMenu()
 {
     delete moveButton;
     delete attackButton;
-    delete abilityButton;
+    delete skillButton;
     delete cancelButton;
     delete es;
     delete ss;
@@ -82,7 +82,7 @@ void gameMenu::showMenu(QPoint pos)
     list = menuList;
     moveButton->setEnabled(isMoveAble);
     attackButton->setEnabled(isAttackAble);
-    abilityButton->setEnabled(isAbilityAble);
+    skillButton->setEnabled(isSkillAble);
 
     for(int i=0; i<list.count(); i++)
     {
@@ -121,7 +121,7 @@ void gameMenu::resetMenuEnable()
     {
         menuList[i]->setEnabled(true);
     }
-    isMoveAble = isAttackAble = isAbilityAble = true;
+    isMoveAble = isAttackAble = isSkillAble = true;
 }
 
 void gameMenu::reSetInterface(QSize s)
@@ -164,8 +164,8 @@ void gameMenu::setHeroInfo(heroItem* hero)
     setHeroAvaters(hero->wholePic());
     struct panelInfo pi;
     pi.attack = QString::number(hero->attack());
-    pi.attackRange = QString::number(hero->attackSphere());
-    pi.moveRange = QString::number(hero->moveSphere());
+    pi.attackRange = QString::number(hero->attackRange());
+    pi.moveRange = QString::number(hero->moveRange());
     setEssenial(pi);
     setHeroSkillButton(hero->skillButtons());
 }

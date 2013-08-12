@@ -5,6 +5,10 @@
 #include <QTimeLine>
 #include <QGraphicsLineItem>
 #include <QPoint>
+#include <QList>
+
+class heroItem;
+class gameMapElement;
 
 class animationCenter
 {
@@ -13,15 +17,19 @@ public:
 
     QGraphicsItemAnimation* gia() { return theGia; }
     QTimeLine* giaTimer() { return theGiaTimer; }
+    void setLines(QList<QGraphicsLineItem*> lls) { targetLines = lls;}
 
-    void moveAnimate(QGraphicsItem* item, QPointF oldPos, QPointF newPos);
-    void attackAnimate(QGraphicsItem* item, QPointF oldPos, QPointF newPos, int damage);
+    void moveAnimate(heroItem* item, gameMapElement* gme);
+    void attackAnimate(heroItem* srcItem, heroItem* targetItem);
+
+    void skillAnimate(heroItem* item, gameMapElement* gme);
 
 private:
-    QGraphicsLineItem* targetLine;
+    QList<QGraphicsLineItem*> targetLines;
     QGraphicsItemAnimation* theGia;
     QTimeLine* theGiaTimer;
-    QTimeLine* theGiaAttackTimer;
+    QTimeLine* attackTimer;
+    QTimeLine* targetTimer;
 };
 
 #endif // ANIMATIONCENTER_H

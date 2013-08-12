@@ -34,8 +34,8 @@ public:
 
     char sexual() const { return theSexual; }
 
-    char attackSphere() const { return theAttackSphere; }
-    char moveSphere() const { return theMoveSphere; }
+    char attackRange() const { return theAttackRange; }
+    char moveRange() const { return theMoveRange; }
 
     int health() const { return theHealth; }
     int maxHealth() const { return theMaxHealth; }
@@ -78,8 +78,8 @@ private:
     enum camp_t theCamp;
     QPoint thePoint;
     char theSexual;
-    char theMoveSphere;
-    char theAttackSphere;
+    char theMoveRange;
+    char theAttackRange;
     QString thePlayerName;
     QString theHeroName;
 

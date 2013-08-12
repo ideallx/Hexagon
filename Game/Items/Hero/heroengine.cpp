@@ -55,7 +55,7 @@ heroItem* heroFactory::createHero(enum heroNum_t hero, QPoint pt, enum camp_t c)
     item->setAvaterPic(new QPixmap(innerDir + heroInfoMap[hero].heroName + "_Head.png"));
     item->setwholePic(new QPixmap(innerDir + heroInfoMap[hero].heroName + "_Whole.png"));
     item->setBrush(item->avaterPic()->scaledToWidth(item->rect().width(), Qt::SmoothTransformation));
-    item->setHeroProperty(heroInfoMap[hero].sexual, heroInfoMap[hero].attackSphere, heroInfoMap[hero].moveSphere, heroInfoMap[hero].healthMax);
+    item->setHeroProperty(heroInfoMap[hero].sexual, heroInfoMap[hero].attackRange, heroInfoMap[hero].moveRange, heroInfoMap[hero].healthMax);
     item->setHeroName(heroInfoMap[hero].heroName);
     item->setPoint(pt);
     item->setCamp(c);

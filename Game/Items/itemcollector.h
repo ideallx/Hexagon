@@ -22,6 +22,13 @@ class campHealth;
 
 struct externInfo;
 
+enum rangeMode_t
+{
+    ModeMove,
+    ModeAttack,
+    ModeSkill,
+    ModeElse
+};
 
 class itemCollector
 {
@@ -38,7 +45,7 @@ public:
     QList<QString> getHeroListAvaterPath(char);
 
 
-    bool isPointHasHero(QPoint);
+    heroItem* isPointHasHero(QPoint);
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
 
@@ -61,7 +68,9 @@ public:
 
     QList<handCard*> getCard(int n);
 
-    QList<QPoint> listSphere(QPoint point, int sphere, char type);
+    QList<QGraphicsLineItem*> getLines() { return targetLines; }
+
+    QList<QPoint> listRange(heroItem* hero, enum rangeMode_t);
 
 private:
     void addHeroList(QList<struct externInfo> info);
@@ -69,11 +78,13 @@ private:
     void addMapElementList();
     void addHeroSide();
 
+    heroItem* tempHero;
+
 
     bool listAddJudge(QList<QPoint>* set, QPoint point);
-    QList<QPoint> recursionSeries(QList<QPoint>* set, QPoint point, int sphere);
+    QList<QPoint> recursionSeries(QList<QPoint>* set, QPoint point, int range);
 
-    char type;
+    enum rangeMode_t type;
 
     int hei;
     int wid;
@@ -94,6 +105,7 @@ private:
     QList<handCard*> usedCards;
     QList<gameMapElement*> elements;
     QList<campHealth*> campLifes;
+    QList<QGraphicsLineItem*> targetLines;
 
 };
 

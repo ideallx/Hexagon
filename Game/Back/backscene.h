@@ -8,6 +8,14 @@ class gameBackInfo;
 class gameCoordinate;
 class heroItem;
 class heroFactory;
+
+enum mapRangeType_t
+{
+    RangeTypeStraight,
+    RangeTypeDoubleLine,
+    RangeTypeRound
+
+};
 struct externInfo;
 
 class backScene : public QGraphicsScene
@@ -21,6 +29,10 @@ public:
     gameCoordinate* pGc() { return gc; }
     QList<QString> getHeroListAvaterPath(char in);
 
+    void showMoveRange(heroItem*);
+    void showAttackRange(heroItem* hero);
+    void showSkillRange(heroItem* hero, enum mapRangeType_t, int range);
+
     
 private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -33,7 +45,7 @@ private:
     gameCoordinate* gc;
     itemCollector *ic;
 
-    QList<QPoint> sphereList;
+    QList<QPoint> rangeList;
 
     QPoint oldPoint;
 
@@ -49,12 +61,10 @@ signals:
     void buildMenu(heroItem*, QPoint);
     void viewSizeChanged(QSize);
     void listSlideAvaters(QList<QString>, QList<QString>);
-    void sphereClicked(QPoint);
+    void rangeClicked(QPoint);
     
 public slots:
-    void clearSphere();
-    void showMoveSphere(heroItem*);
-    void showAttackSphere(heroItem* hero);
+    void clearRange();
     
 };
 
