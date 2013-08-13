@@ -8,6 +8,7 @@
 #include <QDebug>
 
 #include "ui_front.h"
+#include "ui_chooseHero.h"
 
 class essenialScene;
 class skillScene;
@@ -57,6 +58,7 @@ public:
 private:
     void menuInitial();
     void interfaceInitial();
+    void chooseHeroScreen();
 
     QList<QPushButton*> menuList;
     QWidget* parent;
@@ -71,6 +73,7 @@ private:
     cardScene* cs;
 
     Ui::Form* ui;
+    Ui::chooseHero* uic;
 
     QPushButton *moveButton;
     QPushButton *attackButton;

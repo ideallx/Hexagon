@@ -60,7 +60,6 @@ signals:
     void heroClicked(heroItem*);
     void buildMenu(heroItem*, QPoint);
     void viewSizeChanged(QSize);
-    void listSlideAvaters(QList<QString>, QList<QString>);
     void rangeClicked(QPoint);
     
 public slots:

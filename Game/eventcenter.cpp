@@ -22,9 +22,9 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
 
     qDebug()<<"event center initialized";
 
-    heroSeq = ic->getActSequence();
+    //heroSeq = ic->getActSequence();
     roundNum = 1;
-    setCurHero(heroSeq[0]);
+    //setCurHero(heroSeq[0]);
 
     ac->setLines(ic->getLines());
 }
@@ -36,7 +36,6 @@ void eventCenter::setupConnection()
 
     connect(scene, SIGNAL(buildMenu(heroItem*, QPoint)), this, SLOT(showMenu(heroItem*, QPoint)));
     connect(scene, SIGNAL(viewSizeChanged(QSize)), menu, SLOT(reSetInterface(QSize)));
-    connect(scene, SIGNAL(listSlideAvaters(QList<QString>,QList<QString>)), menu, SLOT(listSlideHeroHead(QList<QString>,QList<QString>)));
 
     connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
     connect(menu, SIGNAL(attackClicked()), this, SLOT(attackBegin()));

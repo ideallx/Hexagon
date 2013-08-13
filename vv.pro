@@ -71,7 +71,8 @@ FORMS    += mainwindow.ui \
     front.ui \
     modechoose.ui \
     gameSetting.ui \
-    enviroSettings.ui
+    enviroSettings.ui \
+    chooseHero.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

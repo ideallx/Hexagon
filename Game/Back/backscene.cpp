@@ -20,7 +20,7 @@ backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externI
 
     ic = new itemCollector(gbi, gc, this);
     ic->setCardEngine(new cardEngine(gbi));
-    ic->setHeroFactory(new heroFactory(gbi), i);
+    //ic->setHeroFactory(new heroFactory(gbi), i);
     ic->setMapElement(new mapEngine(gbi));
     ic->setCampHealth();
 

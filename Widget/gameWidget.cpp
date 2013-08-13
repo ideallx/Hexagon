@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
     connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
 
-    changeRoundInfo(ec->buildRoundInfo());
+    //changeRoundInfo(ec->buildRoundInfo());
     qDebug("initial complete...");
 }
 
@@ -88,7 +88,7 @@ bool MainWindow::sceneInitial()
     scene = new backScene(gbi, gc, info, this);
     ui->graphicsView->setScene(scene);
     menu = new gameMenu(ui->graphicsView);
-    menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
+    //menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
     ec = new eventCenter(scene, menu);
     qDebug("backView load complete...");
 

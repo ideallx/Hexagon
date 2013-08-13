@@ -2,14 +2,17 @@
 #include "carditem.h"
 #include "layoutscene.h"
 #include "heroitem.h"
+#include <QDialog>
+#include <QToolButton>
 
 gameMenu::gameMenu(QGraphicsView *parent) :
     parent(parent),
-    ui(new Ui::Form)
+    ui(new Ui::Form),
+    uic(new Ui::chooseHero)
 {
     heroHeadSlideLength = 80; //uncertain
-    ui->setupUi(parent);
-    interfaceInitial();
+    chooseHeroScreen();
+    //interfaceInitial();
     menuInitial();
 }
 
@@ -53,6 +56,7 @@ gameMenu::~gameMenu()
 
 void gameMenu::interfaceInitial()
 {
+    ui->setupUi(parent);
     es = new essenialScene();
     ss = new skillScene();
     cs = new cardScene();
@@ -200,4 +204,27 @@ void gameMenu::resizeItems()
 {
     cs->clearChosenItems();
     cs->listCards();
+}
+
+void gameMenu::chooseHeroScreen()
+{
+    QDialog *nn = new QDialog(parent);
+    nn->show();
+    nn->setModal(true);
+    uic->setupUi(nn);
+    for(int i=0; i<4; i++)
+    {
+        QToolButton* ql = new QToolButton(nn);
+        //QLabel* ql = new QLabel(nn);
+        //ql->setPixmap(QPixmap("c:/rsc/eee.png"));
+        ql->setStyleSheet("QToolButton{background-image:url(c:/rsc/eee.png)}");
+        ql->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        uic->horizontalLayout->addWidget(ql);
+    }
+    for(int i=0; i<4; i++)
+    {
+        QLabel* ql = new QLabel(nn);
+        ql->setPixmap(QPixmap("c:/rsc/eee.png"));
+        uic->horizontalLayout1->addWidget(ql);
+    }
 }
