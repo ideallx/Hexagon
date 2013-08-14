@@ -3,19 +3,14 @@
 
 #include <QGraphicsScene>
 
+#include "enums.h"
+
 class itemCollector;
 class gameBackInfo;
 class gameCoordinate;
 class heroItem;
 class heroFactory;
-
-enum mapRangeType_t
-{
-    RangeTypeStraight,
-    RangeTypeDoubleLine,
-    RangeTypeRound
-
-};
+class skillBase;
 struct externInfo;
 
 class backScene : public QGraphicsScene

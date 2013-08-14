@@ -5,28 +5,27 @@
 #include "menu.h"
 #include "backview.h"
 #include "coordinate.h"
-#include "animationcenter.h"
+#include "mapelement.h"
 
 eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     scene(scene),
     menu(menu),
     ic(scene->pIc()),
-    gc(scene->pGc()),
-    ac(new animationCenter)
+    gc(scene->pGc())
 {
     setupConnection();
     curPhase = BeginPhase;
 
-    gia = ac->gia();
-    giaTimer = ac->giaTimer();
+    theGia = new QGraphicsItemAnimation();
+    theGiaTimer = new QTimeLine(500);
+    attackTimer = new QTimeLine(200);
+    targetTimer = new QTimeLine(500);
 
     qDebug()<<"event center initialized";
 
     //heroSeq = ic->getActSequence();
     roundNum = 1;
     //setCurHero(heroSeq[0]);
-
-    ac->setLines(ic->getLines());
 }
 
 void eventCenter::setupConnection()
@@ -72,7 +71,7 @@ void eventCenter::heroMoveToPoint(QPoint in)
 
     gameMapElement* gme = ic->getMapElementByPoint(in);
 
-    ac->moveAnimate(curHero, gme);
+    moveAnimate(curHero, gme);
 
     scene->clearRange();
     menu->hideAllMenu();
@@ -91,7 +90,7 @@ void eventCenter::heroAttackPoint(QPoint in)
 
     heroItem* hi = ic->getHeroByPoint(in);
 
-    ac->attackAnimate(curHero, hi);
+    attackAnimate(curHero, hi);
     hi->setHealth(hi->health() - curHero->attack());
 
     scene->clearRange();
@@ -107,7 +106,7 @@ void eventCenter::skillStraightTest(QPoint in)
 {
     gameMapElement* gme = ic->getMapElementByPoint(in);
 
-    ac->skillAnimate(curHero, gme);
+    skillAnimate(curHero, gme);
 
     scene->clearRange();
     menu->hideAllMenu();
@@ -221,4 +220,77 @@ void eventCenter::skillBegin()
     scene->clearRange();
     scene->showSkillRange(curHero, RangeTypeStraight, 5);
     curPhase = SkillPhase;
+}
+
+void eventCenter::moveAnimate(heroItem* srcItem, gameMapElement* targetItem)
+{
+    qDebug()<<"Move Animate Prepare";
+    theGia->setItem(srcItem);
+    theGia->setTimeLine(theGiaTimer);
+
+    double frame = theGiaTimer->duration()/theGiaTimer->updateInterval();
+
+    QPointF src = gc->getBeginPosOfHero(srcItem->point());
+    QPointF dst = gc->getBeginPosOfHero(targetItem->point());
+    QPointF distance = dst - src;
+
+    for(int i=0; i<=frame; ++i)
+        theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
+    theGiaTimer->start();
+    qDebug()<<"Move Animate Start";
+}
+
+void eventCenter::attackAnimate(heroItem* srcItem, heroItem* targetItem)
+{
+    theGia->setItem(srcItem);
+    theGia->setTimeLine(attackTimer);
+
+    double frame = attackTimer->duration()/attackTimer->updateInterval();
+
+    QPointF src = gc->getBeginPosOfHero(srcItem->point());
+    QPointF dst = gc->getBeginPosOfHero(targetItem->point());
+    QPointF distance = dst - src;
+
+    for(int i=0; i<=frame/2; ++i)
+    {
+        theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
+    }
+
+    for(int i=0; i<=frame/2; ++i)
+    {
+        theGia->setPosAt((i+frame/2)/frame, srcItem->scenePos()+distance/2-distance*i/frame);
+    }
+
+    attackTimer->start();
+}
+
+void eventCenter::skillAnimate(heroItem* srcItem, gameMapElement* targetItem)
+{
+    QList<QGraphicsLineItem*> targetLines = ic->getLines();
+    theGia->setItem(targetLines[0]);
+    theGia->setTimeLine(targetTimer);
+
+    QPointF src = gc->getCenterPosWithCoo(srcItem->point());
+    QPointF dst = gc->getCenterPosWithCoo(targetItem->point());
+    QPointF distance = dst - src;
+
+    double frame = targetTimer->duration()/targetTimer->updateInterval();
+
+    targetLines[0]->setLine(0, 0, distance.x(), distance.y());
+    targetLines[0]->setPos(src);
+    targetLines[0]->show();
+
+    //TODO
+    for(int i=0; i<=frame/2; ++i)
+    {
+        theGia->setShearAt(i/frame, distance.x()*2*i/frame, distance.y()*2*i/frame);
+    }
+
+    for(int i=0; i<=frame/2; ++i)
+    {
+        theGia->setPosAt((i+frame/2)/frame, distance*2*i/frame);
+        theGia->setShearAt((i+frame/2)/frame, distance.x()-distance.x()*2*i/frame, distance.y()-distance.y()*2*i/frame);
+    }
+
+    targetTimer->start();
 }

@@ -30,7 +30,6 @@ SOURCES  += main.cpp \
     Game/Items/Card/carditem.cpp \
     Game/Items/itemcollector.cpp \
     Game/eventcenter.cpp \
-    Game/animationcenter.cpp \
     Game/Back/layoutscene.cpp \
     Widget/otherwidgets.cpp \
     Game/skillcenter.cpp
@@ -54,10 +53,10 @@ HEADERS  += mainwindow.h \
     Game/Items/Card/carditem.h \
     Game/Items/itemcollector.h \
     Game/eventcenter.h \
-    Game/animationcenter.h \
     Game/Back/layoutscene.h \
     Widget/otherwidgets.h \
-    Game/skillcenter.h
+    Game/skillcenter.h \
+    enums.h
 
 INCLUDEPATH += include
 INCLUDEPATH += Game

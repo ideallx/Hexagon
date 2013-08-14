@@ -7,12 +7,12 @@
 #include <QTimeLine>
 #include <QStringList>
 
-class animationCenter;
 class backScene;
 class gameMenu;
 class itemCollector;
 class gameCoordinate;
 class heroItem;
+class gameMapElement;
 
 class eventCenter : public QObject
 {
@@ -41,6 +41,10 @@ private:
     void heroAttackPoint(QPoint);
     void skillStraightTest(QPoint);
 
+    void moveAnimate(heroItem* item, gameMapElement* gme);
+    void attackAnimate(heroItem* srcItem, heroItem* targetItem);
+    void skillAnimate(heroItem* item, gameMapElement* gme);
+
     int roundNum;
 
     heroItem* curHero;
@@ -49,12 +53,16 @@ private:
     gameMenu* menu;
     gameCoordinate* gc;
     itemCollector* ic;
-    animationCenter* ac;
 
     QList<heroItem*> heroSeq;
-    QGraphicsItemAnimation *gia;
-    QTimeLine *giaTimer;
+
     enum gamePhase_t curPhase;
+
+    QGraphicsItemAnimation* theGia;
+    QTimeLine* theGiaTimer;
+    QTimeLine* attackTimer;
+    QTimeLine* targetTimer;
+
 
 signals:
     void roundInfoChanged(QStringList);

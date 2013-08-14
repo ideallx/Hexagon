@@ -2,12 +2,8 @@
 #define SKILLCENTER_H
 
 #include <QString>
+#include "enums.h"
 
-enum mapRangeType_t
-{
-    dfa,
-    sdf
-};
 
 enum skillType_t
 {
@@ -16,23 +12,6 @@ enum skillType_t
     SkillPositiveTrigger
 };
 
-enum triggerTime_t
-{
-    TriggerGameBegin,
-    TriggerRoundBegin,
-    TriggerTurnBegin,
-    TriggerMoveBegin,
-    TriggerMoveEnd,
-    TriggerAttackBegin,
-    TriggerAttackEnd,
-    TriggerOtherSkillBegin,
-    TriggerOtherSkillEnd,
-    TriggerTurnEnd,
-    TriggerRoundEnd,
-    TriggerGameEnd
-};
-
-
 class skillBase
 {
 public:
@@ -40,6 +19,7 @@ public:
 
     void skillFlow();
     QString skillName() { return name; }
+    enum triggerTime_t triggerTime() { return time; }
 
 private:
     enum skillType_t type;

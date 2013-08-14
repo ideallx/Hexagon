@@ -14,7 +14,7 @@ QList<gameMapElement*> mapEngine::generateMapElements(int wid, int hei)
     {
         for(int i=0; i<wid; i++)
         {
-            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), map[i+j*wid], QPoint(i, j), gbi->getConfigDir()+"elements/");
+            gameMapElement *mapItem = new gameMapElement(gbi->getLineLength(), (enum gameEnvironment_t)map[i+j*wid], QPoint(i, j), gbi->getConfigDir()+"elements/");
             elements.append(mapItem);
             if(!mapItem->isPointAvailable())
             {
@@ -25,7 +25,7 @@ QList<gameMapElement*> mapEngine::generateMapElements(int wid, int hei)
     return elements;
 }
 
-gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, QString path)
+gameMapElement::gameMapElement(int lineLength, enum gameEnvironment_t elementType, QPoint point, QString path)
     :elementType(elementType)
 {
     this->lineLength = lineLength;
@@ -38,7 +38,7 @@ gameMapElement::gameMapElement(int lineLength, char elementType, QPoint point, Q
     setAcceptHoverEvents(true);
     setPolygon(hexagon);
 
-    this->point = point;
+    this->thePoint = point;
     this->moveAvailable = true;
 
     variableInitial();

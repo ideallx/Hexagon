@@ -8,6 +8,8 @@
 #include <QPoint>
 #include <QPen>
 
+#include "enums.h"
+
 
 class heroItem;
 class gameBackInfo;
@@ -18,8 +20,6 @@ class gameMapElement;
 class handCard;
 class mapEngine;
 class campHealth;
-
-
 struct externInfo;
 
 enum rangeMode_t
@@ -53,6 +53,9 @@ public:
     int getPointNumber(QPoint);
 
 
+    QList<gameMapElement*> getRedTeamCamp();
+    QList<gameMapElement*> getBlueTeamCamp();
+    QList<gameMapElement*> getAllElementTypeOf(enum gameEnvironment_t);
     void setElementDefaultPen(QPoint);
     void setElementRestorePen(QPoint point);
     void setElementSpecialPen(QPoint, QPen);

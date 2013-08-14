@@ -254,6 +254,12 @@ heroItem* itemCollector::getHeroByPoint(QPoint point)
     }
     return NULL;
 }
+/*
+ *   0.8 not moveable
+ *   0.7 current moved In bold
+ *   0.65 in range
+ *   0.6 moveable
+ */
 
 void itemCollector::setElementDefaultPen(QPoint point)
 {
@@ -268,7 +274,7 @@ void itemCollector::setElementRestorePen(QPoint point)
     if(!isPointAvailable(point))
         return;
     gameMapElement* gmeT = elements[getPointNumber(point)];
-    gmeT->setZValue(0.7);
+    gmeT->setZValue(0.65);
     gmeT->restorePen();
 }
 
@@ -277,6 +283,7 @@ void itemCollector::setElementSpecialPen(QPoint point, QPen pen)
     if(!isPointAvailable(point))
         return;
     gameMapElement* gmeT = elements[getPointNumber(point)];
+    gmeT->setZValue(0.65);
     setElementSpecialPen(gmeT, pen);
 }
 
@@ -344,6 +351,29 @@ QList<heroItem*> itemCollector::getActSequence()
     {
         result.append(blueTeamHeros[i]);
         result.append(redTeamHeros[i]);
+    }
+    return result;
+}
+
+QList<gameMapElement*> itemCollector::getRedTeamCamp()
+{
+    return getAllElementTypeOf(areaBlueHome);
+}
+
+QList<gameMapElement*> itemCollector::getBlueTeamCamp()
+{
+    return getAllElementTypeOf(areaBlueHome);
+}
+
+QList<gameMapElement*> itemCollector::getAllElementTypeOf(enum gameEnvironment_t type)
+{
+    QList<gameMapElement*> result;
+    for(int i=0; i<elements.size(); i++)
+    {
+        if(elements[i]->getType() == type)
+        {
+            result.append(elements[i]);
+        }
     }
     return result;
 }

@@ -7,23 +7,26 @@
 #include <QString>
 #include <QPen>
 #include <QPainter>
+#include "enums.h"
 
 class gameBackInfo;
+
 
 class gameMapElement : public QObject, public QGraphicsPolygonItem
 {
     Q_OBJECT
 
 public:
-    gameMapElement(int, char, QPoint, QString);
+    gameMapElement(int, enum gameEnvironment_t, QPoint, QString);
 
     QVector<QPointF> getPolygonPointf(QPointF);
     QPolygonF polygonDeleteBound(double);
 
-    QPoint getPoint() const { return point; }
+    QPoint point() const { return thePoint; }
     QString getElementName() const { return elementName; }
     bool isPointAvailable() const { return elementType != areaNouse; }
     bool isMoveAvailable() const { return moveAvailable; }
+    enum gameEnvironment_t getType() const { return elementType; }
 
     void setDefaultZValue();
     void setDefaultPen();
@@ -38,39 +41,18 @@ public:
     QPen getOldPen() const { return oldPen; }
     void restorePen() { QGraphicsPolygonItem::setPen(oldPen); }
 
-    enum gameEnvironment_t
-    {
-        areaSpace,
-        areaGrass   = '1',
-        areaStone   = '2',
-        areaShop    = '3',
-        areaAlchemy = '4',
-        areaSpring  = '5',
-        areaCamp    = '6',
-        areaSwamp   = '7',
-        areaDesert  = '8',
-        areaWater   = '9',
-
-
-        areaFort    = 'J',
-        areaRedHome = 'K',
-        areaTree    = 'L',
-        areaBlueHome= 'M',
-
-        areaNouse = 'Z'
-    };
 
 private:
     void variableInitial();
 
     QPen oldPen;
     QString path;
-    QPoint point;
+    QPoint thePoint;
     int lineLength;
     double halfSqrt3;
 
     bool moveAvailable;
-    char elementType;
+    enum gameEnvironment_t elementType;
     QString elementName;
     QPolygonF hexagon;
 };

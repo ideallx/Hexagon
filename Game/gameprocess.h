@@ -7,6 +7,7 @@
 class eventCenter;
 class itemCollector;
 
+
 class gameProcess : public QObject
 {
 public:

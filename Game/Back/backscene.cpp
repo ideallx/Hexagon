@@ -6,6 +6,7 @@
 #include "cardengine.h"
 #include "coordinate.h"
 #include "mapelement.h"
+#include "skillcenter.h"
 
 
 backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externInfo> i, QObject *parent) :
@@ -101,7 +102,7 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         strList.append(strGme);
         emit mapElementMovedIn(oldPoint);
     }
-    QString coordinate = tr("coordinates: ") + QString::number(gmeT->getPoint().x()) + tr(", ") + QString::number(gmeT->getPoint().y());
+    QString coordinate = tr("coordinates: ") + QString::number(gmeT->point().x()) + tr(", ") + QString::number(gmeT->point().y());
     strList.append(coordinate);
     emit changeStatusBar(strList);
 }

@@ -3,8 +3,13 @@
 
 #include <QGraphicsItem>
 #include <QPainter>
+#include "enums.h"
+
 
 class handCard;
+class skillBase;
+
+enum triggerTime_t;
 
 enum camp_t
 {
@@ -61,13 +66,17 @@ public:
     void addCards(QList<handCard*> c);
     QList<handCard*> cards() { return theCards; }
 
+    void addSkill(skillBase* s);
+    void removeSkill(skillBase* s);
+    QList<skillBase*> hasSkillTriggerAt(enum triggerTime_t);
+
     QRectF boundingRect() const;
     QPainterPath shape() const;
-
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
 
 private:
+    QList<skillBase*> skills;
     QList<handCard*> theCards;
     QList<QPixmap> theSkillButtons;
     int theAttack;

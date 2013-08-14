@@ -1,4 +1,5 @@
 #include "heroitem.h"
+#include "skillcenter.h"
 
 heroItem::heroItem(int lineLength)
 {
@@ -63,4 +64,29 @@ void heroItem::setwholePic(QPixmap*p)
 void heroItem::addCards(QList<handCard*> c)
 {
     theCards += c;
+}
+
+void heroItem::addSkill(skillBase* s)
+{
+    if(!skills.contains(s))
+        skills.append(s);
+}
+
+void heroItem::removeSkill(skillBase* s)
+{
+    if(skills.contains(s))
+        skills.removeAt(skills.indexOf(s));
+}
+
+QList<skillBase*> heroItem::hasSkillTriggerAt(enum triggerTime_t time)
+{
+    QList<skillBase*> result;
+    for(int i=0; i<skills.size(); i++)
+    {
+        if(skills[i]->triggerTime() == time)
+        {
+            result.append(skills[i]);
+        }
+    }
+    return result;
 }

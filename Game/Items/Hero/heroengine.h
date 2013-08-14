@@ -66,7 +66,7 @@ public:
     heroFactory(gameBackInfo* gbi);
     heroItem* createHero(enum heroNum_t, QPoint, enum camp_t);
     QList<heroItem*> generateHeroes(QList<struct externInfo>);
-    int getHeroAmount() { heroInfoMap.size(); }
+    int getHeroAmount() { return heroInfoMap.size(); }
 
 private:
     static const struct heroInfo msz;
