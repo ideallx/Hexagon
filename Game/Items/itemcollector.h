@@ -8,7 +8,7 @@
 #include <QPoint>
 #include <QPen>
 
-#include "enums.h"
+//#include "enums.h"
 
 
 class heroItem;

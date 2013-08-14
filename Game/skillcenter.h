@@ -1,8 +1,8 @@
 #ifndef SKILLCENTER_H
 #define SKILLCENTER_H
 
-#include <QString>
 #include "enums.h"
+#include <QString>
 
 
 enum skillType_t

@@ -14,11 +14,15 @@ TEMPLATE = app
 
 SOURCES  += main.cpp \
     Game/gameprocess.cpp \
+    Game/eventcenter.cpp \
+    Game/skillcenter.cpp \
     Game/Back/menu.cpp \
     Game/Back/coordinate.cpp \
     Game/Back/backview.cpp \
     Game/Back/backscene.cpp \
     Game/Back/backinfo.cpp \
+    Game/Back/layoutscene.cpp \
+    Game/Back/herolabel.cpp \
     Game/Items/mapelement.cpp \
     Game/Items/camphealth.cpp \
     Game/Items/Hero/herowhole.cpp \
@@ -26,21 +30,23 @@ SOURCES  += main.cpp \
     Game/Items/Hero/heroengine.cpp \
     Game/Items/Card/cardBack.cpp \
     Game/Items/Card/cardengine.cpp \
-    Widget/gameWidget.cpp \
     Game/Items/Card/carditem.cpp \
     Game/Items/itemcollector.cpp \
-    Game/eventcenter.cpp \
-    Game/Back/layoutscene.cpp \
     Widget/otherwidgets.cpp \
-    Game/skillcenter.cpp
+    Widget/gameWidget.cpp
 
-HEADERS  += mainwindow.h \
+HEADERS  += enums.h \
+    mainwindow.h \
     Game/gameprocess.h \
+    Game/eventcenter.h \
+    Game/skillcenter.h \
     Game/Back/menu.h \
     Game/Back/coordinate.h \
     Game/Back/backview.h \
     Game/Back/backscene.h \
     Game/Back/backinfo.h \
+    Game/Back/herolabel.h \
+    Game/Back/layoutscene.h \
     Game/Items/mapelement.h \
     Game/Items/carditem.h \
     Game/Items/camphealth.h \
@@ -49,16 +55,13 @@ HEADERS  += mainwindow.h \
     Game/Items/Hero/heroengine.h \
     Game/Items/Card/cardback.h \
     Game/Items/Card/cardengine.h \
-    Widget/gameWidget.h \
     Game/Items/Card/carditem.h \
     Game/Items/itemcollector.h \
-    Game/eventcenter.h \
-    Game/Back/layoutscene.h \
-    Widget/otherwidgets.h \
-    Game/skillcenter.h \
-    enums.h
+    Widget/gameWidget.h \
+    Widget/otherwidgets.h
 
 INCLUDEPATH += include
+INCLUDEPATH += .
 INCLUDEPATH += Game
 INCLUDEPATH += Game/Back
 INCLUDEPATH += Game/Items

@@ -81,6 +81,7 @@ private:
     QPushButton *cancelButton;
 
     QTabWidget* mapTable;
+    QDialog *heroChooseDialog;
 
 
 signals:
@@ -90,6 +91,7 @@ signals:
     void cancelClicked();
 
 public slots:
+    void heroChosed(int);
     void resizeItems();
     void listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn);
     void hideAllMenu();

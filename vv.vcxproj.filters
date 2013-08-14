@@ -56,20 +56,17 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{6a581cb9-f58b-47d7-aeca-bc0113d86aea}</UniqueIdentifier>
+      <UniqueIdentifier>{3942f5b0-24e7-448d-89ab-62834506d28d}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{71db2273-078e-4ca3-8f02-9e8c67800642}</UniqueIdentifier>
+      <UniqueIdentifier>{1f79463f-4314-49c0-bd09-3b37e5046006}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game\animationcenter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Back\backinfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -210,9 +207,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Game\animationcenter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Game\Back\backinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -238,6 +232,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Game\Back\coordinate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="Game\eventcenter.h">
@@ -279,6 +276,9 @@
     <ClInclude Include="Game\skillcenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_chooseHero.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_enviroSettings.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
@@ -301,6 +301,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="chooseHero.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="enviroSettings.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>

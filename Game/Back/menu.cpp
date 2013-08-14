@@ -2,6 +2,7 @@
 #include "carditem.h"
 #include "layoutscene.h"
 #include "heroitem.h"
+#include "herolabel.h"
 #include <QDialog>
 #include <QToolButton>
 
@@ -208,23 +209,28 @@ void gameMenu::resizeItems()
 
 void gameMenu::chooseHeroScreen()
 {
-    QDialog *nn = new QDialog(parent);
-    nn->show();
-    nn->setModal(true);
-    uic->setupUi(nn);
+    heroChooseDialog = new QDialog(parent);
+    heroChooseDialog->setModal(true);
+    heroChooseDialog->setMouseTracking(true);
+    heroChooseDialog->show();
+    uic->setupUi(heroChooseDialog);
     for(int i=0; i<4; i++)
     {
-        QToolButton* ql = new QToolButton(nn);
-        //QLabel* ql = new QLabel(nn);
-        //ql->setPixmap(QPixmap("c:/rsc/eee.png"));
-        ql->setStyleSheet("QToolButton{background-image:url(c:/rsc/eee.png)}");
-        ql->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        heroLabel* ql = new heroLabel(heroChooseDialog);
+        ql->setPixmap(QPixmap("c:/rsc/eee.png"));
         uic->horizontalLayout->addWidget(ql);
+        connect(ql, SIGNAL(heroChosen(int)), this, SLOT(heroChosed(int)));
     }
     for(int i=0; i<4; i++)
     {
-        QLabel* ql = new QLabel(nn);
+        heroLabel* ql = new heroLabel(heroChooseDialog);
         ql->setPixmap(QPixmap("c:/rsc/eee.png"));
         uic->horizontalLayout1->addWidget(ql);
+        connect(ql, SIGNAL(heroChosen(int)), this, SLOT(heroChosed(int)));
     }
+}
+
+void gameMenu::heroChosed(int)
+{
+    delete heroChooseDialog;
 }
