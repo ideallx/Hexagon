@@ -8,7 +8,6 @@
 #include <QDebug>
 
 #include "ui_front.h"
-#include "ui_chooseHero.h"
 
 class essenialScene;
 class skillScene;
@@ -58,7 +57,6 @@ public:
 private:
     void menuInitial();
     void interfaceInitial();
-    void chooseHeroScreen();
 
     QList<QPushButton*> menuList;
     QWidget* parent;
@@ -73,7 +71,6 @@ private:
     cardScene* cs;
 
     Ui::Form* ui;
-    Ui::chooseHero* uic;
 
     QPushButton *moveButton;
     QPushButton *attackButton;
@@ -81,7 +78,6 @@ private:
     QPushButton *cancelButton;
 
     QTabWidget* mapTable;
-    QDialog *heroChooseDialog;
 
 
 signals:
@@ -91,7 +87,6 @@ signals:
     void cancelClicked();
 
 public slots:
-    void heroChosed(int);
     void resizeItems();
     void listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn);
     void hideAllMenu();

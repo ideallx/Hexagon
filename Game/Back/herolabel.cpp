@@ -1,26 +1,14 @@
 #include "herolabel.h"
 #include <QDebug>
 
-heroLabel::heroLabel(QWidget *parent, Qt::WindowFlags f) :
-    QLabel(parent, f)
+heroLabel::heroLabel(QWidget *parent) :
+    QToolButton(parent)
 {
-    setMouseTracking(true);
-    heroNum = 0;
+    theHeroNum = 0;
 }
 
 void heroLabel::setPixmap(const QPixmap &qp)
 {
-    QLabel::setPixmap(qp);
-    this->setFixedSize(qp.size());
-}
-
-void heroLabel::mouseMoveEvent(QMouseEvent *ev)
-{
-    qDebug()<<"mouse moved";
-}
-
-void heroLabel::mouseDoubleClickEvent(QMouseEvent *ev)
-{
-    qDebug()<<"double clicked";
-    emit heroChosen(heroNum);
+    QToolButton::setIcon(QIcon(qp));
+    this->setIconSize(qp.size());
 }

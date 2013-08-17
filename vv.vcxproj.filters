@@ -56,12 +56,12 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{3942f5b0-24e7-448d-89ab-62834506d28d}</UniqueIdentifier>
+      <UniqueIdentifier>{809d1d8c-01ef-41c2-a887-e013fb023d44}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{1f79463f-4314-49c0-bd09-3b37e5046006}</UniqueIdentifier>
+      <UniqueIdentifier>{5a18e766-0da8-46d8-8854-9333279e147b}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -104,6 +104,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Items\Hero\heroitem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Back\herolabel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Items\Hero\herowhole.cpp">
@@ -166,10 +169,22 @@
     <ClCompile Include="Release\moc_gameWidget.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\moc_gameprocess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_gameprocess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="Debug\moc_heroitem.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_heroitem.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="Debug\moc_herolabel.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_herolabel.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_herowhole.cpp">
@@ -243,13 +258,16 @@
     <CustomBuild Include="Widget\gameWidget.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <ClInclude Include="Game\gameprocess.h">
+    <CustomBuild Include="Game\gameprocess.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
+    </CustomBuild>
     <ClInclude Include="Game\Items\Hero\heroengine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="Game\Items\Hero\heroitem.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Game\Back\herolabel.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Game\Items\Hero\herowhole.h">

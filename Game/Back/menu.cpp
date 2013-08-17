@@ -2,17 +2,16 @@
 #include "carditem.h"
 #include "layoutscene.h"
 #include "heroitem.h"
-#include "herolabel.h"
 #include <QDialog>
 #include <QToolButton>
 
 gameMenu::gameMenu(QGraphicsView *parent) :
     parent(parent),
-    ui(new Ui::Form),
-    uic(new Ui::chooseHero)
+    ui(new Ui::Form)
 {
     heroHeadSlideLength = 80; //uncertain
-    chooseHeroScreen();
+
+
     //interfaceInitial();
     menuInitial();
 }
@@ -205,32 +204,4 @@ void gameMenu::resizeItems()
 {
     cs->clearChosenItems();
     cs->listCards();
-}
-
-void gameMenu::chooseHeroScreen()
-{
-    heroChooseDialog = new QDialog(parent);
-    heroChooseDialog->setModal(true);
-    heroChooseDialog->setMouseTracking(true);
-    heroChooseDialog->show();
-    uic->setupUi(heroChooseDialog);
-    for(int i=0; i<4; i++)
-    {
-        heroLabel* ql = new heroLabel(heroChooseDialog);
-        ql->setPixmap(QPixmap("c:/rsc/eee.png"));
-        uic->horizontalLayout->addWidget(ql);
-        connect(ql, SIGNAL(heroChosen(int)), this, SLOT(heroChosed(int)));
-    }
-    for(int i=0; i<4; i++)
-    {
-        heroLabel* ql = new heroLabel(heroChooseDialog);
-        ql->setPixmap(QPixmap("c:/rsc/eee.png"));
-        uic->horizontalLayout1->addWidget(ql);
-        connect(ql, SIGNAL(heroChosen(int)), this, SLOT(heroChosed(int)));
-    }
-}
-
-void gameMenu::heroChosed(int)
-{
-    delete heroChooseDialog;
 }

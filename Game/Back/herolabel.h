@@ -1,25 +1,20 @@
 #ifndef HEROLABEL_H
 #define HEROLABEL_H
 
-#include <QLabel>
+#include <QToolButton>
 
-class heroLabel : public QLabel
+class heroLabel : public QToolButton
 {
     Q_OBJECT
 public:
-    heroLabel(QWidget *parent=0, Qt::WindowFlags f=0);
+    heroLabel(QWidget *parent=0);
 
     void setPixmap(const QPixmap &qp);
-    void setHeroNum(int i) { heroNum = i; }
-
-    void mouseMoveEvent(QMouseEvent *ev);
-    void mouseDoubleClickEvent(QMouseEvent *);
-
-signals:
-    void heroChosen(int);
+    void setHeroNum(int i) { theHeroNum = i; }
+    int heroNum() { return theHeroNum; }
 
 private:
-    int heroNum;
+    int theHeroNum;
 };
 
 #endif // HEROLABEL_H
