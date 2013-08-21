@@ -20,10 +20,12 @@ public:
 
 private:
     void chooseHeroScreen();
+    void chooseBirthScreen();
     void heroChosed();
 
     Ui::chooseHero* uic;
 
+    int chosenHeroNum;
     QDialog *heroChooseDialog;
     eventCenter* ec;
     itemCollector* ic;

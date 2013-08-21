@@ -30,6 +30,7 @@ void gameProcess::preGame()
 
 void gameProcess::chooseHeroScreen()
 {
+    connect(this, SIGNAL(choseHeroChoose()), heroChooseDialog, SLOT(accept()));
     qDebug()<<"chosse hero screen";
     heroChooseDialog = new QDialog();
     //heroChooseDialog->setModal(true);
@@ -51,12 +52,15 @@ void gameProcess::chooseHeroScreen()
         connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
     }
     int res = heroChooseDialog->exec();
+    if(res == QDialog::Rejected)
+    {
+        chosenHeroNum = rand()%20;
+    }
 }
 
 void gameProcess::heroChosed()
 {
-    int i = static_cast<heroLabel*>(this->sender())->heroNum();
-    qDebug()<<i;
-    delete heroChooseDialog;
+    chosenHeroNum = static_cast<heroLabel*>(this->sender())->heroNum();
+    qDebug()<<chosenHeroNum;
     emit choseHeroChoose();
 }

@@ -27,10 +27,6 @@ modeChooseWidget::modeChooseWidget(QWidget *parent) :
 
 void modeChooseWidget::on_singleGame_clicked()
 {
-//    delete qdlg;
-//    qdlg = new QDialog(this);
-//    uig->setupUi(qdlg);
-//    qdlg->show();
     delete this;
     MainWindow *a = new MainWindow;
     a->show();
