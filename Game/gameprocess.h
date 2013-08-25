@@ -7,6 +7,7 @@
 
 class eventCenter;
 class itemCollector;
+class modeChooseWidget;
 
 
 class gameProcess : public QObject
@@ -16,12 +17,13 @@ class gameProcess : public QObject
 public:
     gameProcess();
     void preGame();
+	void inGame();
 
 
 private:
-    void chooseHeroScreen();
+	void loadResources();
     void chooseBirthScreen();
-    void heroChosed();
+	void modeChooseScreen();
 
     Ui::chooseHero* uic;
 
@@ -29,9 +31,14 @@ private:
     QDialog *heroChooseDialog;
     eventCenter* ec;
     itemCollector* ic;
+	modeChooseWidget* mcw;
 
 signals:
     void choseHeroChoose();
+	
+public slots:
+    void heroChosed();
+    void heroChooseScreen();
 
 };
 

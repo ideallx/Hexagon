@@ -25,12 +25,7 @@ modeChooseWidget::modeChooseWidget(QWidget *parent) :
     qdlg->hide();
 }
 
-void modeChooseWidget::on_singleGame_clicked()
-{
-    delete this;
-    MainWindow *a = new MainWindow;
-    a->show();
-}
+
 
 void modeChooseWidget::on_settings_clicked()
 {

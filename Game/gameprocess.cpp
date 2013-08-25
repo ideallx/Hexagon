@@ -4,6 +4,7 @@
 #include "heroitem.h"
 #include "eventcenter.h"
 #include "herolabel.h"
+#include "gameWidget.h"
 #include <QDebug>
 #include <QState>
 #include <QFinalState>
@@ -12,28 +13,45 @@ gameProcess::gameProcess() :
 	uic(new Ui::chooseHero)
 {
     preGame();
+	inGame();
+}
+
+void gameProcess::loadResources()
+{
+
 }
 
 void gameProcess::preGame()
 {
-    modeChooseWidget* mcw = new modeChooseWidget();
+	loadResources();
+	modeChooseScreen();
+}
+
+void gameProcess::modeChooseScreen()
+{
+    mcw = new modeChooseWidget();
     mcw->show();
+	
+	connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(heroChooseScreen()));
 
-    QEventLoop loop;
-    connect(mcw, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
-    loop.exec();
+	QEventLoop loop;
+	connect(mcw, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
+	loop.exec();
+}
 
-    chooseHeroScreen();
-    qDebug()<<"fdsf";
+void gameProcess::inGame()
+{
+    //MainWindow a;
+    //a.show();
 }
 
 
-void gameProcess::chooseHeroScreen()
+void gameProcess::heroChooseScreen()
 {
-    connect(this, SIGNAL(choseHeroChoose()), heroChooseDialog, SLOT(accept()));
     qDebug()<<"chosse hero screen";
-    heroChooseDialog = new QDialog();
-    //heroChooseDialog->setModal(true);
+    heroChooseDialog = new QDialog(mcw);
+    heroChooseDialog->setModal(true);
+    heroChooseDialog->show();
     uic->setupUi(heroChooseDialog);
     for(int i=0; i<4; i++)
     {
@@ -53,14 +71,15 @@ void gameProcess::chooseHeroScreen()
     }
     int res = heroChooseDialog->exec();
     if(res == QDialog::Rejected)
-    {
         chosenHeroNum = rand()%20;
-    }
+	qDebug()<<chosenHeroNum;
+
+	delete heroChooseDialog;
+	delete mcw;
 }
 
 void gameProcess::heroChosed()
 {
     chosenHeroNum = static_cast<heroLabel*>(this->sender())->heroNum();
-    qDebug()<<chosenHeroNum;
-    emit choseHeroChoose();
+	heroChooseDialog->accept();
 }

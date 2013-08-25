@@ -2,6 +2,7 @@
 #define OTHERWIDGETS_H
 
 #include <QWidget>
+#include <QToolButton>
 #include "ui_modechoose.h"
 #include "ui_gameSetting.h"
 #include "ui_enviroSettings.h"
@@ -12,6 +13,8 @@ class modeChooseWidget : public QMainWindow
     Q_OBJECT
 public:
     explicit modeChooseWidget(QWidget *parent = 0);
+	QToolButton* singleButton() { return ui->singleGame; }
+
 
 private:
     Ui::modeChoose *ui;
@@ -24,7 +27,6 @@ signals:
 public slots:
     
 private slots:
-    void on_singleGame_clicked();
     void on_settings_clicked();
 };
 

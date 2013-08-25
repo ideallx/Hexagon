@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent) :
     variableInitial();
     sceneInitial();
 
-    connect(ui->actionQt, SIGNAL(triggered(bool)), qApp, SLOT(aboutQt()));
+    connect(ui->actionQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
     connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
     connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));

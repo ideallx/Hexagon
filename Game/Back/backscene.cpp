@@ -37,35 +37,6 @@ backScene::~backScene()
 void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QStringList strList;
-/*
-    if(isPressing)
-    {
-        //TODO has Delay
-        qDebug()<<sceneRect()<<event->scenePos()<<oldPointF;
-        double xLength = - event->scenePos().x() + oldPointF.x();
-        double yLength = - event->scenePos().y() + oldPointF.y();
-        qDebug()<<xLength<<yLength;
-
-        qDebug()<<sceneRect().x()+xLength<<sceneRect().y()+yLength;
-        if((xLength+sceneRect().x()<0) ||
-                (xLength + sceneRect().width() > this->gbi->getPixmap().width()))
-            return;
-
-        if((yLength+sceneRect().y()<0) ||
-                (yLength + sceneRect().height() > this->gbi->getPixmap().height()))
-            return;
-
-        QPointF ff = event->scenePos();
-//        setSceneRect(sceneRect().x() + xLength,
-//                     sceneRect().y() + yLength,
-//                     sceneRect().width(),
-//                     sceneRect().height());
-
-
-        oldPointF = ff;
-        return;
-    }
-    */
     QPoint newPoint = gc->getCooxWithPos(event->scenePos());
     if(!ic->isPointAvailable(newPoint))
     {
