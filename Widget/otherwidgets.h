@@ -8,7 +8,7 @@
 #include "ui_enviroSettings.h"
 
 
-class modeChooseWidget : public QMainWindow
+class modeChooseWidget : public QDialog
 {
     Q_OBJECT
 public:

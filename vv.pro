@@ -71,10 +71,10 @@ INCLUDEPATH += Widget
 
 FORMS    += mainwindow.ui \
     front.ui \
-    modechoose.ui \
     gameSetting.ui \
     enviroSettings.ui \
-    chooseHero.ui
+    chooseHero.ui \
+    modechoose.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

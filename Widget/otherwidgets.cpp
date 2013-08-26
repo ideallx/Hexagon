@@ -6,7 +6,7 @@
 #include <QDebug>
 
 modeChooseWidget::modeChooseWidget(QWidget *parent) :
-    QMainWindow(parent),
+    QDialog(parent),
     ui(new Ui::modeChoose),
     uig(new Ui::gameSetting),
     uie(new Ui::enviroSetting)

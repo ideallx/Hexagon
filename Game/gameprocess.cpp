@@ -13,7 +13,7 @@ gameProcess::gameProcess() :
 	uic(new Ui::chooseHero)
 {
     preGame();
-	inGame();
+	//inGame();
 }
 
 void gameProcess::loadResources()
@@ -34,15 +34,17 @@ void gameProcess::modeChooseScreen()
 	
 	connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(heroChooseScreen()));
 
-	QEventLoop loop;
-	connect(mcw, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
-	loop.exec();
+    mcw->exec();
 }
 
 void gameProcess::inGame()
 {
-    //MainWindow a;
-    //a.show();
+    MainWindow m;
+    m.show();
+
+	QEventLoop loop;
+	connect(&m, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
+	loop.exec();
 }
 
 
@@ -73,9 +75,7 @@ void gameProcess::heroChooseScreen()
     if(res == QDialog::Rejected)
         chosenHeroNum = rand()%20;
 	qDebug()<<chosenHeroNum;
-
-	delete heroChooseDialog;
-	delete mcw;
+	mcw->deleteLater();
 }
 
 void gameProcess::heroChosed()

@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     qsrand(QTime(0,0,0).secsTo(QTime::currentTime()));
     gameProcess gp;
 
-	//MainWindow m;
-	//m.show();
+	MainWindow m;
+	m.show();
+
     return a.exec();
 }
