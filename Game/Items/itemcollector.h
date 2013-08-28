@@ -33,7 +33,7 @@ enum rangeMode_t
 class itemCollector
 {
 public:
-    itemCollector(gameBackInfo*, gameCoordinate*, QGraphicsScene* c);
+    itemCollector(gameBackInfo*, gameCoordinate*);
     ~itemCollector();
 
     void setMapElement(mapEngine *me);

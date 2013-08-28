@@ -13,23 +13,19 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QDialog>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QMenuBar>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_modeChoose
 {
 public:
-    QWidget *centralwidget;
     QGridLayout *gridLayout;
     QSpacerItem *verticalSpacer;
     QSpacerItem *horizontalSpacer;
@@ -46,23 +42,19 @@ public:
     QToolButton *about;
     QSpacerItem *horizontalSpacer_2;
     QSpacerItem *verticalSpacer_2;
-    QMenuBar *menubar;
-    QStatusBar *statusbar;
 
-    void setupUi(QMainWindow *modeChoose)
+    void setupUi(QDialog *modeChoose)
     {
         if (modeChoose->objectName().isEmpty())
             modeChoose->setObjectName(QStringLiteral("modeChoose"));
-        modeChoose->resize(800, 600);
-        centralwidget = new QWidget(modeChoose);
-        centralwidget->setObjectName(QStringLiteral("centralwidget"));
-        gridLayout = new QGridLayout(centralwidget);
+        modeChoose->resize(748, 591);
+        gridLayout = new QGridLayout(modeChoose);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        verticalSpacer = new QSpacerItem(20, 215, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 231, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
 
-        horizontalSpacer = new QSpacerItem(292, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(266, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 1, 0, 1, 1);
 
@@ -71,7 +63,7 @@ public:
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        singleGame = new QToolButton(centralwidget);
+        singleGame = new QToolButton(modeChoose);
         singleGame->setObjectName(QStringLiteral("singleGame"));
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         sizePolicy.setHorizontalStretch(0);
@@ -83,17 +75,17 @@ public:
 
         verticalLayout->addWidget(singleGame);
 
-        lanGame = new QToolButton(centralwidget);
+        lanGame = new QToolButton(modeChoose);
         lanGame->setObjectName(QStringLiteral("lanGame"));
 
         verticalLayout->addWidget(lanGame);
 
-        settings = new QToolButton(centralwidget);
+        settings = new QToolButton(modeChoose);
         settings->setObjectName(QStringLiteral("settings"));
 
         verticalLayout->addWidget(settings);
 
-        replay = new QToolButton(centralwidget);
+        replay = new QToolButton(modeChoose);
         replay->setObjectName(QStringLiteral("replay"));
 
         verticalLayout->addWidget(replay);
@@ -103,22 +95,22 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        cardsView = new QToolButton(centralwidget);
+        cardsView = new QToolButton(modeChoose);
         cardsView->setObjectName(QStringLiteral("cardsView"));
 
         verticalLayout_2->addWidget(cardsView);
 
-        mapsView = new QToolButton(centralwidget);
+        mapsView = new QToolButton(modeChoose);
         mapsView->setObjectName(QStringLiteral("mapsView"));
 
         verticalLayout_2->addWidget(mapsView);
 
-        herosView = new QToolButton(centralwidget);
+        herosView = new QToolButton(modeChoose);
         herosView->setObjectName(QStringLiteral("herosView"));
 
         verticalLayout_2->addWidget(herosView);
 
-        about = new QToolButton(centralwidget);
+        about = new QToolButton(modeChoose);
         about->setObjectName(QStringLiteral("about"));
 
         verticalLayout_2->addWidget(about);
@@ -129,31 +121,23 @@ public:
 
         gridLayout->addLayout(horizontalLayout, 1, 1, 1, 1);
 
-        horizontalSpacer_2 = new QSpacerItem(292, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(266, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer_2, 1, 2, 1, 1);
 
-        verticalSpacer_2 = new QSpacerItem(20, 214, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_2 = new QSpacerItem(20, 230, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         gridLayout->addItem(verticalSpacer_2, 2, 1, 1, 1);
 
-        modeChoose->setCentralWidget(centralwidget);
-        menubar = new QMenuBar(modeChoose);
-        menubar->setObjectName(QStringLiteral("menubar"));
-        menubar->setGeometry(QRect(0, 0, 800, 21));
-        modeChoose->setMenuBar(menubar);
-        statusbar = new QStatusBar(modeChoose);
-        statusbar->setObjectName(QStringLiteral("statusbar"));
-        modeChoose->setStatusBar(statusbar);
 
         retranslateUi(modeChoose);
 
         QMetaObject::connectSlotsByName(modeChoose);
     } // setupUi
 
-    void retranslateUi(QMainWindow *modeChoose)
+    void retranslateUi(QDialog *modeChoose)
     {
-        modeChoose->setWindowTitle(QApplication::translate("modeChoose", "MainWindow", 0));
+        modeChoose->setWindowTitle(QApplication::translate("modeChoose", "Dialog", 0));
         singleGame->setText(QApplication::translate("modeChoose", "Single Game", 0));
         lanGame->setText(QApplication::translate("modeChoose", "LAN Game", 0));
         settings->setText(QApplication::translate("modeChoose", "Settings", 0));

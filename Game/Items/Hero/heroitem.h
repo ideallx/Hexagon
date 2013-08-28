@@ -11,18 +11,6 @@ class skillBase;
 
 enum triggerTime_t;
 
-enum camp_t
-{
-    camp_red,
-    camp_blue
-};
-
-enum sexual_t
-{
-    sex_male,
-    sex_female
-};
-
 class heroItem : public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT

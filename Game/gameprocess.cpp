@@ -1,3 +1,6 @@
+#include <QDebug>
+#include <QMessageBox>
+
 #include "gameprocess.h"
 #include "otherwidgets.h"
 #include "itemcollector.h"
@@ -5,9 +8,12 @@
 #include "eventcenter.h"
 #include "herolabel.h"
 #include "gameWidget.h"
-#include <QDebug>
-#include <QState>
-#include <QFinalState>
+#include "itemCollector.h"
+#include "backInfo.h"
+#include "coordinate.h"
+#include "backscene.h"
+
+#define CONFIGPATH "C:/rsc/config.xml"
 
 gameProcess::gameProcess() :
 	uic(new Ui::chooseHero)
@@ -18,13 +24,27 @@ gameProcess::gameProcess() :
 
 void gameProcess::loadResources()
 {
+	try
+	{
+		gbi = new gameBackInfo(QString(CONFIGPATH));
+		qDebug()<<"gbi load complete...";
 
+		gc = new gameCoordinate(gbi);
+		qDebug()<<"gc  load complete...";
+
+		ic = new itemCollector(gbi, gc);
+		qDebug()<<"ic  load complete...";
+	}
+	catch(QString e)
+	{
+		QMessageBox::critical(NULL, tr("LYBNS"), e);
+	}
 }
 
 void gameProcess::preGame()
 {
-	loadResources();
 	modeChooseScreen();
+	loadResources();
 }
 
 void gameProcess::modeChooseScreen()
@@ -39,7 +59,7 @@ void gameProcess::modeChooseScreen()
 
 void gameProcess::inGame()
 {
-    MainWindow m;
+    MainWindow m(eil);
     m.show();
 
 	QEventLoop loop;

@@ -7,10 +7,9 @@
 #include "backinfo.h"
 #include "camphealth.h"
 
-itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsScene* scenei):
+itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci):
       gbi(gbii),
-      gc(gci),
-      scene(scenei)
+      gc(gci)
 {
     hei = gbi->getHeightCount();
     wid = gbi->getWidthCount();
@@ -18,11 +17,11 @@ itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci, QGraphicsS
 
 itemCollector::~itemCollector()
 {
-    qDeleteAll(redTeamHeros);
-    qDeleteAll(blueTeamHeros);
-    qDeleteAll(unusedCards);
-    qDeleteAll(usedCards);
-    qDeleteAll(elements);
+    //qDeleteAll(redTeamHeros);
+    //qDeleteAll(blueTeamHeros);
+    //qDeleteAll(unusedCards);
+    //qDeleteAll(usedCards);
+    //qDeleteAll(elements);
 
     redTeamHeros.clear();
     blueTeamHeros.clear();
@@ -52,12 +51,12 @@ void itemCollector::setCardEngine(cardEngine* ce)
 void itemCollector::setCampHealth()
 {
     campHealth* ch = new campHealth(gbi->getConfigDir()+"health2.png");
-    scene->addItem(ch);
+    //scene->addItem(ch);
     campLifes.append(ch);
     ch->setPos(200, 50);
 
     ch = new campHealth(gbi->getConfigDir()+"health1.png");
-    scene->addItem(ch);
+    //scene->addItem(ch);
     campLifes.append(ch);
     ch->setPos(200, gbi->getPixmap().height()-200);
 
@@ -68,7 +67,7 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
     QList<heroItem*> heros = hf->generateHeroes(info);
     for(int i=0; i<heros.size(); i++)
     {
-        scene->addItem(heros.at(i));
+        //scene->addItem(heros.at(i));
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
         if(heros.at(i)->camp() == camp_red)
         {
@@ -83,7 +82,7 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
     for(int i=0; i<heros.size(); i++)
     {
         QGraphicsLineItem *targetLine = new QGraphicsLineItem();
-        scene->addItem(targetLine);
+        //scene->addItem(targetLine);
 		targetLine->setPos(0, 0);
 		targetLine->hide();
         targetLine->setPen(QPen(Qt::red, 5));
@@ -233,6 +232,7 @@ QList<QPoint> itemCollector::listRange(heroItem* hero, enum rangeMode_t t)
         return recursionSeries(&set, hero->point(), hero->moveRange());
     else if(type == ModeAttack)
         return recursionSeries(&set, hero->point(), hero->attackRange());
+	return set;
 }
 
 

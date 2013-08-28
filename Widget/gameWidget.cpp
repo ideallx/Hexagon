@@ -11,12 +11,11 @@
 
 #define CONFIGPATH "C:/rsc/config.xml"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QList<struct externInfo> info, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
 
     endTurnAction = new QAction(tr("End Turn"), this);
     ui->mainToolBar->addAction(endTurnAction);
@@ -25,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->mainToolBar->addAction(getCardAction);
 
     variableInitial();
-    sceneInitial();
+    sceneInitial(info);
 
     connect(ui->actionQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
@@ -47,16 +46,7 @@ MainWindow::~MainWindow()
 // HERO:heroName    coordinate:x, x    camp:hero
 bool MainWindow::variableInitial()
 {
-    gbi = new gameBackInfo(QString(CONFIGPATH));
-    if(!gbi->isLoadSuccess())
-    {
-        QMessageBox::critical(this, tr("LYBNS"), tr("loading error"));
-        exit(0x11);
-    }
-    qDebug("gbi load complete...");
 
-    gc = new gameCoordinate(gbi);
-    qDebug("gc load complete...");
 
     itemLabel = new QLabel(this);
     itemLabel->setFixedWidth(200);
@@ -81,7 +71,7 @@ bool MainWindow::variableInitial()
     return true;
 }
 
-bool MainWindow::sceneInitial()
+bool MainWindow::sceneInitial(QList<struct externInfo>)
 {
     QList<struct externInfo> info = chooseHero();
 
@@ -91,7 +81,6 @@ bool MainWindow::sceneInitial()
     //menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
     ec = new eventCenter(scene, menu);
     qDebug("backView load complete...");
-
 
     return true;
 }

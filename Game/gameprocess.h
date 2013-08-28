@@ -3,12 +3,17 @@
 
 #include <QObject>
 #include <QDialog>
+#include "enums.h"
 #include "ui_chooseHero.h"
 
 class eventCenter;
 class itemCollector;
 class modeChooseWidget;
-
+class gameBackInfo;
+class gameCoordinate;
+class itemCollector;
+class backScene;
+struct externInfo;
 
 class gameProcess : public QObject
 {
@@ -30,8 +35,14 @@ private:
     int chosenHeroNum;
     QDialog *heroChooseDialog;
     eventCenter* ec;
-    itemCollector* ic;
 	modeChooseWidget* mcw;
+
+	gameBackInfo* gbi;
+	gameCoordinate* gc;
+	itemCollector* ic;
+	backScene* bs;
+
+	QList<struct externInfo> eil;
 
 signals:
     void choseHeroChoose();

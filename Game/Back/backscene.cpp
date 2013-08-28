@@ -19,7 +19,7 @@ backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externI
     back->setZValue(-10);
     this->addItem(back);
 
-    ic = new itemCollector(gbi, gc, this);
+    ic = new itemCollector(gbi, gc);
     ic->setCardEngine(new cardEngine(gbi));
     //ic->setHeroFactory(new heroFactory(gbi), i);
     ic->setMapElement(new mapEngine(gbi));
@@ -91,11 +91,7 @@ void backScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     heroItem* hi;
     if(hi = ic->getHeroByPoint(oldPoint))
     {
-//        heroItem* hero = ic->getHeroByPoint(oldPoint);
         emit buildMenu(hi, this->views()[0]->mapFromScene(event->scenePos()));
-//        if(ic->isLocalHero(hero))
-//        {
-//        }
     }
 }
 

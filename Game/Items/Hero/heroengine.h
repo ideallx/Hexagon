@@ -9,66 +9,44 @@
 #include <QMargins>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include "enums.h"
 
 
 class gameBackInfo;
 class heroItem;
 enum camp_t;
 
-
-enum heroNum_t
-{
-    MieShaZhe,
-    RenZhe,
-    AnYingZhiRen,
-    LeiShen,
-    ShengQiShi,
-    KuangSha,
-    YingYan,
-    LingHunYiZhe,
-    BingZhiShengNv,
-    ZhongKaiZhanShi,
-    QiYueZhe,
-    BaoXiong,
-    ShiHunZhe,
-    FengXingZhe,
-    DuTu,
-    XueZhiLiZhua,
-    SiShen,
-    HuanYingZhiQiang,
-    ZhanLanZhiJian,
-    HuoWuZhe
-};
-
-struct heroInfo
-{
-    int attackRange;
-    int moveRange;
-    int healthMax;
-    char sexual;
-    QString heroName;
-
-};
-
-struct externInfo
-{
-    enum heroNum_t h;
-    enum camp_t c;
-    QPoint p;
-};
-
-
 class heroFactory : public QObject
 {
 public:
-
-
     heroFactory(gameBackInfo* gbi);
+
     heroItem* createHero(enum heroNum_t, QPoint, enum camp_t);
     QList<heroItem*> generateHeroes(QList<struct externInfo>);
+
     int getHeroAmount() { return heroInfoMap.size(); }
+	QPixmap getHeroAvaterByNum(int n);
+	void addPackage(enum hero_package_t);
 
 private:
+
+    QMap<enum heroNum_t, struct heroInfo> heroInfoMap;
+    int lineLength;
+    QGraphicsScene* scene;
+    QString innerDir;
+};
+
+class AbstractHeroPacakage : public QObject
+{
+	virtual int heroNumInPackage() = 0;
+	virtual enum hero_package_t heroPackageIndicator() = 0; 
+};
+
+class HeroPackageNormal : public AbstractHeroPacakage
+{
+	int heroNumInPackage() { return 20; }
+	enum hero_package_t heroPackageIndicator() { return HeroPackage_Normal; }
+	
     static const struct heroInfo msz;
     static const struct heroInfo ls;
     static const struct heroInfo bzsn;
@@ -90,16 +68,6 @@ private:
     static const struct heroInfo ss;
     static const struct heroInfo bx;
 
-    QMap<enum heroNum_t, struct heroInfo> heroInfoMap;
-    int lineLength;
-    QGraphicsScene* scene;
-    QString innerDir;
-};
-
-class heroPackage : QObject
-{
-    virtual int packageHeroBeginNum();
-    virtual int packageHeroAmount();
 };
 
 

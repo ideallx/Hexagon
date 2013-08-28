@@ -23,12 +23,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QList<struct externInfo>, QWidget *parent = 0);
     ~MainWindow();
 
 private:
     bool variableInitial();
-    bool sceneInitial();
+    bool sceneInitial(QList<struct externInfo>);
     QList<struct externInfo> chooseHero();
     void stateMachineInitial();
     void moveToPos(heroItem*, QPoint);

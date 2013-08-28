@@ -1,6 +1,9 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <QString>
+#include <QPoint>
+
 enum gameEnvironment_t
 {
     areaSpace,
@@ -44,6 +47,67 @@ enum mapRangeType_t
     RangeTypeStraight,
     RangeTypeDoubleLine,
     RangeTypeRound
+};
+
+
+enum heroNum_t
+{
+    MieShaZhe,
+    RenZhe,
+    AnYingZhiRen,
+    LeiShen,
+    ShengQiShi,
+    KuangSha,
+    YingYan,
+    LingHunYiZhe,
+    BingZhiShengNv,
+    ZhongKaiZhanShi,
+    QiYueZhe,
+    BaoXiong,
+    ShiHunZhe,
+    FengXingZhe,
+    DuTu,
+    XueZhiLiZhua,
+    SiShen,
+    HuanYingZhiQiang,
+    ZhanLanZhiJian,
+    HuoWuZhe
+};
+
+enum camp_t
+{
+    camp_red,
+    camp_blue
+};
+
+enum sexual_t
+{
+    sex_male,
+    sex_female
+};
+
+enum hero_package_t
+{
+	HeroPackage_Normal,
+	HeroPackage_Extend1,
+	HeroPackage_Extend2
+};
+
+struct heroInfo
+{
+    int attackRange;
+    int moveRange;
+    int healthMax;
+    char sexual;
+    QString heroName;
+
+};
+
+struct externInfo
+{
+    enum heroNum_t h;
+    enum camp_t c;
+    QPoint p;
 };
 
 #endif // ENUMS_H
