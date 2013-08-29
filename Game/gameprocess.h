@@ -13,6 +13,7 @@ class gameBackInfo;
 class gameCoordinate;
 class itemCollector;
 class backScene;
+class heroFactory;
 struct externInfo;
 
 class gameProcess : public QObject
@@ -41,6 +42,7 @@ private:
 	gameCoordinate* gc;
 	itemCollector* ic;
 	backScene* bs;
+    heroFactory *hf;
 
 	QList<struct externInfo> eil;
 

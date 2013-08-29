@@ -12,6 +12,7 @@
 #include "backInfo.h"
 #include "coordinate.h"
 #include "backscene.h"
+#include "heroEngine.h"
 
 #define CONFIGPATH "C:/rsc/config.xml"
 
@@ -34,6 +35,11 @@ void gameProcess::loadResources()
 
 		ic = new itemCollector(gbi, gc);
 		qDebug()<<"ic  load complete...";
+
+        hf = new heroFactory(gbi);
+        hf->addPackage(new HeroPackageNormal());
+        qDebug()<<"hf  load complete...";
+
 	}
 	catch(QString e)
 	{
@@ -43,17 +49,14 @@ void gameProcess::loadResources()
 
 void gameProcess::preGame()
 {
-	modeChooseScreen();
-	loadResources();
+    loadResources();
+    modeChooseScreen();
 }
 
 void gameProcess::modeChooseScreen()
 {
     mcw = new modeChooseWidget();
-    mcw->show();
-	
 	connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(heroChooseScreen()));
-
     mcw->exec();
 }
 
@@ -75,27 +78,34 @@ void gameProcess::heroChooseScreen()
     heroChooseDialog->setModal(true);
     heroChooseDialog->show();
     uic->setupUi(heroChooseDialog);
-    for(int i=0; i<4; i++)
+
+    QList<int> heroNumList;
+    qDebug()<<hf->getHeroAmount();
+    for(int i=0; i<8; i++)
     {
-        heroLabel* ql = new heroLabel(heroChooseDialog);
-        ql->setPixmap(QPixmap("c:/rsc/eee.png"));
-        ql->setHeroNum(i);
-        uic->horizontalLayout->addWidget(ql);
-        connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
+        heroNumList.append(rand()%hf->getHeroAmount());
     }
     for(int i=0; i<4; i++)
     {
         heroLabel* ql = new heroLabel(heroChooseDialog);
-        ql->setPixmap(QPixmap("c:/rsc/eee.png"));
-        ql->setHeroNum(i+4);
+        ql->setPixmap(QPixmap(gbi->getConfigDir() + "/heros/" + hf->getHeroInfoByNum(heroNumList[i]).heroName + "_Head.png"));
+        ql->setHeroNum(heroNumList[i]);
+        uic->horizontalLayout->addWidget(ql);
+        connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
+    }
+    for(int i=4; i<8; i++)
+    {
+        heroLabel* ql = new heroLabel(heroChooseDialog);
+        ql->setPixmap(QPixmap(gbi->getConfigDir() + "/heros/" + hf->getHeroInfoByNum(heroNumList[i]).heroName + "_Head.png"));
+        ql->setHeroNum(heroNumList[i]);
         uic->horizontalLayout1->addWidget(ql);
         connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
     }
     int res = heroChooseDialog->exec();
     if(res == QDialog::Rejected)
         chosenHeroNum = rand()%20;
-	qDebug()<<chosenHeroNum;
-	mcw->deleteLater();
+
+    qDebug()<<chosenHeroNum;
 }
 
 void gameProcess::heroChosed()
