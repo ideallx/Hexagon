@@ -14,6 +14,7 @@ public:
     int heroNum() { return theHeroNum; }
 
 private:
+    static const int pixWidth = 200;
     int theHeroNum;
 };
 

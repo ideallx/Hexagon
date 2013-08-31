@@ -21,6 +21,7 @@ public:
 
     heroItem(int lineLength);
     void setHeroProperty(char s, char a, char m, int h);
+    void setHeroProperty(struct heroInfo);
 
     enum camp_t camp() const { return theCamp;}
     void setCamp(enum camp_t c) { theCamp = c; }

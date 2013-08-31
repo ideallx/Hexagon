@@ -13,11 +13,11 @@ heroFactory::heroFactory(gameBackInfo* gbi):
 heroItem* heroFactory::createHero(struct externInfo ei)
 {
     heroItem * item = new heroItem(lineLength);
-    item->setAvaterPic(new QPixmap(innerDir + heroInfoMap[ei.h].heroName + "_Head.png"));
-    item->setwholePic(new QPixmap(innerDir + heroInfoMap[ei.h].heroName + "_Whole.png"));
+    item->setAvaterPic(new QPixmap(innerDir + getHeroInfoByNum(ei.h).heroName + "_Head.png"));
+    item->setwholePic(new QPixmap(innerDir + getHeroInfoByNum(ei.h).heroName + "_Whole.png"));
     item->setBrush(item->avaterPic()->scaledToWidth(item->rect().width(), Qt::SmoothTransformation));
-    item->setHeroProperty(heroInfoMap[ei.h].sexual, heroInfoMap[ei.h].attackRange, heroInfoMap[ei.h].moveRange, heroInfoMap[ei.h].healthMax);
-    item->setHeroName(heroInfoMap[ei.h].heroName);
+    item->setHeroProperty(getHeroInfoByNum(ei.h));
+    item->setHeroName(getHeroInfoByNum(ei.h).heroName);
     item->setPoint(ei.p);
     item->setCamp(ei.c);
     return item;
@@ -52,6 +52,7 @@ struct heroInfo heroFactory::getHeroInfoByNum(int n)
             return hpl[i]->getHeroInfo(n);
         }
     }
+    qDebug()<<"Hero Num Wrong";
     struct heroInfo white = {2, 3, 9,  sex_male, tr("wrongHero")};
     return white;
 }

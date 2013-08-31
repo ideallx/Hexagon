@@ -2,29 +2,19 @@
 #include "itemcollector.h"
 #include "heroitem.h"
 #include "heroengine.h"
-#include "backinfo.h"
 #include "cardengine.h"
-#include "coordinate.h"
 #include "mapelement.h"
 #include "skillcenter.h"
 
 
-backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externInfo> i, QObject *parent) :
-    gbi(gbi),
-    gc(gc)
+backScene::backScene(itemCollector *ic, QObject *parent) :
+    ic(ic)
 {
-    this->setSceneRect(gbi->getPixmap().rect()-=QMargins(10, 10, 10, 10));
+    this->setSceneRect(ic->getPixmap().rect()-=QMargins(10, 10, 10, 10));
     QGraphicsPixmapItem *back = new QGraphicsPixmapItem();
-    back->setPixmap(QPixmap(gbi->getPixmap()));
+    back->setPixmap(QPixmap(ic->getPixmap()));
     back->setZValue(-10);
     this->addItem(back);
-
-    ic = new itemCollector(gbi, gc);
-    ic->setCardEngine(new cardEngine(gbi));
-    //ic->setHeroFactory(new heroFactory(gbi), i);
-    ic->setMapElement(new mapEngine(gbi));
-    ic->setCampHealth();
-
     this->setParent(parent);
     isPressing = false;
 }
@@ -37,7 +27,7 @@ backScene::~backScene()
 void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QStringList strList;
-    QPoint newPoint = gc->getCooxWithPos(event->scenePos());
+    QPoint newPoint = ic->getCooxWithPos(event->scenePos());
     if(!ic->isPointAvailable(newPoint))
     {
         emit changeStatusBar(strList);
@@ -60,9 +50,8 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     gameMapElement* gmeT = ic->getMapElementByPoint(newPoint);
 
-    if(ic->isPointHasHero(oldPoint))
+    if(heroItem* hero = ic->getHeroByPoint(oldPoint))
     {
-        heroItem* hero = ic->getHeroByPoint(oldPoint);
         QString strHero = tr("hero: ") + hero->heroName();
         strList.append(strHero);
         emit heroClicked(hero);
@@ -110,7 +99,7 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         return;
     }
 
-    if(ic->isPointHasHero(oldPoint))
+    if(ic->getHeroByPoint(oldPoint))
     {
         heroItem* hero = ic->getHeroByPoint(oldPoint);
         emit heroClicked(hero);

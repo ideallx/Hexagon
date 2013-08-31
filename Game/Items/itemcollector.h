@@ -7,7 +7,7 @@
 #include <QVector>
 #include <QPoint>
 #include <QPen>
-
+#include <QPixmap>
 #include "enums.h"
 
 
@@ -40,12 +40,11 @@ public:
     void setHeroFactory(heroFactory* hf, QList<struct externInfo> info);
     void setCardEngine(cardEngine* ce);
     void setCampHealth();
+    void addItemsToScene(QGraphicsScene*);
     QString rscPath();
 
     QList<QString> getHeroListAvaterPath(char);
 
-
-    heroItem* isPointHasHero(QPoint);
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
 
@@ -67,19 +66,28 @@ public:
     void addLocalHero(heroItem* h){ localHeros.append(h);}
     bool isLocalHero(heroItem* h) { return localHeros.contains(h); }
     heroItem* getLocalHero() { return localHeros[0]; }
+
     QList<heroItem*> getActSequence();
-
     QList<handCard*> getCard(int n);
-
     QList<QGraphicsLineItem*> getLines() { return targetLines; }
-
     QList<QPoint> listRange(heroItem* hero, enum rangeMode_t);
+
+    QPixmap getPixmap();
+    QPoint getCooxWithPos(QPointF);
 
 private:
     void addHeroList(QList<struct externInfo> info);
     void addCardList();
     void addMapElementList();
     void addHeroSide();
+
+    template <typename T> void addListToScene(QList<T> l, QGraphicsScene* s)
+    {
+        for(int i=0; i<l.size(); i++)
+        {
+            s->addItem(l[i]);
+        }
+    }
 
     heroItem* tempHero;
 
@@ -100,16 +108,15 @@ private:
 
     gameBackInfo* gbi;
     gameCoordinate* gc;
-    QGraphicsScene* scene;
 
     QList<heroItem*> redTeamHeros;
     QList<heroItem*> blueTeamHeros;
-    QList<handCard*> unusedCards;
-    QList<handCard*> usedCards;
     QList<gameMapElement*> elements;
     QList<campHealth*> campLifes;
     QList<QGraphicsLineItem*> targetLines;
 
+    QList<handCard*> unusedCards;
+    QList<handCard*> usedCards;
 };
 
 #endif // ITEMCOLLECTOR_H

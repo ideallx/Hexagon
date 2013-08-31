@@ -49,7 +49,6 @@ public:
     struct heroInfo getHeroInfoByNum(int n);
 
 private:
-    QMap<enum heroNum_t, struct heroInfo> heroInfoMap;
     QList<AbstractHeroPacakage*> hpl;
     QGraphicsScene* scene;
     QString innerDir;

@@ -6,10 +6,8 @@
 #include <QDebug>
 
 modeChooseWidget::modeChooseWidget(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::modeChoose),
-    uig(new Ui::gameSetting),
-    uie(new Ui::enviroSetting)
+    QWidget(parent),
+    ui(new Ui::modeChoose)
 {
     ui->setupUi(this);
     ui->singleGame->setFixedSize(100, 30);
@@ -21,10 +19,14 @@ modeChooseWidget::modeChooseWidget(QWidget *parent) :
     ui->herosView->setFixedSize(100, 30);
     ui->about->setFixedSize(100, 30);
 
-    qdlg = new QDialog(this);
-    qdlg->hide();
+//    qdlg = new QDialog(this);
+//    qdlg->hide();
 }
 
+modeChooseWidget::~modeChooseWidget()
+{
+    delete ui;
+}
 
 
 void modeChooseWidget::on_settings_clicked()

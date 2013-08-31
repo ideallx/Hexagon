@@ -10,7 +10,6 @@ gameBackInfo::gameBackInfo(QString configFilePath)
     beginY = beginPosition.y();
     int i = configFilePath.lastIndexOf(QChar('/'));
     configDir = configFilePath.left(i) + '/';
-    qDebug()<<configDir;
 
     if(!file.open(QFile::ReadOnly | QFile::Text))
     {

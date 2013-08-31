@@ -21,10 +21,14 @@ class gameProcess : public QObject
     Q_OBJECT
 
 public:
-    gameProcess();
+    gameProcess(QWidget *parent=0);
+    ~gameProcess();
     void preGame();
+    void preGameClean();
 	void inGame();
-
+    void endGame();
+    itemCollector* getIc() { return ic; }
+    QList<struct externInfo> getPreGameResult() { return eil; }
 
 private:
 	void loadResources();
@@ -34,6 +38,7 @@ private:
     Ui::chooseHero* uic;
 
     int chosenHeroNum;
+    QWidget* parent;
     QDialog *heroChooseDialog;
     eventCenter* ec;
 	modeChooseWidget* mcw;

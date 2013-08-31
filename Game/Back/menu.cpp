@@ -12,7 +12,7 @@ gameMenu::gameMenu(QGraphicsView *parent) :
     heroHeadSlideLength = 80; //uncertain
 
 
-    //interfaceInitial();
+    interfaceInitial();
     menuInitial();
 }
 

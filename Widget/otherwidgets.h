@@ -8,11 +8,12 @@
 #include "ui_enviroSettings.h"
 
 
-class modeChooseWidget : public QDialog
+class modeChooseWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit modeChooseWidget(QWidget *parent = 0);
+    ~modeChooseWidget();
 	QToolButton* singleButton() { return ui->singleGame; }
 
 

@@ -67,7 +67,6 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
     QList<heroItem*> heros = hf->generateHeroes(info);
     for(int i=0; i<heros.size(); i++)
     {
-        //scene->addItem(heros.at(i));
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
         if(heros.at(i)->camp() == camp_red)
         {
@@ -105,7 +104,6 @@ void itemCollector::addMapElementList()
         for(int i=0; i<wid; i++)
         {
             elements[j*wid+i]->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
-            scene->addItem(elements[j*wid+i]);
         }
     }
 }
@@ -141,7 +139,7 @@ int itemCollector::getPointNumber(QPoint point)
     return point.x()+point.y()*wid;
 }
 
-heroItem* itemCollector::isPointHasHero(QPoint point)  //TODO change return type
+heroItem* itemCollector::getHeroByPoint(QPoint point)
 {
     for(int i=0; i<redTeamHeros.size(); i++)
     {
@@ -166,7 +164,7 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
     {
         if(isPointAvailable(point) && isPointMovable(point))
         {
-            if(isPointHasHero(point))
+            if(getHeroByPoint(point))
                 return false;
             if(!set->contains(point))
                 set->append(point);
@@ -175,7 +173,7 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
     }
     else if(type == ModeAttack)
     {
-        heroItem* hi = isPointHasHero(point);
+        heroItem* hi = getHeroByPoint(point);
         if(isPointAvailable(point) && hi)
         {
             if(hi->camp() == tempHero->camp())
@@ -236,24 +234,6 @@ QList<QPoint> itemCollector::listRange(heroItem* hero, enum rangeMode_t t)
 }
 
 
-heroItem* itemCollector::getHeroByPoint(QPoint point)
-{
-    for(int i=0; i<redTeamHeros.size(); i++)
-    {
-        if(point == redTeamHeros.at(i)->point())
-        {
-            return redTeamHeros.at(i);
-        }
-    }
-    for(int i=0; i<blueTeamHeros.size(); i++)
-    {
-        if(point == blueTeamHeros.at(i)->point())
-        {
-            return blueTeamHeros.at(i);
-        }
-    }
-    return NULL;
-}
 /*
  *   0.8 not moveable
  *   0.7 current moved In bold
@@ -334,7 +314,6 @@ QList<handCard*> itemCollector::getCard(int n)
         result.append(unusedCards[0]);
         unusedCards.removeAt(0);
     }
-    qDebug()<<"unused cards:"<<unusedCards.size()<<"used:"<<n;
     return result;
 }
 
@@ -376,4 +355,24 @@ QList<gameMapElement*> itemCollector::getAllElementTypeOf(enum gameEnvironment_t
         }
     }
     return result;
+}
+
+
+QPixmap itemCollector::getPixmap()
+{
+    return gbi->getPixmap();
+}
+
+QPoint itemCollector::getCooxWithPos(QPointF qf)
+{
+    return gc->getCooxWithPos(qf);
+}
+
+void itemCollector::addItemsToScene(QGraphicsScene* s)
+{
+    addListToScene(redTeamHeros, s);
+    addListToScene(blueTeamHeros, s);
+    addListToScene(elements, s);
+    addListToScene(campLifes, s);
+    addListToScene(targetLines, s);
 }

@@ -17,19 +17,19 @@ class gameBackInfo;
 class gameCoordinate;
 class eventCenter;
 class heroItem;
+class gameProcess;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
     
 public:
-    explicit MainWindow(QList<struct externInfo>, QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
 private:
     bool variableInitial();
-    bool sceneInitial(QList<struct externInfo>);
-    QList<struct externInfo> chooseHero();
+    bool sceneInitial();
     void stateMachineInitial();
     void moveToPos(heroItem*, QPoint);
 
@@ -38,6 +38,8 @@ private:
     gameBackInfo* gbi;
     gameCoordinate *gc;
     eventCenter *ec;
+
+    gameProcess *gp;
 
     QLabel *itemLabel;
     QLabel *coordinateLabel;

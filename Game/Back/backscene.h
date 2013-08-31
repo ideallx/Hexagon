@@ -17,11 +17,10 @@ class backScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    backScene(gameBackInfo*, gameCoordinate*, QList<struct externInfo> i, QObject *parent = 0);
+    backScene(itemCollector* ic, QObject *parent = 0);
     ~backScene();
 
     itemCollector* pIc() { return ic;}
-    gameCoordinate* pGc() { return gc; }
     QList<QString> getHeroListAvaterPath(char in);
 
     void showMoveRange(heroItem*);
@@ -36,8 +35,6 @@ private:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    gameBackInfo* gbi;
-    gameCoordinate* gc;
     itemCollector *ic;
 
     QList<QPoint> rangeList;

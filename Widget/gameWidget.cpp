@@ -8,33 +8,45 @@
 #include "menu.h"
 #include "coordinate.h"
 #include "eventcenter.h"
+#include "gameprocess.h"
+#include "itemcollector.h"
 
 #define CONFIGPATH "C:/rsc/config.xml"
 
-MainWindow::MainWindow(QList<struct externInfo> info, QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    gp = new gameProcess(this);
     ui->setupUi(this);
-
-    endTurnAction = new QAction(tr("End Turn"), this);
-    ui->mainToolBar->addAction(endTurnAction);
-
-    getCardAction = new QAction(tr("Get Card"), this);
-    ui->mainToolBar->addAction(getCardAction);
-
     variableInitial();
-    sceneInitial(info);
-
     connect(ui->actionQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    this->show();
 
-    connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
-    connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
-    connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
-    connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
+    try
+    {
+        gp->preGame();
+        gp->inGame();
 
-    //changeRoundInfo(ec->buildRoundInfo());
-    qDebug("initial complete...");
+        qDebug()<<"build ui";
+
+        sceneInitial();
+        connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
+        connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
+        connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
+        connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
+
+
+
+        //changeRoundInfo(ec->buildRoundInfo());
+        qDebug("initial complete...");
+    }
+    catch(QString e)
+    {
+        qDebug()<<e;
+        qApp->closeAllWindows();
+        qApp->quit();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -46,7 +58,11 @@ MainWindow::~MainWindow()
 // HERO:heroName    coordinate:x, x    camp:hero
 bool MainWindow::variableInitial()
 {
+    endTurnAction = new QAction(tr("End Turn"), this);
+    ui->mainToolBar->addAction(endTurnAction);
 
+    getCardAction = new QAction(tr("Get Card"), this);
+    ui->mainToolBar->addAction(getCardAction);
 
     itemLabel = new QLabel(this);
     itemLabel->setFixedWidth(200);
@@ -71,12 +87,11 @@ bool MainWindow::variableInitial()
     return true;
 }
 
-bool MainWindow::sceneInitial(QList<struct externInfo>)
+bool MainWindow::sceneInitial()
 {
-    QList<struct externInfo> info = chooseHero();
-
-    scene = new backScene(gbi, gc, info, this);
+    scene = new backScene(gp->getIc(), this);
     ui->graphicsView->setScene(scene);
+    gp->getIc()->addItemsToScene(scene);
     menu = new gameMenu(ui->graphicsView);
     //menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
     ec = new eventCenter(scene, menu);
@@ -104,45 +119,4 @@ void MainWindow::changeRoundInfo(QStringList in)
     campLabel->setText(in[0]);
     heroLabel->setText(in[1]);
     roundLabel->setText(in[2]);
-}
-
-QList<struct externInfo> MainWindow::chooseHero()
-{
-    QList<struct externInfo> result;
-    struct externInfo ei;
-
-    QVector<int> heroCode;
-    for(int i=0; i<4; i++)
-    {
-        int code;
-        do
-        {
-            code = rand()%20;
-            qDebug()<<code;
-        }
-        while(heroCode.contains(code));
-        heroCode.append(code);
-    }
-
-    ei.c = camp_blue;
-    ei.h = (enum heroNum_t)(heroCode[0]);
-    ei.p = QPoint(1, 20);
-    result.append(ei);
-
-    ei.c = camp_red;
-    ei.h = (enum heroNum_t)(heroCode[1]);
-    ei.p = QPoint(1, 0);
-    result.append(ei);
-
-    ei.c = camp_blue;
-    ei.h = (enum heroNum_t)(heroCode[2]);
-    ei.p = QPoint(2, 20);
-    result.append(ei);
-
-    ei.c = camp_red;
-    ei.h = (enum heroNum_t)(heroCode[3]);
-    ei.p = QPoint(2, 0);
-    result.append(ei);
-
-    return result;
 }

@@ -7,11 +7,14 @@
 #include "coordinate.h"
 #include "mapelement.h"
 
+/*
+ *  gc not get
+ */
+
 eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     scene(scene),
     menu(menu),
-    ic(scene->pIc()),
-    gc(scene->pGc())
+    ic(scene->pIc())
 {
     setupConnection();
     curPhase = BeginPhase;
@@ -23,9 +26,9 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
 
     qDebug()<<"event center initialized";
 
-    //heroSeq = ic->getActSequence();
+    heroSeq = ic->getActSequence();
     roundNum = 1;
-    //setCurHero(heroSeq[0]);
+    setCurHero(heroSeq[0]);
 }
 
 void eventCenter::setupConnection()

@@ -58,7 +58,8 @@ HEADERS  += enums.h \
     Game/Items/Card/carditem.h \
     Game/Items/itemcollector.h \
     Widget/gameWidget.h \
-    Widget/otherwidgets.h
+    Widget/otherwidgets.h \
+    Game/enums.h
 
 INCLUDEPATH += include
 INCLUDEPATH += .

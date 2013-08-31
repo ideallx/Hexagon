@@ -1,0 +1,27 @@
+***************
+*** 17,26 ****
+  #define CONFIGPATH "C:/rsc/config.xml"
+  
+  gameProcess::gameProcess() :
+- 	uic(new Ui::chooseHero)
+  {
+-     preGame();
+- 	//inGame();
+  }
+  
+  void gameProcess::loadResources()
+--- 17,30 ----
+  #define CONFIGPATH "C:/rsc/config.xml"
+  
+  gameProcess::gameProcess() :
++     uic(new chooseHero())
+  {
++     setupUi(uic);
++ }
++ 
++ gameProcess::~gameProcess()
++ {
++     qDebug()<<"deconstructor";
+  }
+  
+  void gameProcess::loadResources()

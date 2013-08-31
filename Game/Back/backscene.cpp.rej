@@ -1,0 +1,51 @@
+***************
+*** 2,30 ****
+  #include "itemcollector.h"
+  #include "heroitem.h"
+  #include "heroengine.h"
+- #include "backinfo.h"
+  #include "cardengine.h"
+- #include "coordinate.h"
+  #include "mapelement.h"
+  #include "skillcenter.h"
+  
+  
+- backScene::backScene(gameBackInfo* gbi, gameCoordinate *gc, QList<struct externInfo> i, QObject *parent) :
+-     gbi(gbi),
+-     gc(gc)
+  {
+-     this->setSceneRect(gbi->getPixmap().rect()-=QMargins(10, 10, 10, 10));
+      QGraphicsPixmapItem *back = new QGraphicsPixmapItem();
+-     back->setPixmap(QPixmap(gbi->getPixmap()));
+      back->setZValue(-10);
+      this->addItem(back);
+- 
+-     ic = new itemCollector(gbi, gc);
+-     ic->setCardEngine(new cardEngine(gbi));
+-     //ic->setHeroFactory(new heroFactory(gbi), i);
+-     ic->setMapElement(new mapEngine(gbi));
+-     ic->setCampHealth();
+- 
+      this->setParent(parent);
+      isPressing = false;
+  }
+--- 2,20 ----
+  #include "itemcollector.h"
+  #include "heroitem.h"
+  #include "heroengine.h"
+  #include "cardengine.h"
+  #include "mapelement.h"
+  #include "skillcenter.h"
+  
+  
++ backScene::backScene(itemCollector *ic, QList<struct externInfo> i, QObject *parent) :
++     ic(ic)
+  {
++     this->setSceneRect(ic->getPixmap().rect()-=QMargins(10, 10, 10, 10));
+      QGraphicsPixmapItem *back = new QGraphicsPixmapItem();
++     back->setPixmap(QPixmap(ic->getPixmap()));
+      back->setZValue(-10);
+      this->addItem(back);
+      this->setParent(parent);
+      isPressing = false;
+  }

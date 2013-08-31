@@ -46,6 +46,18 @@ void heroItem::setHeroProperty(char s, char a, char m, int h)
     theAttack = 1;
 }
 
+
+void heroItem::setHeroProperty(struct heroInfo hi)
+{
+    theSexual = hi.sexual;
+    theAttackRange = hi.attackRange;
+    theMoveRange = hi.moveRange;
+    theMaxHealth = hi.healthMax;
+    theHealth = hi.healthMax;
+
+    theAttack = hi.attackRange;
+}
+
 void heroItem::setwholePic(QPixmap*p)
 {
     theWhoPic = p;
