@@ -37,11 +37,11 @@ private:
 
     Ui::chooseHero* uic;
 
+    modeChooseWidget* mcw;
     int chosenHeroNum;
     QWidget* parent;
     QDialog *heroChooseDialog;
     eventCenter* ec;
-	modeChooseWidget* mcw;
 
 	gameBackInfo* gbi;
 	gameCoordinate* gc;
@@ -53,6 +53,7 @@ private:
 
 signals:
     void choseHeroChoose();
+    void gameStart();
 	
 public slots:
     void heroChosed();

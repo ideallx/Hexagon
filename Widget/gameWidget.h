@@ -53,6 +53,7 @@ private:
     Ui::MainWindow *ui;
 
 public slots:
+    void gameBegin();
     void changeStatusInfo(QStringList);
     void changeRoundInfo(QStringList);
 };

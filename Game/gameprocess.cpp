@@ -31,32 +31,30 @@ gameProcess::~gameProcess()
 
 void gameProcess::loadResources()
 {
-	try
-	{
-		gbi = new gameBackInfo(QString(CONFIGPATH));
-		qDebug()<<"gbi load complete...";
+    try
+    {
+        gbi = new gameBackInfo(QString(CONFIGPATH));
+        qDebug()<<"gbi load complete...";
 
         hf = new heroFactory(gbi);
         hf->addPackage(new HeroPackageNormal());
         qDebug()<<"hf  load complete...";
-	}
-	catch(QString e)
-	{
-		QMessageBox::critical(NULL, tr("LYBNS"), e);
-	}
+    }
+    catch(QString e)
+    {
+        QMessageBox::critical(NULL, tr("LYBNS"), e);
+    }
 }
 
 void gameProcess::preGame()
 {
     loadResources();
     modeChooseScreen();
-    preGameClean();
 }
 
 void gameProcess::preGameClean()
 {
-    qDebug()<<"clean";
-    delete uic;
+    delete mcw;
 }
 
 void gameProcess::endGame()
@@ -69,13 +67,10 @@ void gameProcess::modeChooseScreen()
     mcw = new modeChooseWidget(parent);
     connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(heroChooseScreen()));
     mcw->show();
-//    if(mcw->exec() != QDialog::Accepted)
-//    {
-//        throw QString("Exit");
-//    }
-    QEventLoop loop;
-    QObject::connect(mcw, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
-    loop.exec();
+
+//    QEventLoop loop;
+//    QObject::connect(mcw, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
+//    loop.exec();
 }
 
 void gameProcess::inGame()
@@ -125,8 +120,8 @@ void gameProcess::heroChooseScreen()
         chosenHeroNum = heroNumList[rand()%8];
     }
 
-//    mcw->accept();
-    qDebug()<<chosenHeroNum;
+
+    qDebug()<<"choose hero num:"<<chosenHeroNum;
     QList<struct externInfo> result;
     struct externInfo ei;
     QVector<int> heroCode;
@@ -174,6 +169,8 @@ void gameProcess::heroChooseScreen()
     ic->setCampHealth();
     ic->setHeroFactory(hf, eil);
     qDebug()<<"ic  load complete...";
+    qDebug()<<"game start";
+    emit gameStart();
 }
 
 void gameProcess::heroChosed()

@@ -17,41 +17,33 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    gp = new gameProcess(this);
     ui->setupUi(this);
     variableInitial();
     connect(ui->actionQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     this->show();
 
-    try
-    {
-        gp->preGame();
-        gp->inGame();
+    gp = new gameProcess(ui->centralWidget);
+    gp->preGame();
 
-        qDebug()<<"build ui";
-
-        sceneInitial();
-        connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
-        connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
-        connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
-        connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
-
-
-
-        //changeRoundInfo(ec->buildRoundInfo());
-        qDebug("initial complete...");
-    }
-    catch(QString e)
-    {
-        qDebug()<<e;
-        qApp->closeAllWindows();
-        qApp->quit();
-    }
+    connect(gp, SIGNAL(gameStart()), this, SLOT(gameBegin()));
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::gameBegin()
+{
+    gp->preGameClean();
+    qDebug()<<"build ui";
+    sceneInitial();
+    connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
+    connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
+    connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
+    connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
+    //changeRoundInfo(ec->buildRoundInfo());
+    qDebug("initial complete...");
 }
 
 // AREA:element     coordinate:x, x    camp:hero
