@@ -13,13 +13,13 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
-#include <QtWidgets/QDialog>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
+#include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
 
@@ -43,18 +43,18 @@ public:
     QSpacerItem *horizontalSpacer_2;
     QSpacerItem *verticalSpacer_2;
 
-    void setupUi(QDialog *modeChoose)
+    void setupUi(QWidget *modeChoose)
     {
         if (modeChoose->objectName().isEmpty())
             modeChoose->setObjectName(QStringLiteral("modeChoose"));
-        modeChoose->resize(748, 591);
+        modeChoose->resize(1383, 787);
         gridLayout = new QGridLayout(modeChoose);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
-        verticalSpacer = new QSpacerItem(20, 231, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer = new QSpacerItem(20, 329, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         gridLayout->addItem(verticalSpacer, 0, 1, 1, 1);
 
-        horizontalSpacer = new QSpacerItem(266, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer = new QSpacerItem(584, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
         gridLayout->addItem(horizontalSpacer, 1, 0, 1, 1);
 
@@ -119,15 +119,15 @@ public:
         horizontalLayout->addLayout(verticalLayout_2);
 
 
-        gridLayout->addLayout(horizontalLayout, 1, 1, 1, 1);
+        gridLayout->addLayout(horizontalLayout, 1, 1, 1, 2);
 
-        horizontalSpacer_2 = new QSpacerItem(266, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalSpacer_2 = new QSpacerItem(583, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
-        gridLayout->addItem(horizontalSpacer_2, 1, 2, 1, 1);
+        gridLayout->addItem(horizontalSpacer_2, 1, 3, 1, 1);
 
-        verticalSpacer_2 = new QSpacerItem(20, 230, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        verticalSpacer_2 = new QSpacerItem(20, 328, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
-        gridLayout->addItem(verticalSpacer_2, 2, 1, 1, 1);
+        gridLayout->addItem(verticalSpacer_2, 2, 2, 1, 1);
 
 
         retranslateUi(modeChoose);
@@ -135,9 +135,9 @@ public:
         QMetaObject::connectSlotsByName(modeChoose);
     } // setupUi
 
-    void retranslateUi(QDialog *modeChoose)
+    void retranslateUi(QWidget *modeChoose)
     {
-        modeChoose->setWindowTitle(QApplication::translate("modeChoose", "Dialog", 0));
+        modeChoose->setWindowTitle(QApplication::translate("modeChoose", "Form", 0));
         singleGame->setText(QApplication::translate("modeChoose", "Single Game", 0));
         lanGame->setText(QApplication::translate("modeChoose", "LAN Game", 0));
         settings->setText(QApplication::translate("modeChoose", "Settings", 0));

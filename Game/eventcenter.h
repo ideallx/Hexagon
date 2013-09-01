@@ -51,7 +51,6 @@ private:
 
     backScene *scene;
     gameMenu* menu;
-    gameCoordinate* gc;
     itemCollector* ic;
 
     QList<heroItem*> heroSeq;
@@ -59,10 +58,6 @@ private:
     enum gamePhase_t curPhase;
 
     QGraphicsItemAnimation* theGia;
-    QTimeLine* theGiaTimer;
-    QTimeLine* attackTimer;
-    QTimeLine* targetTimer;
-
 
 signals:
     void roundInfoChanged(QStringList);

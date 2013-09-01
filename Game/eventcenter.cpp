@@ -20,10 +20,6 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     curPhase = BeginPhase;
 
     theGia = new QGraphicsItemAnimation();
-    theGiaTimer = new QTimeLine(500);
-    attackTimer = new QTimeLine(200);
-    targetTimer = new QTimeLine(500);
-
     qDebug()<<"event center initialized";
 
     heroSeq = ic->getActSequence();
@@ -49,6 +45,7 @@ void eventCenter::heroChosen(heroItem* hero)
 {
     menu->setHeroInfo(hero);
     menu->updateCardsArea(hero->cards());
+    qDebug()<<hero->heroName()<<"at"<<hero->point();
 }
 
 void eventCenter::getCard(int num)
@@ -227,41 +224,50 @@ void eventCenter::skillBegin()
 
 void eventCenter::moveAnimate(heroItem* srcItem, gameMapElement* targetItem)
 {
-    qDebug()<<"Move Animate Prepare";
+    theGia->clear();
     theGia->setItem(srcItem);
-    theGia->setTimeLine(theGiaTimer);
 
-    double frame = theGiaTimer->duration()/theGiaTimer->updateInterval();
+    QTimeLine* moveTimer = new QTimeLine(500);
+    theGia->setTimeLine(moveTimer);  //set time line will delete previous qtimeline
+    qDebug()<<"Move Animate Prepare";
 
-    QPointF src = gc->getBeginPosOfHero(srcItem->point());
-    QPointF dst = gc->getBeginPosOfHero(targetItem->point());
+    double frame = 12;
+    qDebug()<<"move from"<<srcItem->point()<<"to"<<targetItem->point();
+
+    QPointF src = ic->getBeginPosOfHero(srcItem->point());
+    QPointF dst = ic->getBeginPosOfHero(targetItem->point());
+
     QPointF distance = dst - src;
+    qDebug()<<"move from"<<srcItem->point()<<"to"<<targetItem->point()<<distance;
 
     for(int i=0; i<=frame; ++i)
         theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
-    theGiaTimer->start();
+    moveTimer->start();
     qDebug()<<"Move Animate Start";
 }
 
 void eventCenter::attackAnimate(heroItem* srcItem, heroItem* targetItem)
 {
+    theGia->clear();
     theGia->setItem(srcItem);
+    QTimeLine* attackTimer = new QTimeLine(250);
     theGia->setTimeLine(attackTimer);
 
     double frame = attackTimer->duration()/attackTimer->updateInterval();
 
-    QPointF src = gc->getBeginPosOfHero(srcItem->point());
-    QPointF dst = gc->getBeginPosOfHero(targetItem->point());
+    QPointF src = ic->getBeginPosOfHero(srcItem->point());
+    QPointF dst = ic->getBeginPosOfHero(targetItem->point());
     QPointF distance = dst - src;
 
+    qDebug()<<"attack from"<<srcItem->point()<<"to"<<targetItem->point()<<distance;
     for(int i=0; i<=frame/2; ++i)
     {
-        theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
+        theGia->setPosAt(i/frame, src+distance*i/frame);
     }
 
     for(int i=0; i<=frame/2; ++i)
     {
-        theGia->setPosAt((i+frame/2)/frame, srcItem->scenePos()+distance/2-distance*i/frame);
+        theGia->setPosAt(i/frame+0.5, src+distance/2-distance*i/frame);
     }
 
     attackTimer->start();
@@ -270,29 +276,32 @@ void eventCenter::attackAnimate(heroItem* srcItem, heroItem* targetItem)
 void eventCenter::skillAnimate(heroItem* srcItem, gameMapElement* targetItem)
 {
     QList<QGraphicsLineItem*> targetLines = ic->getLines();
+    theGia->clear();
     theGia->setItem(targetLines[0]);
+    QTimeLine* targetTimer = new QTimeLine(1000);
     theGia->setTimeLine(targetTimer);
 
-    QPointF src = gc->getCenterPosWithCoo(srcItem->point());
-    QPointF dst = gc->getCenterPosWithCoo(targetItem->point());
+    QPointF src = ic->getCenterPosWithCoo(srcItem->point());
+    QPointF dst = ic->getCenterPosWithCoo(targetItem->point());
     QPointF distance = dst - src;
 
     double frame = targetTimer->duration()/targetTimer->updateInterval();
 
     targetLines[0]->setLine(0, 0, distance.x(), distance.y());
-    targetLines[0]->setPos(src);
+    targetLines[0]->setPos(5000, 5000);//make it untouchable
     targetLines[0]->show();
 
     //TODO
     for(int i=0; i<=frame/2; ++i)
     {
-        theGia->setShearAt(i/frame, distance.x()*2*i/frame, distance.y()*2*i/frame);
+        theGia->setScaleAt(i/frame, 2*i/frame, 2*i/frame);
+        theGia->setPosAt(i/frame, src);
     }
 
     for(int i=0; i<=frame/2; ++i)
     {
-        theGia->setPosAt((i+frame/2)/frame, distance*2*i/frame);
-        theGia->setShearAt((i+frame/2)/frame, distance.x()-distance.x()*2*i/frame, distance.y()-distance.y()*2*i/frame);
+        theGia->setPosAt(i/frame+0.5, src+distance*2*i/frame);
+        theGia->setScaleAt(i/frame+0.5, 1-2*i/frame, 1-2*i/frame);
     }
 
     targetTimer->start();

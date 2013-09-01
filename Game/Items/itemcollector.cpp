@@ -51,12 +51,10 @@ void itemCollector::setCardEngine(cardEngine* ce)
 void itemCollector::setCampHealth()
 {
     campHealth* ch = new campHealth(gbi->getConfigDir()+"health2.png");
-    //scene->addItem(ch);
     campLifes.append(ch);
     ch->setPos(200, 50);
 
     ch = new campHealth(gbi->getConfigDir()+"health1.png");
-    //scene->addItem(ch);
     campLifes.append(ch);
     ch->setPos(200, gbi->getPixmap().height()-200);
 
@@ -81,10 +79,9 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
     for(int i=0; i<heros.size(); i++)
     {
         QGraphicsLineItem *targetLine = new QGraphicsLineItem();
-        //scene->addItem(targetLine);
 		targetLine->setPos(0, 0);
 		targetLine->hide();
-        targetLine->setPen(QPen(Qt::red, 5));
+        targetLine->setPen(QPen(Qt::yellow, 5));
         targetLine->setZValue(2);
         targetLines.append(targetLine);
     }
@@ -366,6 +363,16 @@ QPixmap itemCollector::getPixmap()
 QPoint itemCollector::getCooxWithPos(QPointF qf)
 {
     return gc->getCooxWithPos(qf);
+}
+
+QPointF itemCollector::getBeginPosOfHero(QPoint in)
+{
+    return gc->getBeginPosOfHero(in);
+}
+
+QPointF itemCollector::getCenterPosWithCoo(QPoint in)
+{
+    return gc->getCenterPosWithCoo(in);
 }
 
 void itemCollector::addItemsToScene(QGraphicsScene* s)

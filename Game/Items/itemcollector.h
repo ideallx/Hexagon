@@ -75,6 +75,9 @@ public:
     QPixmap getPixmap();
     QPoint getCooxWithPos(QPointF);
 
+    QPointF getBeginPosOfHero(QPoint in);
+    QPointF getCenterPosWithCoo(QPoint in);
+
 private:
     void addHeroList(QList<struct externInfo> info);
     void addCardList();

@@ -121,7 +121,7 @@ void gameProcess::heroChooseScreen()
     }
 
 
-    qDebug()<<"choose hero num:"<<chosenHeroNum;
+    qDebug()<<"choose num:"<<chosenHeroNum;
     QList<struct externInfo> result;
     struct externInfo ei;
     QVector<int> heroCode;
