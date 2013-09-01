@@ -62,15 +62,22 @@ void gameProcess::endGame()
 
 }
 
+void gameProcess::gameChooseScreen()
+{
+    uig = new Ui::ChooseGame();
+    heroChooseDialog = new QDialog(mcw);
+    heroChooseDialog->setModal(true);
+    uig->setupUi(heroChooseDialog);
+
+    connect(heroChooseDialog, SIGNAL(accepted()), this, SLOT(heroChooseScreen()));
+    heroChooseDialog->exec();
+}
+
 void gameProcess::modeChooseScreen()
 {
     mcw = new modeChooseWidget(parent);
-    connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(heroChooseScreen()));
+    connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(gameChooseScreen()));
     mcw->show();
-
-//    QEventLoop loop;
-//    QObject::connect(mcw, SIGNAL(destroyed()), &loop, SLOT(quit()), Qt::QueuedConnection);
-//    loop.exec();
 }
 
 void gameProcess::inGame()

@@ -5,6 +5,7 @@
 #include <QDialog>
 #include "enums.h"
 #include "ui_chooseHero.h"
+#include "ui_chooseGame.h"
 
 class eventCenter;
 class itemCollector;
@@ -33,9 +34,10 @@ public:
 private:
 	void loadResources();
     void chooseBirthScreen();
-	void modeChooseScreen();
+    void modeChooseScreen();
 
     Ui::chooseHero* uic;
+    Ui::ChooseGame* uig;
 
     modeChooseWidget* mcw;
     int chosenHeroNum;
@@ -58,6 +60,7 @@ signals:
 public slots:
     void heroChosed();
     void heroChooseScreen();
+    void gameChooseScreen();
 
 };
 
