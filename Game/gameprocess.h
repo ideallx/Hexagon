@@ -35,12 +35,14 @@ private:
 	void loadResources();
     void chooseBirthScreen();
     void modeChooseScreen();
+    void buildGameInfo();
 
     Ui::chooseHero* uic;
     Ui::ChooseGame* uig;
 
     modeChooseWidget* mcw;
     int chosenHeroNum;
+    int playerHeroSeq;
     QWidget* parent;
     QDialog *heroChooseDialog;
     eventCenter* ec;
@@ -61,6 +63,7 @@ public slots:
     void heroChosed();
     void heroChooseScreen();
     void gameChooseScreen();
+    void birthChooseScreen();
 
 };
 

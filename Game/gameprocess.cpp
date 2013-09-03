@@ -18,6 +18,9 @@
 
 #define CONFIGPATH "C:/rsc/config.xml"
 
+/**
+ * ModeChoose -> GameChoose -> HeroChoose -> BirthChoose -> GameBegin
+ */
 gameProcess::gameProcess(QWidget *p):
     parent(p)
 {
@@ -69,8 +72,27 @@ void gameProcess::gameChooseScreen()
     heroChooseDialog->setModal(true);
     uig->setupUi(heroChooseDialog);
 
-    connect(heroChooseDialog, SIGNAL(accepted()), this, SLOT(heroChooseScreen()));
-    heroChooseDialog->exec();
+    int res = heroChooseDialog->exec();
+    if (res == QDialog::Accepted)
+    {
+        struct externInfo ei;
+        int totalHero = 4;
+
+        if(uig->mode_2person->isChecked())
+            totalHero = 2;
+        else if(uig->mode_4person->isChecked())
+            totalHero = 4;
+
+        ei.c = camp_blue;
+        ei.h = (enum heroNum_t)(0);
+        ei.p = QPoint(0, 0);
+
+        for(int i=0; i<totalHero; i++)
+            eil.append(ei);
+
+        playerHeroSeq = rand()%totalHero;
+        heroChooseScreen();
+    }
 }
 
 void gameProcess::modeChooseScreen()
@@ -78,6 +100,25 @@ void gameProcess::modeChooseScreen()
     mcw = new modeChooseWidget(parent);
     connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(gameChooseScreen()));
     mcw->show();
+}
+
+void gameProcess::buildGameInfo()
+{
+    qDebug()<<"choose num:"<<chosenHeroNum;
+
+    QVector<int> heroCode(eil.size());
+    for(int i=0; i<eil.size(); i++)
+    {
+        int code;
+        do
+        {
+            code = rand()%hf->getHeroAmount();
+        }
+        while(heroCode.contains(code));
+        heroCode.append(code);
+    }
+
+    emit gameStart();
 }
 
 void gameProcess::inGame()
@@ -123,49 +164,19 @@ void gameProcess::heroChooseScreen()
     }
     int res = heroChooseDialog->exec();
     if(res != QDialog::Accepted)
-    {
         chosenHeroNum = heroNumList[rand()%8];
-    }
+    eil[playerHeroSeq].h = chosenHeroNum;
+    birthChooseScreen();
+}
 
+void gameProcess::heroChosed()
+{
+    chosenHeroNum = static_cast<heroLabel*>(this->sender())->heroNum();
+    heroChooseDialog->accept();
+}
 
-    qDebug()<<"choose num:"<<chosenHeroNum;
-    QList<struct externInfo> result;
-    struct externInfo ei;
-    QVector<int> heroCode;
-    heroCode.append(chosenHeroNum);
-    for(int i=0; i<3; i++)
-    {
-        int code;
-        do
-        {
-            code = rand()%hf->getHeroAmount();
-        }
-        while(heroCode.contains(code));
-        heroCode.append(code);
-    }
-
-    ei.c = camp_blue;
-    ei.h = (enum heroNum_t)(heroCode[0]);
-    ei.p = QPoint(1, 20);
-    result.append(ei);
-
-    ei.c = camp_red;
-    ei.h = (enum heroNum_t)(heroCode[1]);
-    ei.p = QPoint(1, 0);
-    result.append(ei);
-
-    ei.c = camp_blue;
-    ei.h = (enum heroNum_t)(heroCode[2]);
-    ei.p = QPoint(2, 20);
-    result.append(ei);
-
-    ei.c = camp_red;
-    ei.h = (enum heroNum_t)(heroCode[3]);
-    ei.p = QPoint(2, 0);
-    result.append(ei);
-
-    eil = result;
-
+void gameProcess::birthChooseScreen()
+{
     gc = new gameCoordinate(gbi);
     qDebug()<<"gc  load complete...";
 
@@ -177,11 +188,12 @@ void gameProcess::heroChooseScreen()
     ic->setHeroFactory(hf, eil);
     qDebug()<<"ic  load complete...";
     qDebug()<<"game start";
-    emit gameStart();
-}
 
-void gameProcess::heroChosed()
-{
-    chosenHeroNum = static_cast<heroLabel*>(this->sender())->heroNum();
-    heroChooseDialog->accept();
+    QList<gameMapElement*> l = ic->getBlueTeamCamp();
+    for (int i = 0; i < l.size(); i++)
+    {
+        qDebug()<<l[i]->point();
+    }
+
+    buildGameInfo();
 }

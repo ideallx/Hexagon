@@ -111,7 +111,7 @@ struct heroInfo
 
 struct externInfo
 {
-    enum heroNum_t h;
+    int h;
     enum camp_t c;
     QPoint p;
 };
