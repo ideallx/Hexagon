@@ -1,7 +1,15 @@
 #include "heroitem.h"
 #include "skillcenter.h"
 
-heroItem::heroItem(int lineLength)
+HeroItem::HeroItem(int lineLength) :
+    theAttack(1),
+    theAvaPic(NULL),
+    theWhoPic(NULL),
+    theHealth(7),
+    theMaxHealth(7),
+    theSexual(sex_male),
+    theMoveRange(2),
+    theAttackRange(1)
 {
     this->lineLength = lineLength;
 
@@ -13,12 +21,12 @@ heroItem::heroItem(int lineLength)
     setRect(0, 0, lineLength*1.6, lineLength*1.6);
 }
 
-QRectF heroItem::boundingRect() const
+QRectF HeroItem::boundingRect() const
 {
     return QRectF(rect());
 }
 
-void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void HeroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     painter->setOpacity(1.0);
@@ -27,7 +35,7 @@ void heroItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawEllipse(rect());
 }
 
-QPainterPath heroItem::shape() const
+QPainterPath HeroItem::shape() const
 {
     QPainterPath path;
     path.addEllipse(rect());
@@ -35,7 +43,7 @@ QPainterPath heroItem::shape() const
 }
 
 
-void heroItem::setHeroProperty(char s, char a, char m, int h)
+void HeroItem::setHeroProperty(char s, char a, char m, int h)
 {
     theSexual = s;
     theAttackRange = a;
@@ -47,7 +55,7 @@ void heroItem::setHeroProperty(char s, char a, char m, int h)
 }
 
 
-void heroItem::setHeroProperty(struct heroInfo hi)
+void HeroItem::setHeroProperty(struct heroInfo hi)
 {
     theSexual = hi.sexual;
     theAttackRange = hi.attackRange;
@@ -58,7 +66,7 @@ void heroItem::setHeroProperty(struct heroInfo hi)
     theAttack = hi.attackRange;
 }
 
-void heroItem::setwholePic(QPixmap*p)
+void HeroItem::setwholePic(QPixmap*p)
 {
     theWhoPic = p;
     QPixmap skillPic;
@@ -73,29 +81,29 @@ void heroItem::setwholePic(QPixmap*p)
 }
 
 
-void heroItem::addCards(QList<handCard*> c)
+void HeroItem::addCards(QList<HandCard*> c)
 {
     theCards += c;
 }
 
-void heroItem::addSkill(skillBase* s)
+void HeroItem::addSkill(SkillBase* s)
 {
-    if(!skills.contains(s))
+    if (!skills.contains(s))
         skills.append(s);
 }
 
-void heroItem::removeSkill(skillBase* s)
+void HeroItem::removeSkill(SkillBase* s)
 {
-    if(skills.contains(s))
+    if (skills.contains(s))
         skills.removeAt(skills.indexOf(s));
 }
 
-QList<skillBase*> heroItem::hasSkillTriggerAt(enum triggerTime_t time)
+QList<SkillBase*> HeroItem::hasSkillTriggerAt(enum triggerTime_t time)
 {
-    QList<skillBase*> result;
-    for(int i=0; i<skills.size(); i++)
+    QList<SkillBase*> result;
+    for (int i=0; i<skills.size(); i++)
     {
-        if(skills[i]->triggerTime() == time)
+        if (skills[i]->triggerTime() == time)
         {
             result.append(skills[i]);
         }

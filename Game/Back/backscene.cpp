@@ -7,7 +7,7 @@
 #include "skillcenter.h"
 
 
-backScene::backScene(itemCollector *ic, QObject *parent) :
+BackScene::BackScene(ItemCollector *ic, QObject *parent) :
     ic(ic)
 {
     this->setSceneRect(ic->getPixmap().rect()-=QMargins(10, 10, 10, 10));
@@ -19,16 +19,16 @@ backScene::backScene(itemCollector *ic, QObject *parent) :
     isPressing = false;
 }
 
-backScene::~backScene()
+BackScene::~BackScene()
 {
     delete ic;
 }
 
-void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void BackScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     QStringList strList;
     QPoint newPoint = ic->getCooxWithPos(event->scenePos());
-    if(!ic->isPointAvailable(newPoint))
+    if (!ic->isPointAvailable(newPoint))
     {
         emit changeStatusBar(strList);
         newPoint = QPoint(-1, -1);
@@ -36,11 +36,11 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         oldPoint = newPoint;
         return;
     }
-    if(oldPoint == newPoint)
+    if (oldPoint == newPoint)
     {
         return;
     }
-    if(rangeList.contains(oldPoint))
+    if (rangeList.contains(oldPoint))
         ic->setElementRestorePen(oldPoint);
     else
         ic->setElementDefaultPen(oldPoint);
@@ -48,9 +48,9 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     ic->setElementBoldPen(newPoint, 5);
     oldPoint = newPoint;
 
-    gameMapElement* gmeT = ic->getMapElementByPoint(newPoint);
+    GameMapElement* gmeT = ic->getMapElementByPoint(newPoint);
 
-    if(heroItem* hero = ic->getHeroByPoint(oldPoint))
+    if (HeroItem* hero = ic->getHeroByPoint(oldPoint))
     {
         QString strHero = tr("hero: ") + hero->heroName();
         strList.append(strHero);
@@ -62,29 +62,29 @@ void backScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         strList.append(strGme);
         emit mapElementMovedIn(oldPoint);
     }
-    QString coordinate = tr("coordinates: ") + QString::number(gmeT->point().x()) + tr(", ") + QString::number(gmeT->point().y());
+    QString coordinate = tr("coordinates: ") + \
+            QString::number(gmeT->point().x()) + tr(", ") + QString::number(gmeT->point().y());
     strList.append(coordinate);
     emit changeStatusBar(strList);
 }
 
 
-void backScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void BackScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     isPressing = false;
-
 }
 
 
-void backScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void BackScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    heroItem* hi;
-    if(hi = ic->getHeroByPoint(oldPoint))
+    HeroItem* hi;
+    if (hi = ic->getHeroByPoint(oldPoint))
     {
         emit buildMenu(hi, this->views()[0]->mapFromScene(event->scenePos()));
     }
 }
 
-void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void BackScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 //    qDebug()<<"Screen"<<event->screenPos();
 //    qDebug()<<"Scene "<<event->scenePos();
@@ -93,15 +93,15 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     isPressing = true;
     oldPointF = event->scenePos();
 
-    if(rangeList.contains(oldPoint))
+    if (rangeList.contains(oldPoint))
     {
         emit rangeClicked(oldPoint);
         return;
     }
 
-    if(ic->getHeroByPoint(oldPoint))
+    if (ic->getHeroByPoint(oldPoint))
     {
-        heroItem* hero = ic->getHeroByPoint(oldPoint);
+        HeroItem* hero = ic->getHeroByPoint(oldPoint);
         emit heroClicked(hero);
     }
     else
@@ -110,20 +110,20 @@ void backScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void backScene::showMoveRange(heroItem* hi)
+void BackScene::showMoveRange(HeroItem* hi)
 {
-    if(hi == NULL)
+    if (hi == NULL)
         return;
     rangeList = ic->listRange(hi, ModeMove);
-    for(int i=0; i<rangeList.size(); i++)
+    for (int i = 0; i < rangeList.size(); i++)
     {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::yellow, 5));
     }
 }
 
-void backScene::clearRange()
+void BackScene::clearRange()
 {
-    for(int i=0; i<rangeList.size(); i++)
+    for(int i = 0; i < rangeList.size(); i++)
     {
         ic->setElementDefaultPen(rangeList.at(i));
     }
@@ -131,28 +131,28 @@ void backScene::clearRange()
 }
 
 
-void backScene::showAttackRange(heroItem* hi)
+void BackScene::showAttackRange(HeroItem* hi)
 {
     rangeList.clear();
     rangeList = ic->listRange(hi, ModeAttack);
-    for(int i=0; i<rangeList.size(); i++)
+    for (int i = 0; i < rangeList.size(); i++)
     {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::red, 5));
     }
 }
 
-void backScene::showSkillRange(heroItem* hi, enum mapRangeType_t t, int range)
+void BackScene::showSkillRange(HeroItem* hi, enum mapRangeType_t t, int range)
 {
     rangeList.clear();
     rangeList = ic->listRange(hi, ModeMove);
-    for(int i=0; i<rangeList.size(); i++)
+    for (int i = 0; i < rangeList.size(); i++)
     {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::cyan, 5));
     }
 
 }
 
-QList<QString> backScene::getHeroListAvaterPath(char in)
+QList<QString> BackScene::getHeroListAvaterPath(char in)
 {
     return ic->getHeroListAvaterPath(in);
 }

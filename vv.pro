@@ -18,7 +18,7 @@ SOURCES  += main.cpp \
     Game/skillcenter.cpp \
     Game/Back/menu.cpp \
     Game/Back/coordinate.cpp \
-    Game/Back/backview.cpp \
+    Game/Back/BackView.cpp \
     Game/Back/backscene.cpp \
     Game/Back/backinfo.cpp \
     Game/Back/layoutscene.cpp \
@@ -28,7 +28,7 @@ SOURCES  += main.cpp \
     Game/Items/Hero/herowhole.cpp \
     Game/Items/Hero/heroitem.cpp \
     Game/Items/Hero/heroengine.cpp \
-    Game/Items/Card/cardBack.cpp \
+    Game/Items/Card/CardBack.cpp \
     Game/Items/Card/cardengine.cpp \
     Game/Items/Card/carditem.cpp \
     Game/Items/itemcollector.cpp \
@@ -42,7 +42,7 @@ HEADERS  += enums.h \
     Game/skillcenter.h \
     Game/Back/menu.h \
     Game/Back/coordinate.h \
-    Game/Back/backview.h \
+    Game/Back/BackView.h \
     Game/Back/backscene.h \
     Game/Back/backinfo.h \
     Game/Back/herolabel.h \

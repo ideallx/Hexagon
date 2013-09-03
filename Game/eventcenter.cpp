@@ -3,7 +3,7 @@
 #include "itemcollector.h"
 #include "backscene.h"
 #include "menu.h"
-#include "backview.h"
+#include "BackView.h"
 #include "coordinate.h"
 #include "mapelement.h"
 
@@ -11,7 +11,7 @@
  *  gc not get
  */
 
-eventCenter::eventCenter(backScene* scene, gameMenu* menu):
+EventCenter::EventCenter(BackScene* scene, GameMenu* menu):
     scene(scene),
     menu(menu),
     ic(scene->pIc())
@@ -27,12 +27,12 @@ eventCenter::eventCenter(backScene* scene, gameMenu* menu):
     setCurHero(heroSeq[0]);
 }
 
-void eventCenter::setupConnection()
+void EventCenter::setupConnection()
 {
-    connect(scene, SIGNAL(heroClicked(heroItem*)), this, SLOT(heroChosen(heroItem*)));
+    connect(scene, SIGNAL(heroClicked(HeroItem*)), this, SLOT(heroChosen(HeroItem*)));
     connect(scene, SIGNAL(rangeClicked(QPoint)), this, SLOT(targetClicked(QPoint)));
 
-    connect(scene, SIGNAL(buildMenu(heroItem*, QPoint)), this, SLOT(showMenu(heroItem*, QPoint)));
+    connect(scene, SIGNAL(buildMenu(HeroItem*, QPoint)), this, SLOT(showMenu(HeroItem*, QPoint)));
     connect(scene, SIGNAL(viewSizeChanged(QSize)), menu, SLOT(reSetInterface(QSize)));
 
     connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
@@ -41,14 +41,14 @@ void eventCenter::setupConnection()
 
 }
 
-void eventCenter::heroChosen(heroItem* hero)
+void EventCenter::heroChosen(HeroItem* hero)
 {
     menu->setHeroInfo(hero);
     menu->updateCardsArea(hero->cards());
     qDebug()<<hero->heroName()<<"at"<<hero->point();
 }
 
-void eventCenter::getCard(int num)
+void EventCenter::getCard(int num)
 {
     qDebug()<<"get"<<num<<"cards";
     curHero->addCards(ic->getCard(num));
@@ -56,7 +56,7 @@ void eventCenter::getCard(int num)
     menu->hideAllMenu();
 }
 
-void eventCenter::moveBegin()
+void EventCenter::moveBegin()
 {
     scene->clearRange();
     scene->showMoveRange(curHero);
@@ -64,12 +64,12 @@ void eventCenter::moveBegin()
 }
 
 
-void eventCenter::heroMoveToPoint(QPoint in)
+void EventCenter::heroMoveToPoint(QPoint in)
 {
-    if(!ic->isPointAvailable(in))
+    if (!ic->isPointAvailable(in))
         return;
 
-    gameMapElement* gme = ic->getMapElementByPoint(in);
+    GameMapElement* gme = ic->getMapElementByPoint(in);
 
     moveAnimate(curHero, gme);
 
@@ -83,12 +83,12 @@ void eventCenter::heroMoveToPoint(QPoint in)
     qDebug()<<curHero->heroName()<<"Move To Point"<<curHero->point();
 }
 
-void eventCenter::heroAttackPoint(QPoint in)
+void EventCenter::heroAttackPoint(QPoint in)
 {
-    if(!ic->isPointAvailable(in))
+    if (!ic->isPointAvailable(in))
         return;
 
-    heroItem* hi = ic->getHeroByPoint(in);
+    HeroItem* hi = ic->getHeroByPoint(in);
 
     attackAnimate(curHero, hi);
     hi->setHealth(hi->health() - curHero->attack());
@@ -102,9 +102,9 @@ void eventCenter::heroAttackPoint(QPoint in)
     qDebug()<<curHero->heroName()<<"Attack"<<hi->heroName()<<"And Made"<<curHero->attack()<<"Damage";
 }
 
-void eventCenter::skillStraightTest(QPoint in)
+void EventCenter::skillStraightTest(QPoint in)
 {
-    gameMapElement* gme = ic->getMapElementByPoint(in);
+    GameMapElement* gme = ic->getMapElementByPoint(in);
 
     skillAnimate(curHero, gme);
 
@@ -115,43 +115,43 @@ void eventCenter::skillStraightTest(QPoint in)
     curPhase = BeginPhase;
 }
 
-void eventCenter::targetClicked(QPoint in)
+void EventCenter::targetClicked(QPoint in)
 {
-    if(curPhase == MovePhase)
+    if (curPhase == MovePhase)
     {
         heroMoveToPoint(in);
     }
-    else if(curPhase == AttackPhase)
+    else if (curPhase == AttackPhase)
     {
         heroAttackPoint(in);
     }
-    else if(curPhase == SkillPhase)
+    else if (curPhase == SkillPhase)
     {
         skillStraightTest(in);
     }
 }
 
-void eventCenter::attackBegin()
+void EventCenter::attackBegin()
 {
     scene->clearRange();
     scene->showAttackRange(curHero);
     curPhase = AttackPhase;
 }
 
-void eventCenter::mapClear()
+void EventCenter::mapClear()
 {
     scene->clearRange();
     menu->hideAllMenu();
 }
 
-void eventCenter::endTurn()
+void EventCenter::endTurn()
 {
     curPhase = FinalPhase;
     menu->resetMenuEnable();
     curHero->setPen(QPen(Qt::black, 3));
     qDebug()<<curHero->heroName()+"'s"<<"Turn End";
 
-    if(curHero == heroSeq.last())
+    if (curHero == heroSeq.last())
     {
         curHero = heroSeq[0];
         roundEnd();
@@ -167,25 +167,25 @@ void eventCenter::endTurn()
     emit roundInfoChanged(buildRoundInfo());
 }
 
-void eventCenter::roundBegin()
+void EventCenter::roundBegin()
 {
     //ic->herosLoadPassiveSkill();
     //ic->mapElementAward();
     qDebug()<<"Round"<<roundNum<<"Begin";
 }
 
-void eventCenter::roundEnd()
+void EventCenter::roundEnd()
 {
     qDebug()<<"Round"<<roundNum<<"End";
 }
 
 
-QStringList eventCenter::buildRoundInfo()
+QStringList EventCenter::buildRoundInfo()
 {
     QStringList qsl;
     QString qs;
     qs = "Camp Turn: ";
-    if(curHero->camp() == camp_red)
+    if (curHero->camp() == camp_red)
         qs += "Red Team";
     else
         qs += "Blue Team";
@@ -197,15 +197,15 @@ QStringList eventCenter::buildRoundInfo()
     return qsl;
 }
 
-void eventCenter::showMenu(heroItem* hi, QPoint p)
+void EventCenter::showMenu(HeroItem* hi, QPoint p)
 {//TODO for test
-    if(curHero == hi)
+    if (curHero == hi)
     {
         menu->showMenu(p);
     }
 }
 
-void eventCenter::setCurHero(heroItem* hi)
+void EventCenter::setCurHero(HeroItem* hi)
 {
     curHero = hi;
     menu->setHeroInfo(curHero);
@@ -215,14 +215,14 @@ void eventCenter::setCurHero(heroItem* hi)
 
 }
 
-void eventCenter::skillBegin()
+void EventCenter::skillBegin()
 {
     scene->clearRange();
     scene->showSkillRange(curHero, RangeTypeStraight, 5);
     curPhase = SkillPhase;
 }
 
-void eventCenter::moveAnimate(heroItem* srcItem, gameMapElement* targetItem)
+void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem)
 {
     theGia->clear();
     theGia->setItem(srcItem);
@@ -240,13 +240,13 @@ void eventCenter::moveAnimate(heroItem* srcItem, gameMapElement* targetItem)
     QPointF distance = dst - src;
     qDebug()<<"move from"<<srcItem->point()<<"to"<<targetItem->point()<<distance;
 
-    for(int i=0; i<=frame; ++i)
+    for (int i=0; i<=frame; ++i)
         theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
     moveTimer->start();
     qDebug()<<"Move Animate Start";
 }
 
-void eventCenter::attackAnimate(heroItem* srcItem, heroItem* targetItem)
+void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem)
 {
     theGia->clear();
     theGia->setItem(srcItem);
@@ -260,12 +260,12 @@ void eventCenter::attackAnimate(heroItem* srcItem, heroItem* targetItem)
     QPointF distance = dst - src;
 
     qDebug()<<"attack from"<<srcItem->point()<<"to"<<targetItem->point()<<distance;
-    for(int i=0; i<=frame/2; ++i)
+    for (int i=0; i<=frame/2; ++i)
     {
         theGia->setPosAt(i/frame, src+distance*i/frame);
     }
 
-    for(int i=0; i<=frame/2; ++i)
+    for (int i=0; i<=frame/2; ++i)
     {
         theGia->setPosAt(i/frame+0.5, src+distance/2-distance*i/frame);
     }
@@ -273,7 +273,7 @@ void eventCenter::attackAnimate(heroItem* srcItem, heroItem* targetItem)
     attackTimer->start();
 }
 
-void eventCenter::skillAnimate(heroItem* srcItem, gameMapElement* targetItem)
+void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem)
 {
     QList<QGraphicsLineItem*> targetLines = ic->getLines();
     theGia->clear();
@@ -292,13 +292,13 @@ void eventCenter::skillAnimate(heroItem* srcItem, gameMapElement* targetItem)
     targetLines[0]->show();
 
     //TODO
-    for(int i=0; i<=frame/2; ++i)
+    for (int i=0; i<=frame/2; ++i)
     {
         theGia->setScaleAt(i/frame, 2*i/frame, 2*i/frame);
         theGia->setPosAt(i/frame, src);
     }
 
-    for(int i=0; i<=frame/2; ++i)
+    for (int i=0; i<=frame/2; ++i)
     {
         theGia->setPosAt(i/frame+0.5, src+distance*2*i/frame);
         theGia->setScaleAt(i/frame+0.5, 1-2*i/frame, 1-2*i/frame);

@@ -51,7 +51,7 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="backview" name="graphicsView">
+       <widget class="BackView" name="graphicsView">
         <property name="lineWidth">
          <number>0</number>
         </property>
@@ -140,9 +140,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>backview</class>
+   <class>BackView</class>
    <extends>QGraphicsView</extends>
-   <header>backview.h</header>
+   <header>BackView.h</header>
    <slots>
     <signal>sizeChanged(QSize)</signal>
    </slots>

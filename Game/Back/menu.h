@@ -9,15 +9,15 @@
 
 #include "ui_front.h"
 
-class essenialScene;
-class skillScene;
-class cardScene;
-class handCard;
-class heroItem;
+class EssenialScene;
+class SkillScene;
+class CardScene;
+class HandCard;
+class HeroItem;
 struct heroInfo;
 
 
-class gameMenu : public QObject
+class GameMenu : public QObject
 {
     Q_OBJECT
 
@@ -31,10 +31,10 @@ public:
         CANCELLIST
     };
 
-    gameMenu(QGraphicsView *parent = 0);
-    ~gameMenu();
+    GameMenu(QGraphicsView *parent = 0);
+    ~GameMenu();
 
-    void hideMenu(gameMenu::menu_type_t);
+    void hideMenu(GameMenu::menu_type_t);
 
     bool MoveAble() { return isMoveAble; }
     bool AttackAble() { return isAttackAble; }
@@ -52,7 +52,7 @@ public:
     void setHeroHp(int curHp, int maxHp);
     void setEssenial(struct panelInfo pi) { es->setContent(pi); }
 
-    void setHeroInfo(heroItem* hero);
+    void setHeroInfo(HeroItem* hero);
 
 private:
     void menuInitial();
@@ -66,9 +66,9 @@ private:
     bool isAttackAble;
     bool isSkillAble;
 
-    essenialScene* es;
-    skillScene* ss;
-    cardScene* cs;
+    EssenialScene* es;
+    SkillScene* ss;
+    CardScene* cs;
 
     Ui::Form* ui;
 
@@ -92,7 +92,7 @@ public slots:
     void hideAllMenu();
     void showMenu(QPoint pos = QPoint());
     void reSetInterface(QSize);
-    void updateCardsArea(QList<handCard*> cards);
+    void updateCardsArea(QList<HandCard*> cards);
 
 };
 

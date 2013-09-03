@@ -5,10 +5,10 @@
 #include <QPixmap>
 #include <QPainter>
 
-class handCard : public QGraphicsRectItem
+class HandCard : public QGraphicsRectItem
 {
 public:
-    handCard(int t, QString pixmapPath);
+    HandCard(int t, QString pixmapPath);
     QPixmap pixmap() { return pixmapPath; }
     void setPixmap(QString s) { pixmapPath = s; }
 

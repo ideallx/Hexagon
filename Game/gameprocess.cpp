@@ -8,7 +8,7 @@
 #include "eventcenter.h"
 #include "herolabel.h"
 #include "gameWidget.h"
-#include "itemCollector.h"
+#include "ItemCollector.h"
 #include "backInfo.h"
 #include "coordinate.h"
 #include "backscene.h"
@@ -21,51 +21,51 @@
 /**
  * ModeChoose -> GameChoose -> HeroChoose -> BirthChoose -> GameBegin
  */
-gameProcess::gameProcess(QWidget *p):
+GameProcess::GameProcess(QWidget *p):
     parent(p)
 {
 
 }
 
-gameProcess::~gameProcess()
+GameProcess::~GameProcess()
 {
     qDebug()<<"deconstructor";
 }
 
-void gameProcess::loadResources()
+void GameProcess::loadResources()
 {
     try
     {
-        gbi = new gameBackInfo(QString(CONFIGPATH));
+        gbi = new GameBackInfo(QString(CONFIGPATH));
         qDebug()<<"gbi load complete...";
 
-        hf = new heroFactory(gbi);
+        hf = new HeroFactory(gbi);
         hf->addPackage(new HeroPackageNormal());
         qDebug()<<"hf  load complete...";
     }
-    catch(QString e)
+    catch(const QString& e)
     {
         QMessageBox::critical(NULL, tr("LYBNS"), e);
     }
 }
 
-void gameProcess::preGame()
+void GameProcess::preGame()
 {
     loadResources();
     modeChooseScreen();
 }
 
-void gameProcess::preGameClean()
+void GameProcess::preGameClean()
 {
     delete mcw;
 }
 
-void gameProcess::endGame()
+void GameProcess::endGame()
 {
 
 }
 
-void gameProcess::gameChooseScreen()
+void GameProcess::gameChooseScreen()
 {
     uig = new Ui::ChooseGame();
     heroChooseDialog = new QDialog(mcw);
@@ -95,19 +95,19 @@ void gameProcess::gameChooseScreen()
     }
 }
 
-void gameProcess::modeChooseScreen()
+void GameProcess::modeChooseScreen()
 {
-    mcw = new modeChooseWidget(parent);
+    mcw = new ModeChooseWidget(parent);
     connect(mcw->singleButton(), SIGNAL(clicked()), this, SLOT(gameChooseScreen()));
     mcw->show();
 }
 
-void gameProcess::buildGameInfo()
+void GameProcess::buildGameInfo()
 {
     qDebug()<<"choose num:"<<chosenHeroNum;
 
     QVector<int> heroCode(eil.size());
-    for(int i=0; i<eil.size(); i++)
+    for (int i=0; i<eil.size(); i++)
     {
         int code;
         do
@@ -121,12 +121,12 @@ void gameProcess::buildGameInfo()
     emit gameStart();
 }
 
-void gameProcess::inGame()
+void GameProcess::inGame()
 {
 }
 
 
-void gameProcess::heroChooseScreen()
+void GameProcess::heroChooseScreen()
 {
     qDebug()<<"chosse hero screen";
     uic = new Ui::chooseHero();
@@ -136,7 +136,7 @@ void gameProcess::heroChooseScreen()
 
     QList<int> heroNumList;
     qDebug()<<"Total Hero Num:"<<hf->getHeroAmount();
-    for(int i=0; i<8; i++)
+    for (int i=0; i<8; i++)
     {
         int code;
         do
@@ -146,17 +146,17 @@ void gameProcess::heroChooseScreen()
         while(heroNumList.contains(code));
         heroNumList.append(code);
     }
-    for(int i=0; i<4; i++)
+    for (int i=0; i<4; i++)
     {
-        heroLabel* ql = new heroLabel(heroChooseDialog);
+        HeroLabel* ql = new HeroLabel(heroChooseDialog);
         ql->setPixmap(QPixmap(gbi->getConfigDir() + "/heros/" + hf->getHeroInfoByNum(heroNumList[i]).heroName + "_Whole.png"));
         ql->setHeroNum(heroNumList[i]);
         uic->horizontalLayout->addWidget(ql);
         connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
     }
-    for(int i=4; i<8; i++)
+    for (int i=4; i<8; i++)
     {
-        heroLabel* ql = new heroLabel(heroChooseDialog);
+        HeroLabel* ql = new HeroLabel(heroChooseDialog);
         ql->setPixmap(QPixmap(gbi->getConfigDir() + "/heros/" + hf->getHeroInfoByNum(heroNumList[i]).heroName + "_Whole.png"));
         ql->setHeroNum(heroNumList[i]);
         uic->horizontalLayout1->addWidget(ql);
@@ -169,27 +169,27 @@ void gameProcess::heroChooseScreen()
     birthChooseScreen();
 }
 
-void gameProcess::heroChosed()
+void GameProcess::heroChosed()
 {
-    chosenHeroNum = static_cast<heroLabel*>(this->sender())->heroNum();
+    chosenHeroNum = static_cast<HeroLabel*>(this->sender())->heroNum();
     heroChooseDialog->accept();
 }
 
-void gameProcess::birthChooseScreen()
+void GameProcess::birthChooseScreen()
 {
-    gc = new gameCoordinate(gbi);
+    gc = new GameCoordinate(gbi);
     qDebug()<<"gc  load complete...";
 
-    ic = new itemCollector(gbi, gc);
+    ic = new ItemCollector(gbi, gc);
 
-    ic->setCardEngine(new cardEngine(gbi));
-    ic->setMapElement(new mapEngine(gbi));
+    ic->setCardEngine(new CardEngine(gbi));
+    ic->setMapElement(new MapEngine(gbi));
     ic->setCampHealth();
     ic->setHeroFactory(hf, eil);
     qDebug()<<"ic  load complete...";
     qDebug()<<"game start";
 
-    QList<gameMapElement*> l = ic->getBlueTeamCamp();
+    QList<GameMapElement*> l = ic->getBlueTeamCamp();
     for (int i = 0; i < l.size(); i++)
     {
         qDebug()<<l[i]->point();

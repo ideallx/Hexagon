@@ -2,7 +2,7 @@
 #define ITEMCOLLECTOR_H
 
 
-#include <QgraphicsScene>
+#include <QGraphicsScene>
 #include <QList>
 #include <QVector>
 #include <QPoint>
@@ -11,15 +11,15 @@
 #include "enums.h"
 
 
-class heroItem;
-class gameBackInfo;
-class gameCoordinate;
-class heroFactory;
-class cardEngine;
-class gameMapElement;
-class handCard;
-class mapEngine;
-class campHealth;
+class HeroItem;
+class GameBackInfo;
+class GameCoordinate;
+class HeroFactory;
+class CardEngine;
+class GameMapElement;
+class HandCard;
+class MapEngine;
+class CampHealth;
 struct externInfo;
 
 enum rangeMode_t
@@ -30,15 +30,15 @@ enum rangeMode_t
     ModeElse
 };
 
-class itemCollector
+class ItemCollector
 {
 public:
-    itemCollector(gameBackInfo*, gameCoordinate*);
-    ~itemCollector();
+    ItemCollector(GameBackInfo*, GameCoordinate*);
+    ~ItemCollector();
 
-    void setMapElement(mapEngine *me);
-    void setHeroFactory(heroFactory* hf, QList<struct externInfo> info);
-    void setCardEngine(cardEngine* ce);
+    void setMapElement(MapEngine *me);
+    void setHeroFactory(HeroFactory* hf, QList<struct externInfo> info);
+    void setCardEngine(CardEngine* ce);
     void setCampHealth();
     void addItemsToScene(QGraphicsScene*);
     QString rscPath();
@@ -48,29 +48,29 @@ public:
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
 
-    gameMapElement* getMapElementByPoint(QPoint in){ return elements[getPointNumber(in)]; }
+    GameMapElement* getMapElementByPoint(QPoint in){ return elements[getPointNumber(in)]; }
     int getPointNumber(QPoint);
 
 
-    QList<gameMapElement*> getRedTeamCamp();
-    QList<gameMapElement*> getBlueTeamCamp();
-    QList<gameMapElement*> getAllElementTypeOf(enum gameEnvironment_t);
+    QList<GameMapElement*> getRedTeamCamp();
+    QList<GameMapElement*> getBlueTeamCamp();
+    QList<GameMapElement*> getAllElementTypeOf(enum gameEnvironment_t);
     void setElementDefaultPen(QPoint);
     void setElementRestorePen(QPoint point);
     void setElementSpecialPen(QPoint, QPen);
-    void setElementSpecialPen(gameMapElement*, QPen pen);
+    void setElementSpecialPen(GameMapElement*, QPen pen);
     void setElementBoldPen(QPoint, double width);
     void restoreAllPen();
 
-    heroItem* getHeroByPoint(QPoint);
-    void addLocalHero(heroItem* h){ localHeros.append(h);}
-    bool isLocalHero(heroItem* h) { return localHeros.contains(h); }
-    heroItem* getLocalHero() { return localHeros[0]; }
+    HeroItem* getHeroByPoint(QPoint);
+    void addLocalHero(HeroItem* h){ localHeros.append(h);}
+    bool isLocalHero(HeroItem* h) { return localHeros.contains(h); }
+    HeroItem* getLocalHero() { return localHeros[0]; }
 
-    QList<heroItem*> getActSequence();
-    QList<handCard*> getCard(int n);
+    QList<HeroItem*> getActSequence();
+    QList<HandCard*> getCard(int n);
     QList<QGraphicsLineItem*> getLines() { return targetLines; }
-    QList<QPoint> listRange(heroItem* hero, enum rangeMode_t);
+    QList<QPoint> listRange(HeroItem* hero, enum rangeMode_t);
 
     QPixmap getPixmap();
     QPoint getCooxWithPos(QPointF);
@@ -92,7 +92,7 @@ private:
         }
     }
 
-    heroItem* tempHero;
+    HeroItem* tempHero;
 
 
     bool listAddJudge(QList<QPoint>* set, QPoint point);
@@ -103,23 +103,23 @@ private:
     int hei;
     int wid;
 
-    QVector<heroItem*> localHeros;
+    QVector<HeroItem*> localHeros;
 
-    mapEngine* me;
-    heroFactory* hf;
-    cardEngine* ce;
+    MapEngine* me;
+    HeroFactory* hf;
+    CardEngine* ce;
 
-    gameBackInfo* gbi;
-    gameCoordinate* gc;
+    GameBackInfo* gbi;
+    GameCoordinate* gc;
 
-    QList<heroItem*> redTeamHeros;
-    QList<heroItem*> blueTeamHeros;
-    QList<gameMapElement*> elements;
-    QList<campHealth*> campLifes;
+    QList<HeroItem*> redTeamHeros;
+    QList<HeroItem*> blueTeamHeros;
+    QList<GameMapElement*> elements;
+    QList<CampHealth*> campLifes;
     QList<QGraphicsLineItem*> targetLines;
 
-    QList<handCard*> unusedCards;
-    QList<handCard*> usedCards;
+    QList<HandCard*> unusedCards;
+    QList<HandCard*> usedCards;
 };
 
 #endif // ITEMCOLLECTOR_H

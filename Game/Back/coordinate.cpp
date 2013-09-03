@@ -1,7 +1,7 @@
 #include "coordinate.h"
 #include "backinfo.h"
 
-gameCoordinate::gameCoordinate(gameBackInfo* gbi)
+GameCoordinate::GameCoordinate(GameBackInfo* gbi)
 {
     beginX = gbi->getBeginPosition().x();
     beginY = gbi->getBeginPosition().y();
@@ -19,98 +19,98 @@ gameCoordinate::gameCoordinate(gameBackInfo* gbi)
  *  0,2   1,2   2,2   3,2
  *     0,3   1,3   2,3
  */
-QPointF gameCoordinate::getBeginPosWithCoo(QPoint block)
+QPointF GameCoordinate::getBeginPosWithCoo(QPoint block)
 {
-    if(block.y()%2 == 0)
+    if (block.y()%2 == 0)
         return QPointF(beginX + 3*block.x()*lineLength, beginY + block.y()*lineLength*halfSqrt3);
     else
         return QPointF(beginX + (3*block.x()+1.5)*lineLength, beginY + block.y()*lineLength*halfSqrt3);
 }
 
-QPointF gameCoordinate::getBeginPosOfHero(QPoint block)
+QPointF GameCoordinate::getBeginPosOfHero(QPoint block)
 {
     return getBeginPosWithCoo(block)+QPointF(0.2*lineLength, 0.06*lineLength);
 }
 
-QPointF gameCoordinate::getCenterPosWithCoo(QPoint block)
+QPointF GameCoordinate::getCenterPosWithCoo(QPoint block)
 {
-    if(block.y()%2 == 0)
+    if (block.y()%2 == 0)
         return QPointF(beginX + (3*block.x()+1)*lineLength, beginY + (block.y()+halfSqrt3)*lineLength*halfSqrt3);
     else
         return QPointF(beginX + (3*block.x()+2.5)*lineLength, beginY + (block.y()+halfSqrt3)*lineLength*halfSqrt3);
 }
 
-QPoint gameCoordinate::goUpLeft(QPoint coo)
+QPoint GameCoordinate::goUpLeft(QPoint coo)
 {
     QPoint result(coo);
-    if(coo.y()%2 == 0)
+    if (coo.y()%2 == 0)
         result.setX(coo.x()-1);
     result.setY(coo.y()-1);
     return result;
 }
 
-QPoint gameCoordinate::goUpRight(QPoint coo)
+QPoint GameCoordinate::goUpRight(QPoint coo)
 {
     QPoint result(coo);
-    if(coo.y()%2 == 1)
+    if (coo.y()%2 == 1)
         result.setX(coo.x()+1);
     result.setY(coo.y()-1);
     return result;
 }
 
-QPoint gameCoordinate::goUp(QPoint coo)
+QPoint GameCoordinate::goUp(QPoint coo)
 {
     QPoint result(coo);
     result.setY(coo.y()-2);
     return result;
 }
 
-QPoint gameCoordinate::goDown(QPoint coo)
+QPoint GameCoordinate::goDown(QPoint coo)
 {
     QPoint result(coo);
     result.setY(coo.y()+2);
     return result;
 }
 
-QPoint gameCoordinate::goDownLeft(QPoint coo)
+QPoint GameCoordinate::goDownLeft(QPoint coo)
 {
     QPoint result(coo);
-    if(coo.y()%2 == 0)
+    if (coo.y()%2 == 0)
         result.setX(coo.x()-1);
     result.setY(coo.y()+1);
     return result;
 }
 
-QPoint gameCoordinate::goDownRight(QPoint coo)
+QPoint GameCoordinate::goDownRight(QPoint coo)
 {
     QPoint result(coo);
-    if(coo.y()%2 == 1)
+    if (coo.y()%2 == 1)
         result.setX(coo.x()+1);
     result.setY(coo.y()+1);
     return result;
 }
 
-QPoint gameCoordinate::getCooxWithPos(QPointF point)
+QPoint GameCoordinate::getCooxWithPos(QPointF point)
 {
     QPoint coo;
     //获取粗略坐标
     double newX = (point.x()-beginX)/(3*lineLength);
     double newY = (point.y()-beginY)/(halfSqrt3*lineLength);
-    if(newX<0)
+    if (newX<0)
         newX--;
-    if(newY<0)
+    if (newY<0)
         newY--;
     int xInt = (int)newX;
     int yInt = (int)newY;
 
-    if((int)(newX+0.5) <= xInt) //left part   y is even
+    if ((int)(newX+0.5) <= xInt) //left part   y is even
     {
-        if(yInt%2 == 1)
+        if (yInt%2 == 1)
             yInt--;
     }
     else                        //right part  y is odd
     {
-        if(yInt%2 == 0)
+        if (yInt%2 == 0)
             yInt--;
     }
 
@@ -122,17 +122,17 @@ QPoint gameCoordinate::getCooxWithPos(QPointF point)
     double offsetY = point.y() - beginY - coo.y()*halfSqrt3*lineLength;
 
     //up left fix
-    if((offsetX<(lineLength/2)) && (offsetY<lineLength*halfSqrt3))
+    if ((offsetX<(lineLength/2)) && (offsetY<lineLength*halfSqrt3))
     {
-        if(offsetY<(-2*halfSqrt3*offsetX + lineLength*halfSqrt3))
+        if (offsetY<(-2*halfSqrt3*offsetX + lineLength*halfSqrt3))
         {
             coo = goUpLeft(coo);
         }
     }
     //down left fix
-    else if((offsetX<(lineLength/2)) && (offsetY>lineLength*halfSqrt3))
+    else if ((offsetX<(lineLength/2)) && (offsetY>lineLength*halfSqrt3))
     {
-        if(offsetY>(2*halfSqrt3*offsetX + lineLength*halfSqrt3))
+        if (offsetY>(2*halfSqrt3*offsetX + lineLength*halfSqrt3))
         {
             coo = goDownLeft(coo);
         }

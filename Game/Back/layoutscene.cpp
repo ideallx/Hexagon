@@ -1,7 +1,7 @@
 #include "layoutscene.h"
 #include "cardengine.h"
 
-essenialScene::essenialScene()
+EssenialScene::EssenialScene()
 {
     preMr = tr("Move Range: ");
     preAr = tr("Attack Range: ");
@@ -23,7 +23,7 @@ essenialScene::essenialScene()
     this->addItem(attack);
 }
 
-essenialScene::~essenialScene()
+EssenialScene::~EssenialScene()
 {
     delete moveRange;
     delete attackRange;
@@ -31,7 +31,7 @@ essenialScene::~essenialScene()
 }
 
 
-void essenialScene::setContent(struct panelInfo pi)
+void EssenialScene::setContent(struct panelInfo pi)
 {
     moveRange->setPlainText(preMr + pi.moveRange);
     attackRange->setPlainText(preAr + pi.attackRange);
@@ -39,7 +39,7 @@ void essenialScene::setContent(struct panelInfo pi)
 }
 
 
-skillScene::skillScene()
+SkillScene::SkillScene()
 {
     skill1 = new QGraphicsEllipseItem;
     skill2 = new QGraphicsEllipseItem;
@@ -50,7 +50,7 @@ skillScene::skillScene()
     skills.append(skill2);
     skills.append(skill3);
 
-    for(int i=0; i<skills.size(); i++)
+    for (int i=0; i<skills.size(); i++)
     {
         skills[i]->setRect(0, 0, 70, 70);
         skills[i]->setBrush(Qt::blue);
@@ -60,7 +60,7 @@ skillScene::skillScene()
 
 }
 
-skillScene::~skillScene()
+SkillScene::~SkillScene()
 {
     delete skill1;
     delete skill2;
@@ -68,7 +68,7 @@ skillScene::~skillScene()
 }
 
 
-void skillScene::setHeroSkillButton(QList<QPixmap>in)
+void SkillScene::setHeroSkillButton(QList<QPixmap>in)
 {
     skill1->setBrush(in[0].scaledToHeight(80, Qt::SmoothTransformation));
     skill2->setBrush(in[1].scaledToHeight(80, Qt::SmoothTransformation));
@@ -94,55 +94,55 @@ QRectF skillButton::boundingRect() const
 }
 */
 
-cardScene::cardScene()
+CardScene::CardScene()
 {
     cardGroup = this->createItemGroup(this->items());
     oldItem = 0;
 }
 
-cardScene::~cardScene()
+CardScene::~CardScene()
 {
 
 }
 
-void cardScene::clearChosenItems()
+void CardScene::clearChosenItems()
 {
     chosenItem.clear();
 }
 
-void cardScene::listCards()
+void CardScene::listCards()
 {
     double y = 0.2*height();
     QList<QGraphicsItem*> cards = items();
-    if(cards.size() == 0)
+    if (cards.size() == 0)
         return;
     double cardWidth = cards[0]->boundingRect().width();
     double xInterval;
 
-    if(cards.size()*cardWidth > width())
+    if (cards.size()*cardWidth > width())
         xInterval = (width()-cardWidth)/(cards.size()-1);
     else
         xInterval = cardWidth;
 
-    for(int i=0; i<cards.size(); i++)
+    for (int i=0; i<cards.size(); i++)
     {
         cards[cards.size()-1-i]->setPos(i*xInterval, y);
     }
 }
 
-void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void CardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if(event->button() & Qt::RightButton)
+    if (event->button() & Qt::RightButton)
     {
         clearChosenItems();
         listCards();
         return;
     }
 
-    if(!oldItem)
+    if (!oldItem)
         return;
 
-    if(chosenItem.contains(oldItem))
+    if (chosenItem.contains(oldItem))
     {
         oldItem->setPos(oldItem->pos().x(), 0.2*height());
         chosenItem.remove(chosenItem.indexOf(oldItem));
@@ -154,30 +154,30 @@ void cardScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-void cardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void CardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     curItem = itemAt(event->scenePos(), qtf);
 
-    if(event->scenePos().x() == 0 ||
+    if (event->scenePos().x() == 0 ||
             event->scenePos().x() == width() ||
             event->scenePos().y() == height() ||
             event->scenePos().y() == 0)
     {
-        if(oldItem)
+        if (oldItem)
             if(!chosenItem.contains(oldItem))
                 oldItem->setPos(oldItem->pos().x(), 0.2*height());
     }
 
-    if(oldItem == curItem)
+    if (oldItem == curItem)
         return;
 
-    if(oldItem)
+    if (oldItem)
         if(!chosenItem.contains(oldItem))
             oldItem->setPos(oldItem->pos().x(), 0.2*height());
 
-    if(curItem)
+    if (curItem)
     {
-        if(!chosenItem.contains(curItem))
+        if (!chosenItem.contains(curItem))
         {
             curItem->setPos(curItem->pos().x(), 0.1*height());
         }
@@ -185,18 +185,18 @@ void cardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     }
 }
 
-viewSendResize::viewSendResize(QWidget *parent) :
+ViewSendResize::ViewSendResize(QWidget *parent) :
     QGraphicsView(parent)
 {
 
 }
 
-viewSendResize::~viewSendResize()
+ViewSendResize::~ViewSendResize()
 {
 
 }
 
-void viewSendResize::resizeEvent(QResizeEvent *e)
+void ViewSendResize::resizeEvent(QResizeEvent *e)
 {
     emit resized();
 }

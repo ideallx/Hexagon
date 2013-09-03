@@ -4,11 +4,11 @@
 #include <QGraphicsRectItem>
 #include <QtWidgets>
 
-class heroWhole : public QObject, public QGraphicsRectItem
+class HeroWhole : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    heroWhole(int lineLength, QObject *parent = 0);
+    HeroWhole(int lineLength, QObject *parent = 0);
     
 private:
     QRectF boundingRect() const;

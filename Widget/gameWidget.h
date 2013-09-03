@@ -11,13 +11,13 @@
 
 #include "ui_mainwindow.h"
 
-class gameMenu;
-class backScene;
-class gameBackInfo;
-class gameCoordinate;
-class eventCenter;
-class heroItem;
-class gameProcess;
+class GameMenu;
+class BackScene;
+class GameBackInfo;
+class GameCoordinate;
+class EventCenter;
+class HeroItem;
+class GameProcess;
 
 class MainWindow : public QMainWindow
 {
@@ -31,19 +31,19 @@ private:
     bool variableInitial();
     bool sceneInitial();
     void stateMachineInitial();
-    void moveToPos(heroItem*, QPoint);
+    void moveToPos(HeroItem*, QPoint);
 
-    gameMenu* menu;
-    backScene *scene;
-    gameBackInfo* gbi;
-    gameCoordinate *gc;
-    eventCenter *ec;
+    GameMenu* menu;
+    BackScene *scene;
+    GameBackInfo* gbi;
+    GameCoordinate *gc;
+    EventCenter *ec;
 
-    gameProcess *gp;
+    GameProcess *gp;
 
     QLabel *itemLabel;
     QLabel *coordinateLabel;
-    QLabel *heroLabel;
+    QLabel *HeroLabel;
     QLabel *campLabel;
     QLabel *roundLabel;
 

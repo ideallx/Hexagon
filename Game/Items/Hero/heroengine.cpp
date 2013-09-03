@@ -3,16 +3,17 @@
 #include "backinfo.h"
 
 
-heroFactory::heroFactory(gameBackInfo* gbi):
+HeroFactory::HeroFactory(GameBackInfo* gbi):
     innerDir(gbi->getConfigDir() + "heros/"),
-    lineLength(gbi->getLineLength())
+    lineLength(gbi->getLineLength()),
+    scene(NULL),
+    heroAmount(0)
 {
-	heroAmount = 0;
 }
 
-heroItem* heroFactory::createHero(struct externInfo ei)
+HeroItem* HeroFactory::createHero(struct externInfo ei)
 {
-    heroItem * item = new heroItem(lineLength);
+    HeroItem * item = new HeroItem(lineLength);
     item->setAvaterPic(new QPixmap(innerDir + getHeroInfoByNum(ei.h).heroName + "_Head.png"));
     item->setwholePic(new QPixmap(innerDir + getHeroInfoByNum(ei.h).heroName + "_Whole.png"));
     item->setBrush(item->avaterPic()->scaledToWidth(item->rect().width(), Qt::SmoothTransformation));
@@ -23,27 +24,27 @@ heroItem* heroFactory::createHero(struct externInfo ei)
     return item;
 }
 
-QList<heroItem*> heroFactory::generateHeroes(QList<struct externInfo> list)
+QList<HeroItem*> HeroFactory::generateHeroes(QList<struct externInfo> list)
 {
-    QList<heroItem*> result;
-    for(int i=0; i<list.size(); i++)
+    QList<HeroItem*> result;
+    for (int i=0; i<list.size(); i++)
     {
         result.append(createHero(list[i]));
     }
     return result;
 }
 
-void heroFactory::addPackage(AbstractHeroPacakage* ahp)
+void HeroFactory::addPackage(AbstractHeroPacakage* ahp)
 {
     hpl.append(ahp);
     heroAmount += ahp->heroNumInPackage();
 }
 
-struct heroInfo heroFactory::getHeroInfoByNum(int n)
+struct heroInfo HeroFactory::getHeroInfoByNum(int n)
 {
-    for(int i=0; i<hpl.size(); i++)
+    for (int i=0; i<hpl.size(); i++)
     {
-        if(n>hpl[i]->heroNumInPackage())
+        if (n>hpl[i]->heroNumInPackage())
         {
             n -= hpl[i]->heroNumInPackage();
         }

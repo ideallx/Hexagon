@@ -5,27 +5,27 @@
 
 #include "enums.h"
 
-class itemCollector;
-class gameBackInfo;
-class gameCoordinate;
-class heroItem;
-class heroFactory;
-class skillBase;
+class ItemCollector;
+class GameBackInfo;
+class GameCoordinate;
+class HeroItem;
+class HeroFactory;
+class SkillBase;
 struct externInfo;
 
-class backScene : public QGraphicsScene
+class BackScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    backScene(itemCollector* ic, QObject *parent = 0);
-    ~backScene();
+    BackScene(ItemCollector* ic, QObject *parent = 0);
+    ~BackScene();
 
-    itemCollector* pIc() { return ic;}
+    ItemCollector* pIc() { return ic;}
     QList<QString> getHeroListAvaterPath(char in);
 
-    void showMoveRange(heroItem*);
-    void showAttackRange(heroItem* hero);
-    void showSkillRange(heroItem* hero, enum mapRangeType_t, int range);
+    void showMoveRange(HeroItem*);
+    void showAttackRange(HeroItem* hero);
+    void showSkillRange(HeroItem* hero, enum mapRangeType_t, int range);
 
     
 private:
@@ -35,7 +35,7 @@ private:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    itemCollector *ic;
+    ItemCollector *ic;
 
     QList<QPoint> rangeList;
 
@@ -49,8 +49,8 @@ signals:
     void changeStatusBar(QStringList);
     void mapElementMovedIn(QPoint);
     void mapElementClicked(QPoint);
-    void heroClicked(heroItem*);
-    void buildMenu(heroItem*, QPoint);
+    void heroClicked(HeroItem*);
+    void buildMenu(HeroItem*, QPoint);
     void viewSizeChanged(QSize);
     void rangeClicked(QPoint);
     

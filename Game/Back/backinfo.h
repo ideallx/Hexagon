@@ -1,14 +1,14 @@
-#ifndef gameBackInfo_H
-#define gameBackInfo_H
+#ifndef GameBackInfo_H
+#define GameBackInfo_H
 
 #include <QPixmap>
 #include <QFile>
 #include <QXmlStreamReader>
 
-class gameBackInfo
+class GameBackInfo
 {
 public:
-    gameBackInfo(QString configFilePath);
+    GameBackInfo(QString configFilePath);
 
     QPixmap getPixmap(void) { return backgroundPicture; }
     QRectF getCardRect(void) { return backCardRect; }
@@ -42,4 +42,4 @@ private:
 
 };
 
-#endif // gameBackInfo_H
+#endif // GameBackInfo_H

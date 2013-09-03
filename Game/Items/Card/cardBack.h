@@ -4,11 +4,11 @@
 #include <QGraphicsItem>
 #include <QPainter>
 
-class cardBack : public QObject, public QGraphicsRectItem
+class CardBack : public QObject, public QGraphicsRectItem
 {
     Q_OBJECT
 public:
-    explicit cardBack(QRectF, QString);
+    explicit CardBack(QRectF, QString);
 
 private:
     QRectF boundingRect();

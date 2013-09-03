@@ -12,8 +12,8 @@
 #include "enums.h"
 
 
-class gameBackInfo;
-class heroItem;
+class GameBackInfo;
+class HeroItem;
 
 class AbstractHeroPacakage : public QObject
 {
@@ -36,13 +36,13 @@ private:
     QList<struct heroInfo> hil;
 };
 
-class heroFactory : public QObject
+class HeroFactory : public QObject
 {
 public:
-    heroFactory(gameBackInfo* gbi);
+    HeroFactory(GameBackInfo* gbi);
 
-    heroItem* createHero(struct externInfo);
-    QList<heroItem*> generateHeroes(QList<struct externInfo>);
+    HeroItem* createHero(struct externInfo);
+    QList<HeroItem*> generateHeroes(QList<struct externInfo>);
 
     int getHeroAmount() { return heroAmount; }
     void addPackage(AbstractHeroPacakage*);

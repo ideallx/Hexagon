@@ -5,8 +5,8 @@
 #include <QString>
 #include <QObject>
 
-class handCard;
-class gameBackInfo;
+class HandCard;
+class GameBackInfo;
 
 struct cardInfo
 {
@@ -40,13 +40,13 @@ enum cardType_t
     CardUserDefined
 };
 
-class cardEngine : public QObject
+class CardEngine : public QObject
 {
 public:
 
 
-    cardEngine(gameBackInfo *gbi);
-    QList<handCard*> generateHandCards(int package = 0);
+    CardEngine(GameBackInfo *gbi);
+    QList<HandCard*> generateHandCards(int package = 0);
 
 private:
     static const struct cardInfo kb;

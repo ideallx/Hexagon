@@ -5,7 +5,7 @@
 
 #include <QDebug>
 
-modeChooseWidget::modeChooseWidget(QWidget *parent) :
+ModeChooseWidget::ModeChooseWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::modeChoose)
 {
@@ -23,13 +23,13 @@ modeChooseWidget::modeChooseWidget(QWidget *parent) :
 //    qdlg->hide();
 }
 
-modeChooseWidget::~modeChooseWidget()
+ModeChooseWidget::~ModeChooseWidget()
 {
     delete ui;
 }
 
 
-void modeChooseWidget::on_settings_clicked()
+void ModeChooseWidget::on_settings_clicked()
 {
     delete qdlg;
     qdlg = new QDialog(this);

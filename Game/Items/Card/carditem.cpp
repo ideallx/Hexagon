@@ -1,6 +1,6 @@
 #include "carditem.h"
 
-handCard::handCard(int t, QString s):
+HandCard::HandCard(int t, QString s):
     type(t),
     pixmapPath(QPixmap(s))
 {
@@ -8,12 +8,12 @@ handCard::handCard(int t, QString s):
     setBrush(pixmapPath.scaledToHeight(200, Qt::SmoothTransformation));
 }
 
-QRectF handCard::boundingRect() const
+QRectF HandCard::boundingRect() const
 {
     return rect();
 }
 
-void handCard::paint(QPainter* p, const QStyleOptionGraphicsItem* i, QWidget* w)
+void HandCard::paint(QPainter* p, const QStyleOptionGraphicsItem* i, QWidget* w)
 {
     p->setBrush(brush());
     p->drawRect(rect());

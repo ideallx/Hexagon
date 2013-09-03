@@ -6,12 +6,12 @@
 #include <QMatrix>
 #include <QResizeEvent>
 
-class backview : public QGraphicsView
+class BackView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    backview(QGraphicsScene *scene, QWidget *parent = 0);
-    backview(QWidget *parent = 0);
+    BackView(QGraphicsScene *scene, QWidget *parent = 0);
+    BackView(QWidget *parent = 0);
 
 protected:
     void resizeEvent(QResizeEvent *event);

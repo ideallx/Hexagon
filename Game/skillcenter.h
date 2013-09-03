@@ -12,10 +12,10 @@ enum skillType_t
     SkillPositiveTrigger
 };
 
-class skillBase
+class SkillBase
 {
 public:
-    skillBase();
+    SkillBase();
 
     void skillFlow();
     QString skillName() { return name; }

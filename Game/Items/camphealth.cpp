@@ -1,17 +1,17 @@
 #include "camphealth.h"
 
-campHealth::campHealth(const QPixmap &pixmap, QGraphicsItem *parent)
+CampHealth::CampHealth(const QPixmap &pixmap, QGraphicsItem *parent)
     : QGraphicsPixmapItem(pixmap, parent)
 {
     setShapeMode(MaskShape);
 }
 
-QRectF campHealth::boundingRect()
+QRectF CampHealth::boundingRect()
 {
     return this->pixmap().rect();
 }
 
-void campHealth::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void CampHealth::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);

@@ -3,7 +3,7 @@
 #include "heroitem.h"
 #include "heroengine.h"
 #include "backinfo.h"
-#include "backview.h"
+#include "BackView.h"
 #include "backscene.h"
 #include "menu.h"
 #include "coordinate.h"
@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     this->show();
 
-    gp = new gameProcess(ui->centralWidget);
+    gp = new GameProcess(ui->centralWidget);
     gp->preGame();
 
     connect(gp, SIGNAL(gameStart()), this, SLOT(gameBegin()));
@@ -68,9 +68,9 @@ bool MainWindow::variableInitial()
     campLabel->setFixedWidth(200);
     ui->statusBar->addWidget(campLabel);
 
-    heroLabel = new QLabel(this);
-    heroLabel->setFixedWidth(200);
-    ui->statusBar->addWidget(heroLabel);
+    HeroLabel = new QLabel(this);
+    HeroLabel->setFixedWidth(200);
+    ui->statusBar->addWidget(HeroLabel);
 
     roundLabel = new QLabel(this);
     roundLabel->setFixedWidth(200);
@@ -81,12 +81,12 @@ bool MainWindow::variableInitial()
 
 bool MainWindow::sceneInitial()
 {
-    scene = new backScene(gp->getIc(), this);
+    scene = new BackScene(gp->getIc(), this);
     ui->graphicsView->setScene(scene);
     gp->getIc()->addItemsToScene(scene);
-    menu = new gameMenu(ui->graphicsView);
+    menu = new GameMenu(ui->graphicsView);
     //menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
-    ec = new eventCenter(scene, menu);
+    ec = new EventCenter(scene, menu);
     qDebug("backView load complete...");
 
     return true;
@@ -94,12 +94,12 @@ bool MainWindow::sceneInitial()
 
 void MainWindow::changeStatusInfo(QStringList in)
 {
-    if(in.size() == 0)
+    if (in.size() == 0)
     {
         itemLabel->setText("");
         coordinateLabel->setText("");
     }
-    if(in.size() == 2)
+    if (in.size() == 2)
     {
         itemLabel->setText(in.at(0));
         coordinateLabel->setText(in.at(1));
@@ -109,6 +109,6 @@ void MainWindow::changeStatusInfo(QStringList in)
 void MainWindow::changeRoundInfo(QStringList in)
 {
     campLabel->setText(in[0]);
-    heroLabel->setText(in[1]);
+    HeroLabel->setText(in[1]);
     roundLabel->setText(in[2]);
 }

@@ -157,7 +157,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="viewSendResize" name="items">
+          <widget class="ViewSendResize" name="items">
            <property name="layoutDirection">
             <enum>Qt::LeftToRight</enum>
            </property>
@@ -182,7 +182,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>viewSendResize</class>
+   <class>ViewSendResize</class>
    <extends>QGraphicsView</extends>
    <header>layoutscene.h</header>
   </customwidget>

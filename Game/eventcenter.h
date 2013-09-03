@@ -7,19 +7,19 @@
 #include <QTimeLine>
 #include <QStringList>
 
-class backScene;
-class gameMenu;
-class itemCollector;
-class gameCoordinate;
-class heroItem;
-class gameMapElement;
+class BackScene;
+class GameMenu;
+class ItemCollector;
+class GameCoordinate;
+class HeroItem;
+class GameMapElement;
 
-class eventCenter : public QObject
+class EventCenter : public QObject
 {
     Q_OBJECT
 
 public:
-    eventCenter(backScene* scene, gameMenu* menu);
+    EventCenter(BackScene* scene, GameMenu* menu);
     QStringList buildRoundInfo();
 
     enum gamePhase_t
@@ -36,24 +36,24 @@ private:
     void setupConnection();
     void roundBegin();
     void roundEnd();
-    void setCurHero(heroItem*);
+    void setCurHero(HeroItem*);
     void heroMoveToPoint(QPoint);
     void heroAttackPoint(QPoint);
     void skillStraightTest(QPoint);
 
-    void moveAnimate(heroItem* item, gameMapElement* gme);
-    void attackAnimate(heroItem* srcItem, heroItem* targetItem);
-    void skillAnimate(heroItem* item, gameMapElement* gme);
+    void moveAnimate(HeroItem* item, GameMapElement* gme);
+    void attackAnimate(HeroItem* srcItem, HeroItem* targetItem);
+    void skillAnimate(HeroItem* item, GameMapElement* gme);
 
     int roundNum;
 
-    heroItem* curHero;
+    HeroItem* curHero;
 
-    backScene *scene;
-    gameMenu* menu;
-    itemCollector* ic;
+    BackScene *scene;
+    GameMenu* menu;
+    ItemCollector* ic;
 
-    QList<heroItem*> heroSeq;
+    QList<HeroItem*> heroSeq;
 
     enum gamePhase_t curPhase;
 
@@ -64,14 +64,14 @@ signals:
 
 public slots:
     void targetClicked(QPoint);
-    void heroChosen(heroItem*);
+    void heroChosen(HeroItem*);
     void getCard(int num = 1);
     void moveBegin();
     void attackBegin();
     void skillBegin();
     void endTurn();
     void mapClear();
-    void showMenu(heroItem*, QPoint p);
+    void showMenu(HeroItem*, QPoint p);
 
 };
 

@@ -1,6 +1,6 @@
 #include "herowhole.h"
 
-heroWhole::heroWhole(int lineLength, QObject *parent)
+HeroWhole::HeroWhole(int lineLength, QObject *parent)
 {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
@@ -9,12 +9,12 @@ heroWhole::heroWhole(int lineLength, QObject *parent)
     this->setParent(parent);
 }
 
-QRectF heroWhole::boundingRect() const
+QRectF HeroWhole::boundingRect() const
 {
     return QRectF(rect());
 }
 
-void heroWhole::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void HeroWhole::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
@@ -24,12 +24,12 @@ void heroWhole::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawRect(rect());
 }
 
-void heroWhole::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+void HeroWhole::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void heroWhole::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+void HeroWhole::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
 {
     Q_UNUSED(event);
 }

@@ -1,12 +1,12 @@
-#include "backview.h"
+#include "BackView.h"
 
-backview::backview(QWidget *parent)
+BackView::BackView(QWidget *parent)
 {
     this->setParent(parent);
     this->initialSettrings();
 }
 
-backview::backview(QGraphicsScene *scene, QWidget *parent)
+BackView::BackView(QGraphicsScene *scene, QWidget *parent)
     :QGraphicsView(scene)
 {
     this->setParent(parent);
@@ -14,7 +14,7 @@ backview::backview(QGraphicsScene *scene, QWidget *parent)
 }
 
 
-void backview::initialSettrings()
+void BackView::initialSettrings()
 {
     this->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     this->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
@@ -24,13 +24,13 @@ void backview::initialSettrings()
     this->centerOn(QPointF(0, 0));//TODO
 }
 
-void backview::resizeEvent(QResizeEvent *e)
+void BackView::resizeEvent(QResizeEvent *e)
 {
     if(scene() == NULL)
         return;
     qreal w1 = e->size().width();
     qreal w2 = scene()->width();
-    if(w1 <= w2)
+    if (w1 <= w2)
     {
         this->centerOn(0, 0); //TODO
         qreal ff = 1.0;

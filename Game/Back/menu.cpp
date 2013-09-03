@@ -5,7 +5,7 @@
 #include <QDialog>
 #include <QToolButton>
 
-gameMenu::gameMenu(QGraphicsView *parent) :
+GameMenu::GameMenu(QGraphicsView *parent) :
     parent(parent),
     ui(new Ui::Form)
 {
@@ -16,7 +16,7 @@ gameMenu::gameMenu(QGraphicsView *parent) :
     menuInitial();
 }
 
-void gameMenu::menuInitial()
+void GameMenu::menuInitial()
 {
     // menuList
     moveButton = new QPushButton(tr("move"), parent);
@@ -44,7 +44,7 @@ void gameMenu::menuInitial()
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
 }
 
-gameMenu::~gameMenu()
+GameMenu::~GameMenu()
 {
     delete moveButton;
     delete attackButton;
@@ -54,12 +54,12 @@ gameMenu::~gameMenu()
     delete ss;
 }
 
-void gameMenu::interfaceInitial()
+void GameMenu::interfaceInitial()
 {
     ui->setupUi(parent);
-    es = new essenialScene();
-    ss = new skillScene();
-    cs = new cardScene();
+    es = new EssenialScene();
+    ss = new SkillScene();
+    cs = new CardScene();
 
     ui->head->setFixedSize(200, 290);
     ui->items->setFixedHeight(250);
@@ -79,7 +79,7 @@ void gameMenu::interfaceInitial()
     connect(ui->items, SIGNAL(resized()), this, SLOT(resizeItems()));
 }
 
-void gameMenu::showMenu(QPoint pos)
+void GameMenu::showMenu(QPoint pos)
 {
     QList<QPushButton*> list;
 
@@ -95,7 +95,7 @@ void gameMenu::showMenu(QPoint pos)
     }
 }
 
-void gameMenu::hideMenu(gameMenu::menu_type_t type)
+void GameMenu::hideMenu(GameMenu::menu_type_t type)
 {
     QList<QPushButton*> list;
     switch(type)
@@ -105,39 +105,39 @@ void gameMenu::hideMenu(gameMenu::menu_type_t type)
         break;
     }
 
-    for(int i=0; i<list.count(); i++)
+    for (int i=0; i<list.count(); i++)
     {
         list[i]->hide();
     }
 }
 
-void gameMenu::hideAllMenu()
+void GameMenu::hideAllMenu()
 {
-    for(int i=0; i<menuList.size(); i++)
+    for (int i=0; i<menuList.size(); i++)
     {
         menuList[i]->hide();
     }
 }
 
-void gameMenu::resetMenuEnable()
+void GameMenu::resetMenuEnable()
 {
-    for(int i=0; i<menuList.size(); i++)
+    for (int i=0; i<menuList.size(); i++)
     {
         menuList[i]->setEnabled(true);
     }
     isMoveAble = isAttackAble = isSkillAble = true;
 }
 
-void gameMenu::reSetInterface(QSize s)
+void GameMenu::reSetInterface(QSize s)
 {
     mapTable->setGeometry(0, s.height()-300, 300, 300);
     mapTable->show();
 }
 
-void gameMenu::listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn)
+void GameMenu::listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn)
 {
     int num = leftColumn.size();
-    for(int i=0; i<num; i++)
+    for (int i=0; i<num; i++)
     {
         QLabel *heroAvater = new QLabel();
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
@@ -145,7 +145,7 @@ void gameMenu::listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightCo
         ui->leftHeros->addWidget(heroAvater);
     }
     num = rightColumn.size();
-    for(int i=0; i<num; i++)
+    for (int i=0; i<num; i++)
     {
         QLabel *heroAvater = new QLabel();
         heroAvater->setAlignment(Qt::AlignRight);
@@ -156,13 +156,13 @@ void gameMenu::listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightCo
     }
 }
 
-void gameMenu::setHeroHp(int curHp, int maxHp)
+void GameMenu::setHeroHp(int curHp, int maxHp)
 {
     ui->heroHp->setMaximum(maxHp);
     ui->heroHp->setValue(curHp);
 }
 
-void gameMenu::setHeroInfo(heroItem* hero)
+void GameMenu::setHeroInfo(HeroItem* hero)
 {
     setHeroHp(hero->health(), hero->maxHealth());
     setHeroAvaters(hero->wholePic());
@@ -175,32 +175,32 @@ void gameMenu::setHeroInfo(heroItem* hero)
 }
 
 
-void gameMenu::setHeroAvaters(QPixmap *p)
+void GameMenu::setHeroAvaters(QPixmap *p)
 {
     ui->head->setPixmap(p->scaledToHeight(ui->head->height(), Qt::SmoothTransformation));
 }
 
-void gameMenu::updateCardsArea(QList<handCard*> cards)
+void GameMenu::updateCardsArea(QList<HandCard*> cards)
 {
     cs->setSceneRect(0, 0, ui->items->width(), ui->items->height());
     QList<QGraphicsItem*> ims = cs->items();
 
-    for(int i=0; i<ims.size(); i++)
+    for (int i=0; i<ims.size(); i++)
     {
         cs->removeItem(ims[i]);
     }
 
-    if(cards.size() == 0)
+    if (cards.size() == 0)
         return;
 
-    for(int i=0; i<cards.size(); i++)
+    for (int i=0; i<cards.size(); i++)
     {
         cs->addItem(cards[i]);
     }
     resizeItems();
 }
 
-void gameMenu::resizeItems()
+void GameMenu::resizeItems()
 {
     cs->clearChosenItems();
     cs->listCards();

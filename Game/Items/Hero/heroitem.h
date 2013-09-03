@@ -6,12 +6,12 @@
 #include "enums.h"
 
 
-class handCard;
-class skillBase;
+class HandCard;
+class SkillBase;
 
 enum triggerTime_t;
 
-class heroItem : public QObject, public QGraphicsEllipseItem
+class HeroItem : public QObject, public QGraphicsEllipseItem
 {
     Q_OBJECT
 
@@ -19,7 +19,7 @@ class heroItem : public QObject, public QGraphicsEllipseItem
 
 public:
 
-    heroItem(int lineLength);
+    HeroItem(int lineLength);
     void setHeroProperty(char s, char a, char m, int h);
     void setHeroProperty(struct heroInfo);
 
@@ -51,13 +51,13 @@ public:
     QPoint point() const { return thePoint;}
     void setPoint(QPoint p) { thePoint = p; }
 
-    void setCards(QList<handCard*> c){ theCards = c; }
-    void addCards(QList<handCard*> c);
-    QList<handCard*> cards() { return theCards; }
+    void setCards(QList<HandCard*> c){ theCards = c; }
+    void addCards(QList<HandCard*> c);
+    QList<HandCard*> cards() { return theCards; }
 
-    void addSkill(skillBase* s);
-    void removeSkill(skillBase* s);
-    QList<skillBase*> hasSkillTriggerAt(enum triggerTime_t);
+    void addSkill(SkillBase* s);
+    void removeSkill(SkillBase* s);
+    QList<SkillBase*> hasSkillTriggerAt(enum triggerTime_t);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -65,8 +65,8 @@ public:
 
 
 private:
-    QList<skillBase*> skills;
-    QList<handCard*> theCards;
+    QList<SkillBase*> skills;
+    QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
     int theAttack;
     QPixmap* theAvaPic;

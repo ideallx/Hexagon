@@ -4,11 +4,11 @@
 #include <QGraphicsRectItem>
 #include <QPainter>
 
-class campHealth : public QObject, public QGraphicsPixmapItem //pixmap later
+class CampHealth : public QObject, public QGraphicsPixmapItem //pixmap later
 {
     Q_OBJECT
 public:
-    explicit campHealth(const QPixmap &pixmap, QGraphicsItem *parent = 0);
+    explicit CampHealth(const QPixmap &pixmap, QGraphicsItem *parent = 0);
 
 private:
     QRectF boundingRect();

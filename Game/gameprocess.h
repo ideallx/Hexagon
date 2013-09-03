@@ -7,28 +7,28 @@
 #include "ui_chooseHero.h"
 #include "ui_chooseGame.h"
 
-class eventCenter;
-class itemCollector;
-class modeChooseWidget;
-class gameBackInfo;
-class gameCoordinate;
-class itemCollector;
-class backScene;
-class heroFactory;
+class EventCenter;
+class ItemCollector;
+class ModeChooseWidget;
+class GameBackInfo;
+class GameCoordinate;
+class ItemCollector;
+class BackScene;
+class HeroFactory;
 struct externInfo;
 
-class gameProcess : public QObject
+class GameProcess : public QObject
 {
     Q_OBJECT
 
 public:
-    gameProcess(QWidget *parent=0);
-    ~gameProcess();
+    GameProcess(QWidget *parent=0);
+    ~GameProcess();
     void preGame();
     void preGameClean();
 	void inGame();
     void endGame();
-    itemCollector* getIc() { return ic; }
+    ItemCollector* getIc() { return ic; }
     QList<struct externInfo> getPreGameResult() { return eil; }
 
 private:
@@ -40,18 +40,18 @@ private:
     Ui::chooseHero* uic;
     Ui::ChooseGame* uig;
 
-    modeChooseWidget* mcw;
+    ModeChooseWidget* mcw;
     int chosenHeroNum;
     int playerHeroSeq;
     QWidget* parent;
     QDialog *heroChooseDialog;
-    eventCenter* ec;
+    EventCenter* ec;
 
-	gameBackInfo* gbi;
-	gameCoordinate* gc;
-	itemCollector* ic;
-	backScene* bs;
-    heroFactory *hf;
+	GameBackInfo* gbi;
+	GameCoordinate* gc;
+	ItemCollector* ic;
+	BackScene* bs;
+    HeroFactory *hf;
 
 	QList<struct externInfo> eil;
 
@@ -59,7 +59,7 @@ signals:
     void choseHeroChoose();
     void gameStart();
 	
-public slots:
+private slots:
     void heroChosed();
     void heroChooseScreen();
     void gameChooseScreen();

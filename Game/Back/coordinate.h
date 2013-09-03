@@ -5,12 +5,12 @@
 #include <QList>
 #include <QVector>
 
-class gameBackInfo;
+class GameBackInfo;
 
-class gameCoordinate
+class GameCoordinate
 {
 public:
-    gameCoordinate(gameBackInfo* gbi);
+    GameCoordinate(GameBackInfo* gbi);
 
     QList<QPoint> getMovePoint() const { return showRange; }
 

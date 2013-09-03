@@ -9,15 +9,15 @@
 #include <QPainter>
 #include "enums.h"
 
-class gameBackInfo;
+class GameBackInfo;
 
 
-class gameMapElement : public QObject, public QGraphicsPolygonItem
+class GameMapElement : public QObject, public QGraphicsPolygonItem
 {
     Q_OBJECT
 
 public:
-    gameMapElement(int, enum gameEnvironment_t, QPoint, QString);
+    GameMapElement(int, enum gameEnvironment_t, QPoint, QString);
 
     QVector<QPointF> getPolygonPointf(QPointF);
     QPolygonF polygonDeleteBound(double);
@@ -58,14 +58,14 @@ private:
 };
 
 
-class mapEngine
+class MapEngine
 {
 public:
-    mapEngine(gameBackInfo* gbii);
-    QList<gameMapElement*> generateMapElements(int width, int height);
+    MapEngine(GameBackInfo* gbii);
+    QList<GameMapElement*> generateMapElements(int width, int height);
 
 private:
-    gameBackInfo* gbi;
+    GameBackInfo* gbi;
 
 };
 

@@ -16,11 +16,11 @@ struct panelInfo
     QString attack;
 };
 
-class essenialScene : public QGraphicsScene
+class EssenialScene : public QGraphicsScene
 {
 public:
-    essenialScene();
-    ~essenialScene();
+    EssenialScene();
+    ~EssenialScene();
 
     void setContent(struct panelInfo);
 
@@ -34,11 +34,11 @@ private:
 
 };
 
-class cardScene : public QGraphicsScene
+class CardScene : public QGraphicsScene
 {
 public:
-    cardScene();
-    ~cardScene();
+    CardScene();
+    ~CardScene();
     void clearChosenItems();
     void listCards();
     QGraphicsItemGroup* cardGroup;
@@ -67,11 +67,11 @@ public :
 };
 */
 
-class skillScene : public QGraphicsScene
+class SkillScene : public QGraphicsScene
 {
 public:
-    skillScene();
-    ~skillScene();
+    SkillScene();
+    ~SkillScene();
 
     void setHeroSkillButton(QList<QPixmap>in);
 
@@ -82,12 +82,12 @@ private:
 
 };
 
-class viewSendResize : public QGraphicsView
+class ViewSendResize : public QGraphicsView
 {
     Q_OBJECT
 public:
-    viewSendResize(QWidget *parent = 0);
-    ~viewSendResize();
+    ViewSendResize(QWidget *parent = 0);
+    ~ViewSendResize();
     void resizeEvent(QResizeEvent *e);
 
 signals:

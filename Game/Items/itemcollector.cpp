@@ -7,15 +7,20 @@
 #include "backinfo.h"
 #include "camphealth.h"
 
-itemCollector::itemCollector(gameBackInfo* gbii, gameCoordinate* gci):
+ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci):
       gbi(gbii),
-      gc(gci)
+      gc(gci),
+      tempHero(NULL),
+      me(NULL),
+      hf(NULL),
+      ce(NULL)
 {
     hei = gbi->getHeightCount();
     wid = gbi->getWidthCount();
+    type = ModeMove;
 }
 
-itemCollector::~itemCollector()
+ItemCollector::~ItemCollector()
 {
     //qDeleteAll(redTeamHeros);
     //qDeleteAll(blueTeamHeros);
@@ -30,43 +35,43 @@ itemCollector::~itemCollector()
     elements.clear();
 }
 
-void itemCollector::setMapElement(mapEngine *me)
+void ItemCollector::setMapElement(MapEngine *me)
 {
     this->me = me;
     addMapElementList();
 }
 
-void itemCollector::setHeroFactory(heroFactory* hf, QList<struct externInfo> info)
+void ItemCollector::setHeroFactory(HeroFactory* hf, QList<struct externInfo> info)
 {
     this->hf = hf;
     addHeroList(info);
 }
 
-void itemCollector::setCardEngine(cardEngine* ce)
+void ItemCollector::setCardEngine(CardEngine* ce)
 {
     this->ce = ce;
     addCardList();
 }
 
-void itemCollector::setCampHealth()
+void ItemCollector::setCampHealth()
 {
-    campHealth* ch = new campHealth(gbi->getConfigDir()+"health2.png");
+    CampHealth* ch = new CampHealth(gbi->getConfigDir()+"health2.png");
     campLifes.append(ch);
     ch->setPos(200, 50);
 
-    ch = new campHealth(gbi->getConfigDir()+"health1.png");
+    ch = new CampHealth(gbi->getConfigDir()+"health1.png");
     campLifes.append(ch);
     ch->setPos(200, gbi->getPixmap().height()-200);
 
 }
 
-void itemCollector::addHeroList(QList<struct externInfo> info)
+void ItemCollector::addHeroList(QList<struct externInfo> info)
 {
-    QList<heroItem*> heros = hf->generateHeroes(info);
-    for(int i=0; i<heros.size(); i++)
+    QList<HeroItem*> heros = hf->generateHeroes(info);
+    for (int i=0; i<heros.size(); i++)
     {
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
-        if(heros.at(i)->camp() == camp_red)
+        if (heros.at(i)->camp() == camp_red)
         {
             redTeamHeros.append(heros.at(i));
         }
@@ -76,7 +81,7 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
         }
     }
 
-    for(int i=0; i<heros.size(); i++)
+    for (int i=0; i<heros.size(); i++)
     {
         QGraphicsLineItem *targetLine = new QGraphicsLineItem();
 		targetLine->setPos(0, 0);
@@ -88,26 +93,26 @@ void itemCollector::addHeroList(QList<struct externInfo> info)
     addLocalHero(heros.at(0));
 }
 
-void itemCollector::addCardList()
+void ItemCollector::addCardList()
 {
     unusedCards = ce->generateHandCards();
 }
 
-void itemCollector::addMapElementList()
+void ItemCollector::addMapElementList()
 {
     elements = me->generateMapElements(wid, hei);
-    for(int j=0; j<hei; j++)
+    for (int j=0; j<hei; j++)
     {
-        for(int i=0; i<wid; i++)
+        for (int i=0; i<wid; i++)
         {
             elements[j*wid+i]->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
         }
     }
 }
 
-bool itemCollector::isPointAvailable(QPoint in)
+bool ItemCollector::isPointAvailable(QPoint in)
 {
-    if(in.x()<0 || in.y()<0 || in.x()>=wid || in.y()>=hei)
+    if (in.x()<0 || in.y()<0 || in.x()>=wid || in.y()>=hei)
         return false;
     else if((in.x() == wid-1) && (in.y()%2 == 1))
         return false;
@@ -117,37 +122,37 @@ bool itemCollector::isPointAvailable(QPoint in)
         return true;
 }
 
-bool itemCollector::isPointMovable(QPoint in)
+bool ItemCollector::isPointMovable(QPoint in)
 {
     return elements[getPointNumber(in)]->isMoveAvailable();
 }
 
-void itemCollector::restoreAllPen()
+void ItemCollector::restoreAllPen()
 {
-    for(int i=0; i<elements.size(); ++i)
+    for (int i=0; i<elements.size(); ++i)
     {
         elements.at(i)->setPen(QPen(Qt::black, 1));
     }
 }
 
 
-int itemCollector::getPointNumber(QPoint point)
+int ItemCollector::getPointNumber(QPoint point)
 {
     return point.x()+point.y()*wid;
 }
 
-heroItem* itemCollector::getHeroByPoint(QPoint point)
+HeroItem* ItemCollector::getHeroByPoint(QPoint point)
 {
-    for(int i=0; i<redTeamHeros.size(); i++)
+    for (int i=0; i<redTeamHeros.size(); i++)
     {
-        if(point == redTeamHeros.at(i)->point())
+        if (point == redTeamHeros.at(i)->point())
         {
             return redTeamHeros.at(i);
         }
     }
-    for(int i=0; i<blueTeamHeros.size(); i++)
+    for (int i=0; i<blueTeamHeros.size(); i++)
     {
-        if(point == blueTeamHeros.at(i)->point())
+        if (point == blueTeamHeros.at(i)->point())
         {
             return blueTeamHeros.at(i);
         }
@@ -155,27 +160,27 @@ heroItem* itemCollector::getHeroByPoint(QPoint point)
     return NULL;
 }
 
-bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
+bool ItemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
 {
-    if(type == ModeMove)
+    if (type == ModeMove)
     {
-        if(isPointAvailable(point) && isPointMovable(point))
+        if (isPointAvailable(point) && isPointMovable(point))
         {
-            if(getHeroByPoint(point))
+            if (getHeroByPoint(point))
                 return false;
-            if(!set->contains(point))
+            if (!set->contains(point))
                 set->append(point);
             return true;
         }
     }
-    else if(type == ModeAttack)
+    else if (type == ModeAttack)
     {
-        heroItem* hi = getHeroByPoint(point);
-        if(isPointAvailable(point) && hi)
+        HeroItem* hi = getHeroByPoint(point);
+        if (isPointAvailable(point) && hi)
         {
-            if(hi->camp() == tempHero->camp())
+            if (hi->camp() == tempHero->camp())
                 return false;
-            if(!set->contains(point))
+            if (!set->contains(point))
                 set->append(point);
             return true;
         }
@@ -183,49 +188,49 @@ bool itemCollector::listAddJudge(QList<QPoint>* set, QPoint point)
     return false;
 }
 
-QList<QPoint> itemCollector::recursionSeries(QList<QPoint>*set, QPoint point, int range)
+QList<QPoint> ItemCollector::recursionSeries(QList<QPoint>*set, QPoint point, int range)
 {
-    if(range == 0)
+    if (range == 0)
         return *set;
     range--;
     QPoint pair;
 
     pair = gc->goUpLeft(point);
-    if(listAddJudge(set, pair))
+    if (listAddJudge(set, pair))
         recursionSeries(set, pair, range);
 
     pair = gc->goUpRight(point);
-    if(listAddJudge(set, pair))
+    if (listAddJudge(set, pair))
         recursionSeries(set, pair, range);
 
     pair = gc->goUp(point);
-    if(listAddJudge(set, pair))
+    if (listAddJudge(set, pair))
         recursionSeries(set, pair, range);
 
     pair = gc->goDownLeft(point);
-    if(listAddJudge(set, pair))
+    if (listAddJudge(set, pair))
         recursionSeries(set, pair, range);
 
     pair = gc->goDownRight(point);
-    if(listAddJudge(set, pair))
+    if (listAddJudge(set, pair))
         recursionSeries(set, pair, range);
 
     pair = gc->goDown(point);
-    if(listAddJudge(set, pair))
+    if (listAddJudge(set, pair))
         recursionSeries(set, pair, range);
 
     return *set;
 }
 
-QList<QPoint> itemCollector::listRange(heroItem* hero, enum rangeMode_t t)
+QList<QPoint> ItemCollector::listRange(HeroItem* hero, enum rangeMode_t t)
 {
     type = t;
     tempHero = hero;
     QList<QPoint> set;
 
-    if(type == ModeMove)
+    if (type == ModeMove)
         return recursionSeries(&set, hero->point(), hero->moveRange());
-    else if(type == ModeAttack)
+    else if (type == ModeAttack)
         return recursionSeries(&set, hero->point(), hero->attackRange());
 	return set;
 }
@@ -238,53 +243,53 @@ QList<QPoint> itemCollector::listRange(heroItem* hero, enum rangeMode_t t)
  *   0.6 moveable
  */
 
-void itemCollector::setElementDefaultPen(QPoint point)
+void ItemCollector::setElementDefaultPen(QPoint point)
 {
-    if(!isPointAvailable(point))
+    if (!isPointAvailable(point))
         return;
-    gameMapElement* gmeT = elements[getPointNumber(point)];
+    GameMapElement* gmeT = elements[getPointNumber(point)];
     gmeT->setDefaultZValue();
     gmeT->setDefaultPen();
 }
-void itemCollector::setElementRestorePen(QPoint point)
+void ItemCollector::setElementRestorePen(QPoint point)
 {
-    if(!isPointAvailable(point))
+    if (!isPointAvailable(point))
         return;
-    gameMapElement* gmeT = elements[getPointNumber(point)];
+    GameMapElement* gmeT = elements[getPointNumber(point)];
     gmeT->setZValue(0.65);
     gmeT->restorePen();
 }
 
-void itemCollector::setElementSpecialPen(QPoint point, QPen pen)
+void ItemCollector::setElementSpecialPen(QPoint point, QPen pen)
 {
-    if(!isPointAvailable(point))
+    if (!isPointAvailable(point))
         return;
-    gameMapElement* gmeT = elements[getPointNumber(point)];
+    GameMapElement* gmeT = elements[getPointNumber(point)];
     gmeT->setZValue(0.65);
     setElementSpecialPen(gmeT, pen);
 }
 
-void itemCollector::setElementBoldPen(QPoint point, double width)
+void ItemCollector::setElementBoldPen(QPoint point, double width)
 {
-    if(!isPointAvailable(point))
+    if (!isPointAvailable(point))
         return;
-    gameMapElement* gmeT = elements[getPointNumber(point)];
+    GameMapElement* gmeT = elements[getPointNumber(point)];
     gmeT->setZValue(0.7);
     gmeT->setPen(QPen(gmeT->getDefaultPen().color(), width));
 }
 
-void itemCollector::setElementSpecialPen(gameMapElement* gmeT, QPen pen)
+void ItemCollector::setElementSpecialPen(GameMapElement* gmeT, QPen pen)
 {
     gmeT->setZValue(0.65); //TODO
     gmeT->setPen(pen);
 }
 
-QList<QString> itemCollector::getHeroListAvaterPath(char in)  //TODO change ui
+QList<QString> ItemCollector::getHeroListAvaterPath(char in)  //TODO change ui
 {
     QList<QString> result;
-    QList<heroItem*> recv;
+    QList<HeroItem*> recv;
 
-    if(in == 'r')
+    if (in == 'r')
     {
         recv = redTeamHeros;
     }
@@ -293,7 +298,7 @@ QList<QString> itemCollector::getHeroListAvaterPath(char in)  //TODO change ui
         recv = blueTeamHeros;
     }
 
-    for(int i=0; i<recv.size(); i++)
+    for (int i=0; i<recv.size(); i++)
     {
         QString temp = gbi->getConfigDir() + "/heros/" + recv[i]->heroName() + "_Head.png";
         result.append(temp);
@@ -301,12 +306,12 @@ QList<QString> itemCollector::getHeroListAvaterPath(char in)  //TODO change ui
     return result;
 }
 
-QList<handCard*> itemCollector::getCard(int n)
+QList<HandCard*> ItemCollector::getCard(int n)
 {
-    QList<handCard*> result;
-    if(unusedCards.size()<n)
+    QList<HandCard*> result;
+    if (unusedCards.size()<n)
         n = unusedCards.size();
-    for(int i=0; i<n; i++)
+    for (int i=0; i<n; i++)
     {
         result.append(unusedCards[0]);
         unusedCards.removeAt(0);
@@ -314,16 +319,16 @@ QList<handCard*> itemCollector::getCard(int n)
     return result;
 }
 
-QString itemCollector::rscPath()
+QString ItemCollector::rscPath()
 {
     return gbi->getConfigDir();
 }
 
-QList<heroItem*> itemCollector::getActSequence()
+QList<HeroItem*> ItemCollector::getActSequence()
 {
-    QList<heroItem*> result;
+    QList<HeroItem*> result;
 
-    for(int i=0; i<redTeamHeros.size(); i++)
+    for (int i=0; i<redTeamHeros.size(); i++)
     {
         result.append(blueTeamHeros[i]);
         result.append(redTeamHeros[i]);
@@ -331,22 +336,22 @@ QList<heroItem*> itemCollector::getActSequence()
     return result;
 }
 
-QList<gameMapElement*> itemCollector::getRedTeamCamp()
+QList<GameMapElement*> ItemCollector::getRedTeamCamp()
 {
     return getAllElementTypeOf(areaBlueHome);
 }
 
-QList<gameMapElement*> itemCollector::getBlueTeamCamp()
+QList<GameMapElement*> ItemCollector::getBlueTeamCamp()
 {
     return getAllElementTypeOf(areaBlueHome);
 }
 
-QList<gameMapElement*> itemCollector::getAllElementTypeOf(enum gameEnvironment_t type)
+QList<GameMapElement*> ItemCollector::getAllElementTypeOf(enum gameEnvironment_t type)
 {
-    QList<gameMapElement*> result;
-    for(int i=0; i<elements.size(); i++)
+    QList<GameMapElement*> result;
+    for (int i=0; i<elements.size(); i++)
     {
-        if(elements[i]->getType() == type)
+        if (elements[i]->getType() == type)
         {
             result.append(elements[i]);
         }
@@ -355,27 +360,27 @@ QList<gameMapElement*> itemCollector::getAllElementTypeOf(enum gameEnvironment_t
 }
 
 
-QPixmap itemCollector::getPixmap()
+QPixmap ItemCollector::getPixmap()
 {
     return gbi->getPixmap();
 }
 
-QPoint itemCollector::getCooxWithPos(QPointF qf)
+QPoint ItemCollector::getCooxWithPos(QPointF qf)
 {
     return gc->getCooxWithPos(qf);
 }
 
-QPointF itemCollector::getBeginPosOfHero(QPoint in)
+QPointF ItemCollector::getBeginPosOfHero(QPoint in)
 {
     return gc->getBeginPosOfHero(in);
 }
 
-QPointF itemCollector::getCenterPosWithCoo(QPoint in)
+QPointF ItemCollector::getCenterPosWithCoo(QPoint in)
 {
     return gc->getCenterPosWithCoo(in);
 }
 
-void itemCollector::addItemsToScene(QGraphicsScene* s)
+void ItemCollector::addItemsToScene(QGraphicsScene* s)
 {
     addListToScene(redTeamHeros, s);
     addListToScene(blueTeamHeros, s);
