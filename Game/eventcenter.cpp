@@ -292,17 +292,23 @@ void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem)
     targetLines[0]->show();
 
     //TODO
-    for (int i=0; i<=frame/2; ++i)
+    for (int i = 0; i <= frame/2; ++i)
     {
         theGia->setScaleAt(i/frame, 2*i/frame, 2*i/frame);
         theGia->setPosAt(i/frame, src);
     }
 
-    for (int i=0; i<=frame/2; ++i)
+    for (int i = 0; i <= frame/2; ++i)
     {
         theGia->setPosAt(i/frame+0.5, src+distance*2*i/frame);
         theGia->setScaleAt(i/frame+0.5, 1-2*i/frame, 1-2*i/frame);
     }
 
     targetTimer->start();
+}
+
+
+void EventCenter::chooseBirth()
+{
+    scene->showBirthSquare(camp_red);
 }

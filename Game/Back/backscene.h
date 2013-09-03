@@ -26,6 +26,7 @@ public:
     void showMoveRange(HeroItem*);
     void showAttackRange(HeroItem* hero);
     void showSkillRange(HeroItem* hero, enum mapRangeType_t, int range);
+    void showBirthSquare(enum camp_t);
 
     
 private:
@@ -44,6 +45,12 @@ private:
     QPointF oldPointF;
     QSize oldViewSize;
     bool isPressing;
+    enum mode_t
+    {
+        ModeChooseBirth,
+        ModeNormal
+    };
+    enum mode_t mode;
 
 signals:
     void changeStatusBar(QStringList);

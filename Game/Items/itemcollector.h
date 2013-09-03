@@ -41,6 +41,7 @@ public:
     void setCardEngine(CardEngine* ce);
     void setCampHealth();
     void addItemsToScene(QGraphicsScene*);
+    void setPlaySeq(int i) { thePlayerSeq = i; }
     QString rscPath();
 
     QList<QString> getHeroListAvaterPath(char);
@@ -102,6 +103,8 @@ private:
 
     int hei;
     int wid;
+
+    int thePlayerSeq;
 
     QVector<HeroItem*> localHeros;
 

@@ -19,12 +19,17 @@ GameCoordinate::GameCoordinate(GameBackInfo* gbi)
  *  0,2   1,2   2,2   3,2
  *     0,3   1,3   2,3
  */
-QPointF GameCoordinate::getBeginPosWithCoo(QPoint block)
+QPointF GameCoordinate::getBeginPosWithCoo(QPoint point)
 {
-    if (block.y()%2 == 0)
-        return QPointF(beginX + 3*block.x()*lineLength, beginY + block.y()*lineLength*halfSqrt3);
+    return QPointF(beginX, beginY) + leftUpPosNoOffset(point);
+}
+
+QPointF GameCoordinate::leftUpPosNoOffset(QPoint point)
+{
+    if (point.y()%2 == 0)
+        return QPointF(3*point.x()*lineLength, point.y()*lineLength*halfSqrt3);
     else
-        return QPointF(beginX + (3*block.x()+1.5)*lineLength, beginY + block.y()*lineLength*halfSqrt3);
+        return QPointF((3*point.x()+1.5)*lineLength, point.y()*lineLength*halfSqrt3);
 }
 
 QPointF GameCoordinate::getBeginPosOfHero(QPoint block)

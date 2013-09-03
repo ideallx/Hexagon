@@ -13,7 +13,8 @@ ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci):
       tempHero(NULL),
       me(NULL),
       hf(NULL),
-      ce(NULL)
+      ce(NULL),
+      thePlayerSeq(0)
 {
     hei = gbi->getHeightCount();
     wid = gbi->getWidthCount();
@@ -68,16 +69,19 @@ void ItemCollector::setCampHealth()
 void ItemCollector::addHeroList(QList<struct externInfo> info)
 {
     QList<HeroItem*> heros = hf->generateHeroes(info);
+    qDebug()<<"hero amount"<<heros.size();
     for (int i=0; i<heros.size(); i++)
     {
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
         if (heros.at(i)->camp() == camp_red)
         {
             redTeamHeros.append(heros.at(i));
+            qDebug()<<"add red hero";
         }
         else
         {
             blueTeamHeros.append(heros.at(i));
+            qDebug()<<"add blue hero";
         }
     }
 
@@ -356,6 +360,7 @@ QList<GameMapElement*> ItemCollector::getAllElementTypeOf(enum gameEnvironment_t
             result.append(elements[i]);
         }
     }
+    qDebug()<<"result size:"<<result.size();
     return result;
 }
 

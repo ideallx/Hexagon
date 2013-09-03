@@ -23,6 +23,7 @@ public:
 
     QPoint getCooxWithPos(QPointF);
 
+    QPointF leftUpPosNoOffset(QPoint);
     QPointF getBeginPosWithCoo(QPoint);
     QPointF getBeginPosOfHero(QPoint);
     QPointF getCenterPosWithCoo(QPoint);

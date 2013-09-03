@@ -21,6 +21,7 @@ class EventCenter : public QObject
 public:
     EventCenter(BackScene* scene, GameMenu* menu);
     QStringList buildRoundInfo();
+    void chooseBirth();
 
     enum gamePhase_t
     {

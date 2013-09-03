@@ -30,6 +30,7 @@ public:
 private:
     bool variableInitial();
     bool sceneInitial();
+    void chooseBirth();
     void stateMachineInitial();
     void moveToPos(HeroItem*, QPoint);
 

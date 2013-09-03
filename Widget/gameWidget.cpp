@@ -36,8 +36,10 @@ MainWindow::~MainWindow()
 void MainWindow::gameBegin()
 {
     gp->preGameClean();
-    qDebug()<<"build ui";
     sceneInitial();
+    ec->chooseBirth();
+
+    qDebug()<<"build ui";
     connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
     connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
     connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
@@ -85,7 +87,7 @@ bool MainWindow::sceneInitial()
     ui->graphicsView->setScene(scene);
     gp->getIc()->addItemsToScene(scene);
     menu = new GameMenu(ui->graphicsView);
-    //menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
     ec = new EventCenter(scene, menu);
     qDebug("backView load complete...");
 
@@ -111,4 +113,9 @@ void MainWindow::changeRoundInfo(QStringList in)
     campLabel->setText(in[0]);
     HeroLabel->setText(in[1]);
     roundLabel->setText(in[2]);
+}
+
+void MainWindow::chooseBirth()
+{
+    ec->chooseBirth();
 }

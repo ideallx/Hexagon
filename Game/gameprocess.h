@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "ui_chooseHero.h"
 #include "ui_chooseGame.h"
+#include "ui_chooseBirth.h"
 
 class EventCenter;
 class ItemCollector;
@@ -39,12 +40,13 @@ private:
 
     Ui::chooseHero* uic;
     Ui::ChooseGame* uig;
+    Ui::ChooseBirth* uib;
 
     ModeChooseWidget* mcw;
     int chosenHeroNum;
     int playerHeroSeq;
     QWidget* parent;
-    QDialog *heroChooseDialog;
+    QDialog *chooseDialog;
     EventCenter* ec;
 
 	GameBackInfo* gbi;
