@@ -1,23 +1,19 @@
+#include <QDialog>
+#include <QToolButton>
 #include "menu.h"
 #include "carditem.h"
 #include "layoutscene.h"
 #include "heroitem.h"
-#include <QDialog>
-#include <QToolButton>
 
-GameMenu::GameMenu(QGraphicsView *parent) :
-    parent(parent),
-    ui(new Ui::Form)
-{
-    heroHeadSlideLength = 80; //uncertain
-
-
+GameMenu::GameMenu(QGraphicsView *parent)
+    : parent(parent),
+    ui(new Ui::Form),
+    heroHeadSlideLength(80) {  // uncertain
     interfaceInitial();
     menuInitial();
 }
 
-void GameMenu::menuInitial()
-{
+void GameMenu::menuInitial() {
     // menuList
     moveButton = new QPushButton(tr("move"), parent);
     attackButton = new QPushButton(tr("attack"), parent);
@@ -44,8 +40,7 @@ void GameMenu::menuInitial()
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
 }
 
-GameMenu::~GameMenu()
-{
+GameMenu::~GameMenu() {
     delete moveButton;
     delete attackButton;
     delete skillButton;
@@ -54,8 +49,7 @@ GameMenu::~GameMenu()
     delete ss;
 }
 
-void GameMenu::interfaceInitial()
-{
+void GameMenu::interfaceInitial() {
     ui->setupUi(parent);
     es = new EssenialScene();
     ss = new SkillScene();
@@ -67,11 +61,14 @@ void GameMenu::interfaceInitial()
     ui->ability->setFixedSize(300, 100);
     ui->heroHp->setFixedWidth(470);
 
-    ui->essenial->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->essenial->setRenderHints(QPainter::Antialiasing |
+                                 QPainter::SmoothPixmapTransform);
     ui->essenial->setScene(es);
-    ui->ability->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->ability->setRenderHints(QPainter::Antialiasing |
+                                QPainter::SmoothPixmapTransform);
     ui->ability->setScene(ss);
-    ui->items->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    ui->items->setRenderHints(QPainter::Antialiasing |
+                              QPainter::SmoothPixmapTransform);
     ui->items->setScene(cs);
     ui->items->setStyleSheet("background: transparent");
     ui->items->setMouseTracking(true);
@@ -79,91 +76,81 @@ void GameMenu::interfaceInitial()
     connect(ui->items, SIGNAL(resized()), this, SLOT(resizeItems()));
 }
 
-void GameMenu::showMenu(QPoint pos)
-{
+void GameMenu::showMenu(QPoint pos) {
     QList<QPushButton*> list;
-
     list = menuList;
     moveButton->setEnabled(isMoveAble);
     attackButton->setEnabled(isAttackAble);
     skillButton->setEnabled(isSkillAble);
 
-    for(int i=0; i<list.count(); i++)
-    {
+    for (int i = 0; i < list.count(); i++) {
         list[i]->show();
-        list[i]->setGeometry(pos.x(), 30*i+pos.y(), list[i]->width(), list[i]->height());
+        list[i]->setGeometry(pos.x(), 30*i+pos.y(),
+                             list[i]->width(), list[i]->height());
     }
 }
 
-void GameMenu::hideMenu(GameMenu::menu_type_t type)
-{
+void GameMenu::hideMenu(GameMenu::menu_type_t type) {
     QList<QPushButton*> list;
-    switch(type)
-    {
+    switch (type) {
     case MENULIST:
         list = menuList;
         break;
     }
 
-    for (int i=0; i<list.count(); i++)
-    {
+    for (int i = 0; i < list.count(); i++) {
         list[i]->hide();
     }
 }
 
-void GameMenu::hideAllMenu()
-{
-    for (int i=0; i<menuList.size(); i++)
-    {
+void GameMenu::hideAllMenu() {
+    for (int i = 0; i < menuList.size(); i++) {
         menuList[i]->hide();
     }
 }
 
-void GameMenu::resetMenuEnable()
-{
-    for (int i=0; i<menuList.size(); i++)
-    {
+void GameMenu::resetMenuEnable() {
+    for (int i = 0; i < menuList.size(); i++) {
         menuList[i]->setEnabled(true);
     }
     isMoveAble = isAttackAble = isSkillAble = true;
 }
 
-void GameMenu::reSetInterface(QSize s)
-{
+void GameMenu::reSetInterface(QSize s) {
     mapTable->setGeometry(0, s.height()-300, 300, 300);
     mapTable->show();
 }
 
-void GameMenu::listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn)
-{
+void GameMenu::listSlideHeroHead(QList<QString>leftColumn,
+                                 QList<QString>rightColumn) {
     int num = leftColumn.size();
-    for (int i=0; i<num; i++)
-    {
+    for (int i = 0; i < num; i++) {
         QLabel *heroAvater = new QLabel();
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
-        heroAvater->setPixmap(QPixmap(leftColumn[i]).scaledToHeight(heroHeadSlideLength));
+        heroAvater->setPixmap(
+                    QPixmap(leftColumn[i]).
+                    scaledToHeight(heroHeadSlideLength));
         ui->leftHeros->addWidget(heroAvater);
     }
     num = rightColumn.size();
-    for (int i=0; i<num; i++)
-    {
+    for (int i = 0; i < num; i++) {
         QLabel *heroAvater = new QLabel();
         heroAvater->setAlignment(Qt::AlignRight);
         heroAvater->setFixedSize(100, 100);
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
-        heroAvater->setPixmap(QPixmap(rightColumn[i]).scaledToHeight(heroHeadSlideLength));
+        heroAvater->setPixmap(
+                    QPixmap(rightColumn[i]).
+                    scaledToHeight(heroHeadSlideLength));
         ui->rightHeros->addWidget(heroAvater);
     }
 }
 
-void GameMenu::setHeroHp(int curHp, int maxHp)
-{
+void GameMenu::setHeroHp(int curHp, int maxHp) {
     ui->heroHp->setMaximum(maxHp);
     ui->heroHp->setValue(curHp);
 }
 
-void GameMenu::setHeroInfo(HeroItem* hero)
-{
+void GameMenu::setHeroInfo(HeroItem* hero) {
     setHeroHp(hero->health(), hero->maxHealth());
     setHeroAvaters(hero->wholePic());
     struct panelInfo pi;
@@ -175,33 +162,28 @@ void GameMenu::setHeroInfo(HeroItem* hero)
 }
 
 
-void GameMenu::setHeroAvaters(QPixmap *p)
-{
-    ui->head->setPixmap(p->scaledToHeight(ui->head->height(), Qt::SmoothTransformation));
+void GameMenu::setHeroAvaters(QPixmap *p) {
+    ui->head->setPixmap(p->scaledToHeight(ui->head->height(),
+                                          Qt::SmoothTransformation));
 }
 
-void GameMenu::updateCardsArea(QList<HandCard*> cards)
-{
+void GameMenu::updateCardsArea(QList<HandCard*> cards) {
     cs->setSceneRect(0, 0, ui->items->width(), ui->items->height());
     QList<QGraphicsItem*> ims = cs->items();
-
-    for (int i=0; i<ims.size(); i++)
-    {
+    for (int i = 0; i < ims.size(); i++) {
         cs->removeItem(ims[i]);
     }
 
     if (cards.size() == 0)
         return;
 
-    for (int i=0; i<cards.size(); i++)
-    {
+    for (int i = 0; i < cards.size(); i++) {
         cs->addItem(cards[i]);
     }
     resizeItems();
 }
 
-void GameMenu::resizeItems()
-{
+void GameMenu::resizeItems() {
     cs->clearChosenItems();
     cs->listCards();
 }

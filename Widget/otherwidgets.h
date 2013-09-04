@@ -1,5 +1,5 @@
-#ifndef OTHERWIDGETS_H
-#define OTHERWIDGETS_H
+#ifndef WIDGET_OTHERWIDGETS_H_
+#define WIDGET_OTHERWIDGETS_H_
 
 #include <QWidget>
 #include <QToolButton>
@@ -8,27 +8,21 @@
 #include "ui_enviroSettings.h"
 
 
-class ModeChooseWidget : public QWidget
-{
+class ModeChooseWidget : public QWidget {
     Q_OBJECT
-public:
+ public:
     explicit ModeChooseWidget(QWidget *parent = 0);
     ~ModeChooseWidget();
-	QToolButton* singleButton() { return ui->singleGame; }
+    QToolButton* singleButton() { return ui->singleGame; }
 
-
-private:
+ private:
     Ui::modeChoose *ui;
     Ui::gameSetting *uig;
     Ui::enviroSetting *uie;
     QDialog *qdlg;
-    
-signals:
-    
-public slots:
-    
-private slots:
+
+ private slots:
     void on_settings_clicked();
 };
 
-#endif // OTHERWIDGETS_H
+#endif  // WIDGET_OTHERWIDGETS_H_

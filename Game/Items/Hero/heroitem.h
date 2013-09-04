@@ -1,31 +1,24 @@
-#ifndef HEROITEM_H
-#define HEROITEM_H
+#ifndef GAME_ITEMS_HERO_HEROITEM_H_
+#define GAME_ITEMS_HERO_HEROITEM_H_
 
 #include <QGraphicsItem>
 #include <QPainter>
 #include "enums.h"
 
-
 class HandCard;
 class SkillBase;
-
 enum triggerTime_t;
 
-class HeroItem : public QObject, public QGraphicsEllipseItem
-{
+class HeroItem : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
-
     Q_PROPERTY(QPoint point READ point WRITE setPoint)
 
-public:
-
-    HeroItem(int lineLength);
+ public:
+    explicit HeroItem(int lineLength);
     void setHeroProperty(char s, char a, char m, int h);
     void setHeroProperty(struct heroInfo);
-
     enum camp_t camp() const { return theCamp;}
     void setCamp(enum camp_t c) { theCamp = c; }
-
     char sexual() const { return theSexual; }
 
     char attackRange() const { return theAttackRange; }
@@ -51,7 +44,7 @@ public:
     QPoint point() const { return thePoint;}
     void setPoint(QPoint p) { thePoint = p; }
 
-    void setCards(QList<HandCard*> c){ theCards = c; }
+    void setCards(QList<HandCard*> c) { theCards = c; }
     void addCards(QList<HandCard*> c);
     QList<HandCard*> cards() { return theCards; }
 
@@ -63,8 +56,7 @@ public:
     QPainterPath shape() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
-
-private:
+ private:
     QList<SkillBase*> skills;
     QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
@@ -84,11 +76,10 @@ private:
     int lineLength;
     QColor color;
 
-
-signals:
+ signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);
     void heroInvokeMenu(QPointF);
     void changeStatus(QString);
 };
 
-#endif // HEROITEM_H
+#endif  // GAME_ITEMS_HERO_HEROITEM_H_

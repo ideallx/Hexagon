@@ -1,7 +1,6 @@
 #include "skillcenter.h"
 
-SkillBase::SkillBase()
-{
+SkillBase::SkillBase() {
     type = SkillPositive;
     time = TriggerGameBegin;
     priority = 0;

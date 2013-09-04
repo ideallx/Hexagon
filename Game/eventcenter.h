@@ -1,5 +1,5 @@
-#ifndef EVENTCENTER_H
-#define EVENTCENTER_H
+#ifndef GAME_EVENTCENTER_H_
+#define GAME_EVENTCENTER_H_
 
 #include <QObject>
 #include <QPoint>
@@ -14,17 +14,15 @@ class GameCoordinate;
 class HeroItem;
 class GameMapElement;
 
-class EventCenter : public QObject
-{
+class EventCenter : public QObject {
     Q_OBJECT
 
-public:
+ public:
     EventCenter(BackScene* scene, GameMenu* menu);
     QStringList buildRoundInfo();
     void chooseBirth();
 
-    enum gamePhase_t
-    {
+    enum gamePhase_t {
         BeginPhase,
         MovePhase,
         AttackPhase,
@@ -33,14 +31,14 @@ public:
         FinalPhase
     };
 
-private:
+ private:
     void setupConnection();
     void roundBegin();
     void roundEnd();
-    void setCurHero(HeroItem*);
-    void heroMoveToPoint(QPoint);
-    void heroAttackPoint(QPoint);
-    void skillStraightTest(QPoint);
+    void setCurHero(HeroItem* hi);
+    void heroMoveToPoint(QPoint p);
+    void heroAttackPoint(QPoint p);
+    void skillStraightTest(QPoint p);
 
     void moveAnimate(HeroItem* item, GameMapElement* gme);
     void attackAnimate(HeroItem* srcItem, HeroItem* targetItem);
@@ -60,20 +58,19 @@ private:
 
     QGraphicsItemAnimation* theGia;
 
-signals:
+ signals:
     void roundInfoChanged(QStringList);
 
-public slots:
-    void targetClicked(QPoint);
-    void heroChosen(HeroItem*);
+ public slots:
+    void targetClicked(QPoint p);
+    void heroChosen(HeroItem* hi);
     void getCard(int num = 1);
     void moveBegin();
     void attackBegin();
     void skillBegin();
     void endTurn();
     void mapClear();
-    void showMenu(HeroItem*, QPoint p);
-
+    void showMenu(HeroItem* hi, QPoint p);
 };
 
-#endif // EVENTCENTER_H
+#endif  // GAME_EVENTCENTER_H_

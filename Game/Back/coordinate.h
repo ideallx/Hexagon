@@ -1,5 +1,5 @@
-#ifndef GAMECOORDINATE_H
-#define GAMECOORDINATE_H
+#ifndef GAME_BACK_COORDINATE_H_
+#define GAME_BACK_COORDINATE_H_
 
 #include <QPoint>
 #include <QList>
@@ -7,40 +7,32 @@
 
 class GameBackInfo;
 
-class GameCoordinate
-{
-public:
-    GameCoordinate(GameBackInfo* gbi);
-
+class GameCoordinate {
+ public:
+    explicit GameCoordinate(GameBackInfo* gbi);
     QList<QPoint> getMovePoint() const { return showRange; }
-
     QPoint goUpLeft(QPoint);
     QPoint goUpRight(QPoint);
     QPoint goUp(QPoint);
     QPoint goDownLeft(QPoint);
     QPoint goDownRight(QPoint);
     QPoint goDown(QPoint);
-
     QPoint getCooxWithPos(QPointF);
-
     QPointF leftUpPosNoOffset(QPoint);
     QPointF getBeginPosWithCoo(QPoint);
     QPointF getBeginPosOfHero(QPoint);
     QPointF getCenterPosWithCoo(QPoint);
 
-
-private:
+ private:
     int beginX;
     int beginY;
     int lineLength;
     double halfSqrt3;
     int widthCount;
     int heightCount;
-
     QVector<char> mapElement;
     QList<QPoint> showRange;
-
 };
 
 
-#endif // GAMECOORDINATE_H
+#endif  // GAME_BACK_COORDINATE_H_

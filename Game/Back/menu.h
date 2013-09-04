@@ -1,5 +1,5 @@
-#ifndef GAMEMENU_H
-#define GAMEMENU_H
+#ifndef GAME_BACK_MENU_H_
+#define GAME_BACK_MENU_H_
 
 #include <QList>
 #include <QPixmap>
@@ -17,13 +17,11 @@ class HeroItem;
 struct heroInfo;
 
 
-class GameMenu : public QObject
-{
+class GameMenu : public QObject {
     Q_OBJECT
 
-public:
-    enum menu_type_t
-    {
+ public:
+    enum menu_type_t {
         MENULIST,
         MOVELIST,
         ATTACKLIST,
@@ -31,70 +29,57 @@ public:
         CANCELLIST
     };
 
-    GameMenu(QGraphicsView *parent = 0);
+    explicit GameMenu(QGraphicsView *parent = 0);
     ~GameMenu();
-
     void hideMenu(GameMenu::menu_type_t);
-
     bool MoveAble() { return isMoveAble; }
     bool AttackAble() { return isAttackAble; }
     bool AbilityAble() { return isSkillAble; }
-
     void setMoveAble(bool b = true) { isMoveAble = b; }
     void setAttackAble(bool b = true) { isAttackAble = b; }
     void setSkillAble(bool b = true) { isSkillAble = b; }
-
     void resetMenuEnable();
-
     void setMap(QGraphicsScene* s);
     void setHeroAvaters(QPixmap *p);
     void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }
     void setHeroHp(int curHp, int maxHp);
     void setEssenial(struct panelInfo pi) { es->setContent(pi); }
-
     void setHeroInfo(HeroItem* hero);
 
-private:
+ private:
     void menuInitial();
     void interfaceInitial();
 
     QList<QPushButton*> menuList;
     QWidget* parent;
-
     int heroHeadSlideLength;
     bool isMoveAble;
     bool isAttackAble;
     bool isSkillAble;
-
     EssenialScene* es;
     SkillScene* ss;
     CardScene* cs;
-
     Ui::Form* ui;
-
     QPushButton *moveButton;
     QPushButton *attackButton;
     QPushButton *skillButton;
     QPushButton *cancelButton;
-
     QTabWidget* mapTable;
 
-
-signals:
+ signals:
     void moveClicked();
     void attackClicked();
     void skillClicked();
     void cancelClicked();
 
-public slots:
+ public slots:
     void resizeItems();
     void listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn);
     void hideAllMenu();
     void showMenu(QPoint pos = QPoint());
     void reSetInterface(QSize);
     void updateCardsArea(QList<HandCard*> cards);
-
 };
 
 
-#endif // GAMEMENU_H
+#endif  // GAME_BACK_MENU_H_

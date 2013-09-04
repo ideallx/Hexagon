@@ -1,5 +1,5 @@
-#ifndef BACKSCENE_H
-#define BACKSCENE_H
+#ifndef GAME_BACK_BACKSCENE_H_
+#define GAME_BACK_BACKSCENE_H_
 
 #include <QGraphicsScene>
 
@@ -13,57 +13,50 @@ class HeroFactory;
 class SkillBase;
 struct externInfo;
 
-class BackScene : public QGraphicsScene
-{
+class BackScene : public QGraphicsScene {
     Q_OBJECT
-public:
+
+ public:
     BackScene(ItemCollector* ic, QObject *parent = 0);
     ~BackScene();
 
     ItemCollector* pIc() { return ic;}
-    QList<QString> getHeroListAvaterPath(char in);
-
-    void showMoveRange(HeroItem*);
+    QList<QString> getHeroListAvaterPath(enum camp_t c);
+    void showMoveRange(HeroItem* hero);
     void showAttackRange(HeroItem* hero);
     void showSkillRange(HeroItem* hero, enum mapRangeType_t, int range);
-    void showBirthSquare(enum camp_t);
+    void showBirthSquare(enum camp_t camp);
 
-    
-private:
+ private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-private:
+ private:
     ItemCollector *ic;
-
     QList<QPoint> rangeList;
-
     QPoint oldPoint;
-
     QPointF oldPointF;
     QSize oldViewSize;
     bool isPressing;
-    enum mode_t
-    {
+    enum mode_t {
         ModeChooseBirth,
         ModeNormal
     };
     enum mode_t mode;
 
-signals:
-    void changeStatusBar(QStringList);
-    void mapElementMovedIn(QPoint);
-    void mapElementClicked(QPoint);
-    void heroClicked(HeroItem*);
-    void buildMenu(HeroItem*, QPoint);
-    void viewSizeChanged(QSize);
-    void rangeClicked(QPoint);
-    
-public slots:
+ signals:
+    void changeStatusBar(QStringList sl);
+    void mapElementMovedIn(QPoint p);
+    void mapElementClicked(QPoint p);
+    void heroClicked(HeroItem* h);
+    void buildMenu(HeroItem* h, QPoint p);
+    void viewSizeChanged(QSize s);
+    void rangeClicked(QPoint p);
+
+ public slots:
     void clearRange();
-    
 };
 
-#endif // BACKSCENE_H
+#endif  // GAME_BACK_BACKSCENE_H_

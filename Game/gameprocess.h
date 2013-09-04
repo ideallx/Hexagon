@@ -1,5 +1,5 @@
-#ifndef GAMEPROCESS_H
-#define GAMEPROCESS_H
+#ifndef GAME_GAMEPROCESS_H_
+#define GAME_GAMEPROCESS_H_
 
 #include <QObject>
 #include <QDialog>
@@ -18,22 +18,21 @@ class BackScene;
 class HeroFactory;
 struct externInfo;
 
-class GameProcess : public QObject
-{
+class GameProcess : public QObject {
     Q_OBJECT
 
-public:
-    GameProcess(QWidget *parent=0);
+ public:
+    explicit GameProcess(QWidget *parent = 0);
     ~GameProcess();
     void preGame();
     void preGameClean();
-	void inGame();
+    void inGame();
     void endGame();
     ItemCollector* getIc() { return ic; }
     QList<struct externInfo> getPreGameResult() { return eil; }
 
-private:
-	void loadResources();
+ private:
+    void loadResources();
     void chooseBirthScreen();
     void modeChooseScreen();
     void buildGameInfo();
@@ -49,24 +48,23 @@ private:
     QDialog *chooseDialog;
     EventCenter* ec;
 
-	GameBackInfo* gbi;
-	GameCoordinate* gc;
-	ItemCollector* ic;
-	BackScene* bs;
+    GameBackInfo* gbi;
+    GameCoordinate* gc;
+    ItemCollector* ic;
+    BackScene* bs;
     HeroFactory *hf;
 
-	QList<struct externInfo> eil;
+    QList<struct externInfo> eil;
 
-signals:
+ signals:
     void choseHeroChoose();
     void gameStart();
-	
-private slots:
+
+ private slots:
     void heroChosed();
     void heroChooseScreen();
     void gameChooseScreen();
     void birthChooseScreen();
-
 };
 
-#endif // GAMEPROCESS_H
+#endif  // GAME_GAMEPROCESS_H_

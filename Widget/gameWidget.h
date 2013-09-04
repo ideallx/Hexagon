@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef WIDGET_GAMEWIDGET_H_
+#define WIDGET_GAMEWIDGET_H_
 
 #include <QMainWindow>
 #include <QLabel>
@@ -8,7 +8,6 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMessageBox>
 #include <QStringList>
-
 #include "ui_mainwindow.h"
 
 class GameMenu;
@@ -19,20 +18,19 @@ class EventCenter;
 class HeroItem;
 class GameProcess;
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
-    
-public:
+
+ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private:
+ private:
     bool variableInitial();
     bool sceneInitial();
     void chooseBirth();
     void stateMachineInitial();
-    void moveToPos(HeroItem*, QPoint);
+    void moveToPos(HeroItem* hi, QPoint p);
 
     GameMenu* menu;
     BackScene *scene;
@@ -53,10 +51,10 @@ private:
 
     Ui::MainWindow *ui;
 
-public slots:
+ public slots:
     void gameBegin();
     void changeStatusInfo(QStringList);
     void changeRoundInfo(QStringList);
 };
 
-#endif // MAINWINDOW_H
+#endif  // WIDGET_GAMEWIDGET_H_

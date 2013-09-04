@@ -1,25 +1,24 @@
-#ifndef TESTVIEW2_H
-#define TESTVIEW2_H
+#ifndef GAME_BACK_BACKVIEW_H_
+#define GAME_BACK_BACKVIEW_H_
 
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QMatrix>
 #include <QResizeEvent>
 
-class BackView : public QGraphicsView
-{
+class BackView : public QGraphicsView {
     Q_OBJECT
-public:
+
+ public:
     BackView(QGraphicsScene *scene, QWidget *parent = 0);
-    BackView(QWidget *parent = 0);
+    explicit BackView(QWidget *parent = 0);
 
-protected:
+ protected:
     void resizeEvent(QResizeEvent *event);
-    //QSize sizeHint() const {return scene()->sceneRect().size().toSize();}
 
-private:
+ private:
     void initialSettrings();
     QMatrix matrix;
 };
 
-#endif // TESTVIEW2_H
+#endif  // GAME_BACK_BACKVIEW_H_

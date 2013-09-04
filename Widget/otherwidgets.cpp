@@ -1,14 +1,13 @@
+#include <QDebug>
 #include "otherwidgets.h"
 #include "ui_modechoose.h"
 #include "gameWidget.h"
 #include "ui_gameSetting.h"
 
-#include <QDebug>
 
-ModeChooseWidget::ModeChooseWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::modeChoose)
-{
+ModeChooseWidget::ModeChooseWidget(QWidget *parent)
+    : QWidget(parent),
+    ui(new Ui::modeChoose) {
     ui->setupUi(this);
     ui->singleGame->setFixedSize(100, 30);
     ui->lanGame->setFixedSize(100, 30);
@@ -23,14 +22,12 @@ ModeChooseWidget::ModeChooseWidget(QWidget *parent) :
 //    qdlg->hide();
 }
 
-ModeChooseWidget::~ModeChooseWidget()
-{
+ModeChooseWidget::~ModeChooseWidget() {
     delete ui;
 }
 
 
-void ModeChooseWidget::on_settings_clicked()
-{
+void ModeChooseWidget::on_settings_clicked() {
     delete qdlg;
     qdlg = new QDialog(this);
     uie->setupUi(qdlg);

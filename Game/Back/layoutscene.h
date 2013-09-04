@@ -1,5 +1,5 @@
-#ifndef LAYOUTSCENE_H
-#define LAYOUTSCENE_H
+#ifndef GAME_BACK_LAYOUTSCENE_H_
+#define GAME_BACK_LAYOUTSCENE_H_
 
 #include <QGraphicsScene>
 #include <QGraphicsItem>
@@ -8,42 +8,37 @@
 #include <QVector>
 #include <QGraphicsSceneMouseEvent>
 
-
-struct panelInfo
-{
+struct panelInfo {
     QString attackRange;
     QString moveRange;
     QString attack;
 };
 
-class EssenialScene : public QGraphicsScene
-{
-public:
+class EssenialScene : public QGraphicsScene {
+ public:
     EssenialScene();
     ~EssenialScene();
 
     void setContent(struct panelInfo);
 
-private:
+ private:
     QString preMr;
     QString preAr;
     QString preA;
     QGraphicsTextItem *moveRange;
     QGraphicsTextItem *attackRange;
     QGraphicsTextItem *attack;
-
 };
 
-class CardScene : public QGraphicsScene
-{
-public:
+class CardScene : public QGraphicsScene {
+ public:
     CardScene();
     ~CardScene();
     void clearChosenItems();
     void listCards();
     QGraphicsItemGroup* cardGroup;
 
-private:
+ private:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
@@ -67,31 +62,28 @@ public :
 };
 */
 
-class SkillScene : public QGraphicsScene
-{
-public:
+class SkillScene : public QGraphicsScene {
+ public:
     SkillScene();
     ~SkillScene();
-
     void setHeroSkillButton(QList<QPixmap>in);
 
-private:
+ private:
     QGraphicsEllipseItem *skill1;
     QGraphicsEllipseItem *skill2;
     QGraphicsEllipseItem *skill3;
-
 };
 
-class ViewSendResize : public QGraphicsView
-{
+class ViewSendResize : public QGraphicsView {
     Q_OBJECT
-public:
-    ViewSendResize(QWidget *parent = 0);
+
+ public:
+    explicit ViewSendResize(QWidget *parent = 0);
     ~ViewSendResize();
     void resizeEvent(QResizeEvent *e);
 
-signals:
+ signals:
     void resized();
 };
 
-#endif // LAYOUTSCENE_H
+#endif  // GAME_BACK_LAYOUTSCENE_H_

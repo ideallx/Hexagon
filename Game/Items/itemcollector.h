@@ -1,6 +1,5 @@
-#ifndef ITEMCOLLECTOR_H
-#define ITEMCOLLECTOR_H
-
+#ifndef GAME_ITEMS_ITEMCOLLECTOR_H_
+#define GAME_ITEMS_ITEMCOLLECTOR_H_
 
 #include <QGraphicsScene>
 #include <QList>
@@ -9,7 +8,6 @@
 #include <QPen>
 #include <QPixmap>
 #include "enums.h"
-
 
 class HeroItem;
 class GameBackInfo;
@@ -22,17 +20,15 @@ class MapEngine;
 class CampHealth;
 struct externInfo;
 
-enum rangeMode_t
-{
+enum rangeMode_t {
     ModeMove,
     ModeAttack,
     ModeSkill,
     ModeElse
 };
 
-class ItemCollector
-{
-public:
+class ItemCollector {
+ public:
     ItemCollector(GameBackInfo*, GameCoordinate*);
     ~ItemCollector();
 
@@ -40,18 +36,18 @@ public:
     void setHeroFactory(HeroFactory* hf, QList<struct externInfo> info);
     void setCardEngine(CardEngine* ce);
     void setCampHealth();
-    void addItemsToScene(QGraphicsScene*);
+    void addItemsToScene(QGraphicsScene* gs);
     void setPlaySeq(int i) { thePlayerSeq = i; }
     QString rscPath();
 
-    QList<QString> getHeroListAvaterPath(char);
+    QList<QString> getHeroListAvaterPath(enum camp_t c);
 
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
 
-    GameMapElement* getMapElementByPoint(QPoint in){ return elements[getPointNumber(in)]; }
+    GameMapElement* getMapElementByPoint(QPoint in) {
+        return elements[getPointNumber(in)]; }
     int getPointNumber(QPoint);
-
 
     QList<GameMapElement*> getRedTeamCamp();
     QList<GameMapElement*> getBlueTeamCamp();
@@ -64,7 +60,7 @@ public:
     void restoreAllPen();
 
     HeroItem* getHeroByPoint(QPoint);
-    void addLocalHero(HeroItem* h){ localHeros.append(h);}
+    void addLocalHero(HeroItem* h) { localHeros.append(h);}
     bool isLocalHero(HeroItem* h) { return localHeros.contains(h); }
     HeroItem* getLocalHero() { return localHeros[0]; }
 
@@ -79,41 +75,35 @@ public:
     QPointF getBeginPosOfHero(QPoint in);
     QPointF getCenterPosWithCoo(QPoint in);
 
-private:
+ private:
     void addHeroList(QList<struct externInfo> info);
     void addCardList();
     void addMapElementList();
     void addHeroSide();
 
-    template <typename T> void addListToScene(QList<T> l, QGraphicsScene* s)
-    {
-        for(int i=0; i<l.size(); i++)
-        {
+    template <typename T>
+    void addListToScene(QList<T> l, QGraphicsScene* s) {
+        for (int i = 0; i < l.size(); i++) {
             s->addItem(l[i]);
         }
     }
 
-    HeroItem* tempHero;
-
-
     bool listAddJudge(QList<QPoint>* set, QPoint point);
     QList<QPoint> recursionSeries(QList<QPoint>* set, QPoint point, int range);
 
-    enum rangeMode_t type;
-
-    int hei;
-    int wid;
-
-    int thePlayerSeq;
-
-    QVector<HeroItem*> localHeros;
-
+    GameBackInfo* gbi;
+    GameCoordinate* gc;
     MapEngine* me;
     HeroFactory* hf;
     CardEngine* ce;
 
-    GameBackInfo* gbi;
-    GameCoordinate* gc;
+    int thePlayerSeq;
+    int hei;
+    int wid;
+    HeroItem* tempHero;
+    enum rangeMode_t type;
+
+    QVector<HeroItem*> localHeros;
 
     QList<HeroItem*> redTeamHeros;
     QList<HeroItem*> blueTeamHeros;
@@ -125,4 +115,4 @@ private:
     QList<HandCard*> usedCards;
 };
 
-#endif // ITEMCOLLECTOR_H
+#endif  // GAME_ITEMS_ITEMCOLLECTOR_H_

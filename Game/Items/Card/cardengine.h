@@ -1,5 +1,5 @@
-#ifndef CARDENGINE_H
-#define CARDENGINE_H
+#ifndef GAME_ITEMS_CARD_CARDENGINE_H_
+#define GAME_ITEMS_CARD_CARDENGINE_H_
 
 #include <QList>
 #include <QString>
@@ -8,15 +8,13 @@
 class HandCard;
 class GameBackInfo;
 
-struct cardInfo
-{
+struct cardInfo {
     int cartType;
     QString name;
 };
 
 
-enum cardType_t
-{
+enum cardType_t {
     KuangBao,
     ZheYue,
     FaLiRanShao,
@@ -40,15 +38,12 @@ enum cardType_t
     CardUserDefined
 };
 
-class CardEngine : public QObject
-{
-public:
-
-
-    CardEngine(GameBackInfo *gbi);
+class CardEngine : public QObject {
+ public:
+    explicit CardEngine(GameBackInfo *gbi);
     QList<HandCard*> generateHandCards(int package = 0);
 
-private:
+ private:
     static const struct cardInfo kb;
     static const struct cardInfo zy;
     static const struct cardInfo flrs;
@@ -69,5 +64,4 @@ private:
     QString path;
 };
 
-
-#endif // CARDENGINE_H
+#endif  // GAME_ITEMS_CARD_CARDENGINE_H_

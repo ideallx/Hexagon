@@ -13,10 +13,9 @@
 
 #define CONFIGPATH "C:/rsc/config.xml"
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent),
+    ui(new Ui::MainWindow) {
     ui->setupUi(this);
     variableInitial();
     connect(ui->actionQt, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
@@ -28,30 +27,29 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(gp, SIGNAL(gameStart()), this, SLOT(gameBegin()));
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::gameBegin()
-{
+void MainWindow::gameBegin() {
     gp->preGameClean();
     sceneInitial();
     ec->chooseBirth();
 
-    qDebug()<<"build ui";
-    connect(scene, SIGNAL(changeStatusBar(QStringList)), this, SLOT(changeStatusInfo(QStringList)));
-    connect(ec, SIGNAL(roundInfoChanged(QStringList)), this, SLOT(changeRoundInfo(QStringList)));
+    qDebug() << "build ui";
+    connect(scene, SIGNAL(changeStatusBar(QStringList sl)),
+            this, SLOT(changeStatusInfo(QStringList sl)));
+    connect(ec, SIGNAL(roundInfoChanged(QStringList sl)),
+            this, SLOT(changeRoundInfo(QStringList sl)));
     connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
     connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
-    //changeRoundInfo(ec->buildRoundInfo());
-    qDebug("initial complete...");
+    // changeRoundInfo(ec->buildRoundInfo());
+    qDebug() << "initial complete...";
 }
 
 // AREA:element     coordinate:x, x    camp:hero
 // HERO:heroName    coordinate:x, x    camp:hero
-bool MainWindow::variableInitial()
-{
+bool MainWindow::variableInitial() {
     endTurnAction = new QAction(tr("End Turn"), this);
     ui->mainToolBar->addAction(endTurnAction);
 
@@ -81,41 +79,36 @@ bool MainWindow::variableInitial()
     return true;
 }
 
-bool MainWindow::sceneInitial()
-{
+bool MainWindow::sceneInitial() {
     scene = new BackScene(gp->getIc(), this);
     ui->graphicsView->setScene(scene);
     gp->getIc()->addItemsToScene(scene);
     menu = new GameMenu(ui->graphicsView);
-    menu->listSlideHeroHead(scene->getHeroListAvaterPath('b'), scene->getHeroListAvaterPath('r'));
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath(camp_blue),
+                            scene->getHeroListAvaterPath(camp_red));
     ec = new EventCenter(scene, menu);
     qDebug("backView load complete...");
 
     return true;
 }
 
-void MainWindow::changeStatusInfo(QStringList in)
-{
-    if (in.size() == 0)
-    {
+void MainWindow::changeStatusInfo(QStringList in) {
+    if (in.size() == 0) {
         itemLabel->setText("");
         coordinateLabel->setText("");
     }
-    if (in.size() == 2)
-    {
+    if (in.size() == 2) {
         itemLabel->setText(in.at(0));
         coordinateLabel->setText(in.at(1));
     }
 }
 
-void MainWindow::changeRoundInfo(QStringList in)
-{
+void MainWindow::changeRoundInfo(QStringList in) {
     campLabel->setText(in[0]);
     HeroLabel->setText(in[1]);
     roundLabel->setText(in[2]);
 }
 
-void MainWindow::chooseBirth()
-{
+void MainWindow::chooseBirth() {
     ec->chooseBirth();
 }

@@ -1,17 +1,10 @@
-#ifndef ENUMS_H
-#define ENUMS_H
-
-/**
- *
- *for debug
- *
- */
+#ifndef GAME_ENUMS_H_
+#define GAME_ENUMS_H_
 
 #include <QString>
 #include <QPoint>
 
-enum gameEnvironment_t
-{
+enum gameEnvironment_t {
     areaSpace,
     areaGrass   = '1',
     areaStone   = '2',
@@ -23,7 +16,6 @@ enum gameEnvironment_t
     areaDesert  = '8',
     areaWater   = '9',
 
-
     areaFort    = 'J',
     areaRedHome = 'K',
     areaTree    = 'L',
@@ -32,8 +24,7 @@ enum gameEnvironment_t
     areaNouse = 'Z'
 };
 
-enum triggerTime_t
-{
+enum triggerTime_t {
     TriggerGameBegin,
     TriggerRoundBegin,
     TriggerTurnBegin,
@@ -48,16 +39,14 @@ enum triggerTime_t
     TriggerGameEnd
 };
 
-enum mapRangeType_t
-{
+enum mapRangeType_t {
     RangeTypeStraight,
     RangeTypeDoubleLine,
     RangeTypeRound
 };
 
 
-enum heroNum_t
-{
+enum heroNum_t {
     MieShaZhe,
     RenZhe,
     AnYingZhiRen,
@@ -80,40 +69,34 @@ enum heroNum_t
     HuoWuZhe
 };
 
-enum camp_t
-{
+enum camp_t {
     camp_red,
     camp_blue
 };
 
-enum sexual_t
-{
+enum sexual_t {
     sex_male,
     sex_female
 };
 
-enum hero_package_t
-{
-	HeroPackage_Normal,
-	HeroPackage_Extend1,
-	HeroPackage_Extend2
+enum hero_package_t {
+    HeroPackage_Normal,
+    HeroPackage_Extend1,
+    HeroPackage_Extend2
 };
 
-struct heroInfo
-{
+struct heroInfo {
     int attackRange;
     int moveRange;
     int healthMax;
     char sexual;
     QString heroName;
-
 };
 
-struct externInfo
-{
+struct externInfo {
     int h;
     enum camp_t c;
     QPoint p;
 };
 
-#endif // ENUMS_H
+#endif  // GAME_ENUMS_H_

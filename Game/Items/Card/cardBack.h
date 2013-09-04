@@ -1,24 +1,21 @@
-#ifndef CARDITEM_H
-#define CARDITEM_H
+#ifndef GAME_ITEMS_CARD_CARDBACK_H_
+#define GAME_ITEMS_CARD_CARDBACK_H_
 
 #include <QGraphicsItem>
 #include <QPainter>
 
-class CardBack : public QObject, public QGraphicsRectItem
-{
+class CardBack : public QObject, public QGraphicsRectItem {
     Q_OBJECT
-public:
+
+ public:
     explicit CardBack(QRectF, QString);
 
-private:
+ private:
     QRectF boundingRect();
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter,
+               const QStyleOptionGraphicsItem *option,
+               QWidget *widget);
     QString path;
-
-signals:
-    
-public slots:
-    
 };
 
-#endif // CARDITEM_H
+#endif  // GAME_ITEMS_CARD_CARDBACK_H_

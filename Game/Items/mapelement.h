@@ -1,5 +1,5 @@
-#ifndef GAMEMAPELEMENT_H
-#define GAMEMAPELEMENT_H
+#ifndef GAME_ITEMS_MAPELEMENT_H_
+#define GAME_ITEMS_MAPELEMENT_H_
 
 #include <QGraphicsItem>
 #include <QVector>
@@ -11,16 +11,14 @@
 
 class GameBackInfo;
 
-
-class GameMapElement : public QObject, public QGraphicsPolygonItem
-{
+class GameMapElement : public QObject, public QGraphicsPolygonItem {
     Q_OBJECT
 
-public:
+ public:
     GameMapElement(int, enum gameEnvironment_t, QPoint, QString);
 
     QVector<QPointF> getPolygonPointf(QPointF);
-    QPolygonF polygonDeleteBound(double);
+    QPolygonF polygonDeleteBound(double width);
 
     QPoint point() const { return thePoint; }
     QString getElementName() const { return elementName; }
@@ -30,19 +28,24 @@ public:
 
     void setDefaultZValue();
     void setDefaultPen();
-    QPen getDefaultPen() { if(moveAvailable) return QPen(Qt::black); else return QPen(Qt::white); }
+    QPen getDefaultPen() {
+        if (moveAvailable)
+            return QPen(Qt::black);
+        else
+            return QPen(Qt::white); }
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
 
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget);
+    void paint(QPainter *painter,
+               const QStyleOptionGraphicsItem *item,
+               QWidget *widget);
 
     void setPen(const QPen &pen);
     QPen getOldPen() const { return oldPen; }
     void restorePen() { QGraphicsPolygonItem::setPen(oldPen); }
 
-
-private:
+ private:
     void variableInitial();
 
     QPen oldPen;
@@ -58,16 +61,13 @@ private:
 };
 
 
-class MapEngine
-{
-public:
-    MapEngine(GameBackInfo* gbii);
+class MapEngine {
+ public:
+    explicit MapEngine(GameBackInfo* gbii);
     QList<GameMapElement*> generateMapElements(int width, int height);
 
-private:
+ private:
     GameBackInfo* gbi;
-
 };
 
-
-#endif // GAMEMAPELEMENT_H
+#endif  // GAME_ITEMS_MAPELEMENT_H_

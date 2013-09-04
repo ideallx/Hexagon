@@ -35,7 +35,7 @@ SOURCES  += main.cpp \
     Widget/otherwidgets.cpp \
     Widget/gameWidget.cpp
 
-HEADERS  += enums.h \
+HEADERS  += \
     mainwindow.h \
     Game/gameprocess.h \
     Game/eventcenter.h \

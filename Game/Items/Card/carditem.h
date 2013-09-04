@@ -1,13 +1,12 @@
-#ifndef CARDITEM_H
-#define CARDITEM_H
+#ifndef GAME_ITEMS_CARD_CARDITEM_H_
+#define GAME_ITEMS_CARD_CARDITEM_H_
 
 #include <QGraphicsItem>
 #include <QPixmap>
 #include <QPainter>
 
-class HandCard : public QGraphicsRectItem
-{
-public:
+class HandCard : public QGraphicsRectItem {
+ public:
     HandCard(int t, QString pixmapPath);
     QPixmap pixmap() { return pixmapPath; }
     void setPixmap(QString s) { pixmapPath = s; }
@@ -15,8 +14,8 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
-private:
+ private:
     QPixmap pixmapPath;
     int type;
 };
-#endif // CARDITEM_H
+#endif  // GAME_ITEMS_CARD_CARDITEM_H_

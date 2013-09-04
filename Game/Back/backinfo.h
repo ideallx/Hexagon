@@ -1,14 +1,13 @@
-#ifndef GameBackInfo_H
-#define GameBackInfo_H
+#ifndef GAME_BACK_BACKINFO_H_
+#define GAME_BACK_BACKINFO_H_
 
 #include <QPixmap>
 #include <QFile>
 #include <QXmlStreamReader>
 
-class GameBackInfo
-{
-public:
-    GameBackInfo(QString configFilePath);
+class GameBackInfo {
+ public:
+    explicit GameBackInfo(QString configFilePath);
 
     QPixmap getPixmap(void) { return backgroundPicture; }
     QRectF getCardRect(void) { return backCardRect; }
@@ -18,12 +17,9 @@ public:
     int getWidthCount() { return widthCount; }
     int getHeightCount() { return heightCount; }
     QVector<char> getMapElement() { return mapElement; }
-
-
     bool isLoadSuccess() { return isLoadingCorrectly; }
 
-private:
-
+ private:
     double halfSqrt3;
     int beginX;
     int beginY;
@@ -38,8 +34,6 @@ private:
     int widthCount;
     int heightCount;
     bool isLoadingCorrectly;
-
-
 };
 
-#endif // GameBackInfo_H
+#endif  // GAME_BACK_BACKINFO_H_

@@ -1,49 +1,43 @@
 #include "BackView.h"
 
-BackView::BackView(QWidget *parent)
-{
+BackView::BackView(QWidget *parent) {
     this->setParent(parent);
     this->initialSettrings();
 }
 
 BackView::BackView(QGraphicsScene *scene, QWidget *parent)
-    :QGraphicsView(scene)
-{
+    :QGraphicsView(scene) {
     this->setParent(parent);
     this->initialSettrings();
 }
 
 
-void BackView::initialSettrings()
-{
-    this->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
+void BackView::initialSettrings() {
+    this->setSizePolicy(
+                QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
     this->setViewportUpdateMode(QGraphicsView::BoundingRectViewportUpdate);
     this->setCacheMode(QGraphicsView::CacheBackground);
-    this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    this->setRenderHints(
+                QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setUpdatesEnabled(true);
-    this->centerOn(QPointF(0, 0));//TODO
+    this->centerOn(QPointF(0, 0));  // TODO(ideallx) center on first act hero
 }
 
-void BackView::resizeEvent(QResizeEvent *e)
-{
-    if(scene() == NULL)
+void BackView::resizeEvent(QResizeEvent *e) {
+    if (scene() == NULL)
         return;
     qreal w1 = e->size().width();
     qreal w2 = scene()->width();
-    if (w1 <= w2)
-    {
-        this->centerOn(0, 0); //TODO
+    if (w1 <= w2) {
+        this->centerOn(0, 0);  // TODO(ideallx) center on precenter
         qreal ff = 1.0;
         matrix.reset();
         matrix.scale(ff, ff);
         setMatrix(matrix);
-    }
-    else
-    {
+    } else {
         qreal ff = w1/w2;
         matrix.reset();
         matrix.scale(ff, ff);
         setMatrix(matrix);
     }
-
 }

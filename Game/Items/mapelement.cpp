@@ -1,23 +1,22 @@
 #include "mapelement.h"
 #include "backinfo.h"
 
-MapEngine::MapEngine(GameBackInfo* gbii) :
-    gbi(gbii)
-{
+MapEngine::MapEngine(GameBackInfo* gbii)
+    : gbi(gbii) {
 }
 
-QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei)
-{
+QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei) {
     QList<GameMapElement*> elements;
     QVector<char> map = gbi->getMapElement();
-    for (int j=0; j<hei; j++)
-    {
-        for (int i=0; i<wid; i++)
-        {
-            GameMapElement *mapItem = new GameMapElement(gbi->getLineLength(), (enum gameEnvironment_t)map[i+j*wid], QPoint(i, j), gbi->getConfigDir()+"elements/");
+    for (int j = 0; j < hei; j++) {
+        for (int i = 0; i < wid; i++) {
+            GameMapElement *mapItem = new GameMapElement(
+                        gbi->getLineLength(),
+                        (enum gameEnvironment_t)map[i+j*wid],
+                        QPoint(i, j),
+                        gbi->getConfigDir()+"elements/");
             elements.append(mapItem);
-            if (!mapItem->isPointAvailable())
-            {
+            if (!mapItem->isPointAvailable()) {
                 mapItem->hide();
             }
         }
@@ -25,9 +24,11 @@ QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei)
     return elements;
 }
 
-GameMapElement::GameMapElement(int lineLength, enum gameEnvironment_t elementType, QPoint point, QString path)
-    :elementType(elementType)
-{
+GameMapElement::GameMapElement(int lineLength,
+                               enum gameEnvironment_t elementType,
+                               QPoint point,
+                               QString path)
+    : elementType(elementType) {
     this->lineLength = lineLength;
     this->halfSqrt3 = 0.86;
     this->path = path;
@@ -46,19 +47,16 @@ GameMapElement::GameMapElement(int lineLength, enum gameEnvironment_t elementTyp
     setDefaultZValue();
 }
 
-void GameMapElement::setDefaultZValue()
-{
+void GameMapElement::setDefaultZValue() {
     if (moveAvailable)
         setZValue(0.6);
     else
         setZValue(0.8);
 }
 
-void GameMapElement::variableInitial()
-{
+void GameMapElement::variableInitial() {
     QPixmap block;
-    switch(elementType)
-    {
+    switch (elementType) {
     case areaGrass:
         block = QPixmap(path + "forest.png");
         elementName = QString(tr("grass"));
@@ -120,24 +118,24 @@ void GameMapElement::variableInitial()
         block = QPixmap(path + "desert.png");
         elementName = QString(tr("desert"));
     }
-    setBrush(QBrush(block.scaledToWidth(2*lineLength, Qt::SmoothTransformation)));
+    setBrush(QBrush(block.scaledToWidth(2*lineLength,
+                                        Qt::SmoothTransformation)));
 }
 
-QRectF GameMapElement::boundingRect() const
-{
+QRectF GameMapElement::boundingRect() const {
     return QRectF(0, 0, 2*lineLength, 1.73*lineLength);
 }
 
-void GameMapElement::setDefaultPen()
-{
+void GameMapElement::setDefaultPen() {
     if (moveAvailable)
         setPen(QPen(Qt::gray, 2));
     else
         setPen(QPen(Qt::white, 5));
 }
 
-void GameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *item, QWidget *widget)
-{
+void GameMapElement::paint(QPainter *painter,
+                           const QStyleOptionGraphicsItem *item,
+                           QWidget *widget) {
     Q_UNUSED(item);
     Q_UNUSED(widget);
 
@@ -147,9 +145,8 @@ void GameMapElement::paint(QPainter *painter, const QStyleOptionGraphicsItem *it
     painter->drawPolygon(hexagon);
 }
 
-QVector<QPointF> GameMapElement::getPolygonPointf(QPointF begin)
-{
-    QPointF p = QPointF(begin.x(),begin.y() + halfSqrt3*lineLength);
+QVector<QPointF> GameMapElement::getPolygonPointf(QPointF begin) {
+    QPointF p = QPointF(begin.x(), begin.y() + halfSqrt3*lineLength);
     hexagon.append(p);
     p = QPointF(begin.x()+0.5*lineLength, begin.y());
     hexagon.append(p);
@@ -164,8 +161,7 @@ QVector<QPointF> GameMapElement::getPolygonPointf(QPointF begin)
     return hexagon;
 }
 
-QPainterPath GameMapElement::shape() const
-{
+QPainterPath GameMapElement::shape() const {
     QPainterPath path;
     path.addPolygon(hexagon);
     return path;
@@ -174,8 +170,7 @@ QPainterPath GameMapElement::shape() const
 //     2  3
 //   1      4
 //     6  5
-QPolygonF GameMapElement::polygonDeleteBound(double width)
-{
+QPolygonF GameMapElement::polygonDeleteBound(double width) {
     QVector<QPointF> result;
     result.append(hexagon.at(0)+QPointF(width/2, 0));
     result.append(hexagon.at(1)+QPointF(0, width/2));
@@ -186,8 +181,7 @@ QPolygonF GameMapElement::polygonDeleteBound(double width)
     return result;
 }
 
-void GameMapElement::setPen(const QPen &pen)
-{
+void GameMapElement::setPen(const QPen &pen) {
     oldPen = this->pen();
     QGraphicsPolygonItem::setPen(pen);
 }
