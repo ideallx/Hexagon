@@ -79,7 +79,7 @@ QList<HandCard*> CardEngine::generateHandCards(int package) {
 QList<HandCard*> CardEngine::backCard(int num) {
     QList<HandCard*> handList;
     for (int i = 0; i < num; i++) {
-        handList.append(new HandCard(BACK, "TODO.jpg"));
+        handList.append(new HandCard(BACK, path + "back.png"));
     }
     return handList;
 }

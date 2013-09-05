@@ -21,7 +21,7 @@
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "backview.h"
+#include "BackView.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -36,7 +36,7 @@ public:
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
-    backview *graphicsView;
+    BackView *graphicsView;
     QMenuBar *menuBar;
     QMenu *menuAbout;
     QToolBar *mainToolBar;
@@ -78,7 +78,7 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(0);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        graphicsView = new backview(centralWidget);
+        graphicsView = new BackView(centralWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
         graphicsView->setLineWidth(0);
         graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);

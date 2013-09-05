@@ -56,30 +56,30 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{809d1d8c-01ef-41c2-a887-e013fb023d44}</UniqueIdentifier>
+      <UniqueIdentifier>{15889ac6-727c-4947-93dd-344e2e502c78}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{5a18e766-0da8-46d8-8854-9333279e147b}</UniqueIdentifier>
+      <UniqueIdentifier>{c62b3ef0-5303-4e28-ac6a-5091be6c20b4}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Game\Back\BackView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Items\Card\CardBack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Game\Back\backinfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Back\backscene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Game\Back\backview.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Game\Items\camphealth.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Items\Card\cardBack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Items\Card\cardengine.cpp">
@@ -133,16 +133,16 @@
     <ClCompile Include="Game\skillcenter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Debug\moc_BackView.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Release\moc_BackView.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
     <ClCompile Include="Debug\moc_backscene.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
     <ClCompile Include="Release\moc_backscene.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
-    <ClCompile Include="Debug\moc_backview.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_backview.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
     <ClCompile Include="Debug\moc_camphealth.cpp">
@@ -222,13 +222,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="Game\Back\BackView.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <ClInclude Include="Game\Back\backinfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="Game\Back\backscene.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Game\Back\backview.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Game\Items\camphealth.h">
@@ -249,7 +249,7 @@
     <ClInclude Include="Game\Back\coordinate.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="enums.h">
+    <ClInclude Include="Game\enums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="Game\eventcenter.h">
@@ -294,24 +294,6 @@
     <ClInclude Include="Game\skillcenter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_chooseHero.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_enviroSettings.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_front.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_gameSetting.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_modechoose.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="lang__zhCN.ts">
@@ -319,6 +301,12 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="chooseBirth.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="chooseGame.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="chooseHero.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
@@ -345,5 +333,31 @@
     <CustomBuild Include="vv.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_chooseBirth.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_chooseGame.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_chooseHero.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_enviroSettings.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_front.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_gameSetting.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_mainwindow.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_modechoose.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

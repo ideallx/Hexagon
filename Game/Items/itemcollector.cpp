@@ -302,7 +302,7 @@ QList<HeroItem*> ItemCollector::getActSequence() {
 }
 
 QList<GameMapElement*> ItemCollector::getRedTeamCamp() {
-    return getAllElementTypeOf(areaBlueHome);
+    return getAllElementTypeOf(areaRedHome);
 }
 
 QList<GameMapElement*> ItemCollector::getBlueTeamCamp() {
@@ -352,4 +352,5 @@ QList<HandCard*> ItemCollector::switchToBack(QList<HandCard*> in) {
     for (int i = 0; i < num; i++) {
         result.append(backCards[i]);
     }
+    return result;
 }

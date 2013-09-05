@@ -48,7 +48,7 @@ public:
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *rightHeros;
     QSpacerItem *verticalSpacer_3;
-    viewSendResize *items;
+    ViewSendResize *items;
 
     void setupUi(QWidget *Form)
     {
@@ -150,7 +150,7 @@ public:
 
         verticalLayout->addItem(verticalSpacer_3);
 
-        items = new viewSendResize(Form);
+        items = new ViewSendResize(Form);
         items->setObjectName(QStringLiteral("items"));
         items->setLayoutDirection(Qt::LeftToRight);
         items->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

@@ -129,6 +129,7 @@ QList<QString> BackScene::getHeroListAvaterPath(enum camp_t c) {
 }
 
 void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
+    rangeList.clear();
     qDebug() << "show square";
     QList<GameMapElement*> l;
     if (c == camp_blue) {
@@ -139,8 +140,11 @@ void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
 
     for (int i = 0; i < l.size(); i++) {
         if(unshow.contains(l[i]->point()))
-            return;
+            continue;
         rangeList.append(l[i]->point());
+    }
+    for (int i = 0; i < rangeList.size(); i++) {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::red, 5));
     }
+    qDebug() << rangeList;
 }

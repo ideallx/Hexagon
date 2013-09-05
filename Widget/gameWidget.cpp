@@ -36,10 +36,10 @@ void MainWindow::gameBegin() {
     sceneInitial();
 
     qDebug() << "build ui";
-    connect(scene, SIGNAL(changeStatusBar(QStringList sl)),
-            this, SLOT(changeStatusInfo(QStringList sl)));
-    connect(ec, SIGNAL(roundInfoChanged(QStringList sl)),
-            this, SLOT(changeRoundInfo(QStringList sl)));
+    connect(scene, SIGNAL(changeStatusBar(QStringList)),
+            this, SLOT(changeStatusInfo(QStringList)));
+    connect(ec, SIGNAL(roundInfoChanged(QStringList)),
+            this, SLOT(changeRoundInfo(QStringList)));
     connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
     connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
     // changeRoundInfo(ec->buildRoundInfo());

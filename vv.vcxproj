@@ -138,7 +138,7 @@
     <ClCompile Include="Debug\moc_backscene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Debug\moc_backview.cpp">
+    <ClCompile Include="Debug\moc_BackView.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Debug\moc_camphealth.cpp">
@@ -177,11 +177,11 @@
     <ClCompile Include="Debug\moc_otherwidgets.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Game\Back\BackView.cpp" />
+    <ClCompile Include="Game\Items\Card\CardBack.cpp" />
     <ClCompile Include="Game\Back\backinfo.cpp" />
     <ClCompile Include="Game\Back\backscene.cpp" />
-    <ClCompile Include="Game\Back\backview.cpp" />
     <ClCompile Include="Game\Items\camphealth.cpp" />
-    <ClCompile Include="Game\Items\Card\cardBack.cpp" />
     <ClCompile Include="Game\Items\Card\cardengine.cpp" />
     <ClCompile Include="Game\Items\Card\carditem.cpp" />
     <ClCompile Include="Game\Back\coordinate.cpp" />
@@ -195,7 +195,7 @@
     <ClCompile Include="Release\moc_backscene.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="Release\moc_backview.cpp">
+    <ClCompile Include="Release\moc_BackView.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Release\moc_camphealth.cpp">
@@ -249,22 +249,22 @@
     <ClCompile Include="Game\skillcenter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="Game\Back\BackView.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing BackView.h...</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing BackView.h...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
+    </CustomBuild>
     <ClInclude Include="Game\Back\backinfo.h" />
     <CustomBuild Include="Game\Back\backscene.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backscene.h...</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backscene.h...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
-    </CustomBuild>
-    <CustomBuild Include="Game\Back\backview.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing backview.h...</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DNDEBUG "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\release" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Moc%27ing backview.h...</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
@@ -294,7 +294,7 @@
     <ClInclude Include="Game\Items\Card\carditem.h" />
     <ClInclude Include="Game\Items\carditem.h" />
     <ClInclude Include="Game\Back\coordinate.h" />
-    <ClInclude Include="enums.h" />
+    <ClInclude Include="Game\enums.h" />
     <CustomBuild Include="Game\eventcenter.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o "$(ConfigurationName)\moc_%(Filename).cpp"  -D_WINDOWS -DUNICODE -DWIN32 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB "-I.\include" "-I." "-I.\Game" "-I.\Game\Back" "-I.\Game\Items" "-I.\Game\Items\Hero" "-I.\Game\Items\Card" "-I.\Widget" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtWidgets" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtGui" "-I.\..\..\..\..\..\Qt\Qt5.1.0\5.1.0\Src\qtbase\include\QtCore" "-I.\debug" "-I.\..\..\..\..\..\qt\qt5.1.0\5.1.0\src\qtbase\mkspecs\win32-msvc2012"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing eventcenter.h...</Message>
@@ -367,6 +367,8 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
+    <ClInclude Include="GeneratedFiles\ui_chooseBirth.h" />
+    <ClInclude Include="GeneratedFiles\ui_chooseGame.h" />
     <ClInclude Include="GeneratedFiles\ui_chooseHero.h" />
     <ClInclude Include="GeneratedFiles\ui_enviroSettings.h" />
     <ClInclude Include="GeneratedFiles\ui_front.h" />
@@ -410,6 +412,28 @@
     <None Include="lang__zhCN.ts" />
   </ItemGroup>
   <ItemGroup>
+    <CustomBuild Include="chooseBirth.ui">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="chooseGame.ui">
+      <FileType>Document</FileType>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\uic.exe" -o ".\GeneratedFiles\ui_%(Filename).h" "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Uic%27ing %(Identity)...</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\ui_%(Filename).h;%(Outputs)</Outputs>
+    </CustomBuild>
     <CustomBuild Include="chooseHero.ui">
       <FileType>Document</FileType>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>

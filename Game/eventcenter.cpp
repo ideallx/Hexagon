@@ -1,4 +1,4 @@
-#include "QMessageBox"
+#include <QMessageBox>
 #include "eventcenter.h"
 #include "heroitem.h"
 #include "itemcollector.h"
@@ -22,18 +22,21 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
     setCurHero(heroSeq[0]);
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
+    QMessageBox::warning(scene->views()[0], tr("LYBNS"), tr("Choose Birth"));
+    QList<QPoint> l;
+    scene->showBirthSquare(curHero->camp(), l);
 }
 
 void EventCenter::setupConnection() {
-    connect(scene, SIGNAL(heroClicked(HeroItem* hi)),
-            this, SLOT(heroChosen(HeroItem* hi)));
-    connect(scene, SIGNAL(rangeClicked(QPoint p)),
-            this, SLOT(targetClicked(QPoint p)));
+    connect(scene, SIGNAL(heroClicked(HeroItem*)),
+            this, SLOT(heroChosen(HeroItem*)));
+    connect(scene, SIGNAL(rangeClicked(QPoint)),
+            this, SLOT(targetClicked(QPoint)));
 
-    connect(scene, SIGNAL(buildMenu(HeroItem* hi, QPoint p)),
-            this, SLOT(showMenu(HeroItem* hi, QPoint p)));
-    connect(scene, SIGNAL(viewSizeChanged(QSize s)),
-            menu, SLOT(reSetInterface(QSize s)));
+    connect(scene, SIGNAL(buildMenu(HeroItem*, QPoint)),
+            this, SLOT(showMenu(HeroItem*, QPoint)));
+    connect(scene, SIGNAL(viewSizeChanged(QSize)),
+            menu, SLOT(reSetInterface(QSize)));
 
     connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
     connect(menu, SIGNAL(attackClicked()), this, SLOT(attackBegin()));
@@ -41,6 +44,7 @@ void EventCenter::setupConnection() {
 }
 
 void EventCenter::gameBegin() {
+    scene->clearRange();
     try {
         checkHeros();
     } catch(const QString& e) {
@@ -51,6 +55,7 @@ void EventCenter::gameBegin() {
     curPhase = BeginPhase;
     gameBegined = true;
     roundBegin();
+    QMessageBox::warning(scene->views()[0], tr("LYBNS"), tr("Game Begin"));
 }
 
 void EventCenter::heroChosen(HeroItem* hero) {
@@ -148,6 +153,7 @@ void EventCenter::targetClicked(QPoint in) {
         setHeroBirth(curHero, in);
         if (curHero == heroSeq.last()) {
             gameBegin();
+            return;
         } else {
             curHero = heroSeq[heroSeq.indexOf(curHero)+1];
         }
@@ -158,6 +164,8 @@ void EventCenter::targetClicked(QPoint in) {
                 l.append(heroSeq[i]->point());
             }
         }
+        qDebug() << "list camp" << curHero->camp();
+        scene->clearRange();
         scene->showBirthSquare(curHero->camp(), l);
     }
 }
@@ -200,6 +208,7 @@ void EventCenter::roundBegin() {
     // ic->herosLoadPassiveSkill();
     // ic->mapElementAward();
     qDebug() << "Round" << roundNum << "Begin";
+    curHero = heroSeq[0];
 }
 
 void EventCenter::roundEnd() {

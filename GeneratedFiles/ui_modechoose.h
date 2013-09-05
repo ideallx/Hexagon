@@ -47,7 +47,7 @@ public:
     {
         if (modeChoose->objectName().isEmpty())
             modeChoose->setObjectName(QStringLiteral("modeChoose"));
-        modeChoose->resize(1383, 787);
+        modeChoose->resize(945, 576);
         gridLayout = new QGridLayout(modeChoose);
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalSpacer = new QSpacerItem(20, 329, QSizePolicy::Minimum, QSizePolicy::Expanding);
