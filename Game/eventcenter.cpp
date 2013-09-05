@@ -1,3 +1,4 @@
+#include "QMessageBox"
 #include "eventcenter.h"
 #include "heroitem.h"
 #include "itemcollector.h"
@@ -7,23 +8,20 @@
 #include "coordinate.h"
 #include "mapelement.h"
 
-/*
- *  gc not get
- */
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
     : scene(scene),
     menu(menu),
-    ic(scene->pIc()) {
+    ic(scene->pIc()),
+    curPhase(ChooseBirthPhase),
+    gameBegined(false) {
     setupConnection();
-    curPhase = BeginPhase;
-
     theGia = new QGraphicsItemAnimation();
-    qDebug() << "event center initialized";
-
     heroSeq = ic->getActSequence();
     roundNum = 1;
     setCurHero(heroSeq[0]);
+    playerHeroNum = ic->playSeq();
+    qDebug() << "event center initialized";
 }
 
 void EventCenter::setupConnection() {
@@ -42,25 +40,52 @@ void EventCenter::setupConnection() {
     connect(menu, SIGNAL(skillClicked()), this, SLOT(skillBegin()));
 }
 
+void EventCenter::gameBegin() {
+    try {
+        checkHeros();
+    } catch(const QString& e) {
+        QMessageBox::warning(NULL, tr("LYBNS"), e);
+        return;
+    }
+
+    curPhase = BeginPhase;
+    gameBegined = true;
+    roundBegin();
+}
+
 void EventCenter::heroChosen(HeroItem* hero) {
+    if (curPhase == ChooseBirthPhase)
+        return;
     menu->setHeroInfo(hero);
-    menu->updateCardsArea(hero->cards());
+    showCards(hero);
+
     qDebug() << hero->heroName() << "at" << hero->point();
 }
 
+void EventCenter::showCards(HeroItem* hero) {
+    if (heroSeq.indexOf(hero) == playerHeroNum) {
+        menu->updateCardsArea(hero->cards());
+    } else {
+        menu->updateCardsArea(ic->switchToBack(hero->cards()));
+    }
+}
+
 void EventCenter::getCard(int num) {
+    if(!gameBegined)
+        return;
     qDebug() << "get" << num << "cards";
     curHero->addCards(ic->getCard(num));
-    menu->updateCardsArea(curHero->cards());
+    showCards(curHero);
     menu->hideAllMenu();
 }
 
 void EventCenter::moveBegin() {
+    if(curPhase == ChooseBirthPhase)
+        return;
     scene->clearRange();
     scene->showMoveRange(curHero);
     curPhase = MovePhase;
 }
-
 
 void EventCenter::heroMoveToPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
@@ -119,6 +144,21 @@ void EventCenter::targetClicked(QPoint in) {
         heroAttackPoint(in);
     } else if (curPhase == SkillPhase) {
         skillStraightTest(in);
+    } else if (curPhase == ChooseBirthPhase) {
+        setHeroBirth(curHero, in);
+        if (curHero == heroSeq.last()) {
+            gameBegin();
+        } else {
+            curHero = heroSeq[heroSeq.indexOf(curHero)+1];
+        }
+        QList<QPoint> l;
+        for( int i = 0; i < heroSeq.indexOf(curHero); i++) {
+            if (heroSeq[i]->point() != QPoint(300, 300) &&
+                    heroSeq[i]->camp() == curHero->camp()) {
+                l.append(heroSeq[i]->point());
+            }
+        }
+        scene->showBirthSquare(curHero->camp(), l);
     }
 }
 
@@ -134,6 +174,8 @@ void EventCenter::mapClear() {
 }
 
 void EventCenter::endTurn() {
+    if(!gameBegined)
+        return;
     curPhase = FinalPhase;
     menu->resetMenuEnable();
     curHero->setPen(QPen(Qt::black, 3));
@@ -182,6 +224,8 @@ QStringList EventCenter::buildRoundInfo() {
 }
 
 void EventCenter::showMenu(HeroItem* hi, QPoint p) {
+    if(curPhase == ChooseBirthPhase)
+        return;
     if (curHero == hi) {
         menu->showMenu(p);
     }
@@ -192,7 +236,7 @@ void EventCenter::setCurHero(HeroItem* hi) {
     menu->setHeroInfo(curHero);
     curHero->setPen(QPen(Qt::darkMagenta, 3));
     scene->views()[0]->centerOn(curHero);
-    menu->updateCardsArea(curHero->cards());
+    showCards(curHero);
 }
 
 void EventCenter::skillBegin() {
@@ -283,7 +327,18 @@ void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     targetTimer->start();
 }
 
+void EventCenter::setHeroBirth(HeroItem* hi, QPoint birthP)
+{
+    hi->setPoint(birthP);
+    hi->setPos(ic->getBeginPosOfHero(birthP));
+}
 
-void EventCenter::chooseBirth() {
-    scene->showBirthSquare(camp_red);
+void EventCenter::checkHeros()
+{
+    for (int i = 0; i < heroSeq.size(); i++) {
+        if (heroSeq[i]->point() == QPoint(300, 300)) {
+            throw QString(tr("Hero %1: Wrong Birth Point").
+                          arg(heroSeq[i]->heroName()));
+        }
+    }
 }

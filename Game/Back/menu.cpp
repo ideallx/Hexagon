@@ -7,8 +7,8 @@
 
 GameMenu::GameMenu(QGraphicsView *parent)
     : parent(parent),
-    ui(new Ui::Form),
-    heroHeadSlideLength(80) {  // uncertain
+    heroHeadSlideLength(80),
+    ui(new Ui::Form) {  // uncertain
     interfaceInitial();
     menuInitial();
 }
@@ -180,6 +180,7 @@ void GameMenu::updateCardsArea(QList<HandCard*> cards) {
     for (int i = 0; i < cards.size(); i++) {
         cs->addItem(cards[i]);
     }
+
     resizeItems();
 }
 

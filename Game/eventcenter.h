@@ -20,10 +20,13 @@ class EventCenter : public QObject {
  public:
     EventCenter(BackScene* scene, GameMenu* menu);
     QStringList buildRoundInfo();
-    void chooseBirth();
+    void gameBegin();
+    void checkHeros();
+    bool isGameBegined() { return gameBegined; }
 
     enum gamePhase_t {
         BeginPhase,
+        ChooseBirthPhase,
         MovePhase,
         AttackPhase,
         SkillPhase,
@@ -44,17 +47,19 @@ class EventCenter : public QObject {
     void attackAnimate(HeroItem* srcItem, HeroItem* targetItem);
     void skillAnimate(HeroItem* item, GameMapElement* gme);
 
+    void showCards(HeroItem* hi);
+    void setHeroBirth(HeroItem* hi, QPoint birthP);
     int roundNum;
 
     HeroItem* curHero;
-
     BackScene *scene;
     GameMenu* menu;
     ItemCollector* ic;
-
-    QList<HeroItem*> heroSeq;
-
     enum gamePhase_t curPhase;
+    QList<HeroItem*> heroSeq;
+    bool gameBegined;
+    int playerHeroNum;
+
 
     QGraphicsItemAnimation* theGia;
 

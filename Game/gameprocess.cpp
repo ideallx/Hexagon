@@ -74,7 +74,7 @@ void GameProcess::gameChooseScreen() {
             totalHero = 4;
 
         ei.h = (enum heroNum_t)(0);
-        ei.p = QPoint(0, 0);
+        ei.p = QPoint(300, 300);  // untouchable point
 
         for (int i = 0; i < totalHero; i++) {
             eil.append(ei);
@@ -178,6 +178,7 @@ void GameProcess::heroChosed() {
     chooseDialog->accept();
 }
 
+// deprecated
 void GameProcess::birthChooseScreen() {
     qDebug() << "chosse birth screen";
     uib = new Ui::ChooseBirth();

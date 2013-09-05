@@ -15,6 +15,7 @@ struct cardInfo {
 
 
 enum cardType_t {
+    BACK,
     KuangBao,
     ZheYue,
     FaLiRanShao,
@@ -42,6 +43,7 @@ class CardEngine : public QObject {
  public:
     explicit CardEngine(GameBackInfo *gbi);
     QList<HandCard*> generateHandCards(int package = 0);
+    QList<HandCard*> backCard(int num);
 
  private:
     static const struct cardInfo kb;

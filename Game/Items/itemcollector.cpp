@@ -87,6 +87,7 @@ void ItemCollector::addHeroList(QList<struct externInfo> info) {
 
 void ItemCollector::addCardList() {
     unusedCards = ce->generateHandCards();
+    backCards = ce->backCard(30);
 }
 
 void ItemCollector::addMapElementList() {
@@ -343,4 +344,12 @@ void ItemCollector::addItemsToScene(QGraphicsScene* s) {
     addListToScene(elements, s);
     addListToScene(campLifes, s);
     addListToScene(targetLines, s);
+}
+
+QList<HandCard*> ItemCollector::switchToBack(QList<HandCard*> in) {
+    int num = qMin(backCards.size(), in.size());
+    QList<HandCard*> result;
+    for (int i = 0; i < num; i++) {
+        result.append(backCards[i]);
+    }
 }

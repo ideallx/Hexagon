@@ -8,8 +8,7 @@
 #include "QEventLoop"
 
 BackScene::BackScene(ItemCollector *ic, QObject *parent)
-    :ic(ic),
-    mode(ModeNormal) {
+    :ic(ic) {
     this->setSceneRect(ic->getPixmap().rect()-=QMargins(10, 10, 10, 10));
     QGraphicsPixmapItem *back = new QGraphicsPixmapItem();
     back->setPixmap(QPixmap(ic->getPixmap()));
@@ -129,7 +128,7 @@ QList<QString> BackScene::getHeroListAvaterPath(enum camp_t c) {
     return ic->getHeroListAvaterPath(c);
 }
 
-void BackScene::showBirthSquare(enum camp_t c) {
+void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
     qDebug() << "show square";
     QList<GameMapElement*> l;
     if (c == camp_blue) {
@@ -139,6 +138,9 @@ void BackScene::showBirthSquare(enum camp_t c) {
     }
 
     for (int i = 0; i < l.size(); i++) {
-        ic->setElementSpecialPen(l[i]->point(), QPen(Qt::red));
+        if(unshow.contains(l[i]->point()))
+            return;
+        rangeList.append(l[i]->point());
+        ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::red, 5));
     }
 }

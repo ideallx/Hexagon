@@ -74,7 +74,8 @@ class GameMenu : public QObject {
 
  public slots:
     void resizeItems();
-    void listSlideHeroHead(QList<QString>leftColumn, QList<QString>rightColumn);
+    void listSlideHeroHead(QList<QString>leftColumn,
+                           QList<QString>rightColumn);
     void hideAllMenu();
     void showMenu(QPoint pos = QPoint());
     void reSetInterface(QSize);

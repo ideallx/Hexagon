@@ -38,6 +38,8 @@ class ItemCollector {
     void setCampHealth();
     void addItemsToScene(QGraphicsScene* gs);
     void setPlaySeq(int i) { thePlayerSeq = i; }
+    int playSeq() { return thePlayerSeq; }
+    QList<HandCard*> switchToBack(QList<HandCard*> in);
     QString rscPath();
 
     QList<QString> getHeroListAvaterPath(enum camp_t c);
@@ -112,6 +114,7 @@ class ItemCollector {
     QList<QGraphicsLineItem*> targetLines;
 
     QList<HandCard*> unusedCards;
+    QList<HandCard*> backCards;
     QList<HandCard*> usedCards;
 };
 

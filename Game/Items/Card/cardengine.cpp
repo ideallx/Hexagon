@@ -75,3 +75,11 @@ QList<HandCard*> CardEngine::generateHandCards(int package) {
     }
     return handList;
 }
+
+QList<HandCard*> CardEngine::backCard(int num) {
+    QList<HandCard*> handList;
+    for (int i = 0; i < num; i++) {
+        handList.append(new HandCard(BACK, "TODO.jpg"));
+    }
+    return handList;
+}

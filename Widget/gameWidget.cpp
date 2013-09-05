@@ -34,7 +34,6 @@ MainWindow::~MainWindow() {
 void MainWindow::gameBegin() {
     gp->preGameClean();
     sceneInitial();
-    ec->chooseBirth();
 
     qDebug() << "build ui";
     connect(scene, SIGNAL(changeStatusBar(QStringList sl)),
@@ -109,6 +108,3 @@ void MainWindow::changeRoundInfo(QStringList in) {
     roundLabel->setText(in[2]);
 }
 
-void MainWindow::chooseBirth() {
-    ec->chooseBirth();
-}
