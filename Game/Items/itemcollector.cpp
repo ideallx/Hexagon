@@ -21,11 +21,11 @@ ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci)
 }
 
 ItemCollector::~ItemCollector() {
-    //qDeleteAll(redTeamHeros);
-    //qDeleteAll(blueTeamHeros);
-    //qDeleteAll(unusedCards);
-    //qDeleteAll(usedCards);
-    //qDeleteAll(elements);
+    qDeleteAll(redTeamHeros);
+    qDeleteAll(blueTeamHeros);
+    qDeleteAll(unusedCards);
+    qDeleteAll(usedCards);
+    qDeleteAll(elements);
 
     redTeamHeros.clear();
     blueTeamHeros.clear();
@@ -116,12 +116,12 @@ bool ItemCollector::isPointMovable(QPoint in) {
 
 void ItemCollector::restoreAllPen() {
     for (int i = 0; i < elements.size(); ++i) {
-        elements.at(i)->setPen(QPen(Qt::black, 1));
+        elements[i]->getDefaultPen();
     }
 }
 
 
-int ItemCollector::getPointNumber(QPoint point) {
+int ItemCollector::getPointNumber(QPoint point) const {
     return point.x()+point.y()*wid;
 }
 
@@ -262,7 +262,7 @@ QList<QString> ItemCollector::getHeroListAvaterPath(enum camp_t in) {
 
     if (in == camp_red) {
         recv = redTeamHeros;
-    } else if (in == camp_blue){
+    } else if (in == camp_blue) {
         recv = blueTeamHeros;
     } else {
         return result;

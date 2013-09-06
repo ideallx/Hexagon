@@ -4,8 +4,7 @@
 #include <QGraphicsRectItem>
 #include <QPainter>
 
-class CampHealth : public QObject, public QGraphicsPixmapItem
-{
+class CampHealth : public QObject, public QGraphicsPixmapItem {
     Q_OBJECT
 
  public:

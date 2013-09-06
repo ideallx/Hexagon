@@ -76,7 +76,7 @@ void EventCenter::showCards(HeroItem* hero) {
 }
 
 void EventCenter::getCard(int num) {
-    if(!gameBegined)
+    if (!gameBegined)
         return;
     qDebug() << "get" << num << "cards";
     curHero->addCards(ic->getCard(num));
@@ -85,7 +85,7 @@ void EventCenter::getCard(int num) {
 }
 
 void EventCenter::moveBegin() {
-    if(curPhase == ChooseBirthPhase)
+    if (curPhase == ChooseBirthPhase)
         return;
     scene->clearRange();
     scene->showMoveRange(curHero);
@@ -158,7 +158,7 @@ void EventCenter::targetClicked(QPoint in) {
             curHero = heroSeq[heroSeq.indexOf(curHero)+1];
         }
         QList<QPoint> l;
-        for( int i = 0; i < heroSeq.indexOf(curHero); i++) {
+        for (int i = 0; i < heroSeq.indexOf(curHero); i++) {
             if (heroSeq[i]->point() != QPoint(300, 300) &&
                     heroSeq[i]->camp() == curHero->camp()) {
                 l.append(heroSeq[i]->point());
@@ -182,7 +182,7 @@ void EventCenter::mapClear() {
 }
 
 void EventCenter::endTurn() {
-    if(!gameBegined)
+    if (!gameBegined)
         return;
     curPhase = FinalPhase;
     menu->resetMenuEnable();
@@ -233,7 +233,7 @@ QStringList EventCenter::buildRoundInfo() {
 }
 
 void EventCenter::showMenu(HeroItem* hi, QPoint p) {
-    if(curPhase == ChooseBirthPhase)
+    if (curPhase == ChooseBirthPhase)
         return;
     if (curHero == hi) {
         menu->showMenu(p);
@@ -336,14 +336,12 @@ void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     targetTimer->start();
 }
 
-void EventCenter::setHeroBirth(HeroItem* hi, QPoint birthP)
-{
+void EventCenter::setHeroBirth(HeroItem* hi, QPoint birthP) {
     hi->setPoint(birthP);
     hi->setPos(ic->getBeginPosOfHero(birthP));
 }
 
-void EventCenter::checkHeros()
-{
+void EventCenter::checkHeros() {
     for (int i = 0; i < heroSeq.size(); i++) {
         if (heroSeq[i]->point() == QPoint(300, 300)) {
             throw QString(tr("Hero %1: Wrong Birth Point").

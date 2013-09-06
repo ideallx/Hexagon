@@ -3,9 +3,9 @@
 #include "backinfo.h"
 
 HeroFactory::HeroFactory(GameBackInfo* gbi)
-    : innerDir(gbi->getConfigDir() + "heros/"),
+    : scene(NULL),
+    innerDir(gbi->getConfigDir() + "heros/"),
     lineLength(gbi->getLineLength()),
-    scene(NULL),
     heroAmount(0) {
 }
 

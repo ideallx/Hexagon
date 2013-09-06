@@ -139,7 +139,7 @@ void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
     }
 
     for (int i = 0; i < l.size(); i++) {
-        if(unshow.contains(l[i]->point()))
+        if (unshow.contains(l[i]->point()))
             continue;
         rangeList.append(l[i]->point());
     }

@@ -38,7 +38,7 @@ class ItemCollector {
     void setCampHealth();
     void addItemsToScene(QGraphicsScene* gs);
     void setPlaySeq(int i) { thePlayerSeq = i; }
-    int playSeq() { return thePlayerSeq; }
+    int playSeq() const { return thePlayerSeq; }
     QList<HandCard*> switchToBack(QList<HandCard*> in);
     QString rscPath();
 
@@ -49,7 +49,7 @@ class ItemCollector {
 
     GameMapElement* getMapElementByPoint(QPoint in) {
         return elements[getPointNumber(in)]; }
-    int getPointNumber(QPoint);
+    int getPointNumber(QPoint) const;
 
     QList<GameMapElement*> getRedTeamCamp();
     QList<GameMapElement*> getBlueTeamCamp();
@@ -57,7 +57,7 @@ class ItemCollector {
     void setElementDefaultPen(QPoint);
     void setElementRestorePen(QPoint point);
     void setElementSpecialPen(QPoint, QPen);
-    void setElementSpecialPen(GameMapElement*, QPen pen);
+    static void setElementSpecialPen(GameMapElement*, QPen pen);
     void setElementBoldPen(QPoint, double width);
     void restoreAllPen();
 
@@ -84,7 +84,7 @@ class ItemCollector {
     void addHeroSide();
 
     template <typename T>
-    void addListToScene(QList<T> l, QGraphicsScene* s) {
+    static void addListToScene(QList<T> l, QGraphicsScene* s) {
         for (int i = 0; i < l.size(); i++) {
             s->addItem(l[i]);
         }

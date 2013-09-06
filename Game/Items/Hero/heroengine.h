@@ -44,8 +44,8 @@ class HeroFactory : public QObject {
     struct heroInfo getHeroInfoByNum(int n);
 
  private:
-    QList<AbstractHeroPacakage*> hpl;
     QGraphicsScene* scene;
+    QList<AbstractHeroPacakage*> hpl;
     QString innerDir;
     int lineLength;
     int heroAmount;

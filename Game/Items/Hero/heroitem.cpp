@@ -2,7 +2,8 @@
 #include "skillcenter.h"
 
 HeroItem::HeroItem(int lineLength)
-    : theAttack(1),
+    : thePlayerName(tr("player 1")),
+    theAttack(1),
     theAvaPic(NULL),
     theWhoPic(NULL),
     theHealth(7),
@@ -10,8 +11,7 @@ HeroItem::HeroItem(int lineLength)
     theSexual(sex_male),
     theMoveRange(2),
     theAttackRange(1),
-    lineLength(lineLength),
-    thePlayerName(tr("player 1")) {
+    lineLength(lineLength) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);

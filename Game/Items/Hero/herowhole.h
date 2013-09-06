@@ -8,7 +8,7 @@ class HeroWhole : public QObject, public QGraphicsRectItem {
     Q_OBJECT
  public:
     HeroWhole(int lineLength, QObject *parent = 0);
-    
+
  private:
     QRectF boundingRect() const;
     void paint(QPainter *painter,

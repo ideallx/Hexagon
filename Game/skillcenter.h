@@ -15,8 +15,8 @@ class SkillBase {
     SkillBase();
 
     void skillFlow();
-    QString skillName() { return name; }
-    enum triggerTime_t triggerTime() { return time; }
+    QString skillName() const { return name; }
+    enum triggerTime_t triggerTime() const { return time; }
 
  private:
     enum skillType_t type;

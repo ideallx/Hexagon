@@ -11,12 +11,12 @@ class GameCoordinate {
  public:
     explicit GameCoordinate(GameBackInfo* gbi);
     QList<QPoint> getMovePoint() const { return showRange; }
-    QPoint goUpLeft(QPoint);
-    QPoint goUpRight(QPoint);
-    QPoint goUp(QPoint);
-    QPoint goDownLeft(QPoint);
-    QPoint goDownRight(QPoint);
-    QPoint goDown(QPoint);
+    static QPoint goUpLeft(QPoint);
+    static QPoint goUpRight(QPoint);
+    static QPoint goUp(QPoint);
+    static QPoint goDownLeft(QPoint);
+    static QPoint goDownRight(QPoint);
+    static QPoint goDown(QPoint);
     QPoint getCooxWithPos(QPointF);
     QPointF leftUpPosNoOffset(QPoint);
     QPointF getBeginPosWithCoo(QPoint);

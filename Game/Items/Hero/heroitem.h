@@ -57,20 +57,20 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
  private:
+    QString thePlayerName;
     QList<SkillBase*> skills;
     QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
     int theAttack;
     QPixmap* theAvaPic;
     QPixmap* theWhoPic;
-    int theMaxHealth;
     int theHealth;
+    int theMaxHealth;
     enum camp_t theCamp;
     QPoint thePoint;
     char theSexual;
     char theMoveRange;
     char theAttackRange;
-    QString thePlayerName;
     QString theHeroName;
 
     int lineLength;

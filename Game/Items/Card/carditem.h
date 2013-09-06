@@ -15,7 +15,7 @@ class HandCard : public QGraphicsRectItem {
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
  private:
-    QPixmap pixmapPath;
     int type;
+    QPixmap pixmapPath;
 };
 #endif  // GAME_ITEMS_CARD_CARDITEM_H_
