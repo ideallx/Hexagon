@@ -54,7 +54,7 @@ void EventCenter::gameBegin() {
 
     curPhase = BeginPhase;
     gameBegined = true;
-    roundBegin();
+    endTurn();
     QMessageBox::warning(scene->views()[0], tr("LYBNS"), tr("Game Begin"));
 }
 
@@ -63,8 +63,6 @@ void EventCenter::heroChosen(HeroItem* hero) {
         return;
     menu->setHeroInfo(hero);
     showCards(hero);
-
-    qDebug() << hero->heroName() << "at" << hero->point();
 }
 
 void EventCenter::showCards(HeroItem* hero) {
@@ -78,7 +76,7 @@ void EventCenter::showCards(HeroItem* hero) {
 void EventCenter::getCard(int num) {
     if (!gameBegined)
         return;
-    qDebug() << "get" << num << "cards";
+    qDebug() << curHero->heroName() << "get" << num << "cards";
     curHero->addCards(ic->getCard(num));
     showCards(curHero);
     menu->hideAllMenu();
@@ -199,6 +197,7 @@ void EventCenter::endTurn() {
     }
 
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
+    getCard(2);
     curPhase = BeginPhase;
     setCurHero(curHero);
     emit roundInfoChanged(buildRoundInfo());
@@ -209,6 +208,7 @@ void EventCenter::roundBegin() {
     // ic->mapElementAward();
     qDebug() << "Round" << roundNum << "Begin";
     curHero = heroSeq[0];
+    scene->views()[0]->centerOn(curHero->pos());
 }
 
 void EventCenter::roundEnd() {
@@ -261,11 +261,8 @@ void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     QTimeLine* moveTimer = new QTimeLine(500);
     // set time line will delete previous qtimeline
     theGia->setTimeLine(moveTimer);
-    qDebug() << "Move Animate Prepare";
 
     double frame = 12;
-    qDebug() << "move from" << srcItem->point() <<
-                "to" << targetItem->point();
 
     QPointF src = ic->getBeginPosOfHero(srcItem->point());
     QPointF dst = ic->getBeginPosOfHero(targetItem->point());
@@ -277,7 +274,6 @@ void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     for (int i = 0; i <= frame; ++i)
         theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
     moveTimer->start();
-    qDebug() << "Move Animate Start";
 }
 
 void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {

@@ -16,6 +16,7 @@ BackScene::BackScene(ItemCollector *ic, QObject *parent)
     this->addItem(back);
     this->setParent(parent);
     isPressing = false;
+    oldPoint = ic->outPoint();
 }
 
 BackScene::~BackScene() {
@@ -27,18 +28,21 @@ void BackScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     QPoint newPoint = ic->getCooxWithPos(event->scenePos());
     if (!ic->isPointAvailable(newPoint)) {
         emit changeStatusBar(strList);
-        newPoint = QPoint(-1, -1);
-        ic->setElementDefaultPen(oldPoint);
-        oldPoint = newPoint;
+        newPoint = ic->outPoint();
+        restoreOldPoint(oldPoint);
+        if (oldPoint != newPoint) {
+            oldPoint = newPoint;
+        }
         return;
     }
     if (oldPoint == newPoint) {
         return;
     }
-    if (rangeList.contains(oldPoint))
+    restoreOldPoint(oldPoint);
+
+    if (newPoint == ic->outPoint()) {
         ic->setElementRestorePen(oldPoint);
-    else
-        ic->setElementDefaultPen(oldPoint);
+    }
 
     ic->setElementBoldPen(newPoint, 5);
     oldPoint = newPoint;
@@ -130,7 +134,6 @@ QList<QString> BackScene::getHeroListAvaterPath(enum camp_t c) {
 
 void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
     rangeList.clear();
-    qDebug() << "show square";
     QList<GameMapElement*> l;
     if (c == camp_blue) {
         l = ic->getBlueTeamCamp();
@@ -144,7 +147,15 @@ void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
         rangeList.append(l[i]->point());
     }
     for (int i = 0; i < rangeList.size(); i++) {
-        ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::red, 5));
+        ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::cyan, 5));
     }
-    qDebug() << rangeList;
+    this->views()[0]->centerOn(
+                ic->getBeginPosOfHero(rangeList[0]));
+}
+
+void BackScene::restoreOldPoint(QPoint old) {
+    if (rangeList.contains(old))
+        ic->setElementRestorePen(old);
+    else
+        ic->setElementDefaultPen(old);
 }

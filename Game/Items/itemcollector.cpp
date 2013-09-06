@@ -62,15 +62,12 @@ void ItemCollector::setCampHealth() {
 
 void ItemCollector::addHeroList(QList<struct externInfo> info) {
     QList<HeroItem*> heros = hf->generateHeroes(info);
-    qDebug() << "hero amount" << heros.size();
     for (int i = 0; i < heros.size(); i++) {
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
         if (heros.at(i)->camp() == camp_red) {
             redTeamHeros.append(heros.at(i));
-            qDebug() << "add red hero";
         }  else {
             blueTeamHeros.append(heros.at(i));
-            qDebug() << "add blue hero";
         }
     }
 

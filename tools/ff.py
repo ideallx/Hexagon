@@ -11,10 +11,10 @@ def checkfiles(directory):
             checkfiles(fname)
         else:
             if f[-2:] == '.h' or f[-4:] == '.cpp':
-                if(f[:3] != 'ui_') and (f[:4] != "qrc_"):
-                    os.system("D:\lix\cpplint\cpplint.py " + '"' + fname + '"')
+                if(f[:3] != 'ui_') and (f[:4] != "qrc_") and (f[:4] != "moc_"):
+                    os.system(root + "\cpplint.py " + '"' + fname + '"')
 
 
-root = "C:\Documents and Settings\lix\My Documents\GitHub\Hexagon"
-checkfiles(root)
+root = os.getcwd()
+checkfiles(os.path.dirname(root))
 os.system("pause")

@@ -32,6 +32,7 @@ class BackScene : public QGraphicsScene {
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void restoreOldPoint(QPoint old);
 
  private:
     ItemCollector *ic;

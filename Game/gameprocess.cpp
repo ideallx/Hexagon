@@ -104,12 +104,13 @@ void GameProcess::buildGameInfo() {
     ic->setCardEngine(new CardEngine(gbi));
     ic->setCampHealth();
 
-    QVector<int> heroCode(eil.size());
+    QVector<int> heroCode;
+    heroCode.append(eil[playerHeroSeq].h);
     for (int i = 0; i < eil.size(); i++) {
         if (i%2)
-            eil[i].c = camp_blue;
-        else
             eil[i].c = camp_red;
+        else
+            eil[i].c = camp_blue;
 
         if (i == playerHeroSeq)
             continue;

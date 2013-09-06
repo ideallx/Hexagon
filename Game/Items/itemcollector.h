@@ -77,6 +77,8 @@ class ItemCollector {
     QPointF getBeginPosOfHero(QPoint in);
     QPointF getCenterPosWithCoo(QPoint in);
 
+    static QPoint outPoint() { return QPoint(-1, -1); }
+
  private:
     void addHeroList(QList<struct externInfo> info);
     void addCardList();
