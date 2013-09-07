@@ -6,6 +6,7 @@
 #include "coordinate.h"
 #include "backinfo.h"
 #include "camphealth.h"
+#include "carditem.h"
 
 ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci)
       : gbi(gbii),
@@ -48,6 +49,7 @@ void ItemCollector::setHeroFactory(HeroFactory* hf,
 void ItemCollector::setCardEngine(CardEngine* ce) {
     this->ce = ce;
     addCardList();
+    shuffle(unusedCards);
 }
 
 void ItemCollector::setCampHealth() {
@@ -99,7 +101,7 @@ void ItemCollector::addMapElementList() {
 bool ItemCollector::isPointAvailable(QPoint in) {
     if (in.x() < 0 || in.y() < 0 || in.x() >= wid || in.y() >= hei)
         return false;
-    else if ((in.x() == wid-1) && (in.y()%2 == 1))
+    else if ((in.x() == wid-1) && (in.y()%2 == 1) && (wid%2 == 0))
         return false;
     else if (!elements[getPointNumber(in)]->isPointAvailable())
         return false;

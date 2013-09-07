@@ -14,6 +14,7 @@ struct panelInfo {
     QString attackRange;
     QString moveRange;
     QString attack;
+    QString money;
 };
 
 class EssenialScene : public QGraphicsScene {
@@ -27,9 +28,11 @@ class EssenialScene : public QGraphicsScene {
     QString preMr;
     QString preAr;
     QString preA;
+    QString preMo;
     QGraphicsTextItem *moveRange;
     QGraphicsTextItem *attackRange;
     QGraphicsTextItem *attack;
+    QGraphicsTextItem *money;
 };
 
 class CardScene : public QGraphicsScene {

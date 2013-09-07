@@ -169,7 +169,8 @@ void EventCenter::targetClicked(QPoint in) {
         qDebug() << "list camp" << curHero->camp();
         scene->clearRange();
         scene->showBirthSquare(curHero->camp(), l);
-        menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
+        menu->setPrompt(tr("Choose Birth For Hero: %1").
+                        arg(curHero->heroName()));
     }
 }
 
@@ -213,7 +214,8 @@ void EventCenter::endTurn() {
 
     if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
         curPhase = DiscardPhase;
-        askForDiscardCards(curHero->cards().size() - HeroItem::endTurnMaxCards());
+        askForDiscardCards(curHero->cards().size() -
+                           HeroItem::endTurnMaxCards());
         return;
     }
 
@@ -381,7 +383,11 @@ void EventCenter::mapElementChosen(QPoint p) {
 }
 
 void EventCenter::cardChosen(QList<HandCard*> l) {
-    if (curPhase == DiscardPhase) {
+    if (l.size() == 0)
+        return;
+
+    switch (curPhase) {
+    case DiscardPhase:
         for (int i = 0; i < l.size(); i++) {
             ic->returnCard(l);
             if (!curHero->removeCard(l[i]))
@@ -391,5 +397,23 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         menu->updateCardsArea(curHero->cards());
         curPhase = FinalPhase;
         beginTurn();
+    case BeginPhase:
+        if (l.size() == 1) {
+            switch (l[0]->cardType()) {
+            case KuangBao:
+                break;
+
+            case JinBi_2:
+                break;
+
+            case JinBi_3:
+                break;
+
+            case JinBi_4:
+                break;
+            }
+        } else {
+
+        }
     }
 }

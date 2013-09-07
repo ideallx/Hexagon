@@ -72,7 +72,7 @@ void GameMenu::interfaceInitial() {
     ui->items->setRenderHints(QPainter::Antialiasing |
                               QPainter::SmoothPixmapTransform);
     ui->items->setScene(cs);
-    ui->items->setStyleSheet("background: transparent");
+    // ui->items->setStyleSheet("background: transparent");
     ui->items->setMouseTracking(true);
 
     ui->buttonCancel->setFixedSize(50, 100);
@@ -153,6 +153,7 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     pi.attack = QString::number(hero->attack());
     pi.attackRange = QString::number(hero->attackRange());
     pi.moveRange = QString::number(hero->moveRange());
+    pi.money = QString::number(hero->money());
     setEssenial(pi);
     setHeroSkillButton(hero->skillButtons());
 }

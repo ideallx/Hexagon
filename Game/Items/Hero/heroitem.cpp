@@ -11,7 +11,8 @@ HeroItem::HeroItem(int lineLength)
     theSexual(sex_male),
     theMoveRange(2),
     theAttackRange(1),
-    lineLength(lineLength) {
+    lineLength(lineLength),
+    theMoney(0) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);

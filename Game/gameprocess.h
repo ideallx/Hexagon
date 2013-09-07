@@ -32,7 +32,7 @@ class GameProcess : public QObject {
     QList<struct externInfo> getPreGameResult() { return eil; }
 
  private:
-    void loadResources();
+    void loadResources(QString path);
     void chooseBirthScreen();
     void modeChooseScreen();
     void buildGameInfo();

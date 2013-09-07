@@ -59,45 +59,45 @@ struct heroInfo HeroFactory::getHeroInfoByNum(int n) {
 
 HeroPackageNormal::HeroPackageNormal() {
     const struct heroInfo msz  = {1, 4, 8,  sex_female,
-                                  tr("mieShaZhe")};
+                                  tr("MieShaZhe")};
     const struct heroInfo ls   = {1, 2, 8,  sex_male,
-                                  tr("leiShen")};
+                                  tr("LeiShen")};
     const struct heroInfo bzsn = {1, 2, 8,  sex_female,
-                                  tr("bingZhiShengNv")};
+                                  tr("BingZhiShengNv")};
     const struct heroInfo hwz  = {1, 2, 8,  sex_female,
-                                  tr("huoWuZhe")};
+                                  tr("HuoWuZhe")};
     const struct heroInfo fxz  = {1, 3, 7,  sex_female,
-                                  tr("fengXingZhe")};
+                                  tr("FengXingZhe")};
     const struct heroInfo hyzq = {1, 3, 8,  sex_female,
-                                  tr("huanYingZhiQiang")};
+                                  tr("HuanYingZhiQiang")};
     const struct heroInfo lhyz = {1, 3, 7,  sex_female,
-                                  tr("lingHunYiZhe")};
+                                  tr("LingHunYiZhe")};
     const struct heroInfo dt   = {1, 4, 8,  sex_male,
-                                  tr("duTu")};
+                                  tr("DuTu")};
     const struct heroInfo yy   = {1, 3, 8,  sex_male,
-                                  tr("yingYan")};
+                                  tr("YingYan")};
     const struct heroInfo shz  = {1, 4, 8,  sex_female,
-                                  tr("shiHunZhe")};
+                                  tr("ShiHunZhe")};
     const struct heroInfo ayzr = {1, 4, 7,  sex_male,
-                                  tr("anYingZhiRen")};
+                                  tr("AnYingZhiRen")};
     const struct heroInfo rz   = {1, 4, 8,  sex_male,
-                                  tr("renZhe")};
+                                  tr("RenZhe")};
     const struct heroInfo xzlz = {1, 4, 8,  sex_male,
-                                  tr("xueZhiLiZhua")};
+                                  tr("XueZhiLiZhua")};
     const struct heroInfo qyz  = {1, 4, 8,  sex_male,
-                                  tr("qiYueZhe")};
+                                  tr("QiYueZhe")};
     const struct heroInfo sqs  = {1, 3, 8,  sex_female,
-                                  tr("shengQiShi")};
+                                  tr("ShengQiShi")};
     const struct heroInfo zlzj = {1, 3, 9,  sex_male,
-                                  tr("zhanLanZhiJian")};
+                                  tr("ZhanLanZhiJian")};
     const struct heroInfo zkzs = {1, 3, 10, sex_male,
-                                  tr("zhongKaiZhanShi")};
+                                  tr("ZhongKaiZhanShi")};
     const struct heroInfo ks   = {1, 3, 9,  sex_male,
-                                  tr("kuangSha")};
+                                  tr("KuangSha")};
     const struct heroInfo ss   = {1, 3, 9,  sex_male,
-                                  tr("siShen")};
+                                  tr("SiShen")};
     const struct heroInfo bx   = {1, 4, 8,  sex_male,
-                                  tr("baoXiong")};
+                                  tr("BaoXiong")};
 
     hil.append(msz);
     hil.append(ls);

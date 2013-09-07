@@ -29,7 +29,7 @@
     <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
    </property>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -44,7 +44,7 @@
       <property name="title">
        <string>Game Mode</string>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -80,7 +80,7 @@
       <property name="title">
        <string>Map Choose</string>
       </property>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget">
        <property name="geometry">
         <rect>
          <x>30</x>
@@ -91,9 +91,9 @@
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QRadioButton" name="radioButton">
+         <widget class="QRadioButton" name="radioButton_dd1">
           <property name="text">
-           <string>Death Desert</string>
+           <string>Death Desert 1</string>
           </property>
           <property name="checked">
            <bool>true</bool>
@@ -101,9 +101,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="radioButton_2">
+         <widget class="QRadioButton" name="radioButton_dd2">
           <property name="text">
-           <string>RadioButton</string>
+           <string>Death Desert 2</string>
           </property>
          </widget>
         </item>

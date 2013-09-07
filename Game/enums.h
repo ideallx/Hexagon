@@ -99,4 +99,30 @@ struct externInfo {
     QPoint p;
 };
 
+
+enum cardType_t {
+    BACK,
+    KuangBao,
+    ZheYue,
+    FaLiRanShao,
+    ShengMingLiZan,
+    ChuanSong,
+    FangYuFuWen,
+    ZhuangTaiJingHua,
+    MoFaHuDun,
+    MoFaZhiHeng,
+    MoJingBaoDan,
+    NengLiangXianJing,
+    JinBi_2,
+    JinBi_3,
+    JinBi_4,
+    ZhengJingJi,
+    JiJiuYao,
+    ShanBi,
+
+    CardPackageII,
+
+    CardUserDefined
+};
+
 #endif  // GAME_ENUMS_H_

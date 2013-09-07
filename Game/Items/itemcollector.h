@@ -80,6 +80,16 @@ class ItemCollector {
 
     static QPoint outPoint() { return QPoint(-1, -1); }
 
+    template <typename T>
+    static void shuffle(QList<T> &l) {
+        for (int i = 0; i < l.size(); i++) {
+            T t = l[i];
+            int temp = rand()%l.size();
+            l[i] = l[temp];
+            l[temp] = t;
+        }
+    }
+
  private:
     void addHeroList(QList<struct externInfo> info);
     void addCardList();

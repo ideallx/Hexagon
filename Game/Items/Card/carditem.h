@@ -10,13 +10,15 @@ class HandCard : public QGraphicsRectItem {
     HandCard(int t, QString pixmapPath);
     QPixmap pixmap() { return pixmapPath; }
     void setPixmap(QString s) { pixmapPath = s; }
-    void setId(int n) { id = n; }
+    void setId(int n) { theId = n; }
+    int id() { return theId; }
+    int cardType() { return type; }
 
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
  private:
-    int id;
+    int theId;
     int type;
     QPixmap pixmapPath;
 };

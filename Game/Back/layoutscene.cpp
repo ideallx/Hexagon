@@ -5,6 +5,7 @@ EssenialScene::EssenialScene() {
     preMr = tr("Move Range: ");
     preAr = tr("Attack Range: ");
     preA  = tr("Attack: ");
+    preMo = tr("Money: ");
 
     moveRange = new QGraphicsTextItem;
     moveRange->setPlainText(preMr);
@@ -20,12 +21,18 @@ EssenialScene::EssenialScene() {
     attack->setPlainText(preA);
     attack->setPos(0, 40);
     this->addItem(attack);
+
+    money = new QGraphicsTextItem;
+    money->setPlainText(preMo);
+    money->setPos(0, 60);
+    this->addItem(money);
 }
 
 EssenialScene::~EssenialScene() {
     delete moveRange;
     delete attackRange;
     delete attack;
+    delete money;
 }
 
 
@@ -33,6 +40,7 @@ void EssenialScene::setContent(struct panelInfo pi) {
     moveRange->setPlainText(preMr + pi.moveRange);
     attackRange->setPlainText(preAr + pi.attackRange);
     attack->setPlainText(preA + pi.attack);
+    money->setPlainText(preMo + pi.money);
 }
 
 

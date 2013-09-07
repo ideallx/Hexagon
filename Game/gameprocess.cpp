@@ -29,9 +29,9 @@ GameProcess::~GameProcess() {
     qDebug() << "deconstructor";
 }
 
-void GameProcess::loadResources() {
+void GameProcess::loadResources(QString path) {
     try {
-        gbi = new GameBackInfo(QString(CONFIGPATH));
+        gbi = new GameBackInfo(path);
         qDebug() << "gbi load complete...";
 
         hf = new HeroFactory(gbi);
@@ -43,7 +43,6 @@ void GameProcess::loadResources() {
 }
 
 void GameProcess::preGame() {
-    loadResources();
     modeChooseScreen();
 }
 
@@ -72,6 +71,14 @@ void GameProcess::gameChooseScreen() {
             totalHero = 2;
         else if (uig->mode_4person->isChecked())
             totalHero = 4;
+
+        QString path;
+        if (uig->radioButton_dd1->isChecked())
+            path = "C:/rsc/config.xml";
+        else if (uig->radioButton_dd2->isChecked())
+            path = "c:/rsc/DeathDesert2.xml";
+
+        loadResources(path);
 
         ei.h = (enum heroNum_t)(0);
         ei.p = QPoint(300, 300);  // untouchable point
@@ -119,6 +126,7 @@ void GameProcess::buildGameInfo() {
         do {
             code = rand()%hf->getHeroAmount();
         } while (heroCode.contains(code));
+        heroCode.append(code);
 
         eil[i].h = code;
     }

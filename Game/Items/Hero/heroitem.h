@@ -60,6 +60,10 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     static int beginTurnGetCards() { return 2; }
     static int endTurnMaxCards() { return 3; }
 
+    int money() { return theMoney; }
+    void addMoney(int mo) { theMoney += mo; }
+    void setMoney(int mo) { theMoney = mo; }
+
  private:
     QString thePlayerName;
     QList<SkillBase*> skills;
@@ -79,6 +83,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
 
     int lineLength;
     QColor color;
+    int theMoney;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);
