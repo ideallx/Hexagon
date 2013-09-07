@@ -68,6 +68,7 @@ class ItemCollector {
 
     QList<HeroItem*> getActSequence();
     QList<HandCard*> getCard(int n);
+    void returnCard(QList<HandCard*> l);
     QList<QGraphicsLineItem*> getLines() { return targetLines; }
     QList<QPoint> listRange(HeroItem* hero, enum rangeMode_t);
 

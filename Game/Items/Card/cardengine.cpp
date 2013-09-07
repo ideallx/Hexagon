@@ -45,33 +45,51 @@ QList<HandCard*> CardEngine::generateHandCards(int package) {
     Q_UNUSED(package);
     QList<HandCard*> handList;
     int i = 0;
+    int id = 0;
 
     for (i = 0; i < 2; i++) {
         handList.append(new HandCard(fyfw.cartType, path+fyfw.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(jjy.cartType,  path+jjy.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(ztjh.cartType, path+ztjh.name+".jpg"));
-        handList.append(new HandCard(smlz.cartType, path+smlz.name+".jpg"));;
+        handList.last()->setId(id++);
+        handList.append(new HandCard(smlz.cartType, path+smlz.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(mfzh.cartType, path+mfzh.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(flrs.cartType, path+flrs.name+".jpg"));
+        handList.last()->setId(id++);
     }
     for (i = 0; i < 3; i++) {
         handList.append(new HandCard(sb.cartType,   path+sb.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(jb2.cartType,  path+jb2.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(nlxj.cartType, path+nlxj.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(cs.cartType,   path+cs.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(zy.cartType,   path+zy.name+".jpg"));
+        handList.last()->setId(id++);
     }
     for (i = 0; i < 4; i++) {
         handList.append(new HandCard(mfhd.cartType, path+mfhd.name+".jpg"));
+        handList.last()->setId(id++);
     }
     for (i = 0; i < 5; i++) {
         handList.append(new HandCard(kb.cartType,   path+kb.name+".jpg"));
+        handList.last()->setId(id++);
     }
     for (i = 0; i < 6; i++) {
         handList.append(new HandCard(jb3.cartType,  path+jb3.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(jb4.cartType,  path+jb4.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(ztjh.cartType, path+ztjh.name+".jpg"));
+        handList.last()->setId(id++);
         handList.append(new HandCard(mjbd.cartType, path+mjbd.name+".jpg"));
+        handList.last()->setId(id++);
     }
     return handList;
 }

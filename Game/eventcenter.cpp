@@ -7,6 +7,7 @@
 #include "BackView.h"
 #include "coordinate.h"
 #include "mapelement.h"
+#include "carditem.h"
 
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
@@ -22,7 +23,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
     setCurHero(heroSeq[0]);
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
-    QMessageBox::warning(scene->views()[0], tr("LYBNS"), tr("Choose Birth"));
+    menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
     scene->showBirthSquare(curHero->camp(), l);
 }
@@ -32,15 +33,17 @@ void EventCenter::setupConnection() {
             this, SLOT(heroChosen(HeroItem*)));
     connect(scene, SIGNAL(rangeClicked(QPoint)),
             this, SLOT(targetClicked(QPoint)));
-
     connect(scene, SIGNAL(buildMenu(HeroItem*, QPoint)),
             this, SLOT(showMenu(HeroItem*, QPoint)));
     connect(scene, SIGNAL(viewSizeChanged(QSize)),
             menu, SLOT(reSetInterface(QSize)));
-
+    connect(scene, SIGNAL(mapElementClicked(QPoint)),
+            this, SLOT(mapElementChosen(QPoint)));
     connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
     connect(menu, SIGNAL(attackClicked()), this, SLOT(attackBegin()));
     connect(menu, SIGNAL(skillClicked()), this, SLOT(skillBegin()));
+    connect(menu, SIGNAL(buttonOkClicked(QList<HandCard*>)),
+            this, SLOT(cardChosen(QList<HandCard*>)));
 }
 
 void EventCenter::gameBegin() {
@@ -54,8 +57,8 @@ void EventCenter::gameBegin() {
 
     curPhase = BeginPhase;
     gameBegined = true;
-    endTurn();
-    QMessageBox::warning(scene->views()[0], tr("LYBNS"), tr("Game Begin"));
+    beginTurn();
+    menu->setPrompt(tr("Game Begin"));
 }
 
 void EventCenter::heroChosen(HeroItem* hero) {
@@ -66,11 +69,12 @@ void EventCenter::heroChosen(HeroItem* hero) {
 }
 
 void EventCenter::showCards(HeroItem* hero) {
-    if (heroSeq.indexOf(hero) == playerHeroNum) {
-        menu->updateCardsArea(hero->cards());
-    } else {
-        menu->updateCardsArea(ic->switchToBack(hero->cards()));
-    }
+//    if (heroSeq.indexOf(hero) == playerHeroNum) {
+//        menu->updateCardsArea(hero->cards());
+//    } else {
+//        menu->updateCardsArea(ic->switchToBack(hero->cards()));
+//    }
+    menu->updateCardsArea(hero->cards());
 }
 
 void EventCenter::getCard(int num) {
@@ -165,6 +169,7 @@ void EventCenter::targetClicked(QPoint in) {
         qDebug() << "list camp" << curHero->camp();
         scene->clearRange();
         scene->showBirthSquare(curHero->camp(), l);
+        menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     }
 }
 
@@ -179,14 +184,9 @@ void EventCenter::mapClear() {
     menu->hideAllMenu();
 }
 
-void EventCenter::endTurn() {
-    if (!gameBegined)
-        return;
-    curPhase = FinalPhase;
-    menu->resetMenuEnable();
+void EventCenter::beginTurn() {
     curHero->setPen(QPen(Qt::black, 3));
-    qDebug() << curHero->heroName() + "'s" << "Turn End";
-
+    menu->resetMenuEnable();
     if (curHero == heroSeq.last()) {
         curHero = heroSeq[0];
         roundEnd();
@@ -197,10 +197,30 @@ void EventCenter::endTurn() {
     }
 
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
-    getCard(2);
+    menu->setPrompt("");
+    getCard(HeroItem::beginTurnGetCards());
     curPhase = BeginPhase;
     setCurHero(curHero);
     emit roundInfoChanged(buildRoundInfo());
+}
+
+void EventCenter::endTurn() {
+    if (!gameBegined)
+        return;
+
+    if (curPhase == DiscardPhase)
+        return;
+
+    if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
+        curPhase = DiscardPhase;
+        askForDiscardCards(curHero->cards().size() - HeroItem::endTurnMaxCards());
+        return;
+    }
+
+    curPhase = FinalPhase;
+    qDebug() << curHero->heroName() + "'s" << "Turn End";
+
+    beginTurn();
 }
 
 void EventCenter::roundBegin() {
@@ -343,5 +363,33 @@ void EventCenter::checkHeros() {
             throw QString(tr("Hero %1: Wrong Birth Point").
                           arg(heroSeq[i]->heroName()));
         }
+    }
+}
+
+
+void EventCenter::askForDiscardCards(int num) {
+    if (num <= 0)
+        return;
+
+    menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
+    menu->askForNCards(num);
+    curPhase = DiscardPhase;
+}
+
+void EventCenter::mapElementChosen(QPoint p) {
+    menu->hideAllMenu();
+}
+
+void EventCenter::cardChosen(QList<HandCard*> l) {
+    if (curPhase == DiscardPhase) {
+        for (int i = 0; i < l.size(); i++) {
+            ic->returnCard(l);
+            if (!curHero->removeCard(l[i]))
+                qDebug() << "discard card error";
+        }
+        qDebug() << "cards num:" << curHero->cards().size();
+        menu->updateCardsArea(curHero->cards());
+        curPhase = FinalPhase;
+        beginTurn();
     }
 }

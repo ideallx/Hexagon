@@ -284,6 +284,10 @@ QList<HandCard*> ItemCollector::getCard(int n) {
     return result;
 }
 
+void ItemCollector::returnCard(QList<HandCard*> l) {
+    usedCards.append(l);
+}
+
 QString ItemCollector::rscPath() {
     return gbi->getConfigDir();
 }

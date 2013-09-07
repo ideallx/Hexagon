@@ -21,17 +21,8 @@ class GameMenu : public QObject {
     Q_OBJECT
 
  public:
-    enum menu_type_t {
-        MENULIST,
-        MOVELIST,
-        ATTACKLIST,
-        ABILITYLIST,
-        CANCELLIST
-    };
-
     explicit GameMenu(QGraphicsView *parent = 0);
     ~GameMenu();
-    void hideMenu(GameMenu::menu_type_t);
     bool MoveAble() { return isMoveAble; }
     bool AttackAble() { return isAttackAble; }
     bool AbilityAble() { return isSkillAble; }
@@ -45,10 +36,21 @@ class GameMenu : public QObject {
     void setHeroHp(int curHp, int maxHp);
     void setEssenial(struct panelInfo pi) { es->setContent(pi); }
     void setHeroInfo(HeroItem* hero);
+    void setPrompt(QString prompt);
+    void askForNCards(int n);
 
  private:
     void menuInitial();
     void interfaceInitial();
+    QList<HandCard*> toHandCard(QList<QGraphicsItem*> l);
+
+    enum CardPhase_t {
+        CardNormal,
+        CardDiscard,
+        CardChooseOne
+    };
+    enum CardPhase_t cardPhase;
+    int waitingCardNum;
 
     QList<QPushButton*> menuList;
     QWidget* parent;
@@ -71,6 +73,7 @@ class GameMenu : public QObject {
     void attackClicked();
     void skillClicked();
     void cancelClicked();
+    void buttonOkClicked(QList<HandCard*> l);
 
  public slots:
     void resizeItems();
@@ -80,6 +83,8 @@ class GameMenu : public QObject {
     void showMenu(QPoint pos = QPoint());
     void reSetInterface(QSize);
     void updateCardsArea(QList<HandCard*> cards);
+    void chosenCardNumChanged(int n);
+    void on_buttonOK_clicked();
 };
 
 

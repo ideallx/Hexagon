@@ -128,11 +128,13 @@ void CardScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     if (chosenItem.contains(oldItem)) {
         oldItem->setPos(oldItem->pos().x(), 0.2*height());
-        chosenItem.remove(chosenItem.indexOf(oldItem));
+        chosenItem.removeAt(chosenItem.indexOf(oldItem));
     } else {
         oldItem->setPos(oldItem->pos().x(), 0);
         chosenItem.append(oldItem);
     }
+
+    emit chosenNCard(chosenItem.size());
 }
 
 void CardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {

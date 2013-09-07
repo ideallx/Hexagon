@@ -52,7 +52,7 @@ void BackScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     if (HeroItem* hero = ic->getHeroByPoint(oldPoint)) {
         QString strHero = tr("hero: ") + hero->heroName();
         strList.append(strHero);
-        emit heroClicked(hero);
+        emit heroMovedIn(hero);
     } else {
         QString strGme = tr("area: ") + gmeT->getElementName();
         strList.append(strGme);

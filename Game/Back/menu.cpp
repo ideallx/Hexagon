@@ -6,7 +6,9 @@
 #include "heroitem.h"
 
 GameMenu::GameMenu(QGraphicsView *parent)
-    : parent(parent),
+    : cardPhase(CardNormal),
+    waitingCardNum(0),
+    parent(parent),
     heroHeadSlideLength(80),
     ui(new Ui::Form) {  // uncertain
     interfaceInitial();
@@ -30,7 +32,7 @@ void GameMenu::menuInitial() {
     menuList.append(skillButton);
     menuList.append(cancelButton);
 
-    hideMenu(MENULIST);
+    hideAllMenu();
     resetMenuEnable();
 
     connect(moveButton, SIGNAL(clicked()), this, SIGNAL(moveClicked()));
@@ -73,7 +75,14 @@ void GameMenu::interfaceInitial() {
     ui->items->setStyleSheet("background: transparent");
     ui->items->setMouseTracking(true);
 
+    ui->buttonCancel->setFixedSize(50, 100);
+    ui->buttonOK->setFixedSize(50, 100);
+
     connect(ui->items, SIGNAL(resized()), this, SLOT(resizeItems()));
+    connect(cs, SIGNAL(chosenNCard(int)),
+            this, SLOT(chosenCardNumChanged(int)));
+    connect(ui->buttonOK, SIGNAL(clicked()),
+            this, SLOT(on_buttonOK_clicked()));
 }
 
 void GameMenu::showMenu(QPoint pos) {
@@ -87,19 +96,6 @@ void GameMenu::showMenu(QPoint pos) {
         list[i]->show();
         list[i]->setGeometry(pos.x(), 30*i+pos.y(),
                              list[i]->width(), list[i]->height());
-    }
-}
-
-void GameMenu::hideMenu(GameMenu::menu_type_t type) {
-    QList<QPushButton*> list;
-    switch (type) {
-    case MENULIST:
-        list = menuList;
-        break;
-    }
-
-    for (int i = 0; i < list.count(); i++) {
-        list[i]->hide();
     }
 }
 
@@ -187,4 +183,44 @@ void GameMenu::updateCardsArea(QList<HandCard*> cards) {
 void GameMenu::resizeItems() {
     cs->clearChosenItems();
     cs->listCards();
+}
+
+void GameMenu::setPrompt(QString prompt) {
+    ui->prompt->setText(prompt);
+}
+
+void GameMenu::on_buttonOK_clicked() {
+    qDebug() << "ok clicked";
+    emit buttonOkClicked(toHandCard(cs->getChosenItems()));
+
+    if (cardPhase == CardDiscard) {
+        cardPhase = CardNormal;
+        waitingCardNum = 0;
+    }
+}
+
+void GameMenu::askForNCards(int n) {
+    ui->buttonOK->setEnabled(false);
+    cardPhase = CardDiscard;
+    waitingCardNum = n;
+}
+
+void GameMenu::chosenCardNumChanged(int n) {
+    if (cardPhase == CardNormal)
+        return;
+    if (cardPhase == CardChooseOne)
+        return;
+
+    if (n == waitingCardNum)
+        ui->buttonOK->setEnabled(true);
+    else
+        ui->buttonOK->setEnabled(false);
+}
+
+QList<HandCard*> GameMenu::toHandCard(QList<QGraphicsItem*> l) {
+    QList<HandCard*> result;
+    for (int i = 0; i < l.size(); i++) {
+        result.append(static_cast<HandCard*>(l[i]));
+    }
+    return result;
 }

@@ -8,6 +8,8 @@
 #include <QVector>
 #include <QGraphicsSceneMouseEvent>
 
+class HandCard;
+
 struct panelInfo {
     QString attackRange;
     QString moveRange;
@@ -31,11 +33,14 @@ class EssenialScene : public QGraphicsScene {
 };
 
 class CardScene : public QGraphicsScene {
+    Q_OBJECT
+
  public:
     CardScene();
     ~CardScene();
     void clearChosenItems();
     void listCards();
+    QList<QGraphicsItem*> getChosenItems() { return chosenItem; }
     QGraphicsItemGroup* cardGroup;
 
  private:
@@ -44,8 +49,11 @@ class CardScene : public QGraphicsScene {
 
     QGraphicsItem* oldItem;
     QGraphicsItem* curItem;
-    QVector<QGraphicsItem*> chosenItem;
+    QList<QGraphicsItem*> chosenItem;
     QTransform qtf;
+
+ signals:
+    void chosenNCard(int n);
 };
 
 /*

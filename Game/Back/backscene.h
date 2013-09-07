@@ -47,6 +47,7 @@ class BackScene : public QGraphicsScene {
     void mapElementMovedIn(QPoint p);
     void mapElementClicked(QPoint p);
     void heroClicked(HeroItem* h);
+    void heroMovedIn(HeroItem *h);
     void buildMenu(HeroItem* h, QPoint p);
     void viewSizeChanged(QSize s);
     void rangeClicked(QPoint p);

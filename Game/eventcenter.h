@@ -13,6 +13,7 @@ class ItemCollector;
 class GameCoordinate;
 class HeroItem;
 class GameMapElement;
+class HandCard;
 
 class EventCenter : public QObject {
     Q_OBJECT
@@ -23,6 +24,7 @@ class EventCenter : public QObject {
     void gameBegin();
     void checkHeros();
     bool isGameBegined() { return gameBegined; }
+    void askForDiscardCards(int num);
 
     enum gamePhase_t {
         BeginPhase,
@@ -70,12 +72,15 @@ class EventCenter : public QObject {
     void targetClicked(QPoint p);
     void heroChosen(HeroItem* hi);
     void getCard(int num = 1);
+    void mapElementChosen(QPoint p);
     void moveBegin();
     void attackBegin();
     void skillBegin();
     void endTurn();
+    void beginTurn();
     void mapClear();
     void showMenu(HeroItem* hi, QPoint p);
+    void cardChosen(QList<HandCard*> l);
 };
 
 #endif  // GAME_EVENTCENTER_H_

@@ -47,6 +47,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setCards(QList<HandCard*> c) { theCards = c; }
     void addCards(QList<HandCard*> c);
     QList<HandCard*> cards() { return theCards; }
+    bool removeCard(HandCard* hc) { return theCards.removeOne(hc); }
 
     void addSkill(SkillBase* s);
     void removeSkill(SkillBase* s);
@@ -55,6 +56,9 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
+
+    static int beginTurnGetCards() { return 2; }
+    static int endTurnMaxCards() { return 3; }
 
  private:
     QString thePlayerName;
