@@ -43,6 +43,7 @@ class EventCenter : public QObject {
     void setCurHero(HeroItem* hi);
     void heroMoveToPoint(QPoint p);
     void heroAttackPoint(QPoint p);
+    void attackCalc(HeroItem* from, HeroItem* to);
     void skillStraightTest(QPoint p);
     void birthChosed(QPoint in);
 

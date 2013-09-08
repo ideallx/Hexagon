@@ -5,9 +5,11 @@
 #include <QString>
 #include <QObject>
 #include "enums.h"
+#include "skillcenter.h"
 
 class HandCard;
 class GameBackInfo;
+
 
 struct CardInfo {
     int cartType;
@@ -53,6 +55,11 @@ class CardEngine : public QObject {
     int cardAmount;
     QString path;
     QList<AbstractCardPackage*> cpl;
+};
+
+class CsKuangBao : public AttackBuffSkill {
+ public:
+    CsKuangBao();
 };
 
 #endif  // GAME_ITEMS_CARD_CARDENGINE_H_

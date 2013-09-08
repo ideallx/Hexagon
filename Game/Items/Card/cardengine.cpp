@@ -85,3 +85,8 @@ void CardEngine::addPackage(AbstractCardPackage* acp) {
     cpl.append(acp);
     cardAmount += acp->cardNumInPackage();
 }
+
+CsKuangBao::CsKuangBao()
+    : AttackBuffSkill(AttackBuffAddDamage, 1){
+    setObjectName("KuangBao");
+}

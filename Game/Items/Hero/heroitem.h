@@ -51,7 +51,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
 
     void addSkill(SkillBase* s);
     void removeSkill(SkillBase* s);
-    QList<SkillBase*> hasSkillTriggerAt(enum triggerTime_t);
+    QList<SkillBase*> hasSkillTriggerAt(enum TriggerTime_t);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

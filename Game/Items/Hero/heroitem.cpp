@@ -92,7 +92,8 @@ void HeroItem::removeSkill(SkillBase* s) {
         skills.removeAt(skills.indexOf(s));
 }
 
-QList<SkillBase*> HeroItem::hasSkillTriggerAt(enum triggerTime_t time) {
+// TODO(ideallx) sort by priority
+QList<SkillBase*> HeroItem::hasSkillTriggerAt(enum TriggerTime_t time) {
     QList<SkillBase*> result;
     for (int i = 0; i < skills.size(); i++) {
         if (skills[i]->triggerTime() == time) {

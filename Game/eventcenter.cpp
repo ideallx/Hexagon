@@ -119,7 +119,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
     HeroItem* hi = ic->getHeroByPoint(in);
 
     attackAnimate(curHero, hi);
-    hi->setHealth(hi->health() - curHero->attack());
+    attackCalc(curHero, hi);
 
     scene->clearRange();
     menu->hideAllMenu();
@@ -303,6 +303,15 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
     }
 
     attackTimer->start();
+}
+
+void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
+    QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerAttackBegin);
+    if (l.size() != 0) {
+        for (int i = 0; i < l.size(); i++) {
+
+        }
+    }
 }
 
 void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {

@@ -2,32 +2,36 @@
 #define GAME_SKILLCENTER_H_
 
 #include <QString>
+#include <QObject>
 #include "enums.h"
 
-class SkillBase {
+class SkillBase : public QObject {
  public:
-    SkillBase();
-
     void skillFlow();
-    QString skillName() const { return name; }
-    enum TriggerTime_t triggerTime() const { return time; }
+    virtual QString skillName() const = 0;
+    virtual enum TriggerTime_t triggerTime() const = 0;
     void terminateSkill();
 
- private:
-    enum SkillType_t type;
-    enum TriggerTime_t time;
-    int priority;
-    int coolDownTime;
-    int curCD;
-    QString name;
+// private:
+//    enum SkillType_t type;
+//    enum TriggerTime_t time;
+//    int priority;
+//    int coolDownTime;
+//    int curCD;
+//    QString name;
 };
 
 class AttackBuffSkill : public SkillBase {
  public:
     AttackBuffSkill(enum AttackBuffEffect a, int effectTime = 1);
+    enum TriggerTime_t triggerTime() const { return TriggerAttackBegin; }
+    QString skillName() const { return objectName(); }
+    int effectTime() const { return theEffectTime; }
+    enum AttackBuffEffect attackEffect() { return abe; }
+    void skillFlow();
 
  private:
-    int effectTime;
+    int theEffectTime;
     enum AttackBuffEffect abe;
 };
 
