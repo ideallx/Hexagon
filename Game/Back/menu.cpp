@@ -72,7 +72,7 @@ void GameMenu::interfaceInitial() {
     ui->items->setRenderHints(QPainter::Antialiasing |
                               QPainter::SmoothPixmapTransform);
     ui->items->setScene(cs);
-    // ui->items->setStyleSheet("background: transparent");
+    ui->items->setStyleSheet("background: transparent");
     ui->items->setMouseTracking(true);
 
     ui->buttonCancel->setFixedSize(50, 100);
@@ -123,20 +123,19 @@ void GameMenu::listSlideHeroHead(QList<QString>leftColumn,
     for (int i = 0; i < num; i++) {
         QLabel *heroAvater = new QLabel();
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
-        heroAvater->setPixmap(
-                    QPixmap(leftColumn[i]).
-                    scaledToHeight(heroHeadSlideLength));
+        heroAvater->setPixmap(QPixmap(leftColumn[i]).
+					scaledToHeight(heroHeadSlideLength, 
+					Qt::SmoothTransformation));
         ui->leftHeros->addWidget(heroAvater);
     }
     num = rightColumn.size();
     for (int i = 0; i < num; i++) {
         QLabel *heroAvater = new QLabel();
         heroAvater->setAlignment(Qt::AlignRight);
-        heroAvater->setFixedSize(100, 100);
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
-        heroAvater->setPixmap(
-                    QPixmap(rightColumn[i]).
-                    scaledToHeight(heroHeadSlideLength));
+        heroAvater->setPixmap(QPixmap(rightColumn[i]).
+                    scaledToHeight(heroHeadSlideLength,
+					Qt::SmoothTransformation));
         ui->rightHeros->addWidget(heroAvater);
     }
 }

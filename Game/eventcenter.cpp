@@ -152,25 +152,7 @@ void EventCenter::targetClicked(QPoint in) {
     } else if (curPhase == SkillPhase) {
         skillStraightTest(in);
     } else if (curPhase == ChooseBirthPhase) {
-        setHeroBirth(curHero, in);
-        if (curHero == heroSeq.last()) {
-            gameBegin();
-            return;
-        } else {
-            curHero = heroSeq[heroSeq.indexOf(curHero)+1];
-        }
-        QList<QPoint> l;
-        for (int i = 0; i < heroSeq.indexOf(curHero); i++) {
-            if (heroSeq[i]->point() != QPoint(300, 300) &&
-                    heroSeq[i]->camp() == curHero->camp()) {
-                l.append(heroSeq[i]->point());
-            }
-        }
-        qDebug() << "list camp" << curHero->camp();
-        scene->clearRange();
-        scene->showBirthSquare(curHero->camp(), l);
-        menu->setPrompt(tr("Choose Birth For Hero: %1").
-                        arg(curHero->heroName()));
+		birthChosed(in);
     }
 }
 
@@ -416,4 +398,26 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
 
         }
     }
+}
+
+void EventCenter::birthChosed(QPoint in) {
+    setHeroBirth(curHero, in);
+    if (curHero == heroSeq.last()) {
+        gameBegin();
+        return;
+    } else {
+        curHero = heroSeq[heroSeq.indexOf(curHero)+1];
+    }
+    QList<QPoint> l;
+    for (int i = 0; i < heroSeq.indexOf(curHero); i++) {
+        if (heroSeq[i]->point() != QPoint(300, 300) &&
+                heroSeq[i]->camp() == curHero->camp()) {
+            l.append(heroSeq[i]->point());
+        }
+    }
+    qDebug() << "list camp" << curHero->camp();
+    scene->clearRange();
+    scene->showBirthSquare(curHero->camp(), l);
+    menu->setPrompt(tr("Choose Birth For Hero: %1").
+                    arg(curHero->heroName()));
 }

@@ -20,7 +20,6 @@ void BackView::initialSettrings() {
     this->setRenderHints(
                 QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setUpdatesEnabled(true);
-    this->centerOn(QPointF(0, 0));  // TODO(ideallx) center on first act hero
 }
 
 void BackView::resizeEvent(QResizeEvent *e) {
@@ -29,7 +28,6 @@ void BackView::resizeEvent(QResizeEvent *e) {
     qreal w1 = e->size().width();
     qreal w2 = scene()->width();
     if (w1 <= w2) {
-        this->centerOn(0, 0);  // TODO(ideallx) center on precenter
         qreal ff = 1.0;
         matrix.reset();
         matrix.scale(ff, ff);

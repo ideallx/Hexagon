@@ -44,6 +44,7 @@ class EventCenter : public QObject {
     void heroMoveToPoint(QPoint p);
     void heroAttackPoint(QPoint p);
     void skillStraightTest(QPoint p);
+    void birthChosed(QPoint in);
 
     void moveAnimate(HeroItem* item, GameMapElement* gme);
     void attackAnimate(HeroItem* srcItem, HeroItem* targetItem);
