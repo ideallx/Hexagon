@@ -152,7 +152,7 @@ void EventCenter::targetClicked(QPoint in) {
     } else if (curPhase == SkillPhase) {
         skillStraightTest(in);
     } else if (curPhase == ChooseBirthPhase) {
-		birthChosed(in);
+        birthChosed(in);
     }
 }
 
@@ -383,19 +383,40 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         if (l.size() == 1) {
             switch (l[0]->cardType()) {
             case KuangBao:
+                curHero->setAttack(curHero->attack()+1);
+                // TODO(ideallx) skill function point
                 break;
 
+            case ShengMingLiZan:
+                break;
+
+            case ZheYue:
+                curHero->removeCard(l[0]);
+                scene->showSkillRange(curHero, RangeTypeRound, 2);
+
             case JinBi_2:
+                curHero->addMoney(2);
+                menu->setHeroInfo(curHero);
                 break;
 
             case JinBi_3:
+                curHero->addMoney(3);
+                menu->setHeroInfo(curHero);
                 break;
 
             case JinBi_4:
+                curHero->addMoney(4);
+                menu->setHeroInfo(curHero);
+                break;
+
+            default:
                 break;
             }
-        } else {
+            curHero->removeCard(l[0]);
+            menu->updateCardsArea(curHero->cards());
 
+
+        } else {
         }
     }
 }

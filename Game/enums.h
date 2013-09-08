@@ -4,27 +4,27 @@
 #include <QString>
 #include <QPoint>
 
-enum gameEnvironment_t {
-    areaSpace,
-    areaGrass   = '1',
-    areaStone   = '2',
-    areaShop    = '3',
-    areaAlchemy = '4',
-    areaSpring  = '5',
-    areaCamp    = '6',
-    areaSwamp   = '7',
-    areaDesert  = '8',
-    areaWater   = '9',
+enum GameEnvironment_t {
+    AreaSpace,
+    AreaGrass   = '1',
+    AreaStone   = '2',
+    AreaShop    = '3',
+    AreaAlchemy = '4',
+    AreaSpring  = '5',
+    AreaCamp    = '6',
+    AreaSwamp   = '7',
+    AreaDesert  = '8',
+    AreaWater   = '9',
 
-    areaFort    = 'J',
-    areaRedHome = 'K',
-    areaTree    = 'L',
-    areaBlueHome= 'M',
+    AreaFort    = 'J',
+    AreaRedHome = 'K',
+    AreaTree    = 'L',
+    AreaBlueHome= 'M',
 
-    areaNouse = 'Z'
+    AreaNouse = 'Z'
 };
 
-enum triggerTime_t {
+enum TriggerTime_t {
     TriggerGameBegin,
     TriggerRoundBegin,
     TriggerTurnBegin,
@@ -39,14 +39,14 @@ enum triggerTime_t {
     TriggerGameEnd
 };
 
-enum mapRangeType_t {
+enum MapRangeType_t {
     RangeTypeStraight,
     RangeTypeDoubleLine,
     RangeTypeRound
 };
 
 
-enum heroNum_t {
+enum HeroNum_t {
     MieShaZhe,
     RenZhe,
     AnYingZhiRen,
@@ -69,23 +69,29 @@ enum heroNum_t {
     HuoWuZhe
 };
 
-enum camp_t {
+enum Camp_t {
     camp_red,
     camp_blue
 };
 
-enum sexual_t {
+enum Sexual_t {
     sex_male,
     sex_female
 };
 
-enum hero_package_t {
+enum Hero_package_t {
     HeroPackage_Normal,
     HeroPackage_Extend1,
     HeroPackage_Extend2
 };
 
-struct heroInfo {
+enum Card_Package_t {
+    CardPackage_Normal,
+    CardPackage_Extend1,
+    CardPackage_Extend2
+};
+
+struct HeroInfo {
     int attackRange;
     int moveRange;
     int healthMax;
@@ -93,14 +99,14 @@ struct heroInfo {
     QString heroName;
 };
 
-struct externInfo {
+struct ExternInfo {
     int h;
-    enum camp_t c;
+    enum Camp_t c;
     QPoint p;
 };
 
 
-enum cardType_t {
+enum Card_Normal_Package_Type_t {
     BACK,
     KuangBao,
     ZheYue,
@@ -119,10 +125,18 @@ enum cardType_t {
     ZhengJingJi,
     JiJiuYao,
     ShanBi,
+};
 
-    CardPackageII,
 
-    CardUserDefined
+enum SkillType_t {
+    SkillActive,
+    SkillPositive,
+    SkillPositiveTrigger
+};
+
+enum AttackBuffEffect {
+    AttackBuffAddDamage,
+    AttackBuffAddStat
 };
 
 #endif  // GAME_ENUMS_H_

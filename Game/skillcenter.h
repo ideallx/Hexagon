@@ -4,27 +4,35 @@
 #include <QString>
 #include "enums.h"
 
-enum skillType_t {
-    SkillActive,
-    SkillPositive,
-    SkillPositiveTrigger
-};
-
 class SkillBase {
  public:
     SkillBase();
 
     void skillFlow();
     QString skillName() const { return name; }
-    enum triggerTime_t triggerTime() const { return time; }
+    enum TriggerTime_t triggerTime() const { return time; }
+    void terminateSkill();
 
  private:
-    enum skillType_t type;
-    enum triggerTime_t time;
+    enum SkillType_t type;
+    enum TriggerTime_t time;
     int priority;
     int coolDownTime;
     int curCD;
     QString name;
+};
+
+class AttackBuffSkill : public SkillBase {
+ public:
+    AttackBuffSkill(enum AttackBuffEffect a, int effectTime = 1);
+
+ private:
+    int effectTime;
+    enum AttackBuffEffect abe;
+};
+
+class CardSkill : public SkillBase {
+    explicit CardSkill(enum SkillType_t t);
 };
 
 #endif  // GAME_SKILLCENTER_H_

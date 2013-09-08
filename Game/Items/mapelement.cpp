@@ -57,60 +57,60 @@ void GameMapElement::setDefaultZValue() {
 void GameMapElement::variableInitial() {
     QPixmap block;
     switch (elementType) {
-    case areaGrass:
+    case AreaGrass:
         block = QPixmap(path + "forest.png");
         elementName = QString(tr("grass"));
         break;
-    case areaStone:
+    case AreaStone:
         block = QPixmap(path + "stone.png");
         elementName = QString(tr("stone"));
         moveAvailable = false;
         break;
-    case areaShop:
+    case AreaShop:
         block = QPixmap(path + "shop.png");
         elementName = QString(tr("shop"));
         moveAvailable = false;
         break;
-    case areaAlchemy:
+    case AreaAlchemy:
         block = QPixmap(path + "alchemy.png");
         elementName = QString(tr("alchemy"));
         break;
-    case areaSpring:
+    case AreaSpring:
         block = QPixmap(path + "spring.png");
         elementName = QString(tr("spring"));
         moveAvailable = false;
         break;
-    case areaCamp:
+    case AreaCamp:
         block = QPixmap(path + "camp.png");
         elementName = QString(tr("camp"));
         break;
-    case areaSwamp:
+    case AreaSwamp:
         block = QPixmap(path + "swamp.png");
         elementName = QString(tr("swamp"));
         break;
-    case areaDesert:
+    case AreaDesert:
         block = QPixmap(path + "desert.png");
         elementName = QString(tr("desert"));
         break;
-    case areaWater:
+    case AreaWater:
         block = QPixmap(path + "water.png");
         elementName = QString(tr("water"));
         break;
-    case areaFort:
+    case AreaFort:
         block = QPixmap(path + "fort.png");
         elementName = QString(tr("fort"));
         moveAvailable = false;
         break;
-    case areaRedHome:
+    case AreaRedHome:
         block = QPixmap(path + "red.png");
         elementName = QString(tr("red camp"));
         break;
-    case areaTree:
+    case AreaTree:
         block = QPixmap(path + "tree.png");
         elementName = QString(tr("tree"));;
         moveAvailable = false;
         break;
-    case areaBlueHome:
+    case AreaBlueHome:
         block = QPixmap(path + "blue.png");
         elementName = QString(tr("blue camp"));
         break;

@@ -96,7 +96,7 @@
            <string>Death Desert 1</string>
           </property>
           <property name="checked">
-           <bool>true</bool>
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -104,6 +104,9 @@
          <widget class="QRadioButton" name="radioButton_dd2">
           <property name="text">
            <string>Death Desert 2</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

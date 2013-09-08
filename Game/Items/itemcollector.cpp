@@ -41,7 +41,7 @@ void ItemCollector::setMapElement(MapEngine *me) {
 }
 
 void ItemCollector::setHeroFactory(HeroFactory* hf,
-                                   QList<struct externInfo> info) {
+                                   QList<struct ExternInfo> info) {
     this->hf = hf;
     addHeroList(info);
 }
@@ -62,7 +62,7 @@ void ItemCollector::setCampHealth() {
     ch->setPos(200, gbi->getPixmap().height()-200);
 }
 
-void ItemCollector::addHeroList(QList<struct externInfo> info) {
+void ItemCollector::addHeroList(QList<struct ExternInfo> info) {
     QList<HeroItem*> heros = hf->generateHeroes(info);
     for (int i = 0; i < heros.size(); i++) {
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
@@ -248,14 +248,14 @@ void ItemCollector::setElementBoldPen(QPoint point, double width) {
 }
 
 void ItemCollector::setElementSpecialPen(GameMapElement* gmeT, QPen pen) {
-    gmeT->setZValue(0.65);  // TODO(ideallx) = =
+    gmeT->setZValue(0.65);
     gmeT->setPen(pen);
 }
 /**
  * TODO(ideallx) change ui
  *
  */
-QList<QString> ItemCollector::getHeroListAvaterPath(enum camp_t in) {
+QList<QString> ItemCollector::getHeroListAvaterPath(enum Camp_t in) {
     QList<QString> result;
     QList<HeroItem*> recv;
 
@@ -305,15 +305,15 @@ QList<HeroItem*> ItemCollector::getActSequence() {
 }
 
 QList<GameMapElement*> ItemCollector::getRedTeamCamp() {
-    return getAllElementTypeOf(areaRedHome);
+    return getAllElementTypeOf(AreaRedHome);
 }
 
 QList<GameMapElement*> ItemCollector::getBlueTeamCamp() {
-    return getAllElementTypeOf(areaBlueHome);
+    return getAllElementTypeOf(AreaBlueHome);
 }
 
 QList<GameMapElement*> ItemCollector::getAllElementTypeOf(
-        enum gameEnvironment_t type) {
+        enum GameEnvironment_t type) {
     QList<GameMapElement*> result;
     for (int i = 0; i < elements.size(); i++) {
         if (elements[i]->getType() == type) {

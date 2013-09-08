@@ -64,7 +64,7 @@ void GameProcess::gameChooseScreen() {
 
     int res = chooseDialog->exec();
     if (res == QDialog::Accepted) {
-        struct externInfo ei;
+        struct ExternInfo ei;
         int totalHero = 4;
 
         if (uig->mode_2person->isChecked())
@@ -80,7 +80,7 @@ void GameProcess::gameChooseScreen() {
 
         loadResources(path);
 
-        ei.h = (enum heroNum_t)(0);
+        ei.h = (enum HeroNum_t)(0);
         ei.p = QPoint(300, 300);  // untouchable point
 
         for (int i = 0; i < totalHero; i++) {
@@ -108,7 +108,11 @@ void GameProcess::buildGameInfo() {
     ic = new ItemCollector(gbi, gc);
 
     ic->setMapElement(new MapEngine(gbi));
-    ic->setCardEngine(new CardEngine(gbi));
+
+    CardEngine *ce = new CardEngine(gbi);
+    ce->addPackage(new CardPackageNormal());
+    ic->setCardEngine(ce);
+
     ic->setCampHealth();
 
     QVector<int> heroCode;

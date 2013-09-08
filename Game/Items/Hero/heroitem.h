@@ -16,9 +16,9 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
  public:
     explicit HeroItem(int lineLength);
     void setHeroProperty(char s, char a, char m, int h);
-    void setHeroProperty(struct heroInfo);
-    enum camp_t camp() const { return theCamp;}
-    void setCamp(enum camp_t c) { theCamp = c; }
+    void setHeroProperty(struct HeroInfo);
+    enum Camp_t camp() const { return theCamp;}
+    void setCamp(enum Camp_t c) { theCamp = c; }
     char sexual() const { return theSexual; }
 
     char attackRange() const { return theAttackRange; }
@@ -74,7 +74,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QPixmap* theWhoPic;
     int theHealth;
     int theMaxHealth;
-    enum camp_t theCamp;
+    enum Camp_t theCamp;
     QPoint thePoint;
     char theSexual;
     char theMoveRange;

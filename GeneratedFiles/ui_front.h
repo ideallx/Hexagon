@@ -19,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QProgressBar>
 #include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "layoutscene.h"
@@ -28,7 +29,7 @@ QT_BEGIN_NAMESPACE
 class Ui_Form
 {
 public:
-    QHBoxLayout *horizontalLayout_5;
+    QHBoxLayout *horizontalLayout_6;
     QVBoxLayout *leftBlock;
     QHBoxLayout *horizontalLayout_3;
     QVBoxLayout *verticalLayout_3;
@@ -37,6 +38,7 @@ public:
     QLabel *head;
     QVBoxLayout *centerBlock;
     QSpacerItem *verticalSpacer_4;
+    QLabel *prompt;
     QProgressBar *heroHp;
     QHBoxLayout *horizontalLayout;
     QGraphicsView *essenial;
@@ -48,16 +50,19 @@ public:
     QSpacerItem *horizontalSpacer;
     QVBoxLayout *rightHeros;
     QSpacerItem *verticalSpacer_3;
+    QHBoxLayout *horizontalLayout_5;
     ViewSendResize *items;
+    QVBoxLayout *verticalLayout_2;
+    QToolButton *buttonOK;
+    QToolButton *buttonCancel;
 
     void setupUi(QWidget *Form)
     {
         if (Form->objectName().isEmpty())
             Form->setObjectName(QStringLiteral("Form"));
         Form->resize(1219, 673);
-        horizontalLayout_5 = new QHBoxLayout(Form);
-        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(-1, -1, -1, 20);
+        horizontalLayout_6 = new QHBoxLayout(Form);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
         leftBlock = new QVBoxLayout();
         leftBlock->setObjectName(QStringLiteral("leftBlock"));
         leftBlock->setSizeConstraint(QLayout::SetFixedSize);
@@ -86,13 +91,26 @@ public:
         leftBlock->addLayout(horizontalLayout_3);
 
 
-        horizontalLayout_5->addLayout(leftBlock);
+        horizontalLayout_6->addLayout(leftBlock);
 
         centerBlock = new QVBoxLayout();
         centerBlock->setObjectName(QStringLiteral("centerBlock"));
         verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         centerBlock->addItem(verticalSpacer_4);
+
+        prompt = new QLabel(Form);
+        prompt->setObjectName(QStringLiteral("prompt"));
+        QFont font;
+        font.setFamily(QStringLiteral("Times New Roman"));
+        font.setPointSize(12);
+        font.setBold(true);
+        font.setWeight(75);
+        font.setStyleStrategy(QFont::PreferAntialias);
+        prompt->setFont(font);
+        prompt->setAlignment(Qt::AlignCenter);
+
+        centerBlock->addWidget(prompt);
 
         heroHp = new QProgressBar(Form);
         heroHp->setObjectName(QStringLiteral("heroHp"));
@@ -122,7 +140,7 @@ public:
         centerBlock->addLayout(horizontalLayout);
 
 
-        horizontalLayout_5->addLayout(centerBlock);
+        horizontalLayout_6->addLayout(centerBlock);
 
         rightBlock = new QVBoxLayout();
         rightBlock->setObjectName(QStringLiteral("rightBlock"));
@@ -150,13 +168,34 @@ public:
 
         verticalLayout->addItem(verticalSpacer_3);
 
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
         items = new ViewSendResize(Form);
         items->setObjectName(QStringLiteral("items"));
         items->setLayoutDirection(Qt::LeftToRight);
         items->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         items->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-        verticalLayout->addWidget(items);
+        horizontalLayout_5->addWidget(items);
+
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setSpacing(0);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        buttonOK = new QToolButton(Form);
+        buttonOK->setObjectName(QStringLiteral("buttonOK"));
+
+        verticalLayout_2->addWidget(buttonOK);
+
+        buttonCancel = new QToolButton(Form);
+        buttonCancel->setObjectName(QStringLiteral("buttonCancel"));
+
+        verticalLayout_2->addWidget(buttonCancel);
+
+
+        horizontalLayout_5->addLayout(verticalLayout_2);
+
+
+        verticalLayout->addLayout(horizontalLayout_5);
 
 
         horizontalLayout_2->addLayout(verticalLayout);
@@ -165,8 +204,11 @@ public:
         rightBlock->addLayout(horizontalLayout_2);
 
 
-        horizontalLayout_5->addLayout(rightBlock);
+        horizontalLayout_6->addLayout(rightBlock);
 
+        items->raise();
+        buttonOK->raise();
+        buttonCancel->raise();
 
         retranslateUi(Form);
 
@@ -177,7 +219,10 @@ public:
     {
         Form->setWindowTitle(QApplication::translate("Form", "Form", 0));
         head->setText(QString());
+        prompt->setText(QString());
         heroHp->setFormat(QApplication::translate("Form", "%v/%m", 0));
+        buttonOK->setText(QApplication::translate("Form", "OK", 0));
+        buttonCancel->setText(QApplication::translate("Form", "CANCEL", 0));
     } // retranslateUi
 
 };

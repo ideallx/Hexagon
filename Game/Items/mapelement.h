@@ -22,7 +22,7 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
 
     QPoint point() const { return thePoint; }
     QString getElementName() const { return elementName; }
-    bool isPointAvailable() const { return elementType != areaNouse; }
+    bool isPointAvailable() const { return elementType != AreaNouse; }
     bool isMoveAvailable() const { return moveAvailable; }
     enum gameEnvironment_t getType() const { return elementType; }
 

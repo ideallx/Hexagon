@@ -33,7 +33,7 @@ class ItemCollector {
     ~ItemCollector();
 
     void setMapElement(MapEngine *me);
-    void setHeroFactory(HeroFactory* hf, QList<struct externInfo> info);
+    void setHeroFactory(HeroFactory* hf, QList<struct ExternInfo> info);
     void setCardEngine(CardEngine* ce);
     void setCampHealth();
     void addItemsToScene(QGraphicsScene* gs);
@@ -42,7 +42,7 @@ class ItemCollector {
     QList<HandCard*> switchToBack(QList<HandCard*> in);
     QString rscPath();
 
-    QList<QString> getHeroListAvaterPath(enum camp_t c);
+    QList<QString> getHeroListAvaterPath(enum Camp_t c);
 
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
@@ -53,7 +53,7 @@ class ItemCollector {
 
     QList<GameMapElement*> getRedTeamCamp();
     QList<GameMapElement*> getBlueTeamCamp();
-    QList<GameMapElement*> getAllElementTypeOf(enum gameEnvironment_t);
+    QList<GameMapElement*> getAllElementTypeOf(enum GameEnvironment_t);
     void setElementDefaultPen(QPoint);
     void setElementRestorePen(QPoint point);
     void setElementSpecialPen(QPoint, QPen);
@@ -83,15 +83,12 @@ class ItemCollector {
     template <typename T>
     static void shuffle(QList<T> &l) {
         for (int i = 0; i < l.size(); i++) {
-            T t = l[i];
-            int temp = rand()%l.size();
-            l[i] = l[temp];
-            l[temp] = t;
+            l.swap(i, rand()%l.size());
         }
     }
 
  private:
-    void addHeroList(QList<struct externInfo> info);
+    void addHeroList(QList<struct ExternInfo> info);
     void addCardList();
     void addMapElementList();
     void addHeroSide();

@@ -2,96 +2,75 @@
 #include "carditem.h"
 #include "backinfo.h"
 
-const struct cardInfo CardEngine::kb   = {KuangBao,
-                                          tr("KuangBao")};
-const struct cardInfo CardEngine::zy   = {ZheYue,
-                                          tr("ZheYue")};
-const struct cardInfo CardEngine::flrs = {FaLiRanShao,
-                                          tr("FaLiRanShao")};
-const struct cardInfo CardEngine::smlz = {ShengMingLiZan,
-                                          tr("ShengMingLiZan")};
-const struct cardInfo CardEngine::cs   = {ChuanSong,
-                                          tr("ChuanSong")};
-const struct cardInfo CardEngine::fyfw = {FangYuFuWen,
-                                          tr("FangYuFuWen")};
-const struct cardInfo CardEngine::ztjh = {ZhuangTaiJingHua,
-                                          tr("ZhuangTaiJingHua")};
-const struct cardInfo CardEngine::mfhd = {MoFaHuDun,
-                                          tr("MoFaHuDun")};
-const struct cardInfo CardEngine::mfzh = {MoFaZhiHeng,
-                                          tr("MoFaZhiHeng")};
-const struct cardInfo CardEngine::mjbd = {MoJingBaoDan,
-                                          tr("MoJingBaoDan")};
-const struct cardInfo CardEngine::nlxj = {NengLiangXianJing,
-                                          tr("NengLiangXianJing")};
-const struct cardInfo CardEngine::jb2  = {JinBi_2,
-                                          tr("JinBi_2")};
-const struct cardInfo CardEngine::jb3  = {JinBi_3,
-                                          tr("JinBi_3")};
-const struct cardInfo CardEngine::jb4  = {JinBi_4,
-                                          tr("JinBi_4")};
-const struct cardInfo CardEngine::zjj  = {ZhengJingJi,
-                                          tr("ZhengJingJi")};
-const struct cardInfo CardEngine::jjy  = {JiJiuYao,
-                                          tr("JiJiuYao")};
-const struct cardInfo CardEngine::sb   = {ShanBi,
-                                          tr("ShanBi")};
+CardPackageNormal::CardPackageNormal() {
+    const struct CardInfo kb   = {KuangBao,          tr("KuangBao")};
+    const struct CardInfo zy   = {ZheYue,            tr("ZheYue")};
+    const struct CardInfo flrs = {FaLiRanShao,       tr("FaLiRanShao")};
+    const struct CardInfo smlz = {ShengMingLiZan,    tr("ShengMingLiZan")};
+    const struct CardInfo cs   = {ChuanSong,         tr("ChuanSong")};
+    const struct CardInfo fyfw = {FangYuFuWen,       tr("FangYuFuWen")};
+    const struct CardInfo ztjh = {ZhuangTaiJingHua,  tr("ZhuangTaiJingHua")};
+    const struct CardInfo mfhd = {MoFaHuDun,         tr("MoFaHuDun")};
+    const struct CardInfo mfzh = {MoFaZhiHeng,       tr("MoFaZhiHeng")};
+    const struct CardInfo mjbd = {MoJingBaoDan,      tr("MoJingBaoDan")};
+    const struct CardInfo nlxj = {NengLiangXianJing, tr("NengLiangXianJing")};
+    const struct CardInfo jb2  = {JinBi_2,           tr("JinBi_2")};
+    const struct CardInfo jb3  = {JinBi_3,           tr("JinBi_3")};
+    const struct CardInfo jb4  = {JinBi_4,           tr("JinBi_4")};
+    const struct CardInfo zjj  = {ZhengJingJi,       tr("ZhengJingJi")};
+    const struct CardInfo jjy  = {JiJiuYao,          tr("JiJiuYao")};
+    const struct CardInfo sb   = {ShanBi,            tr("ShanBi")};
 
-CardEngine::CardEngine(GameBackInfo *gbi) {
-    path = gbi->getConfigDir() + "cards/";
-}
-
-QList<HandCard*> CardEngine::generateHandCards(int package) {
-    Q_UNUSED(package);
-    QList<HandCard*> handList;
     int i = 0;
-    int id = 0;
 
     for (i = 0; i < 2; i++) {
-        handList.append(new HandCard(fyfw.cartType, path+fyfw.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(jjy.cartType,  path+jjy.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(ztjh.cartType, path+ztjh.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(smlz.cartType, path+smlz.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(mfzh.cartType, path+mfzh.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(flrs.cartType, path+flrs.name+".jpg"));
-        handList.last()->setId(id++);
+        cil.append(fyfw);
+        cil.append(jjy);
+        cil.append(zjj);
+        cil.append(smlz);
+        cil.append(mfzh);
+        cil.append(flrs);
     }
     for (i = 0; i < 3; i++) {
-        handList.append(new HandCard(sb.cartType,   path+sb.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(jb2.cartType,  path+jb2.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(nlxj.cartType, path+nlxj.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(cs.cartType,   path+cs.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(zy.cartType,   path+zy.name+".jpg"));
-        handList.last()->setId(id++);
+        cil.append(sb);
+        cil.append(jb2);
+        cil.append(nlxj);
+        cil.append(cs);
+        cil.append(zy);
     }
     for (i = 0; i < 4; i++) {
-        handList.append(new HandCard(mfhd.cartType, path+mfhd.name+".jpg"));
-        handList.last()->setId(id++);
+        cil.append(mfhd);
     }
     for (i = 0; i < 5; i++) {
-        handList.append(new HandCard(kb.cartType,   path+kb.name+".jpg"));
-        handList.last()->setId(id++);
+        cil.append(kb);
     }
     for (i = 0; i < 6; i++) {
-        handList.append(new HandCard(jb3.cartType,  path+jb3.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(jb4.cartType,  path+jb4.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(ztjh.cartType, path+ztjh.name+".jpg"));
-        handList.last()->setId(id++);
-        handList.append(new HandCard(mjbd.cartType, path+mjbd.name+".jpg"));
-        handList.last()->setId(id++);
+        cil.append(jb3);
+        cil.append(jb4);
+        cil.append(ztjh);
+        cil.append(mjbd);
     }
-    return handList;
+}
+
+
+CardEngine::CardEngine(GameBackInfo *gbi)
+    : cardAmount(0),
+    path(gbi->getConfigDir() + "cards/") {
+}
+
+QList<HandCard*> CardEngine::generateHandCards() {
+    QList<HandCard*> result;
+    for (int i = 0; i < cpl.size(); i++) {
+        QList<struct CardInfo> hcl = cpl[i]->getAllCards();
+        for (int j = 0; j < hcl.size(); j++) {
+            result.append(createCard(hcl[j]));
+        }
+    }
+    return result;
+}
+
+HandCard* CardEngine::createCard(struct CardInfo ci) {
+    return new HandCard(ci.cartType, path+ci.name+".jpg");
 }
 
 QList<HandCard*> CardEngine::backCard(int num) {
@@ -100,4 +79,9 @@ QList<HandCard*> CardEngine::backCard(int num) {
         handList.append(new HandCard(BACK, path + "back.png"));
     }
     return handList;
+}
+
+void CardEngine::addPackage(AbstractCardPackage* acp) {
+    cpl.append(acp);
+    cardAmount += acp->cardNumInPackage();
 }

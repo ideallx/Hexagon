@@ -9,7 +9,7 @@ HeroFactory::HeroFactory(GameBackInfo* gbi)
     heroAmount(0) {
 }
 
-HeroItem* HeroFactory::createHero(struct externInfo ei) {
+HeroItem* HeroFactory::createHero(struct ExternInfo ei) {
     HeroItem * item = new HeroItem(lineLength);
     item->setAvaterPic(new QPixmap(innerDir +
                                    getHeroInfoByNum(ei.h).heroName +
@@ -26,7 +26,7 @@ HeroItem* HeroFactory::createHero(struct externInfo ei) {
     return item;
 }
 
-QList<HeroItem*> HeroFactory::generateHeroes(QList<struct externInfo> list) {
+QList<HeroItem*> HeroFactory::generateHeroes(QList<struct ExternInfo> list) {
     QList<HeroItem*> result;
     for (int i = 0; i < list.size(); i++) {
         result.append(createHero(list[i]));
@@ -39,7 +39,7 @@ void HeroFactory::addPackage(AbstractHeroPacakage* ahp) {
     heroAmount += ahp->heroNumInPackage();
 }
 
-struct heroInfo HeroFactory::getHeroInfoByNum(int n) {
+struct HeroInfo HeroFactory::getHeroInfoByNum(int n) {
     for (int i = 0; i < hpl.size(); i++) {
         if (n > hpl[i]->heroNumInPackage()) {
             n -= hpl[i]->heroNumInPackage();
@@ -48,7 +48,7 @@ struct heroInfo HeroFactory::getHeroInfoByNum(int n) {
         }
     }
     qDebug() << "Hero Num Wrong";
-    struct heroInfo white = {2, 3, 9,  sex_male, tr("wrongHero")};
+    struct HeroInfo white = {2, 3, 9,  sex_male, tr("wrongHero")};
     return white;
 }
 
@@ -58,45 +58,45 @@ struct heroInfo HeroFactory::getHeroInfoByNum(int n) {
 
 
 HeroPackageNormal::HeroPackageNormal() {
-    const struct heroInfo msz  = {1, 4, 8,  sex_female,
+    const struct HeroInfo msz  = {1, 4, 8,  sex_female,
                                   tr("MieShaZhe")};
-    const struct heroInfo ls   = {1, 2, 8,  sex_male,
+    const struct HeroInfo ls   = {1, 2, 8,  sex_male,
                                   tr("LeiShen")};
-    const struct heroInfo bzsn = {1, 2, 8,  sex_female,
+    const struct HeroInfo bzsn = {1, 2, 8,  sex_female,
                                   tr("BingZhiShengNv")};
-    const struct heroInfo hwz  = {1, 2, 8,  sex_female,
+    const struct HeroInfo hwz  = {1, 2, 8,  sex_female,
                                   tr("HuoWuZhe")};
-    const struct heroInfo fxz  = {1, 3, 7,  sex_female,
+    const struct HeroInfo fxz  = {1, 3, 7,  sex_female,
                                   tr("FengXingZhe")};
-    const struct heroInfo hyzq = {1, 3, 8,  sex_female,
+    const struct HeroInfo hyzq = {1, 3, 8,  sex_female,
                                   tr("HuanYingZhiQiang")};
-    const struct heroInfo lhyz = {1, 3, 7,  sex_female,
+    const struct HeroInfo lhyz = {1, 3, 7,  sex_female,
                                   tr("LingHunYiZhe")};
-    const struct heroInfo dt   = {1, 4, 8,  sex_male,
+    const struct HeroInfo dt   = {1, 4, 8,  sex_male,
                                   tr("DuTu")};
-    const struct heroInfo yy   = {1, 3, 8,  sex_male,
+    const struct HeroInfo yy   = {1, 3, 8,  sex_male,
                                   tr("YingYan")};
-    const struct heroInfo shz  = {1, 4, 8,  sex_female,
+    const struct HeroInfo shz  = {1, 4, 8,  sex_female,
                                   tr("ShiHunZhe")};
-    const struct heroInfo ayzr = {1, 4, 7,  sex_male,
+    const struct HeroInfo ayzr = {1, 4, 7,  sex_male,
                                   tr("AnYingZhiRen")};
-    const struct heroInfo rz   = {1, 4, 8,  sex_male,
+    const struct HeroInfo rz   = {1, 4, 8,  sex_male,
                                   tr("RenZhe")};
-    const struct heroInfo xzlz = {1, 4, 8,  sex_male,
+    const struct HeroInfo xzlz = {1, 4, 8,  sex_male,
                                   tr("XueZhiLiZhua")};
-    const struct heroInfo qyz  = {1, 4, 8,  sex_male,
+    const struct HeroInfo qyz  = {1, 4, 8,  sex_male,
                                   tr("QiYueZhe")};
-    const struct heroInfo sqs  = {1, 3, 8,  sex_female,
+    const struct HeroInfo sqs  = {1, 3, 8,  sex_female,
                                   tr("ShengQiShi")};
-    const struct heroInfo zlzj = {1, 3, 9,  sex_male,
+    const struct HeroInfo zlzj = {1, 3, 9,  sex_male,
                                   tr("ZhanLanZhiJian")};
-    const struct heroInfo zkzs = {1, 3, 10, sex_male,
+    const struct HeroInfo zkzs = {1, 3, 10, sex_male,
                                   tr("ZhongKaiZhanShi")};
-    const struct heroInfo ks   = {1, 3, 9,  sex_male,
+    const struct HeroInfo ks   = {1, 3, 9,  sex_male,
                                   tr("KuangSha")};
-    const struct heroInfo ss   = {1, 3, 9,  sex_male,
+    const struct HeroInfo ss   = {1, 3, 9,  sex_male,
                                   tr("SiShen")};
-    const struct heroInfo bx   = {1, 4, 8,  sex_male,
+    const struct HeroInfo bx   = {1, 4, 8,  sex_male,
                                   tr("BaoXiong")};
 
     hil.append(msz);

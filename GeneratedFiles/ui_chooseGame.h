@@ -28,53 +28,79 @@ class Ui_ChooseGame
 {
 public:
     QDialogButtonBox *buttonBox;
-    QGroupBox *groupBox;
-    QWidget *widget;
+    QWidget *layoutWidget;
     QHBoxLayout *horizontalLayout;
+    QGroupBox *groupBox;
+    QWidget *layoutWidget1;
     QVBoxLayout *verticalLayout;
     QRadioButton *mode_2person;
     QRadioButton *mode_4person;
+    QGroupBox *groupBox_2;
+    QWidget *layoutWidget2;
     QVBoxLayout *verticalLayout_2;
+    QRadioButton *radioButton_dd1;
+    QRadioButton *radioButton_dd2;
 
     void setupUi(QDialog *ChooseGame)
     {
         if (ChooseGame->objectName().isEmpty())
             ChooseGame->setObjectName(QStringLiteral("ChooseGame"));
-        ChooseGame->resize(570, 609);
+        ChooseGame->resize(448, 370);
         buttonBox = new QDialogButtonBox(ChooseGame);
         buttonBox->setObjectName(QStringLiteral("buttonBox"));
-        buttonBox->setGeometry(QRect(190, 550, 341, 32));
+        buttonBox->setGeometry(QRect(60, 310, 341, 32));
         buttonBox->setOrientation(Qt::Horizontal);
         buttonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
-        groupBox = new QGroupBox(ChooseGame);
-        groupBox->setObjectName(QStringLiteral("groupBox"));
-        groupBox->setGeometry(QRect(70, 90, 411, 391));
-        widget = new QWidget(groupBox);
-        widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(20, 30, 371, 331));
-        horizontalLayout = new QHBoxLayout(widget);
+        layoutWidget = new QWidget(ChooseGame);
+        layoutWidget->setObjectName(QStringLiteral("layoutWidget"));
+        layoutWidget->setGeometry(QRect(40, 50, 371, 231));
+        horizontalLayout = new QHBoxLayout(layoutWidget);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        verticalLayout = new QVBoxLayout();
+        groupBox = new QGroupBox(layoutWidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        layoutWidget1 = new QWidget(groupBox);
+        layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
+        layoutWidget1->setGeometry(QRect(20, 60, 121, 101));
+        verticalLayout = new QVBoxLayout(layoutWidget1);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        mode_2person = new QRadioButton(widget);
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        mode_2person = new QRadioButton(layoutWidget1);
         mode_2person->setObjectName(QStringLiteral("mode_2person"));
 
         verticalLayout->addWidget(mode_2person);
 
-        mode_4person = new QRadioButton(widget);
+        mode_4person = new QRadioButton(layoutWidget1);
         mode_4person->setObjectName(QStringLiteral("mode_4person"));
         mode_4person->setChecked(true);
 
         verticalLayout->addWidget(mode_4person);
 
 
-        horizontalLayout->addLayout(verticalLayout);
+        horizontalLayout->addWidget(groupBox);
 
-        verticalLayout_2 = new QVBoxLayout();
+        groupBox_2 = new QGroupBox(layoutWidget);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        layoutWidget2 = new QWidget(groupBox_2);
+        layoutWidget2->setObjectName(QStringLiteral("layoutWidget2"));
+        layoutWidget2->setGeometry(QRect(30, 60, 111, 101));
+        verticalLayout_2 = new QVBoxLayout(layoutWidget2);
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        radioButton_dd1 = new QRadioButton(layoutWidget2);
+        radioButton_dd1->setObjectName(QStringLiteral("radioButton_dd1"));
+        radioButton_dd1->setChecked(false);
 
-        horizontalLayout->addLayout(verticalLayout_2);
+        verticalLayout_2->addWidget(radioButton_dd1);
+
+        radioButton_dd2 = new QRadioButton(layoutWidget2);
+        radioButton_dd2->setObjectName(QStringLiteral("radioButton_dd2"));
+        radioButton_dd2->setChecked(true);
+
+        verticalLayout_2->addWidget(radioButton_dd2);
+
+
+        horizontalLayout->addWidget(groupBox_2);
 
 
         retranslateUi(ChooseGame);
@@ -90,6 +116,9 @@ public:
         groupBox->setTitle(QApplication::translate("ChooseGame", "Game Mode", 0));
         mode_2person->setText(QApplication::translate("ChooseGame", "2 Persons", 0));
         mode_4person->setText(QApplication::translate("ChooseGame", "4 Persons", 0));
+        groupBox_2->setTitle(QApplication::translate("ChooseGame", "Map Choose", 0));
+        radioButton_dd1->setText(QApplication::translate("ChooseGame", "Death Desert 1", 0));
+        radioButton_dd2->setText(QApplication::translate("ChooseGame", "Death Desert 2", 0));
     } // retranslateUi
 
 };

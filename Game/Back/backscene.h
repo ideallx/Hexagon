@@ -21,11 +21,11 @@ class BackScene : public QGraphicsScene {
     ~BackScene();
 
     ItemCollector* pIc() { return ic;}
-    QList<QString> getHeroListAvaterPath(enum camp_t c);
+    QList<QString> getHeroListAvaterPath(enum Camp_t c);
     void showMoveRange(HeroItem* hero);
     void showAttackRange(HeroItem* hero);
-    void showSkillRange(HeroItem* hero, enum mapRangeType_t, int range);
-    void showBirthSquare(enum camp_t camp, QList<QPoint> unshow);
+    void showSkillRange(HeroItem* hero, enum MapRangeType_t, int range);
+    void showBirthSquare(enum Camp_t camp, QList<QPoint> unshow);
 
  private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

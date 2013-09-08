@@ -29,7 +29,7 @@ class GameProcess : public QObject {
     void inGame();
     void endGame();
     ItemCollector* getIc() { return ic; }
-    QList<struct externInfo> getPreGameResult() { return eil; }
+    QList<struct ExternInfo> getPreGameResult() { return eil; }
 
  private:
     void loadResources(QString path);
@@ -54,7 +54,7 @@ class GameProcess : public QObject {
     BackScene* bs;
     HeroFactory *hf;
 
-    QList<struct externInfo> eil;
+    QList<struct ExternInfo> eil;
 
  signals:
     void choseHeroChoose();

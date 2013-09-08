@@ -50,7 +50,7 @@ void HeroItem::setHeroProperty(char s, char a, char m, int h) {
 }
 
 
-void HeroItem::setHeroProperty(struct heroInfo hi) {
+void HeroItem::setHeroProperty(struct HeroInfo hi) {
     theSexual = hi.sexual;
     theAttackRange = hi.attackRange;
     theMoveRange = hi.moveRange;

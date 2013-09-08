@@ -124,8 +124,8 @@ void GameMenu::listSlideHeroHead(QList<QString>leftColumn,
         QLabel *heroAvater = new QLabel();
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
         heroAvater->setPixmap(QPixmap(leftColumn[i]).
-					scaledToHeight(heroHeadSlideLength, 
-					Qt::SmoothTransformation));
+                    scaledToHeight(heroHeadSlideLength,
+                    Qt::SmoothTransformation));
         ui->leftHeros->addWidget(heroAvater);
     }
     num = rightColumn.size();
@@ -135,7 +135,7 @@ void GameMenu::listSlideHeroHead(QList<QString>leftColumn,
         heroAvater->setFixedSize(heroHeadSlideLength, heroHeadSlideLength);
         heroAvater->setPixmap(QPixmap(rightColumn[i]).
                     scaledToHeight(heroHeadSlideLength,
-					Qt::SmoothTransformation));
+                    Qt::SmoothTransformation));
         ui->rightHeros->addWidget(heroAvater);
     }
 }

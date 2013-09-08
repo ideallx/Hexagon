@@ -4,7 +4,6 @@
 #include "heroengine.h"
 #include "cardengine.h"
 #include "mapelement.h"
-#include "skillcenter.h"
 #include "QEventLoop"
 
 BackScene::BackScene(ItemCollector *ic, QObject *parent)
@@ -120,7 +119,7 @@ void BackScene::showAttackRange(HeroItem* hi) {
     }
 }
 
-void BackScene::showSkillRange(HeroItem* hi, enum mapRangeType_t t, int range) {
+void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
     rangeList.clear();
     rangeList = ic->listRange(hi, ModeMove);
     for (int i = 0; i < rangeList.size(); i++) {
@@ -128,11 +127,11 @@ void BackScene::showSkillRange(HeroItem* hi, enum mapRangeType_t t, int range) {
     }
 }
 
-QList<QString> BackScene::getHeroListAvaterPath(enum camp_t c) {
+QList<QString> BackScene::getHeroListAvaterPath(enum Camp_t c) {
     return ic->getHeroListAvaterPath(c);
 }
 
-void BackScene::showBirthSquare(enum camp_t c, QList<QPoint> unshow) {
+void BackScene::showBirthSquare(enum Camp_t c, QList<QPoint> unshow) {
     rangeList.clear();
     QList<GameMapElement*> l;
     if (c == camp_blue) {

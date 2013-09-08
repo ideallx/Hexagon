@@ -3497,12 +3497,12 @@ def CheckCStyleCast(filename, linenum, line, raw_line, cast_type, pattern,
   # arguments with some unnamed.
   function_match = Match(r'\s*(\)|=|(const)?\s*(;|\{|throw\(\)|>))', remainder)
   if function_match:
-    if (not function_match.group(3) or
-        function_match.group(3) == ';' or
-        ('MockCallback<' not in raw_line and
-         '/*' not in raw_line)):
-      error(filename, linenum, 'readability/function', 3,
-            'All parameters should be named in a function')
+    #if (not function_match.group(3) or
+    #    function_match.group(3) == ';' or
+    #    ('MockCallback<' not in raw_line and
+    #     '/*' not in raw_line)):
+    #  error(filename, linenum, 'readability/function', 3,
+    #        'All parameters should be named in a function')
     return True
 
   # At this point, all that should be left is actual casts.
