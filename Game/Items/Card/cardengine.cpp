@@ -110,6 +110,8 @@ CsKuangBao::CsKuangBao()
     setObjectName("KuangBao");
 }
 
-void CsKuangBao::skillAct(HeroItem *from, HeroItem *to) {
-    to->setHealth(to->health()-1);
+void CsKuangBao::skillAct(QGraphicsItem *from, QGraphicsItem *to) {
+    Q_UNUSED(from);
+    HeroItem* toHero = static_cast<HeroItem*>(to);
+    toHero->setHealth(toHero->health()-1);
 }

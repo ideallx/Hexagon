@@ -36,7 +36,8 @@ enum TriggerTime_t {
     TriggerOtherSkillEnd,
     TriggerTurnEnd,
     TriggerRoundEnd,
-    TriggerGameEnd
+    TriggerGameEnd,
+    TriggerInAction
 };
 
 enum MapRangeType_t {
