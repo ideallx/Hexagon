@@ -1,8 +1,9 @@
 #include "carditem.h"
 
-HandCard::HandCard(int t, QString s)
+HandCard::HandCard(int t, int id, QString s)
     : type(t),
-    pixmapPath(QPixmap(s)) {
+      theId(id),
+      pixmapPath(QPixmap(s)) {
     setRect(0, 0, 137, 200);
     setBrush(pixmapPath.scaledToHeight(200, Qt::SmoothTransformation));
 }

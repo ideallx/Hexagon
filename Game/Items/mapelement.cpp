@@ -12,7 +12,7 @@ QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei) {
         for (int i = 0; i < wid; i++) {
             GameMapElement *mapItem = new GameMapElement(
                         gbi->getLineLength(),
-                        (enum gameEnvironment_t)map[i+j*wid],
+                        (enum GameEnvironment_t)map[i+j*wid],
                         QPoint(i, j),
                         gbi->getConfigDir()+"elements/");
             elements.append(mapItem);
@@ -25,7 +25,7 @@ QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei) {
 }
 
 GameMapElement::GameMapElement(int lineLength,
-                               enum gameEnvironment_t elementType,
+                               enum GameEnvironment_t elementType,
                                QPoint point,
                                QString path)
     : elementType(elementType) {

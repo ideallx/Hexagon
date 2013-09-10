@@ -11,10 +11,13 @@
 class HandCard;
 
 struct panelInfo {
-    QString attackRange;
-    QString moveRange;
-    QString attack;
-    QString money;
+    int attackRange;
+    int attackRangeBouns;
+    int moveRange;
+    int moveRangeBouns;
+    int attack;
+    int attackBouns;
+    QList<int> moneyList;
 };
 
 class EssenialScene : public QGraphicsScene {

@@ -66,13 +66,14 @@ void BackScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 
 
 void BackScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+    Q_UNUSED(event);
     isPressing = false;
 }
 
 
 void BackScene::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
-    HeroItem* hi;
-    if (hi = ic->getHeroByPoint(oldPoint)) {
+    HeroItem* hi = ic->getHeroByPoint(oldPoint);
+    if (hi != NULL) {
         emit buildMenu(hi, this->views()[0]->mapFromScene(event->scenePos()));
     }
 }
@@ -120,6 +121,8 @@ void BackScene::showAttackRange(HeroItem* hi) {
 }
 
 void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
+    Q_UNUSED(t);
+    Q_UNUSED(range);
     rangeList.clear();
     rangeList = ic->listRange(hi, ModeMove);
     for (int i = 0; i < rangeList.size(); i++) {

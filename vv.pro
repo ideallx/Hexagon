@@ -28,7 +28,6 @@ SOURCES  += main.cpp \
     Game/Items/Hero/herowhole.cpp \
     Game/Items/Hero/heroitem.cpp \
     Game/Items/Hero/heroengine.cpp \
-    Game/Items/Card/CardBack.cpp \
     Game/Items/Card/cardengine.cpp \
     Game/Items/Card/carditem.cpp \
     Game/Items/itemcollector.cpp \
@@ -53,7 +52,6 @@ HEADERS  += \
     Game/Items/Hero/herowhole.h \
     Game/Items/Hero/heroitem.h \
     Game/Items/Hero/heroengine.h \
-    Game/Items/Card/cardback.h \
     Game/Items/Card/cardengine.h \
     Game/Items/Card/carditem.h \
     Game/Items/itemcollector.h \

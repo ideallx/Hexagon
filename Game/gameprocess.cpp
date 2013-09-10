@@ -202,28 +202,28 @@ void GameProcess::birthChooseScreen() {
     QGraphicsScene *qgs = new QGraphicsScene();
     for (int i = 0; i < 2; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum gameEnvironment_t)0,
+                (gbi->getLineLength(), (enum GameEnvironment_t)0,
                  QPoint(i, 1), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);
     }
     for (int i = 0; i < 3; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum gameEnvironment_t)0,
+                (gbi->getLineLength(), (enum GameEnvironment_t)0,
                  QPoint(i, 2), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);
     }
     for (int i = 0; i < 2; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum gameEnvironment_t)0,
+                (gbi->getLineLength(), (enum GameEnvironment_t)0,
                  QPoint(i, 3), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);
     }
     for (int i = 0; i < 2; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum gameEnvironment_t)0,
+                (gbi->getLineLength(), (enum GameEnvironment_t)0,
                  QPoint(1, i*4), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);

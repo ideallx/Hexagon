@@ -3,16 +3,16 @@
 
 HeroItem::HeroItem(int lineLength)
     : thePlayerName(tr("player 1")),
-    theAttack(1),
-    theAvaPic(NULL),
-    theWhoPic(NULL),
-    theHealth(7),
-    theMaxHealth(7),
-    theSexual(sex_male),
-    theMoveRange(2),
-    theAttackRange(1),
-    lineLength(lineLength),
-    theMoney(0) {
+      theAttack(1),
+      theAvaPic(NULL),
+      theWhoPic(NULL),
+      theHealth(7),
+      theMaxHealth(7),
+      theSexual(sex_male),
+      theMoveRange(2),
+      theAttackRange(1),
+      lineLength(lineLength),
+      theMoney(0) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -27,6 +27,7 @@ void HeroItem::paint(QPainter *painter,
                      const QStyleOptionGraphicsItem *option,
                      QWidget *widget) {
     Q_UNUSED(option);
+    Q_UNUSED(widget);
     painter->setOpacity(1.0);
     painter->setBrush(brush());
     painter->setPen(pen());
@@ -39,13 +40,12 @@ QPainterPath HeroItem::shape() const {
     return path;
 }
 
-void HeroItem::setHeroProperty(char s, char a, char m, int h) {
+void HeroItem::setHeroProperty(Sexual_t s, int a, int m, int h) {
     theSexual = s;
-    theAttackRange = a;
-    theMoveRange = m;
+    baseInfo.attackRange = theAttackRange = a;
+    baseInfo.moveRange = theMoveRange = m;
     theMaxHealth = h;
     theHealth = h;
-
     theAttack = 1;
 }
 
@@ -56,8 +56,9 @@ void HeroItem::setHeroProperty(struct HeroInfo hi) {
     theMoveRange = hi.moveRange;
     theMaxHealth = hi.healthMax;
     theHealth = hi.healthMax;
-
     theAttack = hi.attackRange;
+
+    baseInfo = hi;
 }
 
 void HeroItem::setwholePic(QPixmap*p) {
@@ -87,6 +88,11 @@ void HeroItem::addSkill(SkillBase* s) {
         skills.append(s);
 }
 
+void HeroItem::addHeroSkill(SkillBase* s) {
+    if (!heroSkills.contains(s))
+        skills.append(s);
+}
+
 void HeroItem::removeSkill(SkillBase* s) {
     if (skills.contains(s))
         skills.removeAt(skills.indexOf(s));
@@ -101,4 +107,9 @@ QList<SkillBase*> HeroItem::hasSkillTriggerAt(enum TriggerTime_t time) {
         }
     }
     return result;
+}
+
+void HeroItem::cleanCardSkills() {
+    qDeleteAll(skills);
+    skills.clear();
 }

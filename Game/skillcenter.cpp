@@ -1,25 +1,28 @@
 #include "skillcenter.h"
+#include "heroitem.h"
 
-/*
-SkillBase::SkillBase()
-    :type(SkillPositive),
-    time(TriggerGameBegin),
-    priority(0),
-    coolDownTime(0),
-    curCD(0),
-    name("no skill") {
-}
-*/
 
 AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect a,
                                  int effectTime)
-    :theEffectTime(effectTime),
+    : availAble(true),
+      theEffectTime(effectTime),
       abe(a) {
 }
 
-void AttackBuffSkill::skillFlow() {
+void AttackBuffSkill::skillFlow(HeroItem* from, HeroItem* to) {
     if (theEffectTime <= 0)
-        delete this;
+        availAble = false;
     theEffectTime--;
-    askForChangeHealth()
+    skillAct(from, to);
+}
+
+enum TriggerTime_t AttackBuffSkill::triggerTime() const {
+    return TriggerAttackBegin;
+}
+
+void AttackBuffSkill::terminateSkill() {
+    return;
+}
+
+void AttackBuffSkill::skillAct(HeroItem* from, HeroItem* to) {
 }

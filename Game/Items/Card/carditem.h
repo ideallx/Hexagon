@@ -7,7 +7,7 @@
 
 class HandCard : public QGraphicsRectItem {
  public:
-    HandCard(int t, QString pixmapPath);
+    HandCard(int type, int id, QString pixmapPath);
     QPixmap pixmap() { return pixmapPath; }
     void setPixmap(QString s) { pixmapPath = s; }
     void setId(int n) { theId = n; }
@@ -18,8 +18,8 @@ class HandCard : public QGraphicsRectItem {
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
  private:
-    int theId;
     int type;
+    int theId;
     QPixmap pixmapPath;
 };
 #endif  // GAME_ITEMS_CARD_CARDITEM_H_

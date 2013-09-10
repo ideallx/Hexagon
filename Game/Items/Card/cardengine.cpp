@@ -1,25 +1,43 @@
 #include "cardengine.h"
 #include "carditem.h"
 #include "backinfo.h"
+#include "heroitem.h"
 
 CardPackageNormal::CardPackageNormal() {
-    const struct CardInfo kb   = {KuangBao,          tr("KuangBao")};
-    const struct CardInfo zy   = {ZheYue,            tr("ZheYue")};
-    const struct CardInfo flrs = {FaLiRanShao,       tr("FaLiRanShao")};
-    const struct CardInfo smlz = {ShengMingLiZan,    tr("ShengMingLiZan")};
-    const struct CardInfo cs   = {ChuanSong,         tr("ChuanSong")};
-    const struct CardInfo fyfw = {FangYuFuWen,       tr("FangYuFuWen")};
-    const struct CardInfo ztjh = {ZhuangTaiJingHua,  tr("ZhuangTaiJingHua")};
-    const struct CardInfo mfhd = {MoFaHuDun,         tr("MoFaHuDun")};
-    const struct CardInfo mfzh = {MoFaZhiHeng,       tr("MoFaZhiHeng")};
-    const struct CardInfo mjbd = {MoJingBaoDan,      tr("MoJingBaoDan")};
-    const struct CardInfo nlxj = {NengLiangXianJing, tr("NengLiangXianJing")};
-    const struct CardInfo jb2  = {JinBi_2,           tr("JinBi_2")};
-    const struct CardInfo jb3  = {JinBi_3,           tr("JinBi_3")};
-    const struct CardInfo jb4  = {JinBi_4,           tr("JinBi_4")};
-    const struct CardInfo zjj  = {ZhengJingJi,       tr("ZhengJingJi")};
-    const struct CardInfo jjy  = {JiJiuYao,          tr("JiJiuYao")};
-    const struct CardInfo sb   = {ShanBi,            tr("ShanBi")};
+    const struct CardInfo kb   = {KuangBao, CardPackage_Normal, 0,
+                                  tr("KuangBao")};
+    const struct CardInfo zy   = {ZheYue, CardPackage_Normal, 0,
+                                  tr("ZheYue")};
+    const struct CardInfo flrs = {FaLiRanShao, CardPackage_Normal, 0,
+                                  tr("FaLiRanShao")};
+    const struct CardInfo smlz = {ShengMingLiZan, CardPackage_Normal, 0,
+                                  tr("ShengMingLiZan")};
+    const struct CardInfo cs   = {ChuanSong, CardPackage_Normal, 0,
+                                  tr("ChuanSong")};
+    const struct CardInfo fyfw = {FangYuFuWen, CardPackage_Normal, 0,
+                                  tr("FangYuFuWen")};
+    const struct CardInfo ztjh = {ZhuangTaiJingHua, CardPackage_Normal, 0,
+                                  tr("ZhuangTaiJingHua")};
+    const struct CardInfo mfhd = {MoFaHuDun, CardPackage_Normal, 0,
+                                  tr("MoFaHuDun")};
+    const struct CardInfo mfzh = {MoFaZhiHeng, CardPackage_Normal, 0,
+                                  tr("MoFaZhiHeng")};
+    const struct CardInfo mjbd = {MoJingBaoDan, CardPackage_Normal, 0,
+                                  tr("MoJingBaoDan")};
+    const struct CardInfo nlxj = {NengLiangXianJing, CardPackage_Normal, 0,
+                                  tr("NengLiangXianJing")};
+    const struct CardInfo jb2  = {JinBi_2, CardPackage_Normal, 0,
+                                  tr("JinBi_2")};
+    const struct CardInfo jb3  = {JinBi_3, CardPackage_Normal, 0,
+                                  tr("JinBi_3")};
+    const struct CardInfo jb4  = {JinBi_4,  CardPackage_Normal, 0,
+                                  tr("JinBi_4")};
+    const struct CardInfo zjj  = {ZhengJingJi, CardPackage_Normal, 0,
+                                  tr("ZhengJingJi")};
+    const struct CardInfo jjy  = {JiJiuYao, CardPackage_Normal, 0,
+                                  tr("JiJiuYao")};
+    const struct CardInfo sb   = {ShanBi, CardPackage_Normal, 0,
+                                  tr("ShanBi")};
 
     int i = 0;
 
@@ -55,7 +73,8 @@ CardPackageNormal::CardPackageNormal() {
 
 CardEngine::CardEngine(GameBackInfo *gbi)
     : cardAmount(0),
-    path(gbi->getConfigDir() + "cards/") {
+      cardsId(0),
+      path(gbi->getConfigDir() + "cards/") {
 }
 
 QList<HandCard*> CardEngine::generateHandCards() {
@@ -70,16 +89,16 @@ QList<HandCard*> CardEngine::generateHandCards() {
 }
 
 HandCard* CardEngine::createCard(struct CardInfo ci) {
-    return new HandCard(ci.cartType, path+ci.name+".jpg");
+    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg");
 }
 
-QList<HandCard*> CardEngine::backCard(int num) {
-    QList<HandCard*> handList;
-    for (int i = 0; i < num; i++) {
-        handList.append(new HandCard(BACK, path + "back.png"));
-    }
-    return handList;
-}
+//QList<HandCard*> CardEngine::backCard(int num) {
+//    QList<HandCard*> handList;
+//    for (int i = 0; i < num; i++) {
+//        handList.append(new HandCard(BACK, path + "back.png"));
+//    }
+//    return handList;
+//}
 
 void CardEngine::addPackage(AbstractCardPackage* acp) {
     cpl.append(acp);
@@ -89,4 +108,8 @@ void CardEngine::addPackage(AbstractCardPackage* acp) {
 CsKuangBao::CsKuangBao()
     : AttackBuffSkill(AttackBuffAddDamage, 1){
     setObjectName("KuangBao");
+}
+
+void CsKuangBao::skillAct(HeroItem *from, HeroItem *to) {
+    to->setHealth(to->health()-1);
 }

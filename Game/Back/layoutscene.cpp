@@ -37,10 +37,38 @@ EssenialScene::~EssenialScene() {
 
 
 void EssenialScene::setContent(struct panelInfo pi) {
-    moveRange->setPlainText(preMr + pi.moveRange);
-    attackRange->setPlainText(preAr + pi.attackRange);
-    attack->setPlainText(preA + pi.attack);
-    money->setPlainText(preMo + pi.money);
+    QString text;
+
+    text = preMr + QString::number(pi.moveRange);
+    if (pi.moveRangeBouns > 0)
+        text += " + " + QString::number(pi.moveRangeBouns);
+    else if (pi.moveRangeBouns < 0)
+        text += " - " + QString::number(qAbs(pi.moveRangeBouns));
+    moveRange->setPlainText(text);
+
+    text = preA + QString::number(pi.attack);
+    if (pi.attackBouns > 0)
+        text += " + " + QString::number(pi.attackBouns);
+    else if (pi.attackBouns < 0)
+        text += " - " + QString::number(qAbs(pi.attackBouns));
+    attack->setPlainText(text);
+
+    text = preAr + QString::number(pi.attack);
+    if (pi.attackRangeBouns > 0)
+        text += " + " + QString::number(pi.attackRangeBouns);
+    else if (pi.attackRangeBouns < 0)
+        text += " - " + QString::number(qAbs(pi.attackRangeBouns));
+    attackRange->setPlainText(text);
+
+    text = preMo;
+    if (pi.moneyList.size() == 0) {
+        text += "0";
+    } else {
+        for (int i = 0; i < pi.moneyList.size(); i++) {
+            text += " + " + QString::number(pi.moneyList[i]);
+        }
+    }
+    money->setPlainText(text);
 }
 
 
@@ -179,5 +207,6 @@ ViewSendResize::~ViewSendResize() {
 }
 
 void ViewSendResize::resizeEvent(QResizeEvent *e) {
+    Q_UNUSED(e);
     emit resized();
 }

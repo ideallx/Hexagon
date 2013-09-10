@@ -149,10 +149,15 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     setHeroHp(hero->health(), hero->maxHealth());
     setHeroAvaters(hero->wholePic());
     struct panelInfo pi;
-    pi.attack = QString::number(hero->attack());
-    pi.attackRange = QString::number(hero->attackRange());
-    pi.moveRange = QString::number(hero->moveRange());
-    pi.money = QString::number(hero->money());
+    struct HeroInfo hi = hero->getBaseInfo();
+    pi.attack = 1;
+    pi.attackBouns = hero->attack() - pi.attack;
+    pi.attackRange = hi.attackRange;
+    pi.attackRangeBouns = hero->attackRange() - pi.attackRange;
+    pi.moveRange = hi.moveRange;
+    pi.moveRangeBouns = hero->moveRange() - pi.moveRange;
+
+    pi.moneyList = hero->moneyLists();
     setEssenial(pi);
     setHeroSkillButton(hero->skillButtons());
 }

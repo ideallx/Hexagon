@@ -11,11 +11,6 @@ class HandCard;
 class GameBackInfo;
 
 
-struct CardInfo {
-    int cartType;
-    QString name;
-};
-
 class AbstractCardPackage : public QObject {
  public:
     virtual int cardNumInPackage() = 0;
@@ -47,12 +42,13 @@ class CardEngine : public QObject {
  public:
     explicit CardEngine(GameBackInfo *gbi);
     QList<HandCard*> generateHandCards();
-    QList<HandCard*> backCard(int num);
+    //QList<HandCard*> backCard(int num);
     void addPackage(AbstractCardPackage* acp);
 
  private:
     HandCard* createCard(struct CardInfo ci);
     int cardAmount;
+    int cardsId;
     QString path;
     QList<AbstractCardPackage*> cpl;
 };
@@ -60,6 +56,7 @@ class CardEngine : public QObject {
 class CsKuangBao : public AttackBuffSkill {
  public:
     CsKuangBao();
+    void skillAct(HeroItem* from, HeroItem* to);
 };
 
 #endif  // GAME_ITEMS_CARD_CARDENGINE_H_

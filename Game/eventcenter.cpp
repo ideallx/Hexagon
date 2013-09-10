@@ -8,6 +8,7 @@
 #include "coordinate.h"
 #include "mapelement.h"
 #include "carditem.h"
+#include "cardengine.h"
 
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
@@ -204,6 +205,8 @@ void EventCenter::endTurn() {
     curPhase = FinalPhase;
     qDebug() << curHero->heroName() + "'s" << "Turn End";
 
+    curHero->cleanCardSkills();
+
     beginTurn();
 }
 
@@ -309,7 +312,10 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
     QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerAttackBegin);
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
-
+            if (!l[i]->isAvailable())
+                l.removeAt(i);
+            else
+                l[i]->skillFlow(from, to);
         }
     }
 }
@@ -370,6 +376,7 @@ void EventCenter::askForDiscardCards(int num) {
 }
 
 void EventCenter::mapElementChosen(QPoint p) {
+    Q_UNUSED(p);
     menu->hideAllMenu();
 }
 
@@ -392,8 +399,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         if (l.size() == 1) {
             switch (l[0]->cardType()) {
             case KuangBao:
-                curHero->setAttack(curHero->attack()+1);
-                // TODO(ideallx) skill function point
+                //curHero->addSkill(new CsKuangBao());
                 break;
 
             case ShengMingLiZan:
@@ -427,6 +433,8 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
 
         } else {
         }
+    default:
+        break;
     }
 }
 

@@ -2,6 +2,7 @@
 import os, os.path
 
 def checkfiles(directory):
+    print "fff" + directory;
     files = os.listdir(directory)
     for f in files:
         if f[:1] == '.':

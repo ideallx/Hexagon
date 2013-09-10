@@ -95,7 +95,7 @@ struct HeroInfo {
     int attackRange;
     int moveRange;
     int healthMax;
-    char sexual;
+    enum Sexual_t sexual;
     QString heroName;
 };
 
@@ -103,6 +103,14 @@ struct ExternInfo {
     int h;
     enum Camp_t c;
     QPoint p;
+};
+
+
+struct CardInfo {
+    int cardType;
+    enum Card_Package_t cardPackage;
+    int cardId;
+    QString name;
 };
 
 
@@ -124,7 +132,7 @@ enum Card_Normal_Package_Type_t {
     JinBi_4,
     ZhengJingJi,
     JiJiuYao,
-    ShanBi,
+    ShanBi
 };
 
 

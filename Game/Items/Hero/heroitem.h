@@ -7,22 +7,23 @@
 
 class HandCard;
 class SkillBase;
-enum triggerTime_t;
 
 class HeroItem : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
-    Q_PROPERTY(QPoint point READ point WRITE setPoint)
+    Q_PROPERTY(QPoint thePoint READ point WRITE setPoint)
 
  public:
     explicit HeroItem(int lineLength);
-    void setHeroProperty(char s, char a, char m, int h);
+    void setHeroProperty(Sexual_t s, int a, int m, int h);
     void setHeroProperty(struct HeroInfo);
+    struct HeroInfo getBaseInfo() { return baseInfo; }
+
     enum Camp_t camp() const { return theCamp;}
     void setCamp(enum Camp_t c) { theCamp = c; }
-    char sexual() const { return theSexual; }
+    enum Sexual_t sexual() const { return theSexual; }
 
-    char attackRange() const { return theAttackRange; }
-    char moveRange() const { return theMoveRange; }
+    int attackRange() const { return theAttackRange; }
+    int moveRange() const { return theMoveRange; }
 
     int health() const { return theHealth; }
     int maxHealth() const { return theMaxHealth; }
@@ -50,8 +51,10 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     bool removeCard(HandCard* hc) { return theCards.removeOne(hc); }
 
     void addSkill(SkillBase* s);
+    void addHeroSkill(SkillBase* s);
     void removeSkill(SkillBase* s);
     QList<SkillBase*> hasSkillTriggerAt(enum TriggerTime_t);
+    void cleanCardSkills();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -61,14 +64,17 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     static int endTurnMaxCards() { return 3; }
 
     int money() { return theMoney; }
-    void addMoney(int mo) { theMoney += mo; }
+    QList<int> moneyLists() { return moneyList; }
+    void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
     void setMoney(int mo) { theMoney = mo; }
 
  private:
     QString thePlayerName;
     QList<SkillBase*> skills;
+    QList<SkillBase*> heroSkills;
     QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
+    QList<int> moneyList;
     int theAttack;
     QPixmap* theAvaPic;
     QPixmap* theWhoPic;
@@ -76,10 +82,12 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int theMaxHealth;
     enum Camp_t theCamp;
     QPoint thePoint;
-    char theSexual;
-    char theMoveRange;
-    char theAttackRange;
+    enum Sexual_t theSexual;
+    int theMoveRange;
+    int theAttackRange;
     QString theHeroName;
+
+    struct HeroInfo baseInfo;
 
     int lineLength;
     QColor color;
