@@ -64,7 +64,8 @@ void EssenialScene::setContent(struct panelInfo pi) {
     if (pi.moneyList.size() == 0) {
         text += "0";
     } else {
-        for (int i = 0; i < pi.moneyList.size(); i++) {
+        text += QString::number(pi.moneyList[0]);
+        for (int i = 1; i < pi.moneyList.size(); i++) {
             text += " + " + QString::number(pi.moneyList[i]);
         }
     }

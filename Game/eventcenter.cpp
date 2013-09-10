@@ -310,6 +310,7 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
     QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerAttackBegin);
+    to->setHealth(to->health() - from->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
             if (!l[i]->isAvailable())
@@ -399,7 +400,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         if (l.size() == 1) {
             switch (l[0]->cardType()) {
             case KuangBao:
-                //curHero->addSkill(new CsKuangBao());
+                curHero->addSkill(new CsKuangBao());
                 break;
 
             case ShengMingLiZan:

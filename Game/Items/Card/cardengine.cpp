@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "cardengine.h"
 #include "carditem.h"
 #include "backinfo.h"
@@ -89,7 +90,9 @@ QList<HandCard*> CardEngine::generateHandCards() {
 }
 
 HandCard* CardEngine::createCard(struct CardInfo ci) {
-    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg");
+    HandCard *hc = new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg");
+    qDebug() << hc->id() << hc->cardType();
+    return hc;
 }
 
 //QList<HandCard*> CardEngine::backCard(int num) {
