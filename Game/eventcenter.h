@@ -6,6 +6,7 @@
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
 #include <QStringList>
+#include "enums.h"
 
 class BackScene;
 class GameMenu;
@@ -25,6 +26,8 @@ class EventCenter : public QObject {
     void checkHeros();
     bool isGameBegined() { return gameBegined; }
     void askForDiscardCards(int num);
+    void showSkillRange(QGraphicsItem* from, enum MapRangeType_t,
+                        int range);
 
     enum gamePhase_t {
         BeginPhase,

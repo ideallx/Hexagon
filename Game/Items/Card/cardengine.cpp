@@ -90,9 +90,7 @@ QList<HandCard*> CardEngine::generateHandCards() {
 }
 
 HandCard* CardEngine::createCard(struct CardInfo ci) {
-    HandCard *hc = new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg");
-    qDebug() << hc->id() << hc->cardType();
-    return hc;
+    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg");
 }
 
 //QList<HandCard*> CardEngine::backCard(int num) {
@@ -113,7 +111,10 @@ CsKuangBao::CsKuangBao()
     setObjectName("KuangBao");
 }
 
-void CsKuangBao::skillAct(QGraphicsItem *from, QGraphicsItem *to) {
+void CsKuangBao::skillAct(EventCenter *ec, QVariant &data,
+                          QGraphicsItem *from, QGraphicsItem *to) {
+    Q_UNUSED(ec);
+    Q_UNUSED(data);
     Q_UNUSED(from);
     HeroItem* toHero = static_cast<HeroItem*>(to);
     toHero->setHealth(toHero->health()-1);

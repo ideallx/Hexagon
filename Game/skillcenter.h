@@ -8,12 +8,14 @@
 
 class GameMapElement;
 class HeroItem;
+class EventCenter;
 
 class SkillBase : public QObject {
     Q_ENUMS(TriggerTime_t)
 
  public:
-    virtual void skillFlow(QGraphicsItem* from, QGraphicsItem* to) = 0;
+    virtual void skillFlow(EventCenter* ec, QVariant &data,
+                           QGraphicsItem* from, QGraphicsItem* to) = 0;
     virtual enum TriggerTime_t triggerTime() const = 0;
     virtual bool isAvailable() = 0;
 };
@@ -22,11 +24,12 @@ class AttackBuffSkill : public SkillBase {
  public:
     AttackBuffSkill(enum AttackBuffEffect a, int effectTime = 1);
 
-    void skillFlow(QGraphicsItem* from, QGraphicsItem* to);
+    void skillFlow(EventCenter* ec, QVariant &data,
+                   QGraphicsItem* from, QGraphicsItem* to);
     enum TriggerTime_t triggerTime() const;
     virtual bool isAvailable() { return availAble; }
-
-    virtual void skillAct(QGraphicsItem* from, QGraphicsItem* to);
+    virtual void skillAct(EventCenter* ec, QVariant &data,
+                          QGraphicsItem* from, QGraphicsItem* to);
 
     int effectTime() const { return theEffectTime; }
     enum AttackBuffEffect attackEffect() { return abe; }
@@ -41,7 +44,8 @@ class AttackBuffSkill : public SkillBase {
 class ShiftSkill : public SkillBase {
     ShiftSkill(enum MapRangeType_t, int range);
 
-    void skillFlow(QGraphicsItem* from, QGraphicsItem* to);
+    void skillFlow(EventCenter* ec, QVariant &data,
+                   QGraphicsItem* from, QGraphicsItem* to);
     enum TriggerTime_t triggerTime() const { return TriggerInAction; }
     virtual bool isAvailable() { return true; }
     virtual void chooseRangePoint(GameMapElement* gme) {;}

@@ -56,13 +56,14 @@ class CardEngine : public QObject {
 class CsKuangBao : public AttackBuffSkill {
  public:
     CsKuangBao();
-    void skillAct(QGraphicsItem *from, QGraphicsItem *to);
+    void skillAct(EventCenter *ec, QVariant &data,
+                  QGraphicsItem *from, QGraphicsItem *to);
 };
 
 class CsZheYue : public ShiftSkill {
  public:
     CsZheYue();
-    void chooseRangePoint(GameMapElement *gme);
+    void chooseRangePoint(QGraphicsItem *gme);
 };
 
 #endif  // GAME_ITEMS_CARD_CARDENGINE_H_

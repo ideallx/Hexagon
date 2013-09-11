@@ -1,5 +1,6 @@
 #include "skillcenter.h"
 #include "heroitem.h"
+#include "eventcenter.h"
 
 
 AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect a,
@@ -9,18 +10,21 @@ AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect a,
       abe(a) {
 }
 
-void AttackBuffSkill::skillFlow(QGraphicsItem* from, QGraphicsItem* to) {
+void AttackBuffSkill::skillFlow(EventCenter* ec, QVariant &data,
+                                QGraphicsItem* from, QGraphicsItem* to) {
     if (theEffectTime <= 0)
         availAble = false;
     theEffectTime--;
-    skillAct(from, to);
+    skillAct(ec, data, from, to);
 }
 
 enum TriggerTime_t AttackBuffSkill::triggerTime() const {
     return TriggerAttackBegin;
 }
 
-void AttackBuffSkill::skillAct(QGraphicsItem* from, QGraphicsItem* to) {
+void AttackBuffSkill::skillAct(EventCenter* ec, QVariant &data,
+                               QGraphicsItem* from, QGraphicsItem* to) {
+    return;
 }
 
 ShiftSkill::ShiftSkill(enum MapRangeType_t t, int range)
@@ -28,6 +32,7 @@ ShiftSkill::ShiftSkill(enum MapRangeType_t t, int range)
       range(range) {
 }
 
-void ShiftSkill::skillFlow(QGraphicsItem *from, QGraphicsItem *to) {
-
+void ShiftSkill::skillFlow(EventCenter* ec, QVariant &data,
+                           QGraphicsItem *from, QGraphicsItem *to) {
+    ec->showSkillRange(from, RangeTypeRound, 2);
 }

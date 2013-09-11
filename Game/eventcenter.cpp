@@ -315,8 +315,10 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
         for (int i = 0; i < l.size(); i++) {
             if (!l[i]->isAvailable())
                 l.removeAt(i);
-            else
-                l[i]->skillFlow(from, to);
+            else {
+                QVariant data;
+                l[i]->skillFlow(this, data, from, to);
+            }
         }
     }
 }
@@ -459,4 +461,10 @@ void EventCenter::birthChosed(QPoint in) {
     scene->showBirthSquare(curHero->camp(), l);
     menu->setPrompt(tr("Choose Birth For Hero: %1").
                     arg(curHero->heroName()));
+}
+
+void EventCenter::showSkillRange(QGraphicsItem* from,
+                                 enum MapRangeType_t t , int r) {
+    scene->showSkillRange(static_cast<HeroItem*>(from), t, r);
+    curPhase = SkillPhase;
 }
