@@ -86,7 +86,6 @@ void ItemCollector::addHeroList(QList<struct ExternInfo> info) {
 
 void ItemCollector::addCardList() {
     unusedCards = ce->generateHandCards();
-    //backCards = ce->backCard(30);
 }
 
 void ItemCollector::addMapElementList() {

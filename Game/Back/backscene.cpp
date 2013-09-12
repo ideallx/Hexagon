@@ -124,7 +124,7 @@ void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
     Q_UNUSED(t);
     Q_UNUSED(range);
     rangeList.clear();
-    rangeList = ic->listRange(hi, ModeMove);
+    rangeList = ic->listSpecialRange(hi->point(), t, range);
     for (int i = 0; i < rangeList.size(); i++) {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::cyan, 5));
     }
@@ -133,7 +133,7 @@ void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
 void BackScene::showRangePoints(QList<QPoint> lp) {
     rangeList.clear();
     rangeList = lp;
-    foreach (QPoint p, rangeList) {
+    foreach(QPoint p, rangeList) {
         ic->setElementSpecialPen(p, QPen(Qt::cyan, 5));
     }
 }

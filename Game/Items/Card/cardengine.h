@@ -50,7 +50,6 @@ class CardEngine : public QObject {
  public:
     explicit CardEngine(GameBackInfo *gbi);
     QList<HandCard*> generateHandCards();
-    //QList<HandCard*> backCard(int num);
     void addPackage(AbstractCardPackage* acp);
     void registerSkill(AbstractCardPackage* acp);
 
@@ -70,10 +69,12 @@ class NoSkill : public SkillBase {
     bool isAvailable() { return false; }
 };
 
+
 class CsKuangBao : public AttackBuffSkill {
  public:
     CsKuangBao();
     void skillAct(struct SkillPara sp);
+    void skillPrepare(SkillPara sp);
 };
 
 class CsZheYue : public RangeSkill {

@@ -33,8 +33,8 @@ class AttackBuffSkill : public SkillBase {
  public:
     AttackBuffSkill(enum AttackBuffEffect a, int effectTime = 1);
 
-    void skillPrepare(struct SkillPara sp);
-    void skillFlow(struct SkillPara sp) { Q_UNUSED(sp);}
+    virtual void skillPrepare(struct SkillPara sp);
+    void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const;
     virtual bool isAvailable() { return false; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
@@ -63,6 +63,19 @@ class RangeSkill : public SkillBase {
  private:
     enum MapRangeType_t type;
     int range;
+};
+
+
+class CsMoney : public SkillBase {
+ public:
+    explicit CsMoney(int coin);
+    void skillPrepare(SkillPara sp);
+    void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
+    bool isAvailable() { return false; }
+    enum TriggerTime_t triggerTime() const { return TriggerInAction; }
+
+ private:
+    int coin;
 };
 
 #endif  // GAME_SKILLCENTER_H_

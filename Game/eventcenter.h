@@ -37,6 +37,8 @@ class EventCenter : public QObject {
                                   int range);
     HeroItem* hasHeroOnPoint(QPoint p);
     QList<HeroItem*> getHerosOfCamp(Camp_t c);
+    void setCurHero(HeroItem* hi);
+    void listHeroInfo(HeroItem* hi);
 
     enum gamePhase_t {
         BeginPhase,
@@ -52,7 +54,6 @@ class EventCenter : public QObject {
     void setupConnection();
     void roundBegin();
     void roundEnd();
-    void setCurHero(HeroItem* hi);
     void heroMoveToPoint(QPoint p);
     void heroAttackPoint(QPoint p);
     void attackCalc(HeroItem* from, HeroItem* to);

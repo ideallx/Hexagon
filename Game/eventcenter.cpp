@@ -255,10 +255,14 @@ void EventCenter::showMenu(HeroItem* hi, QPoint p) {
 
 void EventCenter::setCurHero(HeroItem* hi) {
     curHero = hi;
-    menu->setHeroInfo(curHero);
     curHero->setPen(QPen(Qt::darkMagenta, 3));
-    scene->views()[0]->centerOn(curHero);
-    showCards(curHero);
+    listHeroInfo(curHero);
+}
+
+void EventCenter::listHeroInfo(HeroItem* hi) {
+    menu->setHeroInfo(hi);
+    scene->views()[0]->centerOn(hi);
+    showCards(hi);
 }
 
 void EventCenter::skillBegin() {
@@ -319,9 +323,9 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
     to->setHealth(to->health() - from->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
-            if (!l[i]->isAvailable())
+            if (!l[i]->isAvailable()) {   // TODO(ideallx) to fix
                 l.removeAt(i);
-            else {
+            } else {
                 QVariant data;
                 struct SkillPara sp;
                 sp.ec = this;
@@ -418,7 +422,13 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
             sp.data = data;
             sp.from = curHero;
             sp.to = NULL;
-            l[0]->skill()->skillPrepare(sp);
+            if (l[0]->skill() != 0) {
+                if (l[0]->skill()->isAvailable())
+                    curSkill = l[0]->skill();
+                curHero->removeCard(l[0]);
+                l[0]->skill()->skillPrepare(sp);
+                listHeroInfo(curHero);
+            }
         }
     default:
         break;
@@ -455,11 +465,12 @@ void EventCenter::showSkillRange(QGraphicsItem* from,
 
 void EventCenter::showSkillRange(QList<QPoint> lp) {
     scene->showRangePoints(lp);
+    curPhase = SkillPhase;
 }
 
 QList<HeroItem*> EventCenter::getHerosInList(QList<QPoint> lp) {
     QList<HeroItem*> result;
-    foreach (QPoint p, lp) {
+    foreach(QPoint p, lp) {
         HeroItem* hi = hasHeroOnPoint(p);
         if (hi)
             result.append(hi);
@@ -479,7 +490,7 @@ HeroItem* EventCenter::hasHeroOnPoint(QPoint p) {
 
 QList<HeroItem*> EventCenter::getHerosOfCamp(Camp_t c) {
     QList<HeroItem*> hl;
-    foreach (HeroItem* hi, heroSeq) {
+    foreach(HeroItem* hi, heroSeq) {
         if (hi->camp() == c) {
             hl.append(hi);
         }

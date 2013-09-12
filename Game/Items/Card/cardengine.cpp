@@ -42,8 +42,13 @@ CardPackageNormal::CardPackageNormal() {
     const struct CardInfo sb   = {ShanBi, CardPackage_Normal, 0,
                                   tr("ShanBi")};
 
-    skillHash.insert(KuangBao, new CsKuangBao());
-    skillHash.insert(ZheYue, new CsZheYue());
+    skillHash.insert(KuangBao, new CsKuangBao);
+    skillHash.insert(ZheYue, new CsZheYue);
+    skillHash.insert(ShengMingLiZan, new CsShengMingLiZan);
+    skillHash.insert(ChuanSong, new CsChuanSong);
+    skillHash.insert(JinBi_2, new CsMoney(2));
+    skillHash.insert(JinBi_3, new CsMoney(3));
+    skillHash.insert(JinBi_4, new CsMoney(4));
 
     int i = 0;
 
@@ -96,16 +101,9 @@ QList<HandCard*> CardEngine::generateHandCards() {
 }
 
 HandCard* CardEngine::createCard(struct CardInfo ci) {
-    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg", skills[ci.cardType]);
+    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg",
+                        skills[ci.cardType]);
 }
-
-//QList<HandCard*> CardEngine::backCard(int num) {
-//    QList<HandCard*> handList;
-//    for (int i = 0; i < num; i++) {
-//        handList.append(new HandCard(BACK, path + "back.png"));
-//    }
-//    return handList;
-//}
 
 void CardEngine::addPackage(AbstractCardPackage* acp) {
     cpl.append(acp);
@@ -120,19 +118,22 @@ void CardEngine::registerSkill(AbstractCardPackage* acp) {
 }
 
 CsKuangBao::CsKuangBao()
-    : AttackBuffSkill(AttackBuffAddDamage, 1){
+    : AttackBuffSkill(AttackBuffAddDamage, 1) {
     setObjectName("KuangBao");
 }
 
 void CsKuangBao::skillAct(struct SkillPara sp) {
     HeroItem* toHero = static_cast<HeroItem*>(sp.to);
-    toHero->setHealth(toHero->health()-1);
+}
+
+void CsKuangBao::skillPrepare(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    hi->setAttack(hi->attack()+1);
 }
 
 CsZheYue::CsZheYue()
     : RangeSkill(RangeTypeRound, 2) {
     setObjectName("ZheYue");
-
 }
 
 void CsZheYue::skillAct(SkillPara sp) {
@@ -149,7 +150,7 @@ void CsShengMingLiZan::skillAct(SkillPara sp) {
     QList<QPoint> lp = sp.ec->getPointInRange(
                 static_cast<HeroItem*>(sp.from)->point(),
                 RangeTypeRound, 1);
-    foreach (QPoint p, lp) {
+    foreach(QPoint p, lp) {
         HeroItem* hi = sp.ec->hasHeroOnPoint(p);
         if (hi)
             hi->addHealth(1);
@@ -170,7 +171,7 @@ void CsChuanSong::skillRange(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     QList<HeroItem*> friendHeros = sp.ec->getHerosOfCamp(hi->camp());
     QList<QPoint> lp;
-    foreach (HeroItem* hi, friendHeros) {
+    foreach(HeroItem* hi, friendHeros) {
         lp += sp.ec->getPointInRange(hi->point(), RangeTypeRound, 1);
     }
     sp.ec->showSkillRange(lp);

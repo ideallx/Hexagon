@@ -56,21 +56,18 @@
       <ParseFiles>false</ParseFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{15889ac6-727c-4947-93dd-344e2e502c78}</UniqueIdentifier>
+      <UniqueIdentifier>{065289c2-e294-46c8-b9cf-e589b126d7f5}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{c62b3ef0-5303-4e28-ac6a-5091be6c20b4}</UniqueIdentifier>
+      <UniqueIdentifier>{cec6c215-2edf-4deb-a971-6fefa279cba4}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game\Back\BackView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Game\Items\Card\CardBack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Game\Back\backinfo.cpp">
@@ -151,12 +148,6 @@
     <ClCompile Include="Release\moc_camphealth.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="Debug\moc_cardback.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="Release\moc_cardback.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="Debug\moc_eventcenter.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
@@ -232,9 +223,6 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="Game\Items\camphealth.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="Game\Items\Card\cardback.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
     <ClInclude Include="Game\Items\Card\cardengine.h">
