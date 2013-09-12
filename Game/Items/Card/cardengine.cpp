@@ -40,6 +40,9 @@ CardPackageNormal::CardPackageNormal() {
     const struct CardInfo sb   = {ShanBi, CardPackage_Normal, 0,
                                   tr("ShanBi")};
 
+    skillHash.insert(KuangBao, new CsKuangBao());
+    skillHash.insert(ZheYue, new CsZheYue());
+
     int i = 0;
 
     for (i = 0; i < 2; i++) {
@@ -75,7 +78,8 @@ CardPackageNormal::CardPackageNormal() {
 CardEngine::CardEngine(GameBackInfo *gbi)
     : cardAmount(0),
       cardsId(0),
-      path(gbi->getConfigDir() + "cards/") {
+      path(gbi->getConfigDir() + "cards/"),
+      skillsNum(0) {
 }
 
 QList<HandCard*> CardEngine::generateHandCards() {
@@ -90,7 +94,7 @@ QList<HandCard*> CardEngine::generateHandCards() {
 }
 
 HandCard* CardEngine::createCard(struct CardInfo ci) {
-    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg");
+    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg", skills[ci.cardType]);
 }
 
 //QList<HandCard*> CardEngine::backCard(int num) {
@@ -104,6 +108,13 @@ HandCard* CardEngine::createCard(struct CardInfo ci) {
 void CardEngine::addPackage(AbstractCardPackage* acp) {
     cpl.append(acp);
     cardAmount += acp->cardNumInPackage();
+    registerSkill(acp);
+}
+
+void CardEngine::registerSkill(AbstractCardPackage* acp) {
+    for (int i = 0; i < acp->cardTypeInPackage(); i++) {
+        skills.insert(skillsNum+i, acp->getSkillByCardTypeId(i));
+    }
 }
 
 CsKuangBao::CsKuangBao()
@@ -118,4 +129,10 @@ void CsKuangBao::skillAct(EventCenter *ec, QVariant &data,
     Q_UNUSED(from);
     HeroItem* toHero = static_cast<HeroItem*>(to);
     toHero->setHealth(toHero->health()-1);
+}
+
+CsZheYue::CsZheYue()
+    : ShiftSkill(RangeTypeRound, 2) {
+    setObjectName("ZheYue");
+
 }

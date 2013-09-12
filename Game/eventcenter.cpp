@@ -400,6 +400,10 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         beginTurn();
     case BeginPhase:
         if (l.size() == 1) {
+
+        }
+        /*
+        if (l.size() == 1) {
             switch (l[0]->cardType()) {
             case KuangBao:
                 curHero->addSkill(new CsKuangBao());
@@ -437,7 +441,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         } else {
         }
     default:
-        break;
+        break;*/
     }
 }
 

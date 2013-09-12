@@ -25,6 +25,7 @@ enum GameEnvironment_t {
 };
 
 enum TriggerTime_t {
+    TriggerNever,
     TriggerGameBegin,
     TriggerRoundBegin,
     TriggerTurnBegin,
@@ -116,7 +117,6 @@ struct CardInfo {
 
 
 enum Card_Normal_Package_Type_t {
-    BACK,
     KuangBao,
     ZheYue,
     FaLiRanShao,

@@ -42,6 +42,7 @@ class AttackBuffSkill : public SkillBase {
 };
 
 class ShiftSkill : public SkillBase {
+ public:
     ShiftSkill(enum MapRangeType_t, int range);
 
     void skillFlow(EventCenter* ec, QVariant &data,
