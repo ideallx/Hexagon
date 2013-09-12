@@ -26,6 +26,8 @@ class BackScene : public QGraphicsScene {
     void showAttackRange(HeroItem* hero);
     void showSkillRange(HeroItem* hero, enum MapRangeType_t, int range);
     void showBirthSquare(enum Camp_t camp, QList<QPoint> unshow);
+    void showRangePoints(QList<QPoint> lp);
+    QList<QPoint> getSkillRange(QPoint o, enum MapRangeType_t, int range);
 
  private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

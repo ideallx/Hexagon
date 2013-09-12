@@ -71,6 +71,7 @@ class ItemCollector {
     void returnCard(QList<HandCard*> l);
     QList<QGraphicsLineItem*> getLines() { return targetLines; }
     QList<QPoint> listRange(HeroItem* hero, enum rangeMode_t);
+    QList<QPoint> listSpecialRange(QPoint o, enum MapRangeType_t t, int range);
 
     QPixmap getPixmap();
     QPoint getCooxWithPos(QPointF);

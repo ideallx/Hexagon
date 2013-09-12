@@ -26,6 +26,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int moveRange() const { return theMoveRange; }
 
     int health() const { return theHealth; }
+    void addHealth(int n);
     int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
 
@@ -54,7 +55,6 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addHeroSkill(SkillBase* s);
     void removeSkill(SkillBase* s);
     QList<SkillBase*> hasSkillTriggerAt(enum TriggerTime_t);
-    void cleanCardSkills();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

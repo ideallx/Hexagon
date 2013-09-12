@@ -8,6 +8,7 @@
 #include <QStringList>
 #include "enums.h"
 
+class SkillBase;
 class BackScene;
 class GameMenu;
 class ItemCollector;
@@ -28,6 +29,14 @@ class EventCenter : public QObject {
     void askForDiscardCards(int num);
     void showSkillRange(QGraphicsItem* from, enum MapRangeType_t,
                         int range);
+    void showSkillRange(QList<QPoint> lp);
+    void setHeroPosition(HeroItem* hi, QPoint pos);
+    QList<HeroItem*> getHerosInList(QList<QPoint> lp);
+    QList<QPoint> getPointInRange(QPoint p,
+                                  enum MapRangeType_t,
+                                  int range);
+    HeroItem* hasHeroOnPoint(QPoint p);
+    QList<HeroItem*> getHerosOfCamp(Camp_t c);
 
     enum gamePhase_t {
         BeginPhase,
@@ -55,7 +64,6 @@ class EventCenter : public QObject {
     void skillAnimate(HeroItem* item, GameMapElement* gme);
 
     void showCards(HeroItem* hi);
-    void setHeroBirth(HeroItem* hi, QPoint birthP);
     int roundNum;
 
     HeroItem* curHero;
@@ -67,7 +75,7 @@ class EventCenter : public QObject {
     bool gameBegined;
     int playerHeroNum;
 
-
+    SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
 
  signals:

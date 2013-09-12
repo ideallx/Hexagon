@@ -10,29 +10,30 @@ AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect a,
       abe(a) {
 }
 
-void AttackBuffSkill::skillFlow(EventCenter* ec, QVariant &data,
-                                QGraphicsItem* from, QGraphicsItem* to) {
+void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
     if (theEffectTime <= 0)
         availAble = false;
     theEffectTime--;
-    skillAct(ec, data, from, to);
+    skillAct(sp);
 }
 
 enum TriggerTime_t AttackBuffSkill::triggerTime() const {
     return TriggerAttackBegin;
 }
 
-void AttackBuffSkill::skillAct(EventCenter* ec, QVariant &data,
-                               QGraphicsItem* from, QGraphicsItem* to) {
-    return;
-}
-
-ShiftSkill::ShiftSkill(enum MapRangeType_t t, int range)
+RangeSkill::RangeSkill(enum MapRangeType_t t, int range)
     : type(t),
       range(range) {
 }
 
-void ShiftSkill::skillFlow(EventCenter* ec, QVariant &data,
-                           QGraphicsItem *from, QGraphicsItem *to) {
-    ec->showSkillRange(from, RangeTypeRound, 2);
+void RangeSkill::skillFlow(struct SkillPara sp) {
+    skillAct(sp);
+}
+
+void RangeSkill::skillPrepare(struct SkillPara sp) {
+    skillRange(sp);
+}
+
+void RangeSkill::skillRange(struct SkillPara sp) {
+    sp.ec->showSkillRange(sp.from, RangeTypeRound, range);
 }

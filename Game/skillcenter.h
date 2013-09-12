@@ -10,12 +10,21 @@ class GameMapElement;
 class HeroItem;
 class EventCenter;
 
+
+struct SkillPara {
+    EventCenter* ec;
+    QVariant data;
+    QGraphicsItem* from;
+    QGraphicsItem* to;
+};
+
+
 class SkillBase : public QObject {
     Q_ENUMS(TriggerTime_t)
 
  public:
-    virtual void skillFlow(EventCenter* ec, QVariant &data,
-                           QGraphicsItem* from, QGraphicsItem* to) = 0;
+    virtual void skillPrepare(struct SkillPara sp) = 0;
+    virtual void skillFlow(struct SkillPara sp) = 0;
     virtual enum TriggerTime_t triggerTime() const = 0;
     virtual bool isAvailable() = 0;
 };
@@ -24,12 +33,11 @@ class AttackBuffSkill : public SkillBase {
  public:
     AttackBuffSkill(enum AttackBuffEffect a, int effectTime = 1);
 
-    void skillFlow(EventCenter* ec, QVariant &data,
-                   QGraphicsItem* from, QGraphicsItem* to);
+    void skillPrepare(struct SkillPara sp);
+    void skillFlow(struct SkillPara sp) { Q_UNUSED(sp);}
     enum TriggerTime_t triggerTime() const;
-    virtual bool isAvailable() { return availAble; }
-    virtual void skillAct(EventCenter* ec, QVariant &data,
-                          QGraphicsItem* from, QGraphicsItem* to);
+    virtual bool isAvailable() { return false; }
+    virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
 
     int effectTime() const { return theEffectTime; }
     enum AttackBuffEffect attackEffect() { return abe; }
@@ -41,15 +49,16 @@ class AttackBuffSkill : public SkillBase {
     enum AttackBuffEffect abe;
 };
 
-class ShiftSkill : public SkillBase {
+class RangeSkill : public SkillBase {
  public:
-    ShiftSkill(enum MapRangeType_t, int range);
+    RangeSkill(enum MapRangeType_t, int range);
 
-    void skillFlow(EventCenter* ec, QVariant &data,
-                   QGraphicsItem* from, QGraphicsItem* to);
+    void skillPrepare(struct SkillPara sp);
+    void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const { return TriggerInAction; }
     virtual bool isAvailable() { return true; }
-    virtual void chooseRangePoint(GameMapElement* gme) {;}
+    virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
+    virtual void skillRange(struct SkillPara sp);
 
  private:
     enum MapRangeType_t type;

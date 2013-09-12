@@ -207,6 +207,16 @@ QList<QPoint> ItemCollector::listRange(HeroItem* hero, enum rangeMode_t t) {
     return set;
 }
 
+QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
+                                              enum MapRangeType_t t,
+                                              int range) {
+    QList<QPoint> set;
+    if (t == RangeTypeRound) {
+        return recursionSeries(&set, o, range);
+    } else {   // TODO(ideallx)
+        return set;
+    }
+}
 
 /*
  *   0.8 not moveable

@@ -65,8 +65,7 @@ class CardEngine : public QObject {
 };
 
 class NoSkill : public SkillBase {
-    void skillFlow(EventCenter* ec, QVariant &data,
-                   QGraphicsItem* from, QGraphicsItem* to) {;}
+    void skillFlow(struct SkillPara sp) { Q_UNUSED(sp);}
     enum TriggerTime_t triggerTime() { return TriggerNever; }
     bool isAvailable() { return false; }
 };
@@ -74,14 +73,26 @@ class NoSkill : public SkillBase {
 class CsKuangBao : public AttackBuffSkill {
  public:
     CsKuangBao();
-    void skillAct(EventCenter *ec, QVariant &data,
-                  QGraphicsItem *from, QGraphicsItem *to);
+    void skillAct(struct SkillPara sp);
 };
 
-class CsZheYue : public ShiftSkill {
+class CsZheYue : public RangeSkill {
  public:
     CsZheYue();
-    void chooseRangePoint(QGraphicsItem *gme);
+    void skillAct(struct SkillPara sp);
+};
+
+class CsShengMingLiZan : public RangeSkill {
+ public:
+    CsShengMingLiZan();
+    void skillAct(SkillPara sp);
+};
+
+class CsChuanSong : public RangeSkill {
+ public:
+    CsChuanSong();
+    void skillRange(SkillPara sp);
+    void skillAct(SkillPara sp);
 };
 
 #endif  // GAME_ITEMS_CARD_CARDENGINE_H_

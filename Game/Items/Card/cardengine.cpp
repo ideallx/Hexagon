@@ -3,6 +3,8 @@
 #include "carditem.h"
 #include "backinfo.h"
 #include "heroitem.h"
+#include "eventcenter.h"
+#include "mapelement.h"
 
 CardPackageNormal::CardPackageNormal() {
     const struct CardInfo kb   = {KuangBao, CardPackage_Normal, 0,
@@ -122,17 +124,55 @@ CsKuangBao::CsKuangBao()
     setObjectName("KuangBao");
 }
 
-void CsKuangBao::skillAct(EventCenter *ec, QVariant &data,
-                          QGraphicsItem *from, QGraphicsItem *to) {
-    Q_UNUSED(ec);
-    Q_UNUSED(data);
-    Q_UNUSED(from);
-    HeroItem* toHero = static_cast<HeroItem*>(to);
+void CsKuangBao::skillAct(struct SkillPara sp) {
+    HeroItem* toHero = static_cast<HeroItem*>(sp.to);
     toHero->setHealth(toHero->health()-1);
 }
 
 CsZheYue::CsZheYue()
-    : ShiftSkill(RangeTypeRound, 2) {
+    : RangeSkill(RangeTypeRound, 2) {
     setObjectName("ZheYue");
 
 }
+
+void CsZheYue::skillAct(SkillPara sp) {
+    sp.ec->setHeroPosition(static_cast<HeroItem*>(sp.from),
+                           static_cast<GameMapElement*>(sp.to)->point());
+}
+
+CsShengMingLiZan::CsShengMingLiZan()
+    : RangeSkill(RangeTypeRound, 1) {
+    setObjectName("ShengMingLiZan");
+}
+
+void CsShengMingLiZan::skillAct(SkillPara sp) {
+    QList<QPoint> lp = sp.ec->getPointInRange(
+                static_cast<HeroItem*>(sp.from)->point(),
+                RangeTypeRound, 1);
+    foreach (QPoint p, lp) {
+        HeroItem* hi = sp.ec->hasHeroOnPoint(p);
+        if (hi)
+            hi->addHealth(1);
+    }
+}
+
+CsChuanSong::CsChuanSong()
+    : RangeSkill(RangeTypeRound, 1) {
+    setObjectName("ChuanSong");
+}
+
+void CsChuanSong::skillAct(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    sp.ec->setHeroPosition(hi, static_cast<GameMapElement*>(sp.to)->point());
+}
+
+void CsChuanSong::skillRange(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    QList<HeroItem*> friendHeros = sp.ec->getHerosOfCamp(hi->camp());
+    QList<QPoint> lp;
+    foreach (HeroItem* hi, friendHeros) {
+        lp += sp.ec->getPointInRange(hi->point(), RangeTypeRound, 1);
+    }
+    sp.ec->showSkillRange(lp);
+}
+

@@ -130,6 +130,14 @@ void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
     }
 }
 
+void BackScene::showRangePoints(QList<QPoint> lp) {
+    rangeList.clear();
+    rangeList = lp;
+    foreach (QPoint p, rangeList) {
+        ic->setElementSpecialPen(p, QPen(Qt::cyan, 5));
+    }
+}
+
 QList<QString> BackScene::getHeroListAvaterPath(enum Camp_t c) {
     return ic->getHeroListAvaterPath(c);
 }
@@ -160,4 +168,12 @@ void BackScene::restoreOldPoint(QPoint old) {
         ic->setElementRestorePen(old);
     else
         ic->setElementDefaultPen(old);
+}
+
+QList<QPoint> BackScene::getSkillRange(QPoint o,
+                                       enum MapRangeType_t t,
+                                       int range) {
+    QList<QPoint> list;
+    list = ic->listSpecialRange(o, t, range);
+    return list;
 }

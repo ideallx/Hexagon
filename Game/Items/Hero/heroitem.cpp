@@ -109,7 +109,13 @@ QList<SkillBase*> HeroItem::hasSkillTriggerAt(enum TriggerTime_t time) {
     return result;
 }
 
-void HeroItem::cleanCardSkills() {
-    qDeleteAll(skills);
-    skills.clear();
+void HeroItem::addHealth(int n) {
+    theHealth += n;
+    if (theHealth > theMaxHealth) {
+        theHealth = theMaxHealth;
+    } else if (theHealth < 0) {
+        theHealth = 0;
+    } else {
+        return;
+    }
 }

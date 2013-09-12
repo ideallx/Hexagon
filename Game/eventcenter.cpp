@@ -9,6 +9,7 @@
 #include "mapelement.h"
 #include "carditem.h"
 #include "cardengine.h"
+#include "skillcenter.h"
 
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
@@ -136,7 +137,14 @@ void EventCenter::heroAttackPoint(QPoint in) {
 void EventCenter::skillStraightTest(QPoint in) {
     GameMapElement* gme = ic->getMapElementByPoint(in);
 
+    struct SkillPara sp;
+    sp.data = QVariant();
+    sp.from = curHero;
+    sp.to = gme;
+    sp.ec = this;
+
     skillAnimate(curHero, gme);
+    curSkill->skillFlow(sp);
 
     scene->clearRange();
     menu->hideAllMenu();
@@ -204,8 +212,6 @@ void EventCenter::endTurn() {
 
     curPhase = FinalPhase;
     qDebug() << curHero->heroName() + "'s" << "Turn End";
-
-    curHero->cleanCardSkills();
 
     beginTurn();
 }
@@ -317,7 +323,13 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
                 l.removeAt(i);
             else {
                 QVariant data;
-                l[i]->skillFlow(this, data, from, to);
+                struct SkillPara sp;
+                sp.ec = this;
+                sp.data = data;
+                sp.from = from;
+                sp.to = to;
+                l[i]->skillPrepare(sp);
+                curSkill = l[i];
             }
         }
     }
@@ -354,9 +366,9 @@ void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     targetTimer->start();
 }
 
-void EventCenter::setHeroBirth(HeroItem* hi, QPoint birthP) {
-    hi->setPoint(birthP);
-    hi->setPos(ic->getBeginPosOfHero(birthP));
+void EventCenter::setHeroPosition(HeroItem* hi, QPoint pos) {
+    hi->setPoint(pos);
+    hi->setPos(ic->getBeginPosOfHero(pos));
 }
 
 void EventCenter::checkHeros() {
@@ -400,53 +412,21 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         beginTurn();
     case BeginPhase:
         if (l.size() == 1) {
-
-        }
-        /*
-        if (l.size() == 1) {
-            switch (l[0]->cardType()) {
-            case KuangBao:
-                curHero->addSkill(new CsKuangBao());
-                break;
-
-            case ShengMingLiZan:
-                break;
-
-            case ZheYue:
-                curHero->removeCard(l[0]);
-                scene->showSkillRange(curHero, RangeTypeRound, 2);
-
-            case JinBi_2:
-                curHero->addMoney(2);
-                menu->setHeroInfo(curHero);
-                break;
-
-            case JinBi_3:
-                curHero->addMoney(3);
-                menu->setHeroInfo(curHero);
-                break;
-
-            case JinBi_4:
-                curHero->addMoney(4);
-                menu->setHeroInfo(curHero);
-                break;
-
-            default:
-                break;
-            }
-            curHero->removeCard(l[0]);
-            menu->updateCardsArea(curHero->cards());
-
-
-        } else {
+            QVariant data;
+            struct SkillPara sp;
+            sp.ec = this;
+            sp.data = data;
+            sp.from = curHero;
+            sp.to = NULL;
+            l[0]->skill()->skillPrepare(sp);
         }
     default:
-        break;*/
+        break;
     }
 }
 
 void EventCenter::birthChosed(QPoint in) {
-    setHeroBirth(curHero, in);
+    setHeroPosition(curHero, in);
     if (curHero == heroSeq.last()) {
         gameBegin();
         return;
@@ -471,4 +451,38 @@ void EventCenter::showSkillRange(QGraphicsItem* from,
                                  enum MapRangeType_t t , int r) {
     scene->showSkillRange(static_cast<HeroItem*>(from), t, r);
     curPhase = SkillPhase;
+}
+
+void EventCenter::showSkillRange(QList<QPoint> lp) {
+    scene->showRangePoints(lp);
+}
+
+QList<HeroItem*> EventCenter::getHerosInList(QList<QPoint> lp) {
+    QList<HeroItem*> result;
+    foreach (QPoint p, lp) {
+        HeroItem* hi = hasHeroOnPoint(p);
+        if (hi)
+            result.append(hi);
+    }
+    return result;
+}
+
+QList<QPoint> EventCenter::getPointInRange(QPoint o,
+                              enum MapRangeType_t t,
+                              int range) {
+    return ic->listSpecialRange(o, t, range);
+}
+
+HeroItem* EventCenter::hasHeroOnPoint(QPoint p) {
+    return ic->getHeroByPoint(p);
+}
+
+QList<HeroItem*> EventCenter::getHerosOfCamp(Camp_t c) {
+    QList<HeroItem*> hl;
+    foreach (HeroItem* hi, heroSeq) {
+        if (hi->camp() == c) {
+            hl.append(hi);
+        }
+    }
+    return hl;
 }
