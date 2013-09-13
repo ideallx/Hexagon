@@ -27,6 +27,7 @@ class EventCenter : public QObject {
     void checkHeros();
     bool isGameBegined() { return gameBegined; }
     void askForDiscardCards(int num);
+    QList<HandCard*> discardCard(HeroItem* hi, int num);
     void showSkillRange(QGraphicsItem* from, enum MapRangeType_t,
                         int range);
     void showSkillRange(QList<QPoint> lp);
@@ -37,6 +38,7 @@ class EventCenter : public QObject {
                                   int range);
     HeroItem* hasHeroOnPoint(QPoint p);
     QList<HeroItem*> getHerosOfCamp(Camp_t c);
+    static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
 

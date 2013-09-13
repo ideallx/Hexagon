@@ -217,6 +217,20 @@ QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
     }
 }
 
+QList<QPoint> ItemCollector::listAllMap() {  // TODO(ideallx) func point
+    QList<QPoint> result;
+    foreach (GameMapElement* gme, elements) {
+        QPoint point = gme->point();
+        if (!isPointMovable(point) ||
+                !isPointAvailable(point) ||
+                !getHeroByPoint(point)) {
+            continue;
+        }
+        result.append(point);
+    }
+    return result;
+}
+
 /*
  *   0.8 not moveable
  *   0.7 current moved In bold

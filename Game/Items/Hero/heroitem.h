@@ -51,7 +51,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setCards(QList<HandCard*> c) { theCards = c; }
     void addCards(QList<HandCard*> c);
     QList<HandCard*> cards() { return theCards; }
-    bool removeCard(HandCard* hc) { return theCards.removeOne(hc); }
+    HandCard* removeCard(HandCard* hc);
 
     void addSkill(SkillBase* s);
     void addHeroSkill(SkillBase* s);

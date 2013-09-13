@@ -9,7 +9,7 @@
 class GameMapElement;
 class HeroItem;
 class EventCenter;
-
+class MapMark;
 
 struct SkillPara {
     EventCenter* ec;
@@ -27,11 +27,14 @@ class SkillBase : public QObject {
     virtual void skillFlow(struct SkillPara sp) = 0;
     virtual enum TriggerTime_t triggerTime() const = 0;
     virtual bool isWorkNow() = 0;
+    virtual int cdMax() { return 0; }
+    virtual int cdNow() { return 0; }
 };
 
 class AttackBuffSkill : public SkillBase {
  public:
-    AttackBuffSkill(struct AttackBuff ab, int effectTime = 1);
+    AttackBuffSkill(enum AttackBuffEffect abe, int stateType, int probability,
+                    int effectTime = 1);
 
     virtual void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
@@ -58,6 +61,7 @@ class RangeSkill : public SkillBase {
     void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const { return TriggerInAction; }
     virtual bool isWorkNow() { return true; }
+
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
     virtual void skillRange(struct SkillPara sp);
 
@@ -77,6 +81,22 @@ class CsMoney : public SkillBase {
 
  private:
     int coin;
+};
+
+class MapMarkSkill : public SkillBase {
+ public:
+    MapMarkSkill(MapMark* mark, int range);
+
+    void skillPrepare(struct SkillPara sp);
+    void skillFlow(struct SkillPara sp);
+    enum TriggerTime_t triggerTime() const { return TriggerInAction; }
+    virtual bool isWorkNow() { return true; }
+
+    virtual void skillAct(struct SkillPara sp);
+    virtual void skillRange(struct SkillPara sp);
+ private:
+    MapMark* mark;
+    int range;
 };
 
 #endif  // GAME_SKILLCENTER_H_

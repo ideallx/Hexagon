@@ -20,7 +20,7 @@ HeroItem::HeroItem(int lineLength)
 }
 
 QRectF HeroItem::boundingRect() const {
-    return QRectF(rect());
+    return rect();
 }
 
 void HeroItem::paint(QPainter *painter,
@@ -81,6 +81,14 @@ void HeroItem::setwholePic(QPixmap*p) {
 
 void HeroItem::addCards(QList<HandCard*> c) {
     theCards += c;
+}
+
+HandCard* HeroItem::removeCard(HandCard* hc) {
+    if (theCards.removeOne(hc)) {
+        return hc;
+    } else {
+        return NULL;
+    }
 }
 
 void HeroItem::addSkill(SkillBase* s) {

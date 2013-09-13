@@ -121,10 +121,14 @@ void BackScene::showAttackRange(HeroItem* hi) {
 }
 
 void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
-    Q_UNUSED(t);
-    Q_UNUSED(range);
     rangeList.clear();
-    rangeList = ic->listSpecialRange(hi->point(), t, range);
+
+    if (range < 0) {
+        rangeList = ic->listAllMap();
+    } else {
+        rangeList = ic->listSpecialRange(hi->point(), t, range);
+    }
+
     for (int i = 0; i < rangeList.size(); i++) {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::cyan, 5));
     }

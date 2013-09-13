@@ -107,6 +107,10 @@ struct ExternInfo {
     QPoint p;
 };
 
+enum AttackBuffEffect {
+    AttackBuffAddDamage,
+    AttackBuffAddStat
+};
 
 struct AttackBuff {
     enum AttackBuffEffect abe;
@@ -114,7 +118,7 @@ struct AttackBuff {
     int stateType;
     int damage;
     };
-    double probability;
+    int probability;
 };
 
 struct CardInfo {
@@ -151,9 +155,5 @@ enum SkillType_t {
     SkillPositiveTrigger
 };
 
-enum AttackBuffEffect {
-    AttackBuffAddDamage,
-    AttackBuffAddStat
-};
 
 #endif  // GAME_ENUMS_H_

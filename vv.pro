@@ -32,7 +32,8 @@ SOURCES  += main.cpp \
     Game/Items/Card/carditem.cpp \
     Game/Items/itemcollector.cpp \
     Widget/otherwidgets.cpp \
-    Widget/gameWidget.cpp
+    Widget/gameWidget.cpp \
+    Game/Items/mapmark.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -57,7 +58,8 @@ HEADERS  += \
     Game/Items/itemcollector.h \
     Widget/gameWidget.h \
     Widget/otherwidgets.h \
-    Game/enums.h
+    Game/enums.h \
+    Game/Items/mapmark.h
 
 INCLUDEPATH += include
 INCLUDEPATH += .

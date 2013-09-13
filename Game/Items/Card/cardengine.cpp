@@ -5,6 +5,7 @@
 #include "heroitem.h"
 #include "eventcenter.h"
 #include "mapelement.h"
+#include "mapmark.h"
 
 CardPackageNormal::CardPackageNormal() {
     const struct CardInfo kb   = {KuangBao, CardPackage_Normal, 0,
@@ -49,6 +50,7 @@ CardPackageNormal::CardPackageNormal() {
     skillHash.insert(JinBi_2, new CsMoney(2));
     skillHash.insert(JinBi_3, new CsMoney(3));
     skillHash.insert(JinBi_4, new CsMoney(4));
+    // skillHash.insert(NengLiangXianJing, new CsNengLiangXianJing(path))
 
     int i = 0;
 
@@ -117,11 +119,8 @@ void CardEngine::registerSkill(AbstractCardPackage* acp) {
     }
 }
 
-CsKuangBao::CsKuangBao() {
-    struct AttackBuff ab;
-    ab.abe = AttackBuffAddDamage;
-    ab.damage = 1;
-    AttackBuffSkill(ab);
+CsKuangBao::CsKuangBao()
+    : AttackBuffSkill(AttackBuffAddDamage, 1, 6) {
     setObjectName("KuangBao");
 }
 
@@ -180,3 +179,6 @@ void CsChuanSong::skillRange(SkillPara sp) {
     sp.ec->showSkillRange(lp);
 }
 
+CsNengLiangXianJing::CsNengLiangXianJing(QString path, int width)
+    : MapMarkSkill(new MapMark(path, width), -1) {
+}

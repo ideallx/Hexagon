@@ -4,14 +4,17 @@
 #include "eventcenter.h"
 
 
-AttackBuffSkill::AttackBuffSkill(struct AttackBuff ab,
-                                 int effectTime)
+AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect abe, int stateType,
+                                 int probability, int effectTime)
     : availAble(true),
-      theEffectTime(effectTime),
-      ab(ab) {
+      theEffectTime(effectTime) {
+    ab.abe = abe;
+    ab.stateType = stateType;
+    ab.probability = probability;
 }
 
 void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
+    Q_UNUSED(sp);
     if (theEffectTime <= 0)
         availAble = false;
     theEffectTime--;
@@ -54,4 +57,25 @@ CsMoney::CsMoney(int money)
 void CsMoney::skillPrepare(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     hi->addMoney(coin);
+}
+
+MapMarkSkill::MapMarkSkill(MapMark* mark, int range)
+    : mark(mark),
+      range(range) {
+}
+
+void MapMarkSkill::skillFlow(SkillPara sp) {
+    skillAct(sp);
+}
+
+void MapMarkSkill::skillPrepare(SkillPara sp) {
+    skillRange(sp);
+}
+
+void MapMarkSkill::skillRange(SkillPara sp) {
+    sp.ec->showSkillRange(sp.from, RangeTypeRound, range);
+}
+
+void MapMarkSkill::skillAct(struct SkillPara sp) {
+    //mark->setPos(sp.ec);
 }

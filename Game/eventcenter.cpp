@@ -14,10 +14,10 @@
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
     : scene(scene),
-    menu(menu),
-    ic(scene->pIc()),
-    curPhase(ChooseBirthPhase),
-    gameBegined(false) {
+      menu(menu),
+      ic(scene->pIc()),
+      curPhase(ChooseBirthPhase),
+      gameBegined(false) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -337,6 +337,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
             }
         }
     }
+    curHero->removetAttackBouns();
 }
 
 void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
@@ -392,6 +393,29 @@ void EventCenter::askForDiscardCards(int num) {
     menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
     menu->askForNCards(num);
     curPhase = DiscardPhase;
+}
+
+QList<HandCard*> EventCenter::discardCard(HeroItem* hi, int num) {
+    QList<HandCard*> cards = hi->cards();
+    QList<HandCard*> result;
+    if (cards.size() < num) {
+        foreach(HandCard* hc, cards) {
+            if(!hi->removeCard(hc))
+                qDebug() << "Discard Cards Error";
+            else
+                result.append(hc);
+        }
+    } else {
+        for (int i = 0; i < num; i++) {
+            QList<HandCard*> cards = hi->cards();
+            HandCard* hc = cards.at(rand()/cards.size());
+            if (!hi->removeCard(hc))
+                qDebug() << "Discard Cards Error";
+            else
+                result.append(hc);
+        }
+    }
+    return result;
 }
 
 void EventCenter::mapElementChosen(QPoint p) {
@@ -496,4 +520,24 @@ QList<HeroItem*> EventCenter::getHerosOfCamp(Camp_t c) {
         }
     }
     return hl;
+}
+
+// insertion sort
+QList<int> EventCenter::rollTheDice(int n) {
+    QList<int> result;
+    for (int i = 0; i < n; i++) {
+        int dice = rand()%6+1;
+        result.append(dice);
+        for (int j = 0; j < result.size(); j++) {
+            if (dice < result[j]) {
+                result.insert(j, dice);
+                result.removeLast();
+                break;
+            }
+        }
+    }
+    if (result.size() != 2) {
+        qDebug() << "Roll The Dices Error";
+    }
+    return result;
 }

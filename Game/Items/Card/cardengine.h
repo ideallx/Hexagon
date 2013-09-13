@@ -11,6 +11,7 @@
 
 class HandCard;
 class GameBackInfo;
+class MapMark;
 
 
 class AbstractCardPackage : public QObject {
@@ -94,6 +95,11 @@ class CsChuanSong : public RangeSkill {
     CsChuanSong();
     void skillRange(SkillPara sp);
     void skillAct(SkillPara sp);
+};
+
+class CsNengLiangXianJing : public MapMarkSkill {
+ public:
+    CsNengLiangXianJing(QString path, int width);
 };
 
 #endif  // GAME_ITEMS_CARD_CARDENGINE_H_
