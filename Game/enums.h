@@ -108,6 +108,15 @@ struct ExternInfo {
 };
 
 
+struct AttackBuff {
+    enum AttackBuffEffect abe;
+    union {
+    int stateType;
+    int damage;
+    };
+    double probability;
+};
+
 struct CardInfo {
     int cardType;
     enum Card_Package_t cardPackage;
@@ -135,7 +144,6 @@ enum Card_Normal_Package_Type_t {
     JiJiuYao,
     ShanBi
 };
-
 
 enum SkillType_t {
     SkillActive,

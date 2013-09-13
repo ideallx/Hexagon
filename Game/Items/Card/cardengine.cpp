@@ -117,18 +117,21 @@ void CardEngine::registerSkill(AbstractCardPackage* acp) {
     }
 }
 
-CsKuangBao::CsKuangBao()
-    : AttackBuffSkill(AttackBuffAddDamage, 1) {
+CsKuangBao::CsKuangBao() {
+    struct AttackBuff ab;
+    ab.abe = AttackBuffAddDamage;
+    ab.damage = 1;
+    AttackBuffSkill(ab);
     setObjectName("KuangBao");
 }
 
 void CsKuangBao::skillAct(struct SkillPara sp) {
-    HeroItem* toHero = static_cast<HeroItem*>(sp.to);
+    Q_UNUSED(sp);
 }
 
 void CsKuangBao::skillPrepare(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
-    hi->setAttack(hi->attack()+1);
+    hi->addNextAttackBouns(buffEffect());
 }
 
 CsZheYue::CsZheYue()

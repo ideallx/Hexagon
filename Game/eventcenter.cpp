@@ -323,7 +323,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
     to->setHealth(to->health() - from->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
-            if (!l[i]->isAvailable()) {   // TODO(ideallx) to fix
+            if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
                 l.removeAt(i);
             } else {
                 QVariant data;
@@ -423,7 +423,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
             sp.from = curHero;
             sp.to = NULL;
             if (l[0]->skill() != 0) {
-                if (l[0]->skill()->isAvailable())
+                if (l[0]->skill()->isWorkNow())
                     curSkill = l[0]->skill();
                 curHero->removeCard(l[0]);
                 l[0]->skill()->skillPrepare(sp);

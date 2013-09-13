@@ -4,11 +4,11 @@
 #include "eventcenter.h"
 
 
-AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect a,
+AttackBuffSkill::AttackBuffSkill(struct AttackBuff ab,
                                  int effectTime)
     : availAble(true),
       theEffectTime(effectTime),
-      abe(a) {
+      ab(ab) {
 }
 
 void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
@@ -20,6 +20,10 @@ void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
 void AttackBuffSkill::skillFlow(struct SkillPara sp) {
     Q_UNUSED(sp);
     skillAct(sp);
+}
+
+struct AttackBuff AttackBuffSkill::buffEffect() {
+    return ab;
 }
 
 enum TriggerTime_t AttackBuffSkill::triggerTime() const {

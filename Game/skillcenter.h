@@ -26,27 +26,28 @@ class SkillBase : public QObject {
     virtual void skillPrepare(struct SkillPara sp) = 0;
     virtual void skillFlow(struct SkillPara sp) = 0;
     virtual enum TriggerTime_t triggerTime() const = 0;
-    virtual bool isAvailable() = 0;
+    virtual bool isWorkNow() = 0;
 };
 
 class AttackBuffSkill : public SkillBase {
  public:
-    AttackBuffSkill(enum AttackBuffEffect a, int effectTime = 1);
+    AttackBuffSkill(struct AttackBuff ab, int effectTime = 1);
 
     virtual void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const;
-    virtual bool isAvailable() { return false; }
+    virtual bool isWorkNow() { return false; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
+    virtual struct AttackBuff buffEffect();
 
     int effectTime() const { return theEffectTime; }
-    enum AttackBuffEffect attackEffect() { return abe; }
+    enum AttackBuffEffect attackEffect() { return ab.abe; }
     bool skillAvailable() { return true; }
 
  private:
+    struct AttackBuff ab;
     bool availAble;
     int theEffectTime;
-    enum AttackBuffEffect abe;
 };
 
 class RangeSkill : public SkillBase {
@@ -56,7 +57,7 @@ class RangeSkill : public SkillBase {
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const { return TriggerInAction; }
-    virtual bool isAvailable() { return true; }
+    virtual bool isWorkNow() { return true; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
     virtual void skillRange(struct SkillPara sp);
 
@@ -71,7 +72,7 @@ class CsMoney : public SkillBase {
     explicit CsMoney(int coin);
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
-    bool isAvailable() { return false; }
+    bool isWorkNow() { return false; }
     enum TriggerTime_t triggerTime() const { return TriggerInAction; }
 
  private:

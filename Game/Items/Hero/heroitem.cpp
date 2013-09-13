@@ -119,3 +119,18 @@ void HeroItem::addHealth(int n) {
         return;
     }
 }
+
+void HeroItem::addNextAttackBouns(struct AttackBuff ab) {
+    tempBuff.append(ab);
+    if (ab.abe == AttackBuffAddDamage) {
+        theAttack += ab.damage;
+    }
+}
+
+void HeroItem::removetAttackBouns() {
+    foreach(struct AttackBuff ab, tempBuff) {
+        if (ab.abe == AttackBuffAddDamage) {
+            theAttack -= ab.damage;
+        }
+    }
+}

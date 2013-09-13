@@ -66,7 +66,7 @@ class CardEngine : public QObject {
 class NoSkill : public SkillBase {
     void skillFlow(struct SkillPara sp) { Q_UNUSED(sp);}
     enum TriggerTime_t triggerTime() { return TriggerNever; }
-    bool isAvailable() { return false; }
+    bool isWorkNow() { return false; }
 };
 
 

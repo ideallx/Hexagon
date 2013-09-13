@@ -38,6 +38,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
 
     int attack() const { return theAttack; }
     void setAttack(int i) { theAttack = i; }
+    void addNextAttackBouns(struct AttackBuff ab);
+    void removetAttackBouns();
 
     QString playerName() const { return thePlayerName; }
     QString heroName() const { return theHeroName; }
@@ -74,6 +76,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<SkillBase*> heroSkills;
     QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
+    QList<struct AttackBuff> tempBuff;
     QList<int> moneyList;
     int theAttack;
     QPixmap* theAvaPic;
