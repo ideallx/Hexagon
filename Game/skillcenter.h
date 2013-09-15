@@ -29,6 +29,7 @@ class SkillBase : public QObject {
     virtual bool isWorkNow() = 0;
     virtual int cdMax() { return 0; }
     virtual int cdNow() { return 0; }
+    virtual enum SkillType_t type() { return SkillActive; }
 };
 
 class AttackBuffSkill : public SkillBase {
@@ -39,6 +40,7 @@ class AttackBuffSkill : public SkillBase {
     virtual void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const;
+
     virtual bool isWorkNow() { return false; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
     virtual struct AttackBuff buffEffect();

@@ -4,6 +4,7 @@
 #include <QGraphicsItem>
 #include <QPainter>
 #include "enums.h"
+#include "skillcenter.h"
 
 class HandCard;
 class SkillBase;

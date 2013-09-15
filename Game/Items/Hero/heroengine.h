@@ -50,4 +50,8 @@ class HeroFactory : public QObject {
     int lineLength;
     int heroAmount;
 };
+
+
+
+
 #endif  // GAME_ITEMS_HERO_HEROENGINE_H_

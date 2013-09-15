@@ -15,6 +15,7 @@
 #include "heroEngine.h"
 #include "cardengine.h"
 #include "mapelement.h"
+#include "normalpackage.h"
 
 #define CONFIGPATH "C:/rsc/config.xml"
 

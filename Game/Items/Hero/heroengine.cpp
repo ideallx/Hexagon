@@ -1,6 +1,8 @@
 #include "heroitem.h"
 #include "heroengine.h"
 #include "backinfo.h"
+#include "eventcenter.h"
+#include "carditem.h"
 
 HeroFactory::HeroFactory(GameBackInfo* gbi)
     : scene(NULL),
@@ -120,3 +122,4 @@ HeroPackageNormal::HeroPackageNormal() {
     hil.append(ss);
     hil.append(bx);
 }
+
