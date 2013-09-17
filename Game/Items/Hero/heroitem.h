@@ -34,7 +34,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QPixmap* avaterPic() const { return theAvaPic; }
     QPixmap* wholePic() const { return theWhoPic; }
     void setAvaterPic(QPixmap* p) { theAvaPic = p;}
-    void setwholePic(QPixmap*p);
+    void setwholePic(QString path);
+    void setSkillPics(QString path);
     QList<QPixmap> skillButtons() { return theSkillButtons; }
 
     int attack() const { return theAttack; }

@@ -70,15 +70,6 @@ class CsNengLiangXianJing : public MapMarkSkill {
 
 
 
-
-
-
-
-
-
-
-
-
 class HsGuiShou : public AttackBuffSkill {
  public:
     HsGuiShou();

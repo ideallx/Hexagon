@@ -16,9 +16,12 @@ HeroItem* HeroFactory::createHero(struct ExternInfo ei) {
     item->setAvaterPic(new QPixmap(innerDir +
                                    getHeroInfoByNum(ei.h).heroName +
                                    "_Head.png"));
-    item->setwholePic(new QPixmap(innerDir +
-                                  getHeroInfoByNum(ei.h).heroName +
-                                  "_Whole.png"));
+    item->setwholePic(QString(innerDir +
+                              getHeroInfoByNum(ei.h).heroName +
+                              "_Whole.png"));
+    item->setSkillPics(QString(innerDir + "skill_icons/" +
+                               getHeroInfoByNum(ei.h).heroName +
+                               "SI*.png"));
     item->setBrush(item->avaterPic()->scaledToWidth(item->rect().width(),
                                                     Qt::SmoothTransformation));
     item->setHeroProperty(getHeroInfoByNum(ei.h));

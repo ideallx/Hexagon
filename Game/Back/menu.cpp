@@ -83,6 +83,8 @@ void GameMenu::interfaceInitial() {
             this, SLOT(chosenCardNumChanged(int)));
     connect(ui->buttonOK, SIGNAL(clicked()),
             this, SLOT(on_buttonOK_clicked()));
+    connect(ui->buttonCancel, &QToolButton::clicked,
+            this, &GameMenu::on_buttonCancel_clicked);
 }
 
 void GameMenu::showMenu(QPoint pos) {
@@ -146,6 +148,7 @@ void GameMenu::setHeroHp(int curHp, int maxHp) {
 }
 
 void GameMenu::setHeroInfo(HeroItem* hero) {
+    infoHero = hero;
     setHeroHp(hero->health(), hero->maxHealth());
     setHeroAvaters(hero->wholePic());
     struct panelInfo pi;
@@ -195,13 +198,20 @@ void GameMenu::setPrompt(QString prompt) {
 }
 
 void GameMenu::on_buttonOK_clicked() {
-    qDebug() << "ok clicked";
+    qDebug() << "Ok Clicked";
     emit buttonOkClicked(toHandCard(cs->getChosenItems()));
 
     if (cardPhase == CardDiscard) {
         cardPhase = CardNormal;
         waitingCardNum = 0;
     }
+}
+
+void GameMenu::on_buttonCancel_clicked() {
+    qDebug() << "Cancel Clicked";
+    emit buttonCancelClicked();
+    cs->clearChosenItems();
+    cs->listCards();
 }
 
 void GameMenu::askForNCards(int n) {

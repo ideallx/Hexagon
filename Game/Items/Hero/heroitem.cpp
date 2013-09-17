@@ -61,23 +61,18 @@ void HeroItem::setHeroProperty(struct HeroInfo hi) {
     baseInfo = hi;
 }
 
-void HeroItem::setwholePic(QPixmap*p) {
-    theWhoPic = p;
-    QPixmap skillPic;
-
-    skillPic = p->copy(0.098*p->width(), 0.895*p->height(),
-                       0.1375*p->width(), 0.1375*p->width());
-    theSkillButtons.append(skillPic);
-
-    skillPic = p->copy(0.352*p->width(), 0.895*p->height(),
-                       0.1375*p->width(), 0.1375*p->width());
-    theSkillButtons.append(skillPic);
-
-    skillPic = p->copy(0.602*p->width(), 0.895*p->height(),
-                       0.1375*p->width(), 0.1375*p->width());
-    theSkillButtons.append(skillPic);
+void HeroItem::setwholePic(QString path) {
+    theWhoPic = new QPixmap(path);
 }
 
+void HeroItem::setSkillPics(QString path) {
+    QPixmap pic = QPixmap(path.replace('*', 1));
+    theSkillButtons.append(pic);
+    pic = QPixmap(path.replace('*', 2));
+    theSkillButtons.append(pic);
+    pic = QPixmap(path.replace('*', 3));
+    theSkillButtons.append(pic);
+}
 
 void HeroItem::addCards(QList<HandCard*> c) {
     theCards += c;

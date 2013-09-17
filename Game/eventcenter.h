@@ -27,6 +27,7 @@ class EventCenter : public QObject {
     void checkHeros();
     bool isGameBegined() { return gameBegined; }
     void askForDiscardCards(int num);
+    bool askForUseCard(HeroItem* hi, enum Card_Normal_Package_Type_t t);
     QList<HandCard*> discardCard(HeroItem* hi, int num);
     void showSkillRange(QGraphicsItem* from, enum MapRangeType_t,
                         int range);
@@ -49,7 +50,8 @@ class EventCenter : public QObject {
         AttackPhase,
         SkillPhase,
         DiscardPhase,
-        FinalPhase
+        FinalPhase,
+        AskForCardPhase
     };
 
  private:
@@ -70,6 +72,8 @@ class EventCenter : public QObject {
     int roundNum;
 
     HeroItem* curHero;
+    HeroItem* useCardHero;
+    enum Card_Normal_Package_Type_t useCardType;
     BackScene *scene;
     GameMenu* menu;
     ItemCollector* ic;
@@ -83,6 +87,7 @@ class EventCenter : public QObject {
 
  signals:
     void roundInfoChanged(QStringList);
+    void cardUsed(bool);
 
  public slots:
     void targetClicked(QPoint p);
@@ -97,6 +102,7 @@ class EventCenter : public QObject {
     void mapClear();
     void showMenu(HeroItem* hi, QPoint p);
     void cardChosen(QList<HandCard*> l);
+    void cardCancel();
 };
 
 #endif  // GAME_EVENTCENTER_H_

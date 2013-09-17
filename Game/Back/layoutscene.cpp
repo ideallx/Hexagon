@@ -66,7 +66,7 @@ void EssenialScene::setContent(struct panelInfo pi) {
     } else {
         text += QString::number(pi.moneyList[0]);
         for (int i = 1; i < pi.moneyList.size(); i++) {
-            text += " + " + QString::number(pi.moneyList[i]);
+            text += "+" + QString::number(pi.moneyList[i]);
         }
     }
     money->setPlainText(text);

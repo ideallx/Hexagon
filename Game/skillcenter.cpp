@@ -77,5 +77,6 @@ void MapMarkSkill::skillRange(SkillPara sp) {
 }
 
 void MapMarkSkill::skillAct(struct SkillPara sp) {
+    Q_UNUSED(sp);
     //mark->setPos(sp.ec);
 }

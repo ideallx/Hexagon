@@ -38,6 +38,7 @@ class GameMenu : public QObject {
     void setHeroInfo(HeroItem* hero);
     void setPrompt(QString prompt);
     void askForNCards(int n);
+    HeroItem* panelHero() { return infoHero; }
 
  private:
     void menuInitial();
@@ -51,6 +52,7 @@ class GameMenu : public QObject {
     };
     enum CardPhase_t cardPhase;
     int waitingCardNum;
+    HeroItem* infoHero;
 
     QList<QPushButton*> menuList;
     QWidget* parent;
@@ -74,6 +76,7 @@ class GameMenu : public QObject {
     void skillClicked();
     void cancelClicked();
     void buttonOkClicked(QList<HandCard*> l);
+    void buttonCancelClicked();
 
  public slots:
     void resizeItems();
@@ -85,6 +88,7 @@ class GameMenu : public QObject {
     void updateCardsArea(QList<HandCard*> cards);
     void chosenCardNumChanged(int n);
     void on_buttonOK_clicked();
+    void on_buttonCancel_clicked();
 };
 
 

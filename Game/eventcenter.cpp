@@ -46,6 +46,8 @@ void EventCenter::setupConnection() {
     connect(menu, SIGNAL(skillClicked()), this, SLOT(skillBegin()));
     connect(menu, SIGNAL(buttonOkClicked(QList<HandCard*>)),
             this, SLOT(cardChosen(QList<HandCard*>)));
+    connect(menu, &GameMenu::buttonCancelClicked,
+            this, &EventCenter::cardCancel);
 }
 
 void EventCenter::gameBegin() {
@@ -120,8 +122,10 @@ void EventCenter::heroAttackPoint(QPoint in) {
 
     HeroItem* hi = ic->getHeroByPoint(in);
 
-    attackAnimate(curHero, hi);
-    attackCalc(curHero, hi);
+    if (!askForUseCard(hi, ShanBi)) {
+        attackAnimate(curHero, hi);
+        attackCalc(curHero, hi);
+    }
 
     scene->clearRange();
     menu->hideAllMenu();
@@ -395,6 +399,16 @@ void EventCenter::askForDiscardCards(int num) {
     curPhase = DiscardPhase;
 }
 
+bool EventCenter::askForUseCard(HeroItem* hi,
+                                enum Card_Normal_Package_Type_t t) {
+    useCardHero = hi;
+    useCardType = t;
+    menu->setPrompt(QString("Please Use Card:"));
+    curPhase = AskForCardPhase;
+
+    return false;
+}
+
 QList<HandCard*> EventCenter::discardCard(HeroItem* hi, int num) {
     QList<HandCard*> cards = hi->cards();
     QList<HandCard*> result;
@@ -429,6 +443,9 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
 
     switch (curPhase) {
     case DiscardPhase:
+        if (curHero != menu->panelHero()) {
+            return;
+        }
         for (int i = 0; i < l.size(); i++) {
             ic->returnCard(l);
             if (!curHero->removeCard(l[i]))
@@ -439,6 +456,9 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         curPhase = FinalPhase;
         beginTurn();
     case BeginPhase:
+        if (curHero != menu->panelHero()) {
+            return;
+        }
         if (l.size() == 1) {
             QVariant data;
             struct SkillPara sp;
@@ -454,10 +474,22 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
                 listHeroInfo(curHero);
             }
         }
+    case AskForCardPhase:
+        if (useCardHero != menu->panelHero()) {
+            return;
+        }
+        if ((l.size() == 1) && (l[0]->cardType() == useCardType)) {
+            emit cardUsed(true);
+        }
     default:
         break;
     }
 }
+
+void EventCenter::cardCancel() {
+    emit cardUsed(false);
+}
+
 
 void EventCenter::birthChosed(QPoint in) {
     setHeroPosition(curHero, in);
