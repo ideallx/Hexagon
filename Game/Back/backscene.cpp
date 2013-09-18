@@ -57,7 +57,7 @@ void BackScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
         strList.append(strGme);
         emit mapElementMovedIn(oldPoint);
     }
-    QString coordinate = tr("coordinates: ") + \
+    QString coordinate = tr("coordinates: ") +
             QString::number(gmeT->point().x()) + tr(", ") +
             QString::number(gmeT->point().y());
     strList.append(coordinate);

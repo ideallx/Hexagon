@@ -9,6 +9,7 @@ class MapMark : public QObject, public QGraphicsEllipseItem {
     MapMark(QString path, int width);
 
     QPoint point() { return thePoint; }
+    void setPoint(QPoint in) { thePoint = in;}
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);

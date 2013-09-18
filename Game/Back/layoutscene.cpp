@@ -104,6 +104,21 @@ void SkillScene::setHeroSkillButton(QList<QPixmap>in) {
     skill3->setBrush(in[2].scaledToHeight(80, Qt::SmoothTransformation));
 }
 
+void SkillScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+    QPointF pos = event->pos();
+    QPointF circleCenter = QPointF(75, 50);
+    QPointF calc = pos - circleCenter;
+
+    for (int i = 0; i < 3; i++) {
+        calc = pos - circleCenter;
+        calc.setX(calc.x()+80*i);
+        if ((calc.x()*calc.x() + calc.y()*calc.y()) < 35*35) {
+            qDebug("Skill %d Used", i+1);
+            emit heroSkillUsed(i+1);
+        }
+    }
+}
+
 /*
 skillButton::skillButton()
 {

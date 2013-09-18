@@ -8,6 +8,7 @@
 
 class HandCard;
 class SkillBase;
+class Equipment;
 
 class HeroItem : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
@@ -30,6 +31,10 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addHealth(int n);
     int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
+
+    bool addEquipment(Equipment* eq);
+    bool removeEquipment(Equipment* eq);
+    QList<Equipment*> equipmentList() { return equipments; }
 
     QPixmap* avaterPic() const { return theAvaPic; }
     QPixmap* wholePic() const { return theWhoPic; }
@@ -80,6 +85,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<QPixmap> theSkillButtons;
     QList<struct AttackBuff> tempBuff;
     QList<int> moneyList;
+    QList<Equipment*> equipments;
     int theAttack;
     QPixmap* theAvaPic;
     QPixmap* theWhoPic;

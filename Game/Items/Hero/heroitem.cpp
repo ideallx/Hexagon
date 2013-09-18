@@ -1,5 +1,6 @@
 #include "heroitem.h"
 #include "skillcenter.h"
+#include "equipment.h"
 
 HeroItem::HeroItem(int lineLength)
     : thePlayerName(tr("player 1")),
@@ -17,6 +18,10 @@ HeroItem::HeroItem(int lineLength)
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setRect(0, 0, lineLength*1.6, lineLength*1.6);
+    equipments.append(NULL);
+    equipments.append(NULL);
+    equipments.append(NULL);
+    equipments.append(NULL);
 }
 
 QRectF HeroItem::boundingRect() const {
@@ -136,4 +141,22 @@ void HeroItem::removetAttackBouns() {
             theAttack -= ab.damage;
         }
     }
+}
+
+bool HeroItem::addEquipment(Equipment* eq) {
+    if (equipments[eq->type()]) {
+        qDebug() << "Aleady Has Same Type Equipment";
+        return false;
+    }
+    equipments[eq->type()] = eq;
+    return true;
+}
+
+bool HeroItem::removeEquipment(Equipment* eq) {
+    if (equipments[eq->type()] != eq) {
+        qDebug() << "Hero Hasn't Such Equipment";
+        return false;
+    }
+    equipments[eq->type()] = NULL;
+    return true;
 }

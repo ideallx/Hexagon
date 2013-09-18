@@ -93,6 +93,12 @@ enum Card_Package_t {
     CardPackage_Extend2
 };
 
+enum EquipmentPackage_t {
+    EquipmentPackage_Normal,
+    EquipmentPackage_Extend1,
+    EquipmentPackage_Extend2
+};
+
 struct HeroInfo {
     int attackRange;
     int moveRange;
@@ -155,5 +161,20 @@ enum SkillType_t {
     SkillPositiveTrigger
 };
 
+enum EquipmentType_t {
+    EquipWeapon,
+    EquipArmor,
+    EquipOmament,
+    EquipShoe
+};
+
+struct EquipmentInfo {
+    enum EquipmentType_t type;
+    enum EquipmentPackage_t eqPackage;
+    int equipmentId;
+    int price;
+    QString path;
+    QString name;
+};
 
 #endif  // GAME_ENUMS_H_

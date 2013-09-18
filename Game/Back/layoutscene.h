@@ -77,15 +77,20 @@ public :
 */
 
 class SkillScene : public QGraphicsScene {
+    Q_OBJECT
  public:
     SkillScene();
     ~SkillScene();
     void setHeroSkillButton(QList<QPixmap>in);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 
  private:
     QGraphicsEllipseItem *skill1;
     QGraphicsEllipseItem *skill2;
     QGraphicsEllipseItem *skill3;
+
+ signals:
+    void heroSkillUsed(int n);
 };
 
 class ViewSendResize : public QGraphicsView {
