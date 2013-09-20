@@ -84,9 +84,9 @@ SkillScene::SkillScene() {
     skills.append(skill3);
 
     for (int i = 0; i < skills.size(); i++) {
-        skills[i]->setRect(0, 0, 70, 70);
+        skills[i]->setRect(0, 0, 80, 80);
         skills[i]->setBrush(Qt::blue);
-        skills[i]->setPos(40+80*i, 15);
+        skills[i]->setPos(20+100*i, 15);
         this->addItem(skills[i]);
     }
 }
@@ -102,16 +102,19 @@ void SkillScene::setHeroSkillButton(QList<QPixmap>in) {
     skill1->setBrush(in[0].scaledToHeight(80, Qt::SmoothTransformation));
     skill2->setBrush(in[1].scaledToHeight(80, Qt::SmoothTransformation));
     skill3->setBrush(in[2].scaledToHeight(80, Qt::SmoothTransformation));
+    skill1->setPen(Qt::NoPen);
+    skill2->setPen(Qt::NoPen);
+    skill3->setPen(Qt::NoPen);
 }
 
 void SkillScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    QPointF pos = event->pos();
-    QPointF circleCenter = QPointF(75, 50);
+    QPointF pos = event->scenePos();
+    QPointF circleCenter = QPointF(55, 50);
     QPointF calc = pos - circleCenter;
 
     for (int i = 0; i < 3; i++) {
         calc = pos - circleCenter;
-        calc.setX(calc.x()+80*i);
+        calc.setX(calc.x()-100*i);
         if ((calc.x()*calc.x() + calc.y()*calc.y()) < 35*35) {
             qDebug("Skill %d Used", i+1);
             emit heroSkillUsed(i+1);
