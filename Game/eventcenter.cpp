@@ -17,7 +17,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
       menu(menu),
       ic(scene->pIc()),
       curPhase(ChooseBirthPhase),
-      gameBegined(false) {
+      gameBegined(false),
+      el(new QEventLoop){
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -138,6 +139,11 @@ void EventCenter::heroAttackPoint(QPoint in) {
                 "And Made" << curHero->attack() << "Damage";
 }
 
+void EventCenter::heroAttackPointH(HeroItem* hi) {
+    heroAttackPoint(hi->point());
+    qDebug() << "Hero Attack Point H";
+}
+
 void EventCenter::skillStraightTest(QPoint in) {
     GameMapElement* gme = ic->getMapElementByPoint(in);
 
@@ -161,7 +167,7 @@ void EventCenter::targetClicked(QPoint in) {
     if (curPhase == MovePhase) {
         heroMoveToPoint(in);
     } else if (curPhase == AttackPhase) {
-        heroAttackPoint(in);
+        //heroAttackPoint(in);
     } else if (curPhase == SkillPhase) {
         skillStraightTest(in);
     } else if (curPhase == ChooseBirthPhase) {
@@ -173,6 +179,15 @@ void EventCenter::attackBegin() {
     scene->clearRange();
     scene->showAttackRange(curHero);
     curPhase = AttackPhase;
+
+    if (el->isRunning())
+        return;
+    connect(scene, &BackScene::rangeClicked,
+            el, &QEventLoop::quit);
+    el->exec();
+
+    askForUseCard(ic->getHeroByPoint(scene->getLastPoint()), ShanBi);
+    heroAttackPoint(scene->getLastPoint());
 }
 
 void EventCenter::mapClear() {
@@ -405,6 +420,10 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     useCardType = t;
     menu->setPrompt(QString("Please Use Card:"));
     curPhase = AskForCardPhase;
+
+    connect(menu, &GameMenu::buttonOkClicked,
+            el, &QEventLoop::quit);
+    el->exec();
 
     return false;
 }

@@ -6,6 +6,7 @@
 #include <QGraphicsItemAnimation>
 #include <QTimeLine>
 #include <QStringList>
+#include <QEventLoop>
 #include "enums.h"
 
 class SkillBase;
@@ -60,6 +61,7 @@ class EventCenter : public QObject {
     void roundEnd();
     void heroMoveToPoint(QPoint p);
     void heroAttackPoint(QPoint p);
+    void heroAttackPointH(HeroItem* hi);
     void attackCalc(HeroItem* from, HeroItem* to);
     void skillStraightTest(QPoint p);
     void birthChosed(QPoint in);
@@ -84,6 +86,8 @@ class EventCenter : public QObject {
 
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
+
+    QEventLoop* el;
 
  signals:
     void roundInfoChanged(QStringList);

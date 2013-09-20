@@ -28,6 +28,7 @@ class BackScene : public QGraphicsScene {
     void showBirthSquare(enum Camp_t camp, QList<QPoint> unshow);
     void showRangePoints(QList<QPoint> lp);
     QList<QPoint> getSkillRange(QPoint o, enum MapRangeType_t, int range);
+    QPoint getLastPoint() { return oldPoint; }
 
  private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
