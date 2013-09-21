@@ -73,7 +73,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAbout">
@@ -142,10 +142,7 @@
   <customwidget>
    <class>BackView</class>
    <extends>QGraphicsView</extends>
-   <header>BackView.h</header>
-   <slots>
-    <signal>sizeChanged(QSize)</signal>
-   </slots>
+   <header>backview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -43,9 +43,8 @@ GameBackInfo::GameBackInfo(QString configFilePath) {
             toString().split(", ");
     QRect rect = QRect(0, 0, temp[0].toInt(), temp[1].toInt());
 
-    backgroundPicture = QPixmap(
-                xml.attributes().value("backpic").
-                toString()).scaled(rect.width(), rect.height());
+    backgroundPicture = QPixmap(configDir + "skinDefault/wallpaper4.jpg").
+            scaled(rect.width(), rect.height());
     if (backgroundPicture.isNull())
         throw QString("no pic");
 

@@ -17,7 +17,7 @@
 #include "mapelement.h"
 #include "normalpackage.h"
 
-#define CONFIGPATH "C:/rsc/config.xml"
+#define CONFIGPATH "../rsc/config.xml"
 
 /**
  * ModeChoose -> GameChoose -> HeroChoose -> BirthChoose -> GameBegin
@@ -75,9 +75,9 @@ void GameProcess::gameChooseScreen() {
 
         QString path;
         if (uig->radioButton_dd1->isChecked())
-            path = "C:/rsc/config.xml";
+            path = "../rsc/config.xml";
         else if (uig->radioButton_dd2->isChecked())
-            path = "c:/rsc/DeathDesert2.xml";
+            path = "../rsc/DeathDesert2.xml";
 
         loadResources(path);
 

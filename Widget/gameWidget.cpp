@@ -11,7 +11,7 @@
 #include "gameprocess.h"
 #include "itemcollector.h"
 
-#define CONFIGPATH "C:/rsc/config.xml"
+#define CONFIGPATH "/home/ideallx/Downloads/rsc/"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
