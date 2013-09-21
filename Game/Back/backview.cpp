@@ -1,4 +1,4 @@
-#include "BackView.h"
+#include "backview.h"
 
 BackView::BackView(QWidget *parent) {
     this->setParent(parent);

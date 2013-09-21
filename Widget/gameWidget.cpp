@@ -3,7 +3,7 @@
 #include "heroitem.h"
 #include "heroengine.h"
 #include "backinfo.h"
-#include "BackView.h"
+#include "backview.h"
 #include "backscene.h"
 #include "menu.h"
 #include "coordinate.h"

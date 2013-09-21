@@ -4,7 +4,7 @@
 #include "itemcollector.h"
 #include "backscene.h"
 #include "menu.h"
-#include "BackView.h"
+#include "backview.h"
 #include "coordinate.h"
 #include "mapelement.h"
 #include "carditem.h"

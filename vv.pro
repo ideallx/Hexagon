@@ -18,7 +18,7 @@ SOURCES  += main.cpp \
     Game/skillcenter.cpp \
     Game/Back/menu.cpp \
     Game/Back/coordinate.cpp \
-    Game/Back/BackView.cpp \
+    Game/Back/backview.cpp \
     Game/Back/backscene.cpp \
     Game/Back/backinfo.cpp \
     Game/Back/layoutscene.cpp \
@@ -44,7 +44,7 @@ HEADERS  += \
     Game/skillcenter.h \
     Game/Back/menu.h \
     Game/Back/coordinate.h \
-    Game/Back/BackView.h \
+    Game/Back/backview.h \
     Game/Back/backscene.h \
     Game/Back/backinfo.h \
     Game/Back/herolabel.h \
