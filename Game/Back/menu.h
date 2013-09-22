@@ -5,7 +5,10 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include <QPushButton>
+#include <QList>
+#include <QDialog>
 #include <QDebug>
+#include <QGroupBox>
 
 #include "ui_front.h"
 
@@ -16,6 +19,15 @@ class HandCard;
 class HeroItem;
 struct heroInfo;
 
+class ChooseMenu : public QDialog {
+ public:
+    explicit ChooseMenu(QDialog* parent = 0);
+    void addRawContent(QList<QGraphicsRectItem*> l);
+
+ private:
+    QGroupBox* qgb;
+    QList<QVBoxLayout*> verticalLayout;
+};
 
 class GameMenu : public QObject {
     Q_OBJECT

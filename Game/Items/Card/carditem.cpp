@@ -16,6 +16,8 @@ QRectF HandCard::boundingRect() const {
 void HandCard::paint(QPainter* p,
                      const QStyleOptionGraphicsItem* i,
                      QWidget* w) {
+    Q_UNUSED(i);
+    Q_UNUSED(w);
     p->setBrush(brush());
     p->drawRect(rect());
 }

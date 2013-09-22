@@ -5,6 +5,23 @@
 #include "layoutscene.h"
 #include "heroitem.h"
 
+ChooseMenu::ChooseMenu(QDialog* parent)
+    : QDialog(parent) {
+    qgb = new QGroupBox(this);
+}
+
+void ChooseMenu::addRawContent(QList<QGraphicsRectItem *> l) {
+    if (l.size() == 0) {
+        return;
+    }
+    QVBoxLayout *qvbl = new QVBoxLayout(qgb);
+    foreach(QGraphicsRectItem* item, l) {
+        QToolButton* qtb = new QToolButton(this);
+        qtb->setIcon(item->brush().texture());
+        qvbl->addWidget(qtb);
+    }
+}
+
 GameMenu::GameMenu(QGraphicsView *parent)
     : cardPhase(CardNormal),
     waitingCardNum(0),
