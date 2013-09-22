@@ -29,6 +29,7 @@ class BackScene : public QGraphicsScene {
     void showRangePoints(QList<QPoint> lp);
     QList<QPoint> getSkillRange(QPoint o, enum MapRangeType_t, int range);
     QPoint getLastPoint() { return oldPoint; }
+    bool isPointInRange(QPoint in) { return rangeList.contains(in); }
 
  private:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
