@@ -87,8 +87,6 @@ class EventCenter : public QObject {
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
 
-    QEventLoop* el;
-
  signals:
     void roundInfoChanged(QStringList);
     void cardUsed(bool);

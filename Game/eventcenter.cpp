@@ -17,8 +17,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
       menu(menu),
       ic(scene->pIc()),
       curPhase(ChooseBirthPhase),
-      gameBegined(false),
-      el(new QEventLoop){
+      gameBegined(false) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -180,11 +179,15 @@ void EventCenter::attackBegin() {
     scene->showAttackRange(curHero);
     curPhase = AttackPhase;
 
-    if (el->isRunning())
+    QEventLoop el;
+    connect(scene, &BackScene::mapElementClicked,
+            &el, &QEventLoop::quit);
+    el.exec();
+
+    if (!scene->isPointInRange(scene->getLastPoint())) {
+        curPhase = BeginPhase;
         return;
-    connect(scene, &BackScene::rangeClicked,
-            el, &QEventLoop::quit);
-    el->exec();
+    }
 
     askForUseCard(ic->getHeroByPoint(scene->getLastPoint()), ShanBi);
     heroAttackPoint(scene->getLastPoint());
@@ -421,9 +424,10 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     menu->setPrompt(QString("Please Use Card:"));
     curPhase = AskForCardPhase;
 
+    QEventLoop el;
     connect(menu, &GameMenu::buttonOkClicked,
-            el, &QEventLoop::quit);
-    el->exec();
+            &el, &QEventLoop::quit);
+    el.exec();
 
     return false;
 }

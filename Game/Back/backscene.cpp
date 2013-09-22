@@ -84,6 +84,7 @@ void BackScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 
     if (rangeList.contains(oldPoint)) {
         emit rangeClicked(oldPoint);
+        emit mapElementClicked(oldPoint);
         return;
     }
 
