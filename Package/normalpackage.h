@@ -6,6 +6,7 @@
 #include "enums.h"
 #include "cardengine.h"
 #include "heroengine.h"
+#include "equipment.h"
 
 class CardPackageNormal : public AbstractCardPackage {
  public:
@@ -28,6 +29,21 @@ class CardPackageNormal : public AbstractCardPackage {
     QHash<int, SkillBase*>skillHash;
     QString path;
     QList<struct CardInfo> cil;
+};
+
+class EquipmentPackageNormal : public AbstractEquipmentPackage {
+ public:
+    EquipmentPackageNormal();
+    int equipmentNumInPackage() { return 12; }
+    enum EquipmentPackage_t equipmentPackageIdicator() {
+        return EquipmentPackage_Normal;
+    }
+    struct EquipmentInfo getEquipmentInfo(int n) {;}
+    QList<struct EquipmentInfo> getAllEquipments() const{ return eil;}
+    Equipment* getEquipmentByEquipmentType(int i){;}
+
+ private:
+    QList<struct EquipmentInfo> eil;
 };
 
 class NoSkill : public SkillBase {

@@ -5,7 +5,7 @@
 #include "layoutscene.h"
 #include "heroitem.h"
 
-ChooseMenu::ChooseMenu(QDialog* parent)
+ChooseMenu::ChooseMenu(QWidget* parent)
     : QDialog(parent) {
     qgb = new QGroupBox(this);
 }

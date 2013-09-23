@@ -22,7 +22,7 @@ class EventCenter : public QObject {
     Q_OBJECT
 
  public:
-    EventCenter(BackScene* scene, GameMenu* menu);
+    EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent = 0);
     QStringList buildRoundInfo();
     void gameBegin();
     void checkHeros();
@@ -86,6 +86,7 @@ class EventCenter : public QObject {
 
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
+    QWidget* parent;
 
  signals:
     void roundInfoChanged(QStringList);
@@ -105,6 +106,7 @@ class EventCenter : public QObject {
     void showMenu(HeroItem* hi, QPoint p);
     void cardChosen(QList<HandCard*> l);
     void cardCancel();
+    void openShop();
 };
 
 #endif  // GAME_EVENTCENTER_H_

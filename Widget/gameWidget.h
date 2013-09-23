@@ -48,6 +48,7 @@ class MainWindow : public QMainWindow {
 
     QAction *endTurnAction;
     QAction *getCardAction;
+    QAction *openShop;
 
     Ui::MainWindow *ui;
 

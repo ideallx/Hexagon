@@ -1,4 +1,3 @@
-
 #include "eventcenter.h"
 #include "mapelement.h"
 #include "mapmark.h"
@@ -81,7 +80,45 @@ CardPackageNormal::CardPackageNormal() {
     }
 }
 
-
+#define BUILDEQUIP const struct EquipmentInfo
+EquipmentPackageNormal::EquipmentPackageNormal() {
+    BUILDEQUIP ajlzx = {EquipShoe, EquipmentPackage_Normal,
+                        AnJingLingZhiXue, 4, "AnJingLingZhiXue"};
+    BUILDEQUIP andzd = {EquipArmor, EquipmentPackage_Normal,
+                        ANuoDeZhiDun, 5, "ANuoDeZhiDun"};
+    BUILDEQUIP blqzj = {EquipOmament, EquipmentPackage_Normal,
+                        BuLanQiZhiJie, 4, "BuLanQiZhiJie"};
+    BUILDEQUIP flksz = {EquipWeapon, EquipmentPackage_Normal,
+                        FuLuoKenShenZhang, 8, "FuLuoKenShenZhang"};
+    BUILDEQUIP jgb   = {EquipWeapon, EquipmentPackage_Normal,
+                        JinGuBang, 7, "JinGuBang"};
+    BUILDEQUIP lqddj = {EquipOmament, EquipmentPackage_Normal,
+                        LaoQianDeDaoJu, 4, "LaoQianDeDaoJu"};
+    BUILDEQUIP lrg   = {EquipWeapon, EquipmentPackage_Normal,
+                        LieRiGong, 7, "LieRiGong"};
+    BUILDEQUIP lwfz  = {EquipWeapon, EquipmentPackage_Normal,
+                        LongWangFaZhang, 6, "LongWangFaZhang"};
+    BUILDEQUIP msypf = {EquipArmor, EquipmentPackage_Normal,
+                        MoShuYangDePiFeng, 6, "MoShuYangDePiFeng"};
+    BUILDEQUIP rszf  = {EquipWeapon, EquipmentPackage_Normal,
+                        RanShaoZhiFu, 6, "RanShaoZhiFu"};
+    BUILDEQUIP xjlbs = {EquipWeapon, EquipmentPackage_Normal,
+                        XueJingLingBiShou, 8, "XueJingLingBiShou"};
+    BUILDEQUIP ysdzf = {EquipArmor, EquipmentPackage_Normal,
+                        YuShenDeZhuFu, 5, "YuShenDeZhuFu"};
+    eil.append(ajlzx);
+    eil.append(andzd);
+    eil.append(blqzj);
+    eil.append(flksz);
+    eil.append(jgb);
+    eil.append(lqddj);
+    eil.append(lrg);
+    eil.append(lwfz);
+    eil.append(msypf);
+    eil.append(rszf);
+    eil.append(xjlbs);
+    eil.append(ysdzf);
+}
 
 CsKuangBao::CsKuangBao()
     : AttackBuffSkill(AttackBuffAddDamage, 1, 6) {

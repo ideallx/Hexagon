@@ -12,12 +12,13 @@
 #include "skillcenter.h"
 
 
-EventCenter::EventCenter(BackScene* scene, GameMenu* menu)
+EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     : scene(scene),
       menu(menu),
       ic(scene->pIc()),
       curPhase(ChooseBirthPhase),
-      gameBegined(false) {
+      gameBegined(false),
+      parent(parent) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -511,6 +512,12 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
 
 void EventCenter::cardCancel() {
     emit cardUsed(false);
+}
+
+void EventCenter::openShop() {
+    ChooseMenu cm(parent);
+    cm.setModal(true);
+    cm.exec();
 }
 
 

@@ -11,7 +11,6 @@ class Equipment {
     Equipment(struct EquipmentInfo ei);
     enum EquipmentType_t type() { return theInfo.type; }
     int price() { return theInfo.price; }
-    QString path() { return theInfo.path; }\
     QString name() { return theInfo.name; }
 
  private:
@@ -21,11 +20,12 @@ class Equipment {
 class AbstractEquipmentPackage : public QObject {
  public:
     virtual int equipmentNumInPackage() = 0;
-    virtual enum Card_Package_t cardPackageIdicator() = 0;
-    virtual struct CardInfo getEquipmentInfo(int n) = 0;
-    virtual QList<struct CardInfo> getAllEquipments() const = 0;
+    virtual enum EquipmentPackage_t equipmentPackageIdicator() = 0;
+    virtual struct EquipmentInfo getEquipmentInfo(int n) = 0;
+    virtual QList<struct EquipmentInfo> getAllEquipments() const = 0;
     virtual Equipment* getEquipmentByEquipmentType(int i) = 0;
 };
+
 
 class EquipmentShop {
  public:

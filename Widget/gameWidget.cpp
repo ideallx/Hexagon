@@ -42,6 +42,7 @@ void MainWindow::gameBegin() {
             this, SLOT(changeRoundInfo(QStringList)));
     connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
     connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
+    connect(openShop, &QAction::triggered, ec, &EventCenter::openShop);
     // changeRoundInfo(ec->buildRoundInfo());
     qDebug() << "initial complete...";
 }
@@ -54,6 +55,9 @@ bool MainWindow::variableInitial() {
 
     getCardAction = new QAction(tr("Get Card"), this);
     ui->mainToolBar->addAction(getCardAction);
+
+    openShop = new QAction(tr("Shop"), this);
+    ui->mainToolBar->addAction(openShop);
 
     itemLabel = new QLabel(this);
     itemLabel->setFixedWidth(200);
@@ -85,7 +89,7 @@ bool MainWindow::sceneInitial() {
     menu = new GameMenu(ui->graphicsView);
     menu->listSlideHeroHead(scene->getHeroListAvaterPath(camp_blue),
                             scene->getHeroListAvaterPath(camp_red));
-    ec = new EventCenter(scene, menu);
+    ec = new EventCenter(scene, menu, this);
     qDebug("backView load complete...");
 
     return true;

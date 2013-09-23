@@ -155,6 +155,21 @@ enum Card_Normal_Package_Type_t {
     ShanBi
 };
 
+enum EquipNormalPackageId_t {
+    AnJingLingZhiXue,
+    ANuoDeZhiDun,
+    BuLanQiZhiJie,
+    FuLuoKenShenZhang,
+    JinGuBang,
+    LaoQianDeDaoJu,
+    LieRiGong,
+    LongWangFaZhang,
+    MoShuYangDePiFeng,
+    RanShaoZhiFu,
+    XueJingLingBiShou,
+    YuShenDeZhuFu
+};
+
 enum SkillType_t {
     SkillActive,
     SkillPositive,
@@ -173,7 +188,6 @@ struct EquipmentInfo {
     enum EquipmentPackage_t eqPackage;
     int equipmentId;
     int price;
-    QString path;
     QString name;
 };
 

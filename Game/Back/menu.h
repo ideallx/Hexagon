@@ -21,7 +21,7 @@ struct heroInfo;
 
 class ChooseMenu : public QDialog {
  public:
-    explicit ChooseMenu(QDialog* parent = 0);
+    explicit ChooseMenu(QWidget* parent = 0);
     void addRawContent(QList<QGraphicsRectItem*> l);
 
  private:
