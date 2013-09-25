@@ -516,6 +516,7 @@ void EventCenter::cardCancel() {
 
 void EventCenter::openShop() {
     ChooseMenu cm(parent);
+    cm.addRawContent(ic->getJunkCards());
     cm.setModal(true);
     cm.exec();
 }

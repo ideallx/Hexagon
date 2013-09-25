@@ -18,6 +18,7 @@ class GameMapElement;
 class HandCard;
 class MapEngine;
 class CampHealth;
+class EquipmentShop;
 struct externInfo;
 
 enum rangeMode_t {
@@ -35,6 +36,7 @@ class ItemCollector {
     void setMapElement(MapEngine *me);
     void setHeroFactory(HeroFactory* hf, QList<struct ExternInfo> info);
     void setCardEngine(CardEngine* ce);
+    void setEquipmentShop(EquipmentShop* es);
     void setCampHealth();
     void addItemsToScene(QGraphicsScene* gs);
     void setPlaySeq(int i) { thePlayerSeq = i; }
@@ -73,6 +75,7 @@ class ItemCollector {
     QList<QPoint> listRange(HeroItem* hero, enum rangeMode_t);
     QList<QPoint> listSpecialRange(QPoint o, enum MapRangeType_t t, int range);
     QList<QPoint> listAllMap();
+    QList<HandCard*> getJunkCards() { return usedCards; }
 
     QPixmap getPixmap();
     QPoint getCooxWithPos(QPointF);
@@ -94,6 +97,7 @@ class ItemCollector {
     void addCardList();
     void addMapElementList();
     void addHeroSide();
+    void addEquipment();
 
     template <typename T>
     static void addListToScene(QList<T> l, QGraphicsScene* s) {
@@ -110,6 +114,7 @@ class ItemCollector {
     MapEngine* me;
     HeroFactory* hf;
     CardEngine* ce;
+    EquipmentShop* es;
 
     int thePlayerSeq;
     int hei;

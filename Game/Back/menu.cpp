@@ -10,24 +10,12 @@ ChooseMenu::ChooseMenu(QWidget* parent)
     qgb = new QGroupBox(this);
 }
 
-void ChooseMenu::addRawContent(QList<QGraphicsRectItem *> l) {
-    if (l.size() == 0) {
-        return;
-    }
-    QVBoxLayout *qvbl = new QVBoxLayout(qgb);
-    foreach(QGraphicsRectItem* item, l) {
-        QToolButton* qtb = new QToolButton(this);
-        qtb->setIcon(item->brush().texture());
-        qvbl->addWidget(qtb);
-    }
-}
-
 GameMenu::GameMenu(QGraphicsView *parent)
     : cardPhase(CardNormal),
-    waitingCardNum(0),
-    parent(parent),
-    heroHeadSlideLength(80),
-    ui(new Ui::Form) {  // uncertain
+      waitingCardNum(0),
+      parent(parent),
+      heroHeadSlideLength(80),
+      ui(new Ui::Form) {  // uncertain
     interfaceInitial();
     menuInitial();
 }

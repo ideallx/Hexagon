@@ -71,7 +71,6 @@ void HeroItem::setwholePic(QString path) {
 }
 
 void HeroItem::setSkillPics(QString path) {
-    qDebug() << path;
     QPixmap pic = QPixmap(path.replace('*', '1'));
     theSkillButtons.append(pic);
     pic = QPixmap(path.replace('1', '2'));

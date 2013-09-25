@@ -1,7 +1,13 @@
+#include <QBrush>
 #include "equipment.h"
 
 Equipment::Equipment(struct EquipmentInfo ei)
     : theInfo(ei) {
+}
+
+void Equipment::setPixmap(QString s) {
+    pix = QPixmap(s).scaledToWidth(200, Qt::SmoothTransformation);
+    setBrush(QBrush(pix));
 }
 
 void EquipmentShop::soldEquipment(Equipment* eq) {

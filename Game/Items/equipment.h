@@ -4,16 +4,21 @@
 #include <QString>
 #include <QList>
 #include <QDebug>
+#include <QPixmap>
+#include <QGraphicsRectItem>
 #include "enums.h"
 
-class Equipment {
+class Equipment : public QGraphicsRectItem {
  public:
     Equipment(struct EquipmentInfo ei);
     enum EquipmentType_t type() { return theInfo.type; }
     int price() { return theInfo.price; }
     QString name() { return theInfo.name; }
+    void setPixmap(QString s);
+    QPixmap getPixmap() { return pix; }
 
  private:
+    QPixmap pix;
     struct EquipmentInfo theInfo;
 };
 
@@ -32,6 +37,12 @@ class EquipmentShop {
     EquipmentShop();
     void soldEquipment(Equipment* eq);
     void recoverEquipment(Equipment* eq);
+    void addEquipmentPackage(AbstractEquipmentPackage* aep);
+
+    const QList<Equipment*> weapons() { return theWeapons; }
+    const QList<Equipment*> armors() { return theArmors; }
+    const QList<Equipment*> omaments() { return theOmaments; }
+    const QList<Equipment*> shoes() { return theShoes; }
 
  private:
     QList<QList<Equipment*> >theLists;

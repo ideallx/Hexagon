@@ -7,6 +7,7 @@
 #include "backinfo.h"
 #include "camphealth.h"
 #include "carditem.h"
+#include "equipment.h"
 
 ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci)
       : gbi(gbii),
@@ -52,6 +53,11 @@ void ItemCollector::setCardEngine(CardEngine* ce) {
     shuffle(unusedCards);
 }
 
+void ItemCollector::setEquipmentShop(EquipmentShop *es) {
+    this->es = es;
+    addEquipment();
+}
+
 void ItemCollector::setCampHealth() {
     CampHealth* ch = new CampHealth(gbi->getConfigDir()+"health2.png");
     campLifes.append(ch);
@@ -95,6 +101,10 @@ void ItemCollector::addMapElementList() {
             elements[j*wid+i]->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
         }
     }
+}
+
+void ItemCollector::addEquipment() {
+
 }
 
 bool ItemCollector::isPointAvailable(QPoint in) {

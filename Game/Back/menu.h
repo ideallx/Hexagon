@@ -9,7 +9,7 @@
 #include <QDialog>
 #include <QDebug>
 #include <QGroupBox>
-
+#include <QSizePolicy>
 #include "ui_front.h"
 
 class EssenialScene;
@@ -22,11 +22,26 @@ struct heroInfo;
 class ChooseMenu : public QDialog {
  public:
     explicit ChooseMenu(QWidget* parent = 0);
-    void addRawContent(QList<QGraphicsRectItem*> l);
+
+    template <typename T>
+    void addRawContent(QList<T> l) {
+        if (l.size() == 0) {
+            return;
+        }
+        QHBoxLayout *qvbl = new QHBoxLayout(qgb);
+        foreach(QGraphicsRectItem* T, l) {
+            QToolButton* qtb = new QToolButton(this);
+            qtb->setIcon(T->brush().texture());
+            qtb->setIconSize(T->rect().size().toSize());
+            qvbl->addWidget(qtb);
+        }
+        verticalLayout.append(qvbl);
+        this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    }
 
  private:
     QGroupBox* qgb;
-    QList<QVBoxLayout*> verticalLayout;
+    QList<QHBoxLayout*> verticalLayout;
 };
 
 class GameMenu : public QObject {
