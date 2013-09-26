@@ -12,7 +12,7 @@
 class Equipment : public QGraphicsRectItem {
  public:
     Equipment(struct EquipmentInfo ei);
-    enum EquipmentType_t type() { return theInfo.type; }
+    int type() { return theInfo.type; }
     int price() { return theInfo.price; }
     QString name() { return theInfo.name; }
     void setPixmap(QString s);

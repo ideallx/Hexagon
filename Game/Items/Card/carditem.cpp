@@ -1,7 +1,7 @@
 #include "carditem.h"
 
 HandCard::HandCard(int t, int id, QString s, SkillBase* sk)
-    : type(t),
+    : typeCard(t),
       theId(id),
       pixmapPath(QPixmap(s)),
       theSkill(sk) {

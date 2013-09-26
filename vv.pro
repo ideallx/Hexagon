@@ -75,14 +75,14 @@ INCLUDEPATH += Game/Items/Card
 INCLUDEPATH += Widget
 INCLUDEPATH += Package
 
-FORMS    += mainwindow.ui \
-    front.ui \
-    gameSetting.ui \
-    enviroSettings.ui \
-    chooseHero.ui \
-    modechoose.ui \
-    chooseGame.ui \
-    chooseBirth.ui
+FORMS    += forms/modechoose.ui \
+    forms/mainwindow.ui \
+    forms/gameSetting.ui \
+    forms/front.ui \
+    forms/enviroSettings.ui \
+    forms/chooseHero.ui \
+    forms/chooseGame.ui \
+    forms/chooseBirth.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

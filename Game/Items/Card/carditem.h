@@ -13,14 +13,14 @@ class HandCard : public QGraphicsRectItem {
     QPixmap pixmap() { return pixmapPath; }
     void setPixmap(QString s) { pixmapPath = s; }
     void setId(int n) { theId = n; }
-    int id() { return theId; }
-    int cardType() { return type; }
+    int type() { return theId; }
+    int cardType() { return typeCard; }
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
     SkillBase* skill() { return theSkill; }
 
  private:
-    int type;
+    int typeCard;
     int theId;
     QPixmap pixmapPath;
     SkillBase* theSkill;

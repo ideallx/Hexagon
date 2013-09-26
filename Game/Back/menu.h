@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QGroupBox>
 #include <QSizePolicy>
+#include <QSignalMapper>
 #include "ui_front.h"
 
 class EssenialScene;
@@ -20,6 +21,7 @@ class HeroItem;
 struct heroInfo;
 
 class ChooseMenu : public QDialog {
+    Q_OBJECT
  public:
     explicit ChooseMenu(QWidget* parent = 0);
 
@@ -34,13 +36,21 @@ class ChooseMenu : public QDialog {
             qtb->setIcon(T->brush().texture());
             qtb->setIconSize(T->rect().size().toSize());
             qvbl->addWidget(qtb);
+            connect(qtb, SIGNAL(clicked()),
+                    mapper, SLOT(map()));
+            mapper->setMapping(qtb, T->type());
+            buttons.append(qtb);
         }
         verticalLayout.append(qvbl);
-        this->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        setFixedSize(300, verticalLayout.size()*200);
     }
 
+ public slots:
+
  private:
+    QSignalMapper *mapper;
     QGroupBox* qgb;
+    QList<QToolButton*> buttons;
     QList<QHBoxLayout*> verticalLayout;
 };
 

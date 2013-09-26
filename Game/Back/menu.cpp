@@ -8,6 +8,10 @@
 ChooseMenu::ChooseMenu(QWidget* parent)
     : QDialog(parent) {
     qgb = new QGroupBox(this);
+    setFixedSize(300, 200);
+    mapper = new QSignalMapper(this);
+    connect(mapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+            this, &QDialog::done);
 }
 
 GameMenu::GameMenu(QGraphicsView *parent)
