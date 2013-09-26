@@ -227,6 +227,12 @@ void GameMenu::askForNCards(int n) {
     ui->buttonOK->setEnabled(false);
     cardPhase = CardDiscard;
     waitingCardNum = n;
+    cs->setOneCardMode(false);
+}
+
+void GameMenu:: beginTurnReset() {
+    resetMenuEnable();
+    cs->setOneCardMode(true);
 }
 
 void GameMenu::chosenCardNumChanged(int n) {

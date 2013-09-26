@@ -135,12 +135,19 @@ void EventCenter::heroAttackPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
 
-    HeroItem* hi = ic->getHeroByPoint(in);
+    targetHero = ic->getHeroByPoint(in);
 
-    if (!askForUseCard(hi, ShanBi)) {
-        attackAnimate(curHero, hi);
-        attackCalc(curHero, hi);
-    }
+    askForUseCard(targetHero, ShanBi);
+    waitingEvent = &EventCenter::hit;
+    return;
+}
+
+void EventCenter::hit(bool got) {
+    if (!got)
+        return;
+
+    attackAnimate(curHero, targetHero);
+    attackCalc(curHero, targetHero);
 
     scene->clearRange();
     menu->hideAllMenu();
@@ -149,7 +156,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
     curPhase = BeginPhase;
 
     qDebug() << curHero->heroName() <<
-                "Attack" << hi->heroName() <<
+                "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
 }
 
@@ -211,7 +218,7 @@ void EventCenter::mapClear() {
 
 void EventCenter::beginTurn() {
     curHero->setPen(QPen(Qt::black, 3));
-    menu->resetMenuEnable();
+    menu->beginTurnReset();
     if (curHero == heroSeq.last()) {
         curHero = heroSeq[0];
         roundEnd();
@@ -425,16 +432,25 @@ void EventCenter::askForDiscardCards(int num) {
 
     menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
     menu->askForNCards(num);
-    curPhase = DiscardPhase;
+
 }
 
 bool EventCenter::askForUseCard(HeroItem* hi,
                                 enum Card_Normal_Package_Type_t t) {
-    useCardHero = hi;
-    useCardType = t;
+    askCard.useCardHero = hi;
+    askCard.useCardType = t;
     menu->setPrompt(QString("Please Use Card:"));
+    menu->setOneCardMode(true);
     curPhase = AskForCardPhase;
+    return false;
+}
 
+bool EventCenter::askForNCard(HeroItem* hi, int n) {
+    askCard.useCardHero = hi;
+    askCard.n = n;
+    menu->setPrompt(QString("Please Use Card:"));
+    menu->setOneCardMode(false);
+    curPhase = AskForCardPhase;
     return false;
 }
 
@@ -484,6 +500,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         menu->updateCardsArea(curHero->cards());
         curPhase = FinalPhase;
         beginTurn();
+        break;
     case BeginPhase:
         if (curHero != menu->panelHero()) {
             return;
@@ -503,20 +520,41 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
                 listHeroInfo(curHero);
             }
         }
+        break;
     case AskForCardPhase:
-        if (useCardHero != menu->panelHero()) {
+        if (askCard.useCardHero != menu->panelHero()) {
             return;
         }
-        if ((l.size() == 1) && (l[0]->cardType() == useCardType)) {
-            emit cardUsed(true);
+        if ((l.size() == 1) && (l[0]->cardType() == askCard.useCardType)) {
+            if (waitingEvent)
+                (this->*waitingEvent)(true);
         }
+        break;
+    case AskForNCards:
+        if (askCard.useCardHero != menu->panelHero()) {
+            return;
+        }
+        if (l.size() == askCard.n) {
+            if (waitingEvent)
+                (this->*waitingEvent)(true);
+        }
+        break;
     default:
         break;
     }
 }
 
 void EventCenter::cardCancel() {
-    emit cardUsed(false);
+    switch (curPhase) {
+    case AskForCardPhase:
+    case AskForNCards:
+    case DiscardPhase:
+        if (waitingEvent)
+            (this->*waitingEvent)(false);
+        break;
+    default:
+        break;
+    }
 }
 
 void EventCenter::openShop() {

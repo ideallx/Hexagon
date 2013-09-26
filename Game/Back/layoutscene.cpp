@@ -141,9 +141,10 @@ QRectF skillButton::boundingRect() const
 }
 */
 
-CardScene::CardScene() {
-    cardGroup = this->createItemGroup(this->items());
-    oldItem = 0;
+CardScene::CardScene()
+    : cardGroup(this->createItemGroup(this->items())),
+      oldItem(0),
+      oneCardMode(true) {
 }
 
 CardScene::~CardScene() {
@@ -185,6 +186,9 @@ void CardScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         oldItem->setPos(oldItem->pos().x(), 0.2*height());
         chosenItem.removeAt(chosenItem.indexOf(oldItem));
     } else {
+        if (oneCardMode) {
+            clearChosenItems();
+        }
         oldItem->setPos(oldItem->pos().x(), 0);
         chosenItem.append(oldItem);
     }

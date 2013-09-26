@@ -29,6 +29,7 @@ class EventCenter : public QObject {
     bool isGameBegined() { return gameBegined; }
     void askForDiscardCards(int num);
     bool askForUseCard(HeroItem* hi, enum Card_Normal_Package_Type_t t);
+    bool askForNCard(HeroItem* hi, int n);
     QList<HandCard*> discardCard(HeroItem* hi, int num);
     void showSkillRange(QGraphicsItem* from, enum MapRangeType_t,
                         int range);
@@ -43,6 +44,7 @@ class EventCenter : public QObject {
     static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
+    void hit(bool got);
 
     enum gamePhase_t {
         BeginPhase,
@@ -52,10 +54,12 @@ class EventCenter : public QObject {
         SkillPhase,
         DiscardPhase,
         FinalPhase,
-        AskForCardPhase
+        AskForCardPhase,
+        AskForNCards
     };
 
  private:
+    typedef void (EventCenter::* Callback)(bool);
     void setupConnection();
     void roundBegin();
     void roundEnd();
@@ -74,8 +78,14 @@ class EventCenter : public QObject {
     int roundNum;
 
     HeroItem* curHero;
-    HeroItem* useCardHero;
-    enum Card_Normal_Package_Type_t useCardType;
+    HeroItem* targetHero;
+
+    struct AskForUseCard_t {
+        HeroItem* useCardHero;
+        enum Card_Normal_Package_Type_t useCardType;
+        int n;
+    } askCard;
+
     BackScene *scene;
     GameMenu* menu;
     ItemCollector* ic;
@@ -83,6 +93,7 @@ class EventCenter : public QObject {
     QList<HeroItem*> heroSeq;
     bool gameBegined;
     int playerHeroNum;
+    Callback waitingEvent;
 
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
@@ -90,7 +101,6 @@ class EventCenter : public QObject {
 
  signals:
     void roundInfoChanged(QStringList);
-    void cardUsed(bool);
 
  public slots:
     void targetClicked(QPoint p);

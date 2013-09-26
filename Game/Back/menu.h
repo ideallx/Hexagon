@@ -75,6 +75,8 @@ class GameMenu : public QObject {
     void setHeroInfo(HeroItem* hero);
     void setPrompt(QString prompt);
     void askForNCards(int n);
+    void beginTurnReset();
+    void setOneCardMode(bool in) { cs->setOneCardMode(in); }
     HeroItem* panelHero() { return infoHero; }
 
  private:
