@@ -11,8 +11,6 @@
 #include "gameprocess.h"
 #include "itemcollector.h"
 
-#define CONFIGPATH "/home/ideallx/Downloads/rsc/"
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
     ui(new Ui::MainWindow) {
@@ -23,7 +21,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     gp = new GameProcess(ui->centralWidget);
     gp->preGame();
-
     connect(gp, SIGNAL(gameStart()), this, SLOT(gameBegin()));
 }
 

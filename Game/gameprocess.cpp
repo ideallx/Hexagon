@@ -17,6 +17,7 @@
 #include "mapelement.h"
 #include "normalpackage.h"
 
+#define GIVEN_CONDITION
 #define CONFIGPATH "../rsc/config.xml"
 
 /**
@@ -44,7 +45,15 @@ void GameProcess::loadResources(QString path) {
 }
 
 void GameProcess::preGame() {
+#ifdef GIVEN_CONDITION
+    loadResources("../rsc/DeathDesert2.xml");
+    for (int i = 0; i < 4; i++) {
+        eil[i].h = rand()%hf->getHeroAmount();
+    }
+    buildGameInfo();
+#else
     modeChooseScreen();
+#endif
 }
 
 void GameProcess::preGameClean() {

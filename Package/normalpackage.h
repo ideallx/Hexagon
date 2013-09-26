@@ -8,6 +8,24 @@
 #include "heroengine.h"
 #include "equipment.h"
 
+class AbstractPackage {
+ public:
+    AbstractPackage(AbstractCardPackage *acp,
+                    AbstractEquipmentPackage *aep,
+                    AbstractHeroPacakage* ahp)
+        : acp(acp),
+          aep(aep),
+          ahp(ahp){;}
+    AbstractCardPackage* getAcp() { return acp; }
+    AbstractEquipmentPackage * getAep() { return aep;}
+    AbstractHeroPacakage* getAhp() { return ahp; }
+ private:
+    AbstractCardPackage* acp;
+    AbstractEquipmentPackage *aep;
+    AbstractHeroPacakage* ahp;
+    // TODO(ideallx) abstractMapmarkPackage* amp;
+};
+
 class CardPackageNormal : public AbstractCardPackage {
  public:
     CardPackageNormal();

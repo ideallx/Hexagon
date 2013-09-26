@@ -8,6 +8,7 @@
 #include <QGraphicsRectItem>
 #include "enums.h"
 
+
 class Equipment : public QGraphicsRectItem {
  public:
     Equipment(struct EquipmentInfo ei);

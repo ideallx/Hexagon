@@ -11,6 +11,7 @@
 #include "cardengine.h"
 #include "skillcenter.h"
 
+#define GIVEN_CONDITION
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     : scene(scene),
@@ -26,9 +27,22 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     setCurHero(heroSeq[0]);
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
+#ifdef GIVEN_CONDITION
+    curPhase = BeginPhase;
+    curHero = heroSeq[0];
+    birthChosed(QPoint(0, 12));
+    curHero = heroSeq[1];
+    birthChosed(QPoint(4, 1));
+    curHero = heroSeq[2];
+    birthChosed(QPoint(0, 14));
+    curHero = heroSeq[3];
+    birthChosed(QPoint(5, 0));
+    curHero = heroSeq[0];
+#else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
     scene->showBirthSquare(curHero->camp(), l);
+#endif
 }
 
 void EventCenter::setupConnection() {

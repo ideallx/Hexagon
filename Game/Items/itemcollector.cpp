@@ -11,15 +11,15 @@
 
 ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci)
       : gbi(gbii),
-      gc(gci),
-      me(NULL),
-      hf(NULL),
-      ce(NULL),
-      thePlayerSeq(0),
-      hei(gbi->getHeightCount()),
-      wid(gbi->getWidthCount()),
-      tempHero(NULL),
-      type(ModeMove) {
+        gc(gci),
+        me(NULL),
+        hf(NULL),
+        ce(NULL),
+        thePlayerSeq(0),
+        hei(gbi->getHeightCount()),
+        wid(gbi->getWidthCount()),
+        tempHero(NULL),
+        type(ModeMove) {
 }
 
 ItemCollector::~ItemCollector() {
