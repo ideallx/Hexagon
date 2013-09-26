@@ -10,6 +10,11 @@ void Equipment::setPixmap(QString s) {
     setBrush(QBrush(pix));
 }
 
+EquipmentShop::EquipmentShop(QString path)
+    : path(path) {
+
+}
+
 void EquipmentShop::soldEquipment(Equipment* eq) {
     if (!theLists[eq->type()].removeOne(eq))
         qDebug() << "Delete Equipment Error";
@@ -21,4 +26,8 @@ void EquipmentShop::recoverEquipment(Equipment* eq) {
         return;
     }
     theLists[eq->type()].append(eq);
+}
+
+void EquipmentShop::addEquipmentPackage(AbstractEquipmentPackage* aep) {
+    epl.append(aep);
 }

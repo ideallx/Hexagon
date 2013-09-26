@@ -148,6 +148,9 @@ void GameProcess::buildGameInfo() {
     ic->setHeroFactory(hf, eil);
     ic->setPlaySeq(playerHeroSeq);
     qDebug() << "ic  load complete...";
+    EquipmentShop* es = new EquipmentShop(gbi->getConfigDir());
+    es->addEquipmentPackage(new EquipmentPackageNormal());
+    ic->setEquipmentShop(es);
     emit gameStart();
 }
 

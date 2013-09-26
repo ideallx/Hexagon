@@ -29,29 +29,30 @@ class AbstractEquipmentPackage : public QObject {
     virtual enum EquipmentPackage_t equipmentPackageIdicator() = 0;
     virtual struct EquipmentInfo getEquipmentInfo(int n) = 0;
     virtual QList<struct EquipmentInfo> getAllEquipments() const = 0;
-    virtual Equipment* getEquipmentByEquipmentType(int i) = 0;
 };
 
 
 class EquipmentShop {
  public:
-    EquipmentShop();
+    EquipmentShop(QString path);
     void soldEquipment(Equipment* eq);
     void recoverEquipment(Equipment* eq);
     void addEquipmentPackage(AbstractEquipmentPackage* aep);
 
+    const QList<QList<Equipment*> > allEquips() { return theLists; }
     const QList<Equipment*> weapons() { return theWeapons; }
     const QList<Equipment*> armors() { return theArmors; }
     const QList<Equipment*> omaments() { return theOmaments; }
     const QList<Equipment*> shoes() { return theShoes; }
 
  private:
+    QString path;
     QList<QList<Equipment*> >theLists;
     QList<Equipment*> theWeapons;
     QList<Equipment*> theArmors;
     QList<Equipment*> theOmaments;
     QList<Equipment*> theShoes;
-
+    QList<AbstractEquipmentPackage*> epl;
 };
 
 #endif // EQUIPMENT_H

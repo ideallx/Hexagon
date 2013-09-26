@@ -104,7 +104,7 @@ void ItemCollector::addMapElementList() {
 }
 
 void ItemCollector::addEquipment() {
-
+    equips = es->allEquips();
 }
 
 bool ItemCollector::isPointAvailable(QPoint in) {

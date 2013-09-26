@@ -178,14 +178,17 @@ void EventCenter::skillStraightTest(QPoint in) {
 }
 
 void EventCenter::targetClicked(QPoint in) {
-    if (curPhase == MovePhase) {
+    switch (curPhase) {
+    case MovePhase:
         heroMoveToPoint(in);
-    } else if (curPhase == AttackPhase) {
-        //heroAttackPoint(in);
-    } else if (curPhase == SkillPhase) {
+    case AttackPhase:
+        heroAttackPoint(in);
+    case SkillPhase:
         skillStraightTest(in);
-    } else if (curPhase == ChooseBirthPhase) {
+    case ChooseBirthPhase:
         birthChosed(in);
+    default:
+        return;
     }
 }
 
@@ -194,18 +197,11 @@ void EventCenter::attackBegin() {
     scene->showAttackRange(curHero);
     curPhase = AttackPhase;
 
-    QEventLoop el;
-    connect(scene, &BackScene::mapElementClicked,
-            &el, &QEventLoop::quit);
-    el.exec();
-
     if (!scene->isPointInRange(scene->getLastPoint())) {
         curPhase = BeginPhase;
         return;
     }
-
-    askForUseCard(ic->getHeroByPoint(scene->getLastPoint()), ShanBi);
-    heroAttackPoint(scene->getLastPoint());
+    curPhase = AttackPhase;
 }
 
 void EventCenter::mapClear() {
@@ -438,11 +434,6 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     useCardType = t;
     menu->setPrompt(QString("Please Use Card:"));
     curPhase = AskForCardPhase;
-
-    QEventLoop el;
-    connect(menu, &GameMenu::buttonOkClicked,
-            &el, &QEventLoop::quit);
-    el.exec();
 
     return false;
 }

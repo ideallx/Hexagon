@@ -82,7 +82,8 @@ FORMS    += forms/modechoose.ui \
     forms/enviroSettings.ui \
     forms/chooseHero.ui \
     forms/chooseGame.ui \
-    forms/chooseBirth.ui
+    forms/chooseBirth.ui \
+    equipmentshop.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

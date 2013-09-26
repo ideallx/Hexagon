@@ -56,9 +56,8 @@ class EquipmentPackageNormal : public AbstractEquipmentPackage {
     enum EquipmentPackage_t equipmentPackageIdicator() {
         return EquipmentPackage_Normal;
     }
-    struct EquipmentInfo getEquipmentInfo(int n) {;}
+    struct EquipmentInfo getEquipmentInfo(int n) { return eil[n];}
     QList<struct EquipmentInfo> getAllEquipments() const{ return eil;}
-    Equipment* getEquipmentByEquipmentType(int i){;}
 
  private:
     QList<struct EquipmentInfo> eil;

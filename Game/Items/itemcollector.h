@@ -19,6 +19,7 @@ class HandCard;
 class MapEngine;
 class CampHealth;
 class EquipmentShop;
+class Equipment;
 struct externInfo;
 
 enum rangeMode_t {
@@ -133,6 +134,8 @@ class ItemCollector {
     QList<HandCard*> unusedCards;
     QList<HandCard*> backCards;
     QList<HandCard*> usedCards;
+
+    QList<QList<Equipment*> > equips;
 };
 
 #endif  // GAME_ITEMS_ITEMCOLLECTOR_H_
