@@ -36,7 +36,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curHero = heroSeq[2];
     birthChosed(QPoint(0, 14));
     curHero = heroSeq[3];
-    birthChosed(QPoint(5, 0));
+    birthChosed(QPoint(4, 0));
     curHero = heroSeq[0];
 #else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
@@ -188,12 +188,16 @@ void EventCenter::targetClicked(QPoint in) {
     switch (curPhase) {
     case MovePhase:
         heroMoveToPoint(in);
+        break;
     case AttackPhase:
         heroAttackPoint(in);
+        break;
     case SkillPhase:
         skillStraightTest(in);
+        break;
     case ChooseBirthPhase:
         birthChosed(in);
+        break;
     default:
         return;
     }
@@ -204,11 +208,10 @@ void EventCenter::attackBegin() {
     scene->showAttackRange(curHero);
     curPhase = AttackPhase;
 
-    if (!scene->isPointInRange(scene->getLastPoint())) {
-        curPhase = BeginPhase;
-        return;
-    }
-    curPhase = AttackPhase;
+//    if (!scene->isPointInRange(scene->getLastPoint())) {
+//        curPhase = BeginPhase;
+//        return;
+//    }
 }
 
 void EventCenter::mapClear() {

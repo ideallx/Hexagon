@@ -24,7 +24,8 @@
  * ModeChoose -> GameChoose -> HeroChoose -> BirthChoose -> GameBegin
  */
 GameProcess::GameProcess(QWidget *p)
-    : parent(p) {
+    : parent(p),
+      playerHeroSeq(0) {
 }
 
 GameProcess::~GameProcess() {
@@ -48,7 +49,10 @@ void GameProcess::preGame() {
 #ifdef GIVEN_CONDITION
     loadResources("../rsc/DeathDesert2.xml");
     for (int i = 0; i < 4; i++) {
-        eil[i].h = rand()%hf->getHeroAmount();
+        struct ExternInfo ei;
+        ei.h =  rand() % hf->getHeroAmount();
+        ei.p = QPoint(300, 300);  // untouchable point
+        eil.append(ei);
     }
     buildGameInfo();
 #else
@@ -57,10 +61,11 @@ void GameProcess::preGame() {
 }
 
 void GameProcess::preGameClean() {
+#ifndef GIVEN_CONDITION
     delete mcw;
     delete uic;
-    // delete uib;
     delete uig;
+#endif
 }
 
 void GameProcess::endGame() {

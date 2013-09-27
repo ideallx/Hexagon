@@ -41,10 +41,10 @@ class GameProcess : public QObject {
     Ui::ChooseGame* uig;
     Ui::ChooseBirth* uib;
 
+    QWidget* parent;
     ModeChooseWidget* mcw;
     int chosenHeroNum;
     int playerHeroSeq;
-    QWidget* parent;
     QDialog *chooseDialog;
     EventCenter* ec;
 

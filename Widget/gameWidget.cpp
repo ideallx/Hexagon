@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->show();
 
     gp = new GameProcess(ui->centralWidget);
-    gp->preGame();
     connect(gp, SIGNAL(gameStart()), this, SLOT(gameBegin()));
+    gp->preGame();
 }
 
 MainWindow::~MainWindow() {
