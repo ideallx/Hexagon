@@ -1,5 +1,5 @@
-#ifndef NORMALPACKAGE_H
-#define NORMALPACKAGE_H
+#ifndef PACKAGE_NORMALPACKAGE_H_
+#define PACKAGE_NORMALPACKAGE_H_
 
 #include <QObject>
 #include "skillcenter.h"
@@ -15,7 +15,7 @@ class AbstractPackage {
                     AbstractHeroPacakage* ahp)
         : acp(acp),
           aep(aep),
-          ahp(ahp){;}
+          ahp(ahp) {;}
     AbstractCardPackage* getAcp() { return acp; }
     AbstractEquipmentPackage * getAep() { return aep;}
     AbstractHeroPacakage* getAhp() { return ahp; }
@@ -57,7 +57,7 @@ class EquipmentPackageNormal : public AbstractEquipmentPackage {
         return EquipmentPackage_Normal;
     }
     struct EquipmentInfo getEquipmentInfo(int n) { return eil[n];}
-    QList<struct EquipmentInfo> getAllEquipments() const{ return eil;}
+    QList<struct EquipmentInfo> getAllEquipments() const { return eil; }
 
  private:
     QList<struct EquipmentInfo> eil;
@@ -68,6 +68,20 @@ class NoSkill : public SkillBase {
     enum TriggerTime_t triggerTime() { return TriggerNever; }
     bool isWorkNow() { return false; }
 };
+
+
+class HeroPackageNormal : public AbstractHeroPacakage {
+ public:
+    HeroPackageNormal();
+    int heroNumInPackage() { return 20; }
+    enum Hero_package_t heroPackageIndicator() { return HeroPackage_Normal; }
+    struct HeroInfo getHeroInfo(int n) { return hil[n]; }
+
+ private:
+    QList<struct HeroInfo> hil;
+};
+
+
 
 
 class CsKuangBao : public AttackBuffSkill {
@@ -112,4 +126,4 @@ class HsGuiShou : public AttackBuffSkill {
 };
 
 
-#endif // NORMALPACKAGE_H
+#endif  // PACKAGE_NORMALPACKAGE_H_

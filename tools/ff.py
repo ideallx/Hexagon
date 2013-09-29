@@ -12,7 +12,7 @@ def checkfiles(directory):
         else:
             if f[-2:] == '.h' or f[-4:] == '.cpp':
                 if(f[:3] != 'ui_') and (f[:4] != "qrc_") and (f[:4] != "moc_"):
-                    os.system(root + "\cpplint.py " + '"' + fname + '"')
+                    os.system("python " + root + "/cpplint.py " + '"' + fname + '"')
 
 
 root = os.getcwd()

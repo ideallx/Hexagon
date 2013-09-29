@@ -8,7 +8,6 @@
 #include "eventcenter.h"
 #include "herolabel.h"
 #include "gameWidget.h"
-#include "itemcollector.h"
 #include "backinfo.h"
 #include "coordinate.h"
 #include "backscene.h"
@@ -54,6 +53,7 @@ void GameProcess::preGame() {
         ei.p = QPoint(300, 300);  // untouchable point
         eil.append(ei);
     }
+    eil[0].h = AnYingZhiRen;
     buildGameInfo();
 #else
     modeChooseScreen();

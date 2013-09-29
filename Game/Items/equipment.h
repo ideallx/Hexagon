@@ -1,5 +1,5 @@
-#ifndef EQUIPMENT_H
-#define EQUIPMENT_H
+#ifndef GAME_ITEMS_EQUIPMENT_H_
+#define GAME_ITEMS_EQUIPMENT_H_
 
 #include <QString>
 #include <QList>
@@ -11,7 +11,7 @@
 
 class Equipment : public QGraphicsRectItem {
  public:
-    Equipment(struct EquipmentInfo ei);
+    explicit Equipment(struct EquipmentInfo ei);
     int type() { return theInfo.type; }
     int price() { return theInfo.price; }
     QString name() { return theInfo.name; }
@@ -34,7 +34,7 @@ class AbstractEquipmentPackage : public QObject {
 
 class EquipmentShop {
  public:
-    EquipmentShop(QString path);
+    explicit EquipmentShop(QString path);
     void soldEquipment(Equipment* eq);
     void recoverEquipment(Equipment* eq);
     void addEquipmentPackage(AbstractEquipmentPackage* aep);
@@ -55,4 +55,4 @@ class EquipmentShop {
     QList<AbstractEquipmentPackage*> epl;
 };
 
-#endif // EQUIPMENT_H
+#endif  // GAME_ITEMS_EQUIPMENT_H_

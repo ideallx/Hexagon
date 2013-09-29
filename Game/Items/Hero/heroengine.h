@@ -21,16 +21,6 @@ class AbstractHeroPacakage : public QObject {
     virtual struct HeroInfo getHeroInfo(int n) = 0;
 };
 
-class HeroPackageNormal : public AbstractHeroPacakage {
- public:
-    HeroPackageNormal();
-    int heroNumInPackage() { return 20; }
-    enum Hero_package_t heroPackageIndicator() { return HeroPackage_Normal; }
-    struct HeroInfo getHeroInfo(int n) { return hil[n]; }
-
- private:
-    QList<struct HeroInfo> hil;
-};
 
 class HeroFactory : public QObject {
  public:

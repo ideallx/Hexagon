@@ -5,7 +5,6 @@
 #include <QPixmap>
 #include <QGraphicsScene>
 #include <QPushButton>
-#include <QList>
 #include <QDialog>
 #include <QDebug>
 #include <QGroupBox>
@@ -22,6 +21,7 @@ struct heroInfo;
 
 class ChooseMenu : public QDialog {
     Q_OBJECT
+
  public:
     explicit ChooseMenu(QWidget* parent = 0);
 

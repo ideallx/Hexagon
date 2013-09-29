@@ -1,5 +1,5 @@
-#ifndef MAPMARK_H
-#define MAPMARK_H
+#ifndef GAME_ITEMS_MAPMARK_H_
+#define GAME_ITEMS_MAPMARK_H_
 
 #include <QGraphicsEllipseItem>
 #include <QPoint>
@@ -17,4 +17,4 @@ class MapMark : public QObject, public QGraphicsEllipseItem {
     QPoint thePoint;
 };
 
-#endif // MAPMARK_H
+#endif  // GAME_ITEMS_MAPMARK_H_

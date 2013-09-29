@@ -11,6 +11,8 @@
 #include "cardengine.h"
 #include "skillcenter.h"
 
+#include "normalpackage.h"
+
 #define GIVEN_CONDITION
 
 EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
@@ -38,6 +40,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curHero = heroSeq[3];
     birthChosed(QPoint(4, 0));
     curHero = heroSeq[0];
+    curHero->addHeroSkill(new HsGuiShou());
 #else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
@@ -143,18 +146,18 @@ void EventCenter::heroAttackPoint(QPoint in) {
 }
 
 void EventCenter::hit(bool got) {
-    if (!got)
-        return;
-
-    attackAnimate(curHero, targetHero);
-    attackCalc(curHero, targetHero);
-
     scene->clearRange();
     menu->hideAllMenu();
     menu->setMoveAble(false);
     menu->setAttackAble(false);
     curPhase = BeginPhase;
 
+    if (!got) {
+        return;
+    }
+
+    attackAnimate(curHero, targetHero);
+    attackCalc(curHero, targetHero);
     qDebug() << curHero->heroName() <<
                 "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
@@ -254,6 +257,7 @@ void EventCenter::endTurn() {
     }
 
     curPhase = FinalPhase;
+    curHero->removetAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End";
 
     beginTurn();
@@ -435,7 +439,6 @@ void EventCenter::askForDiscardCards(int num) {
 
     menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
     menu->askForNCards(num);
-
 }
 
 bool EventCenter::askForUseCard(HeroItem* hi,
@@ -462,7 +465,7 @@ QList<HandCard*> EventCenter::discardCard(HeroItem* hi, int num) {
     QList<HandCard*> result;
     if (cards.size() < num) {
         foreach(HandCard* hc, cards) {
-            if(!hi->removeCard(hc))
+            if (!hi->removeCard(hc))
                 qDebug() << "Discard Cards Error";
             else
                 result.append(hc);

@@ -12,7 +12,6 @@ void Equipment::setPixmap(QString s) {
 
 EquipmentShop::EquipmentShop(QString path)
     : path(path) {
-
 }
 
 void EquipmentShop::soldEquipment(Equipment* eq) {

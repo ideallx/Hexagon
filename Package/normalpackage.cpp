@@ -120,6 +120,78 @@ EquipmentPackageNormal::EquipmentPackageNormal() {
     eil.append(ysdzf);
 }
 
+
+#define HeroInfoStructBuild(Abbr, AR, MR, HP, SEX, Name) \
+    const struct heroInfo HeroPackageNormal::##Abbr = \
+{ AR, MR, HP, SEX, Name }
+
+
+HeroPackageNormal::HeroPackageNormal() {
+    const struct HeroInfo msz  = {1, 4, 8,  sex_female,
+                                  tr("MieShaZhe")};
+    const struct HeroInfo ls   = {1, 2, 8,  sex_male,
+                                  tr("LeiShen")};
+    const struct HeroInfo bzsn = {1, 2, 8,  sex_female,
+                                  tr("BingZhiShengNv")};
+    const struct HeroInfo hwz  = {1, 2, 8,  sex_female,
+                                  tr("HuoWuZhe")};
+    const struct HeroInfo fxz  = {1, 3, 7,  sex_female,
+                                  tr("FengXingZhe")};
+    const struct HeroInfo hyzq = {1, 3, 8,  sex_female,
+                                  tr("HuanYingZhiQiang")};
+    const struct HeroInfo lhyz = {1, 3, 7,  sex_female,
+                                  tr("LingHunYiZhe")};
+    const struct HeroInfo dt   = {1, 4, 8,  sex_male,
+                                  tr("DuTu")};
+    const struct HeroInfo yy   = {1, 3, 8,  sex_male,
+                                  tr("YingYan")};
+    const struct HeroInfo shz  = {1, 4, 8,  sex_female,
+                                  tr("ShiHunZhe")};
+    const struct HeroInfo ayzr = {1, 4, 7,  sex_male,
+                                  tr("AnYingZhiRen")};
+    const struct HeroInfo rz   = {1, 4, 8,  sex_male,
+                                  tr("RenZhe")};
+    const struct HeroInfo xzlz = {1, 4, 8,  sex_male,
+                                  tr("XueZhiLiZhua")};
+    const struct HeroInfo qyz  = {1, 4, 8,  sex_male,
+                                  tr("QiYueZhe")};
+    const struct HeroInfo sqs  = {1, 3, 8,  sex_female,
+                                  tr("ShengQiShi")};
+    const struct HeroInfo zlzj = {1, 3, 9,  sex_male,
+                                  tr("ZhanLanZhiJian")};
+    const struct HeroInfo zkzs = {1, 3, 10, sex_male,
+                                  tr("ZhongKaiZhanShi")};
+    const struct HeroInfo ks   = {1, 3, 9,  sex_male,
+                                  tr("KuangSha")};
+    const struct HeroInfo ss   = {1, 3, 9,  sex_male,
+                                  tr("SiShen")};
+    const struct HeroInfo bx   = {1, 4, 8,  sex_male,
+                                  tr("BaoXiong")};
+
+    hil.append(msz);
+    hil.append(rz);
+    hil.append(ayzr);
+    hil.append(ls);
+    hil.append(sqs);
+    hil.append(ks);
+    hil.append(yy);
+    hil.append(lhyz);
+    hil.append(bzsn);
+    hil.append(zkzs);
+    hil.append(qyz);
+    hil.append(bx);
+    hil.append(shz);
+    hil.append(fxz);
+    hil.append(dt);
+    hil.append(xzlz);
+    hil.append(hyzq);
+    hil.append(ss);
+    hil.append(zlzj);
+    hil.append(hwz);
+}
+
+
+
 CsKuangBao::CsKuangBao()
     : AttackBuffSkill(AttackBuffAddDamage, 1, 6) {
     setObjectName("KuangBao");
@@ -206,7 +278,6 @@ void HsGuiShou::skillAct(SkillPara sp) {
         QList<HandCard*> hcl = sp.ec->discardCard(toHero, 1);
         HeroItem* fromHero = static_cast<HeroItem*>(sp.from);
         fromHero->addCards(hcl);
-
     }
 }
 

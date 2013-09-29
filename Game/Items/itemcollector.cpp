@@ -229,7 +229,7 @@ QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
 
 QList<QPoint> ItemCollector::listAllMap() {  // TODO(ideallx) func point
     QList<QPoint> result;
-    foreach (GameMapElement* gme, elements) {
+    foreach(GameMapElement* gme, elements) {
         QPoint point = gme->point();
         if (!isPointMovable(point) ||
                 !isPointAvailable(point) ||

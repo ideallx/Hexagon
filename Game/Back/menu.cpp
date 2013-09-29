@@ -10,7 +10,8 @@ ChooseMenu::ChooseMenu(QWidget* parent)
     qgb = new QGroupBox(this);
     setFixedSize(300, 200);
     mapper = new QSignalMapper(this);
-    connect(mapper, static_cast<void (QSignalMapper::*)(int)>(&QSignalMapper::mapped),
+    connect(mapper, static_cast<void (QSignalMapper::*)(int)>
+            (&QSignalMapper::mapped),
             this, &QDialog::done);
 }
 
