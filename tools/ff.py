@@ -17,4 +17,3 @@ def checkfiles(directory):
 
 root = os.getcwd()
 checkfiles(os.path.dirname(root))
-os.system("pause")

@@ -99,7 +99,7 @@ void HeroItem::addSkill(SkillBase* s) {
 
 void HeroItem::addHeroSkill(SkillBase* s) {
     if (!heroSkills.contains(s))
-        skills.append(s);
+        heroSkills.append(s);
 }
 
 void HeroItem::removeSkill(SkillBase* s) {
@@ -200,9 +200,9 @@ QList<int> HeroItem::skillCoolDown() {
 
 SkillBase* HeroItem::getHeroSkill(int n) {
     if (n < 0 || n > 3)
-        return heroSkills[n];
-    else
         return NULL;
+    else
+        return heroSkills[n];
 }
 
 void HeroItem::addState(enum HeroState_t state, int lastTime) {

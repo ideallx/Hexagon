@@ -26,12 +26,14 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
     roundNum = 1;
-    setCurHero(heroSeq[0]);
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
 #ifdef GIVEN_CONDITION
     curPhase = BeginPhase;
     curHero = heroSeq[0];
+    curHero->addHeroSkill(new HsGuiShou());
+    curHero->addHeroSkill(new HsGuiShou());
+    curHero->addHeroSkill(new HsGuiShou());
     birthChosed(QPoint(0, 12));
     curHero = heroSeq[1];
     birthChosed(QPoint(4, 1));
@@ -40,9 +42,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curHero = heroSeq[3];
     birthChosed(QPoint(4, 0));
     curHero = heroSeq[0];
-    curHero->addHeroSkill(new HsGuiShou());
-    curHero->addHeroSkill(new HsGuiShou());
-    curHero->addHeroSkill(new HsGuiShou());
+    setCurHero(curHero);
 #else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
