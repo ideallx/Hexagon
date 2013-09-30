@@ -115,7 +115,8 @@ struct ExternInfo {
 
 enum AttackBuffEffect {
     AttackBuffAddDamage,
-    AttackBuffAddStat
+    AttackBuffAddStat,
+    AttackBuffMustHit
 };
 
 struct AttackBuff {
@@ -168,6 +169,13 @@ enum EquipNormalPackageId_t {
     RanShaoZhiFu,
     XueJingLingBiShou,
     YuShenDeZhuFu
+};
+
+enum HeroState_t {
+    HeroStatePhysicalImmune,
+    HeroStateSilence,
+    HeroStateStunned,
+    HeroStateUnmoveable
 };
 
 enum SkillType_t {

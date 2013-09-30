@@ -47,7 +47,11 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int attack() const { return theAttack; }
     void setAttack(int i) { theAttack = i; }
     void addNextAttackBouns(struct AttackBuff ab);
+
     void removetAttackBouns();
+    void endRoundSettle();
+    void reduceAllSkillCooldown();
+    void reduceAllStatesCooldown();
 
     QString playerName() const { return thePlayerName; }
     QString heroName() const { return theHeroName; }
@@ -77,12 +81,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<int> moneyLists() { return moneyList; }
     void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
     void setMoney(int mo) { theMoney = mo; }
-    SkillBase* getHeroSkill(int n) {
-        if (n < 0 || n > 3)
-            return heroSkills[n];
-        else
-            return NULL;
-    }
+    SkillBase* getHeroSkill(int n);
+    void addState(enum HeroState_t state, int lastTime);
 
  private:
     QString thePlayerName;
@@ -93,6 +93,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<struct AttackBuff> tempBuff;
     QList<int> moneyList;
     QList<Equipment*> equipments;
+    QList<QPair<enum HeroState_t, int> > heroStates;
     int theAttack;
     QPixmap* theAvaPic;
     QPixmap* theWhoPic;
@@ -110,6 +111,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int lineLength;
     QColor color;
     int theMoney;
+    bool nextMustHit;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);

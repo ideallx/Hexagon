@@ -23,19 +23,27 @@ class SkillBase : public QObject {
     Q_ENUMS(TriggerTime_t)
 
  public:
+    SkillBase(int cdf, int cdmaxf)
+        : cooldown(cdf),
+          cooldownMax(cdmaxf){;}
     virtual void skillPrepare(struct SkillPara sp) = 0;
     virtual void skillFlow(struct SkillPara sp) = 0;
     virtual enum TriggerTime_t triggerTime() const = 0;
     virtual bool isWorkNow() = 0;
-    virtual int cdMax() { return 0; }
-    virtual int cdNow() { return 0; }
+    virtual int cdMax() { return cooldownMax; }
+    virtual int cdNow() { return cooldown; }
+    void addCoolDown(int n);
     virtual enum SkillType_t type() { return SkillActive; }
+
+ private:
+    int cooldown;
+    int cooldownMax;
 };
 
 class AttackBuffSkill : public SkillBase {
  public:
     AttackBuffSkill(enum AttackBuffEffect abe, int stateType, int probability,
-                    int effectTime = 1);
+                    int cd = 0, int cdmax = 0, int effectTime = 1);
 
     virtual void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
@@ -57,7 +65,8 @@ class AttackBuffSkill : public SkillBase {
 
 class RangeSkill : public SkillBase {
  public:
-    RangeSkill(enum MapRangeType_t, int range);
+    RangeSkill(enum MapRangeType_t, int range,
+               int cd = 0, int cdmax = 0);
 
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
@@ -75,7 +84,7 @@ class RangeSkill : public SkillBase {
 
 class CsMoney : public SkillBase {
  public:
-    explicit CsMoney(int coin);
+    explicit CsMoney(int coin, int cd = 0, int cdmax = 0);
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
     bool isWorkNow() { return false; }
@@ -87,7 +96,7 @@ class CsMoney : public SkillBase {
 
 class MapMarkSkill : public SkillBase {
  public:
-    MapMarkSkill(MapMark* mark, int range);
+    MapMarkSkill(MapMark* mark, int range, int cd = 0, int cdmax = 0);
 
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);

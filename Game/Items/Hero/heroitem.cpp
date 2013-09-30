@@ -13,7 +13,8 @@ HeroItem::HeroItem(int lineLength)
       theMoveRange(2),
       theAttackRange(1),
       lineLength(lineLength),
-      theMoney(0) {
+      theMoney(0),
+      nextMustHit(false) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -132,6 +133,8 @@ void HeroItem::addNextAttackBouns(struct AttackBuff ab) {
     tempBuff.append(ab);
     if (ab.abe == AttackBuffAddDamage) {
         theAttack += ab.damage;
+    } else if (ab.abe == AttackBuffMustHit) {
+        nextMustHit = true;  // just as its 100 percent
     }
 }
 
@@ -139,9 +142,34 @@ void HeroItem::removetAttackBouns() {
     foreach(struct AttackBuff ab, tempBuff) {
         if (ab.abe == AttackBuffAddDamage) {
             theAttack -= ab.damage;
+        } else if (ab.abe == AttackBuffMustHit) {
+            nextMustHit = false;  // just as its 100 percent
         }
     }
 }
+
+void HeroItem::endRoundSettle() {
+    reduceAllSkillCooldown();
+    reduceAllStatesCooldown();
+}
+
+void HeroItem::reduceAllSkillCooldown() {
+    foreach(SkillBase* sb, heroSkills) {
+        if (sb->cdNow() != 0) {
+            sb->addCoolDown(-1);
+        }
+    }
+}
+
+void HeroItem::reduceAllStatesCooldown() {
+    for (int i = 0; i < heroStates.size(); i++) {
+        if (heroStates[i].second == 0)
+            heroStates.removeAt(i);
+        else
+            heroStates[i].second--;
+    }
+}
+
 
 bool HeroItem::addEquipment(Equipment* eq) {
     if (equipments[eq->type()]) {
@@ -167,4 +195,19 @@ QList<int> HeroItem::skillCoolDown() {
         result.append(heroSkills[i]->cdNow());
     }
     return result;
+}
+
+
+SkillBase* HeroItem::getHeroSkill(int n) {
+    if (n < 0 || n > 3)
+        return heroSkills[n];
+    else
+        return NULL;
+}
+
+void HeroItem::addState(enum HeroState_t state, int lastTime) {
+    QPair<enum HeroState_t, int> states;
+    states.first = state;
+    states.second = lastTime;
+    heroStates.append(states);
 }

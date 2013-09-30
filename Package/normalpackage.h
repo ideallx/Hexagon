@@ -115,8 +115,6 @@ class CsNengLiangXianJing : public MapMarkSkill {
     CsNengLiangXianJing(QString path, int width);
 };
 
-
-
 class HsGuiShou : public AttackBuffSkill {
  public:
     HsGuiShou();
@@ -125,5 +123,18 @@ class HsGuiShou : public AttackBuffSkill {
     virtual enum SkillType_t type() { return SkillPositive; }
 };
 
+class HsQianXing : public AttackBuffSkill {
+ public:
+    HsQianXing();
+    void skillAct(struct SkillPara sp);
+    void skillPrepare(SkillPara sp);
+};
+
+class HsLengXue : public AttackBuffSkill {
+ public:
+    HsLengXue();
+    void skillAct(struct SkillPara sp);
+    void skillPrepare(SkillPara sp);
+};
 
 #endif  // PACKAGE_NORMALPACKAGE_H_

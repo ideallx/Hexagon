@@ -193,7 +193,7 @@ HeroPackageNormal::HeroPackageNormal() {
 
 
 CsKuangBao::CsKuangBao()
-    : AttackBuffSkill(AttackBuffAddDamage, 1, 6) {
+    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F) {
     setObjectName("KuangBao");
 }
 
@@ -256,17 +256,8 @@ CsNengLiangXianJing::CsNengLiangXianJing(QString path, int width)
     : MapMarkSkill(new MapMark(path, width), -1) {
 }
 
-
-
-
-
-
-
-
-
-
 HsGuiShou::HsGuiShou()
-    : AttackBuffSkill(AttackBuffAddDamage, 0, 6) {
+    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F) {
     setObjectName("GuiShou");
 }
 
@@ -283,4 +274,35 @@ void HsGuiShou::skillAct(SkillPara sp) {
 
 void HsGuiShou::skillPrepare(SkillPara sp) {
     Q_UNUSED(sp);
+}
+
+
+HsQianXing::HsQianXing()
+    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F) {
+    setObjectName("QianXing");
+}
+
+void HsQianXing::skillAct(struct SkillPara sp) {
+    // get physical immune
+}
+
+void HsQianXing::skillPrepare(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    hi->addNextAttackBouns(buffEffect());
+}
+
+HsLengXue::HsLengXue()
+    : AttackBuffSkill(AttackBuffMustHit, 0, 0x3F) {
+    setObjectName("LengXue");
+}
+
+void HsLengXue::skillAct(struct SkillPara sp) {
+    HeroItem* fr = static_cast<HeroItem*>(sp.from);
+    HeroItem* to = static_cast<HeroItem*>(sp.from);
+    to->addHealth(- fr->attack());  // change to suffer magic
+}
+
+void HsLengXue::skillPrepare(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    hi->addNextAttackBouns(buffEffect());
 }
