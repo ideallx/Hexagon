@@ -50,6 +50,7 @@ void GameMenu::menuInitial() {
     connect(skillButton, SIGNAL(clicked()), this, SIGNAL(skillClicked()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
+    connect(ss, &SkillScene::heroSkillUsed, this, &GameMenu::skillClicked);
 }
 
 GameMenu::~GameMenu() {
@@ -173,6 +174,7 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     pi.moneyList = hero->moneyLists();
     setEssenial(pi);
     setHeroSkillButton(hero->skillButtons());
+    setHeroSkillCoolDown(hero->skillCoolDown());
 }
 
 
@@ -254,4 +256,16 @@ QList<HandCard*> GameMenu::toHandCard(QList<QGraphicsItem*> l) {
         result.append(static_cast<HandCard*>(l[i]));
     }
     return result;
+}
+
+void GameMenu::setHeroSkillCoolDown(QList<int> in) {
+    coolDowns = in;
+}
+
+void GameMenu::skillClicked(int n) {
+    if (coolDowns[n] != 0) {
+        setPrompt("Waiting For CoolDown");
+    } else {
+        emit skillUsed(n);
+    }
 }

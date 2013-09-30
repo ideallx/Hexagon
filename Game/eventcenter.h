@@ -117,6 +117,7 @@ class EventCenter : public QObject {
     void cardChosen(QList<HandCard*> l);
     void cardCancel();
     void openShop();
+    void heroUseSkill(int n);
 };
 
 #endif  // GAME_EVENTCENTER_H_

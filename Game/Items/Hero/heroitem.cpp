@@ -160,3 +160,11 @@ bool HeroItem::removeEquipment(Equipment* eq) {
     equipments[eq->type()] = NULL;
     return true;
 }
+
+QList<int> HeroItem::skillCoolDown() {
+    QList<int> result;
+    for (int i = 0; i < heroSkills.size(); i++) {
+        result.append(heroSkills[i]->cdNow());
+    }
+    return result;
+}

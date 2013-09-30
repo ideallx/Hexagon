@@ -70,6 +70,7 @@ class GameMenu : public QObject {
     void setMap(QGraphicsScene* s);
     void setHeroAvaters(QPixmap *p);
     void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }
+    void setHeroSkillCoolDown(QList<int> in);
     void setHeroHp(int curHp, int maxHp);
     void setEssenial(struct panelInfo pi) { es->setContent(pi); }
     void setHeroInfo(HeroItem* hero);
@@ -83,6 +84,7 @@ class GameMenu : public QObject {
     void menuInitial();
     void interfaceInitial();
     QList<HandCard*> toHandCard(QList<QGraphicsItem*> l);
+    QList<int> coolDowns;
 
     enum CardPhase_t {
         CardNormal,
@@ -112,13 +114,15 @@ class GameMenu : public QObject {
  signals:
     void moveClicked();
     void attackClicked();
-    void skillClicked();
+    void skillButtonClicked();
     void cancelClicked();
     void buttonOkClicked(QList<HandCard*> l);
     void buttonCancelClicked();
+    void skillUsed(int n);
 
  public slots:
     void resizeItems();
+    void skillClicked(int n);
     void listSlideHeroHead(QList<QString>leftColumn,
                            QList<QString>rightColumn);
     void hideAllMenu();

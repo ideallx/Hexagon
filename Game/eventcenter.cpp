@@ -41,6 +41,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     birthChosed(QPoint(4, 0));
     curHero = heroSeq[0];
     curHero->addHeroSkill(new HsGuiShou());
+    curHero->addHeroSkill(new HsGuiShou());
+    curHero->addHeroSkill(new HsGuiShou());
 #else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
@@ -61,11 +63,13 @@ void EventCenter::setupConnection() {
             this, SLOT(mapElementChosen(QPoint)));
     connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
     connect(menu, SIGNAL(attackClicked()), this, SLOT(attackBegin()));
-    connect(menu, SIGNAL(skillClicked()), this, SLOT(skillBegin()));
+    connect(menu, SIGNAL(skillButtonClicked()), this, SLOT(skillBegin()));
     connect(menu, SIGNAL(buttonOkClicked(QList<HandCard*>)),
             this, SLOT(cardChosen(QList<HandCard*>)));
     connect(menu, &GameMenu::buttonCancelClicked,
             this, &EventCenter::cardCancel);
+    connect(menu, &GameMenu::skillUsed,
+            this, &EventCenter::heroUseSkill);
 }
 
 void EventCenter::gameBegin() {
@@ -568,6 +572,18 @@ void EventCenter::openShop() {
     cm.addRawContent(ic->getJunkCards());
     cm.setModal(true);
     cm.exec();
+}
+
+void EventCenter::heroUseSkill(int n) {
+    QVariant data;
+    struct SkillPara sp;
+    sp.ec = this;
+    sp.data = data;
+    sp.from = curHero;
+    sp.to = NULL;
+    SkillBase *skl = curHero->getHeroSkill(n);
+    if (skl->type() == SkillActive)
+        skl->skillPrepare(sp);
 }
 
 

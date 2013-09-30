@@ -42,6 +42,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setwholePic(QString path);
     void setSkillPics(QString path);
     QList<QPixmap> skillButtons() { return theSkillButtons; }
+    QList<int> skillCoolDown();
 
     int attack() const { return theAttack; }
     void setAttack(int i) { theAttack = i; }
@@ -76,6 +77,12 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<int> moneyLists() { return moneyList; }
     void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
     void setMoney(int mo) { theMoney = mo; }
+    SkillBase* getHeroSkill(int n) {
+        if (n < 0 || n > 3)
+            return heroSkills[n];
+        else
+            return NULL;
+    }
 
  private:
     QString thePlayerName;
