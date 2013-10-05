@@ -193,7 +193,7 @@ HeroPackageNormal::HeroPackageNormal() {
 
 
 CsKuangBao::CsKuangBao()
-    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F) {
+    : AttackBuffSkill(AttackBuffAddDamage, 1, 0x3F) {
     setObjectName("KuangBao");
 }
 
@@ -257,7 +257,7 @@ CsNengLiangXianJing::CsNengLiangXianJing(QString path, int width)
 }
 
 HsGuiShou::HsGuiShou()
-    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F) {
+    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F, 0, 0) {
     setObjectName("GuiShou");
 }
 
@@ -278,7 +278,7 @@ void HsGuiShou::skillPrepare(SkillPara sp) {
 
 
 HsQianXing::HsQianXing()
-    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F) {
+    : AttackBuffSkill(AttackBuffAddDamage, 1, 0x3F, 2, 2) {
     setObjectName("QianXing");
 }
 
@@ -292,7 +292,7 @@ void HsQianXing::skillPrepare(SkillPara sp) {
 }
 
 HsLengXue::HsLengXue()
-    : AttackBuffSkill(AttackBuffMustHit, 0, 0x3F) {
+    : AttackBuffSkill(AttackBuffMustHit, 0, 0x3F, 2, 2) {
     setObjectName("LengXue");
 }
 

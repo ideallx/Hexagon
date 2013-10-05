@@ -13,9 +13,10 @@ HeroFactory::HeroFactory(GameBackInfo* gbi)
 
 HeroItem* HeroFactory::createHero(struct ExternInfo ei) {
     HeroItem * item = new HeroItem(lineLength);
-    item->setAvaterPic(new QPixmap(innerDir +
-                                   getHeroInfoByNum(ei.h).heroName +
-                                   "_Head.png"));
+    QString temp = innerDir +
+            getHeroInfoByNum(ei.h).heroName +
+            "_Head.jpg";
+    item->setAvaterPic(new QPixmap(temp));
     item->setwholePic(QString(innerDir +
                               getHeroInfoByNum(ei.h).heroName +
                               "_Whole.png"));

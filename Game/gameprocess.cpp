@@ -54,6 +54,7 @@ void GameProcess::preGame() {
         eil.append(ei);
     }
     eil[0].h = AnYingZhiRen;
+    chosenHeroNum = 0;
     buildGameInfo();
 #else
     modeChooseScreen();

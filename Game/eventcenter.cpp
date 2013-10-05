@@ -32,8 +32,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curPhase = BeginPhase;
     curHero = heroSeq[0];
     curHero->addHeroSkill(new HsGuiShou());
-    curHero->addHeroSkill(new HsGuiShou());
-    curHero->addHeroSkill(new HsGuiShou());
+    curHero->addHeroSkill(new HsQianXing());
+    curHero->addHeroSkill(new HsLengXue());
     birthChosed(QPoint(0, 12));
     curHero = heroSeq[1];
     birthChosed(QPoint(4, 1));
@@ -142,10 +142,14 @@ void EventCenter::heroAttackPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
 
+    waitingEvent = NULL;
     targetHero = ic->getHeroByPoint(in);
 
+    /*
     askForUseCard(targetHero, ShanBi);
     waitingEvent = &EventCenter::hit;
+    */
+    hit(true);
     return;
 }
 
@@ -277,6 +281,9 @@ void EventCenter::roundBegin() {
 
 void EventCenter::roundEnd() {
     qDebug() << "Round" << roundNum << "End";
+    foreach(HeroItem* hi, heroSeq) {
+        hi->endRoundSettle();
+    }
 }
 
 
@@ -371,7 +378,7 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
     QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerAttackBegin);
-    to->setHealth(to->health() - from->attack());
+    to->addHealth(- from->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
             if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
@@ -385,6 +392,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
                 sp.to = to;
                 l[i]->skillPrepare(sp);
                 curSkill = l[i];
+                listHeroInfo(curHero);
             }
         }
     }
@@ -582,8 +590,10 @@ void EventCenter::heroUseSkill(int n) {
     sp.from = curHero;
     sp.to = NULL;
     SkillBase *skl = curHero->getHeroSkill(n);
-    if (skl->type() == SkillActive)
+    if (skl->type() == SkillActive) {
         skl->skillPrepare(sp);
+        listHeroInfo(curHero);
+    }
 }
 
 

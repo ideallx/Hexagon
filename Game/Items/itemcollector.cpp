@@ -302,7 +302,7 @@ QList<QString> ItemCollector::getHeroListAvaterPath(enum Camp_t in) {
 
     for (int i = 0; i < recv.size(); i++) {
         QString temp = gbi->getConfigDir() +
-                "/heros/" + recv[i]->heroName() + "_Head.png";
+                "/heros/" + recv[i]->heroName() + "_Head.jpg";
         result.append(temp);
     }
     return result;

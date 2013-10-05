@@ -47,7 +47,7 @@ void GameMenu::menuInitial() {
 
     connect(moveButton, SIGNAL(clicked()), this, SIGNAL(moveClicked()));
     connect(attackButton, SIGNAL(clicked()), this, SIGNAL(attackClicked()));
-    connect(skillButton, SIGNAL(clicked()), this, SIGNAL(skillClicked()));
+    connect(skillButton, SIGNAL(clicked()), this, SIGNAL(skillButtonClicked()));
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
     connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
     connect(ss, &SkillScene::heroSkillUsed, this, &GameMenu::skillClicked);

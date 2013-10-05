@@ -188,6 +188,7 @@ void CardScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     } else {
         if (oneCardMode) {
             clearChosenItems();
+            listCards();
         }
         oldItem->setPos(oldItem->pos().x(), 0);
         chosenItem.append(oldItem);

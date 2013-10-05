@@ -28,6 +28,7 @@ AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect abe, int stateType,
       theEffectTime(effectTime) {
     ab.abe = abe;
     ab.stateType = stateType;
+    ab.damage = stateType;
     ab.probability = probability;
 }
 
@@ -39,7 +40,6 @@ void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
 }
 
 void AttackBuffSkill::skillFlow(struct SkillPara sp) {
-    Q_UNUSED(sp);
     skillAct(sp);
 }
 
