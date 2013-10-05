@@ -17,6 +17,7 @@ class SkillScene;
 class CardScene;
 class HandCard;
 class HeroItem;
+class SkillBase;
 struct heroInfo;
 
 class ChooseMenu : public QDialog {
@@ -70,7 +71,7 @@ class GameMenu : public QObject {
     void setMap(QGraphicsScene* s);
     void setHeroAvaters(QPixmap *p);
     void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }
-    void setHeroSkillCoolDown(QList<int> in);
+    void setHeroSkillCoolDown(QList<SkillBase*> in);
     void setHeroHp(int curHp, int maxHp);
     void setEssenial(struct panelInfo pi) { es->setContent(pi); }
     void setHeroInfo(HeroItem* hero);
@@ -78,13 +79,15 @@ class GameMenu : public QObject {
     void askForNCards(int n);
     void beginTurnReset();
     void setOneCardMode(bool in) { cs->setOneCardMode(in); }
+    void setSkillTip(int);
+    void setSkillTips();
     HeroItem* panelHero() { return infoHero; }
 
  private:
     void menuInitial();
     void interfaceInitial();
     QList<HandCard*> toHandCard(QList<QGraphicsItem*> l);
-    QList<int> coolDowns;
+    QList<SkillBase*> skills;
 
     enum CardPhase_t {
         CardNormal,

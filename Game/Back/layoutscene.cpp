@@ -122,6 +122,20 @@ void SkillScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
     }
 }
 
+
+QGraphicsEllipseItem* SkillScene::getSkill(int n) {
+    switch (n) {
+    case 0:
+        return skill1;
+    case 1:
+        return skill2;
+    case 2:
+        return skill3;
+    default:
+        return NULL;
+    }
+}
+
 /*
 skillButton::skillButton()
 {

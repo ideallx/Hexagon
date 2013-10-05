@@ -29,7 +29,6 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
 #ifdef GIVEN_CONDITION
-    curPhase = BeginPhase;
     curHero = heroSeq[0];
     curHero->addHeroSkill(new HsGuiShou());
     curHero->addHeroSkill(new HsQianXing());
@@ -43,6 +42,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     birthChosed(QPoint(4, 0));
     curHero = heroSeq[0];
     setCurHero(curHero);
+    curPhase = BeginPhase;
 #else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
@@ -83,6 +83,7 @@ void EventCenter::gameBegin() {
 
     curPhase = BeginPhase;
     gameBegined = true;
+    curHero = heroSeq[0];
     beginTurn();
     menu->setPrompt(tr("Game Begin"));
 }
@@ -239,17 +240,6 @@ void EventCenter::mapClear() {
 }
 
 void EventCenter::beginTurn() {
-    curHero->setPen(QPen(Qt::black, 3));
-    menu->beginTurnReset();
-    if (curHero == heroSeq.last()) {
-        curHero = heroSeq[0];
-        roundEnd();
-        roundNum++;
-        roundBegin();
-    } else {
-        curHero = heroSeq[heroSeq.indexOf(curHero)+1];
-    }
-
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
     menu->setPrompt("");
     getCard(HeroItem::beginTurnGetCards());
@@ -275,6 +265,18 @@ void EventCenter::endTurn() {
     curPhase = FinalPhase;
     curHero->removetAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End";
+
+    menu->beginTurnReset();
+    curHero->setPen(QPen(Qt::black, 3));
+
+    if (curHero == heroSeq.last()) {
+        curHero = heroSeq[0];
+        roundEnd();
+        roundNum++;
+        roundBegin();
+    } else {
+        curHero = heroSeq[heroSeq.indexOf(curHero)+1];
+    }
 
     beginTurn();
 }

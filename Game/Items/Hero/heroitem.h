@@ -83,6 +83,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setMoney(int mo) { theMoney = mo; }
     SkillBase* getHeroSkill(int n);
     void addState(enum HeroState_t state, int lastTime);
+    QList<SkillBase*> getSkills() { return heroSkills; }
     int getMustHitRate() { return nextMustHit; }
 
  private:

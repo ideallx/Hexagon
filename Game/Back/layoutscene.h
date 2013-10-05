@@ -85,6 +85,7 @@ class SkillScene : public QGraphicsScene {
     ~SkillScene();
     void setHeroSkillButton(QList<QPixmap>in);
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    QGraphicsEllipseItem* getSkill(int n);
 
  private:
     QGraphicsEllipseItem *skill1;

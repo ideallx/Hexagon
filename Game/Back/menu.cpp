@@ -174,7 +174,8 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     pi.moneyList = hero->moneyLists();
     setEssenial(pi);
     setHeroSkillButton(hero->skillButtons());
-    setHeroSkillCoolDown(hero->skillCoolDown());
+    setHeroSkillCoolDown(hero->getSkills());
+    setSkillTips();
 }
 
 
@@ -233,7 +234,7 @@ void GameMenu::askForNCards(int n) {
     cs->setOneCardMode(false);
 }
 
-void GameMenu:: beginTurnReset() {
+void GameMenu::beginTurnReset() {
     resetMenuEnable();
     cs->setOneCardMode(true);
 }
@@ -258,14 +259,32 @@ QList<HandCard*> GameMenu::toHandCard(QList<QGraphicsItem*> l) {
     return result;
 }
 
-void GameMenu::setHeroSkillCoolDown(QList<int> in) {
-    coolDowns = in;
+void GameMenu::setHeroSkillCoolDown(QList<SkillBase*> in) {
+    skills = in;
 }
 
 void GameMenu::skillClicked(int n) {
-    if (coolDowns[n] != 0) {
-        setPrompt("Waiting For CoolDown");
+    if (skills.size() == 0) {
+        return;
+    }
+    if (skills[n]->cdNow() != 0) {
+        setPrompt("Waiting For CoolDown: " + skills[n]->objectName());
     } else {
         emit skillUsed(n);
     }
+}
+
+void GameMenu::setSkillTip(int n) {
+    if (skills.size() == 0) {
+        qDebug() << "no skill";
+        return;
+    }
+    ss->getSkill(n)->setToolTip(QString("%1/%2").arg(skills[n]->cdNow()).arg(skills[n]->cdMax()));
+    qDebug() << skills[n]->cdNow() << "/" << skills[n]->cdMax();
+}
+
+void GameMenu::setSkillTips() {
+    setSkillTip(0);
+    setSkillTip(1);
+    setSkillTip(2);
 }
