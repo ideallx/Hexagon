@@ -14,7 +14,7 @@ HeroItem::HeroItem(int lineLength)
       theAttackRange(1),
       lineLength(lineLength),
       theMoney(0),
-      nextMustHit(false) {
+      nextMustHit(0) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -134,7 +134,7 @@ void HeroItem::addNextAttackBouns(struct AttackBuff ab) {
     if (ab.abe == AttackBuffAddDamage) {
         theAttack += ab.damage;
     } else if (ab.abe == AttackBuffMustHit) {
-        nextMustHit = true;  // just as its 100 percent
+        nextMustHit |= ab.probability;  // just as its 100 percent
     }
 }
 
@@ -143,7 +143,7 @@ void HeroItem::removetAttackBouns() {
         if (ab.abe == AttackBuffAddDamage) {
             theAttack -= ab.damage;
         } else if (ab.abe == AttackBuffMustHit) {
-            nextMustHit = false;  // just as its 100 percent
+            nextMustHit = 0;  // just as its 100 percent
         }
     }
 }
@@ -211,3 +211,4 @@ void HeroItem::addState(enum HeroState_t state, int lastTime) {
     states.second = lastTime;
     heroStates.append(states);
 }
+

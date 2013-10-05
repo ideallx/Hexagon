@@ -144,12 +144,18 @@ void EventCenter::heroAttackPoint(QPoint in) {
 
     waitingEvent = NULL;
     targetHero = ic->getHeroByPoint(in);
+    int hitRate = curHero->getMustHitRate();
 
-    /*
-    askForUseCard(targetHero, ShanBi);
-    waitingEvent = &EventCenter::hit;
-    */
-    hit(true);
+    if (hitRate == 0x3F) {
+        hit(true);
+    } else {
+        if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
+            hit(true);
+        } else {
+            askForUseCard(targetHero, ShanBi);
+            waitingEvent = &EventCenter::hit;
+        }
+    }
     return;
 }
 
@@ -161,11 +167,13 @@ void EventCenter::hit(bool got) {
     curPhase = BeginPhase;
 
     if (!got) {
+        curHero->removetAttackBouns();
         return;
     }
 
     attackAnimate(curHero, targetHero);
     attackCalc(curHero, targetHero);
+    curHero->removetAttackBouns();
     qDebug() << curHero->heroName() <<
                 "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
@@ -396,7 +404,6 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
             }
         }
     }
-    curHero->removetAttackBouns();
 }
 
 void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
@@ -545,7 +552,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         }
         if ((l.size() == 1) && (l[0]->cardType() == askCard.useCardType)) {
             if (waitingEvent)
-                (this->*waitingEvent)(true);
+                (this->*waitingEvent)(false);
         }
         break;
     case AskForNCards:
@@ -554,7 +561,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         }
         if (l.size() == askCard.n) {
             if (waitingEvent)
-                (this->*waitingEvent)(true);
+                (this->*waitingEvent)(false);
         }
         break;
     default:
@@ -568,7 +575,7 @@ void EventCenter::cardCancel() {
     case AskForNCards:
     case DiscardPhase:
         if (waitingEvent)
-            (this->*waitingEvent)(false);
+            (this->*waitingEvent)(true);
         break;
     default:
         break;

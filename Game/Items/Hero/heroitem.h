@@ -83,6 +83,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setMoney(int mo) { theMoney = mo; }
     SkillBase* getHeroSkill(int n);
     void addState(enum HeroState_t state, int lastTime);
+    int getMustHitRate() { return nextMustHit; }
 
  private:
     QString thePlayerName;
@@ -111,7 +112,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int lineLength;
     QColor color;
     int theMoney;
-    bool nextMustHit;
+    int nextMustHit;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);

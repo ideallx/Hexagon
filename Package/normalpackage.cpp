@@ -201,7 +201,7 @@ void CsKuangBao::skillAct(struct SkillPara sp) {
     Q_UNUSED(sp);
 }
 
-void CsKuangBao::skillPrepare(SkillPara sp) {
+void CsKuangBao::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     hi->addNextAttackBouns(buffEffect());
 }
@@ -272,7 +272,7 @@ void HsGuiShou::skillAct(SkillPara sp) {
     }
 }
 
-void HsGuiShou::skillPrepare(SkillPara sp) {
+void HsGuiShou::skillClicked(SkillPara sp) {
     Q_UNUSED(sp);
 }
 
@@ -286,9 +286,10 @@ void HsQianXing::skillAct(struct SkillPara sp) {
     // get physical immune
 }
 
-void HsQianXing::skillPrepare(SkillPara sp) {
+void HsQianXing::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     hi->addNextAttackBouns(buffEffect());
+    this->addCoolDown(this->cdMax());
 }
 
 HsLengXue::HsLengXue()
@@ -302,7 +303,8 @@ void HsLengXue::skillAct(struct SkillPara sp) {
     to->addHealth(- fr->attack());  // change to suffer magic
 }
 
-void HsLengXue::skillPrepare(SkillPara sp) {
+void HsLengXue::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     hi->addNextAttackBouns(buffEffect());
+    this->addCoolDown(this->cdMax());
 }

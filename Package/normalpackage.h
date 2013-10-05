@@ -88,7 +88,7 @@ class CsKuangBao : public AttackBuffSkill {
  public:
     CsKuangBao();
     void skillAct(struct SkillPara sp);
-    void skillPrepare(SkillPara sp);
+    void skillClicked(SkillPara sp);
 };
 
 class CsZheYue : public RangeSkill {
@@ -119,7 +119,7 @@ class HsGuiShou : public AttackBuffSkill {
  public:
     HsGuiShou();
     void skillAct(struct SkillPara sp);
-    void skillPrepare(SkillPara sp);
+    void skillClicked(SkillPara sp);
     virtual enum SkillType_t type() { return SkillPositive; }
 };
 
@@ -127,14 +127,14 @@ class HsQianXing : public AttackBuffSkill {
  public:
     HsQianXing();
     void skillAct(struct SkillPara sp);
-    void skillPrepare(SkillPara sp);
+    void skillClicked(SkillPara sp);
 };
 
 class HsLengXue : public AttackBuffSkill {
  public:
     HsLengXue();
     void skillAct(struct SkillPara sp);
-    void skillPrepare(SkillPara sp);
+    void skillClicked(SkillPara sp);
 };
 
 #endif  // PACKAGE_NORMALPACKAGE_H_

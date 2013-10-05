@@ -116,7 +116,7 @@ void SkillScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         calc = pos - circleCenter;
         calc.setX(calc.x()-100*i);
         if ((calc.x()*calc.x() + calc.y()*calc.y()) < 35*35) {
-            qDebug("Skill %d Used", i+1);
+            qDebug("Skill %d Clicked", i+1);
             emit heroSkillUsed(i);
         }
     }

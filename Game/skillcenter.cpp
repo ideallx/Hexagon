@@ -33,14 +33,16 @@ AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect abe, int stateType,
 }
 
 void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
-    Q_UNUSED(sp);
+    skillClicked(sp);
     if (theEffectTime <= 0)
         availAble = false;
     theEffectTime--;
+    qDebug() << objectName() << "triggered";
 }
 
 void AttackBuffSkill::skillFlow(struct SkillPara sp) {
     skillAct(sp);
+    qDebug() << objectName() << "acted";
 }
 
 struct AttackBuff AttackBuffSkill::buffEffect() {
@@ -60,10 +62,12 @@ RangeSkill::RangeSkill(enum MapRangeType_t t, int range,
 
 void RangeSkill::skillFlow(struct SkillPara sp) {
     skillAct(sp);
+    qDebug() << objectName() << "acted";
 }
 
 void RangeSkill::skillPrepare(struct SkillPara sp) {
     skillRange(sp);
+    qDebug() << objectName() << "triggered";
 }
 
 void RangeSkill::skillRange(struct SkillPara sp) {

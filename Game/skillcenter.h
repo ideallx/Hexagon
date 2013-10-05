@@ -45,12 +45,13 @@ class AttackBuffSkill : public SkillBase {
     AttackBuffSkill(enum AttackBuffEffect abe, int stateType, int probability,
                     int cd = 0, int cdmax = 0, int effectTime = 1);
 
-    virtual void skillPrepare(struct SkillPara sp);
+    void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
     enum TriggerTime_t triggerTime() const;
 
     virtual bool isWorkNow() { return false; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
+    virtual void skillClicked(struct SkillPara sp) { Q_UNUSED(sp);}
     virtual struct AttackBuff buffEffect();
 
     int effectTime() const { return theEffectTime; }
