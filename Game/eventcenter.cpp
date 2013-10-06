@@ -164,12 +164,33 @@ void EventCenter::hit(bool got) {
     scene->clearRange();
     menu->hideAllMenu();
     menu->setMoveAble(false);
-    menu->setAttackAble(false);
+    if (!curHero->isAttackAble()) {
+        menu->setAttackAble(false);
+    }
     curPhase = BeginPhase;
 
     if (!got) {
         curHero->removetAttackBouns();
         return;
+    } else {
+        QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerAttackHit);
+        if (l.size() != 0) {
+            for (int i = 0; i < l.size(); i++) {
+//                if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
+//                    l.removeAt(i);
+//                } else {
+                    QVariant data;
+                    struct SkillPara sp;
+                    sp.ec = this;
+                    sp.data = data;
+                    sp.from = curHero;
+                    sp.to = targetHero;
+                    l[i]->skillFlow(sp);
+                    curSkill = l[i];
+                    listHeroInfo(curHero);
+//                }
+            }
+        }
     }
 
     attackAnimate(curHero, targetHero);
@@ -245,6 +266,7 @@ void EventCenter::beginTurn() {
     getCard(HeroItem::beginTurnGetCards());
     curPhase = BeginPhase;
     setCurHero(curHero);
+    curHero->beginTurnSettle();
     emit roundInfoChanged(buildRoundInfo());
 }
 

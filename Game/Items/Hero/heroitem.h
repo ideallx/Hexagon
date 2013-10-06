@@ -49,6 +49,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addNextAttackBouns(struct AttackBuff ab);
 
     void removetAttackBouns();
+    void beginTurnSettle();
     void endRoundSettle();
     void reduceAllSkillCooldown();
     void reduceAllStatesCooldown();
@@ -85,6 +86,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addState(enum HeroState_t state, int lastTime);
     QList<SkillBase*> getSkills() { return heroSkills; }
     int getMustHitRate() { return nextMustHit; }
+    bool isAttackAble() { return hitCount; }
 
  private:
     QString thePlayerName;
@@ -114,6 +116,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QColor color;
     int theMoney;
     int nextMustHit;
+    int hitCount;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);

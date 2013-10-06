@@ -104,7 +104,8 @@ void ItemCollector::addMapElementList() {
 }
 
 void ItemCollector::addEquipment() {
-    equips = es->allEquips();
+    equips = es->generateEquipment();
+    qDebug() << "Equipment:" << equips[0][0]->name();
 }
 
 bool ItemCollector::isPointAvailable(QPoint in) {

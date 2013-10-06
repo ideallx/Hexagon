@@ -14,7 +14,8 @@ HeroItem::HeroItem(int lineLength)
       theAttackRange(1),
       lineLength(lineLength),
       theMoney(0),
-      nextMustHit(0) {
+      nextMustHit(0),
+      hitCount(1) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -135,6 +136,8 @@ void HeroItem::addNextAttackBouns(struct AttackBuff ab) {
         theAttack += ab.damage;
     } else if (ab.abe == AttackBuffMustHit) {
         nextMustHit |= ab.probability;  // just as its 100 percent
+    } else if (ab.abe == AttackBuffMoreAttack) {
+        hitCount += ab.damage;
     }
 }
 
@@ -146,6 +149,11 @@ void HeroItem::removetAttackBouns() {
             nextMustHit = 0;  // just as its 100 percent
         }
     }
+    hitCount--;
+}
+
+void HeroItem::beginTurnSettle() {
+    hitCount = 1;
 }
 
 void HeroItem::endRoundSettle() {
@@ -169,7 +177,6 @@ void HeroItem::reduceAllStatesCooldown() {
             heroStates[i].second--;
     }
 }
-
 
 bool HeroItem::addEquipment(Equipment* eq) {
     if (equipments[eq->type()]) {

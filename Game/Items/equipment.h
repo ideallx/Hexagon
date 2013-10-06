@@ -38,6 +38,8 @@ class EquipmentShop {
     void soldEquipment(Equipment* eq);
     void recoverEquipment(Equipment* eq);
     void addEquipmentPackage(AbstractEquipmentPackage* aep);
+    Equipment* createEquipment(struct EquipmentInfo ei);
+    QList<QList<Equipment *> > generateEquipment();
 
     const QList<QList<Equipment*> > allEquips() { return theLists; }
     const QList<Equipment*> weapons() { return theWeapons; }

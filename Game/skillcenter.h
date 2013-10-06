@@ -47,7 +47,7 @@ class AttackBuffSkill : public SkillBase {
 
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
-    enum TriggerTime_t triggerTime() const;
+    virtual enum TriggerTime_t triggerTime() const;
 
     virtual bool isWorkNow() { return false; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
@@ -80,6 +80,12 @@ class RangeSkill : public SkillBase {
  private:
     enum MapRangeType_t type;
     int range;
+};
+
+class SufferSkill : public SkillBase {
+ public:
+    SufferSkill(enum SufferType_t t, int floor,
+                int cd = 0, int cdmax = 0);
 };
 
 

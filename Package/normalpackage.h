@@ -137,4 +137,11 @@ class HsLengXue : public AttackBuffSkill {
     void skillClicked(SkillPara sp);
 };
 
+class HsBaoNu : public AttackBuffSkill {
+ public:
+    HsBaoNu();
+    void skillAct(struct SkillPara sp);
+    void skillClicked(SkillPara sp);
+};
+
 #endif  // PACKAGE_NORMALPACKAGE_H_

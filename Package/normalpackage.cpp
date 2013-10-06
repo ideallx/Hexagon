@@ -283,6 +283,7 @@ HsQianXing::HsQianXing()
 }
 
 void HsQianXing::skillAct(struct SkillPara sp) {
+    Q_UNUSED(sp);
     // get physical immune
 }
 
@@ -304,6 +305,21 @@ void HsLengXue::skillAct(struct SkillPara sp) {
 }
 
 void HsLengXue::skillClicked(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    hi->addNextAttackBouns(buffEffect());
+    this->addCoolDown(this->cdMax());
+}
+
+HsBaoNu::HsBaoNu()
+    : AttackBuffSkill(AttackBuffMoreAttack, 2, 0x3F, 2, 2) {
+    setObjectName("BaoNu");
+}
+
+void HsBaoNu::skillAct(struct SkillPara sp) {
+    Q_UNUSED(sp);
+}
+
+void HsBaoNu::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     hi->addNextAttackBouns(buffEffect());
     this->addCoolDown(this->cdMax());

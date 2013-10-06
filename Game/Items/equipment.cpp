@@ -12,6 +12,11 @@ void Equipment::setPixmap(QString s) {
 
 EquipmentShop::EquipmentShop(QString path)
     : path(path) {
+    QList<Equipment*> epl;
+    theLists.append(epl);
+    theLists.append(epl);
+    theLists.append(epl);
+    theLists.append(epl);
 }
 
 void EquipmentShop::soldEquipment(Equipment* eq) {
@@ -29,4 +34,19 @@ void EquipmentShop::recoverEquipment(Equipment* eq) {
 
 void EquipmentShop::addEquipmentPackage(AbstractEquipmentPackage* aep) {
     epl.append(aep);
+}
+
+Equipment *EquipmentShop::createEquipment(struct EquipmentInfo ei) {
+    Equipment* ep = new Equipment(ei);
+    theLists[ep->type()].append(ep);
+    return ep;
+}
+
+QList<QList<Equipment*> > EquipmentShop::generateEquipment() {
+    foreach(AbstractEquipmentPackage *aep, epl) {
+        foreach(struct EquipmentInfo ei, aep->getAllEquipments()) {
+            createEquipment(ei);
+        }
+    }
+    return theLists;
 }

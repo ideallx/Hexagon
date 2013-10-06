@@ -276,11 +276,9 @@ void GameMenu::skillClicked(int n) {
 
 void GameMenu::setSkillTip(int n) {
     if (skills.size() == 0) {
-        qDebug() << "no skill";
         return;
     }
     ss->getSkill(n)->setToolTip(QString("%1/%2").arg(skills[n]->cdNow()).arg(skills[n]->cdMax()));
-    qDebug() << skills[n]->cdNow() << "/" << skills[n]->cdMax();
 }
 
 void GameMenu::setSkillTips() {

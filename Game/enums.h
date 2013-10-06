@@ -32,6 +32,7 @@ enum TriggerTime_t {
     TriggerMoveBegin,
     TriggerMoveEnd,
     TriggerAttackBegin,
+    TriggerAttackHit,
     TriggerAttackEnd,
     TriggerOtherSkillBegin,
     TriggerOtherSkillEnd,
@@ -116,7 +117,8 @@ struct ExternInfo {
 enum AttackBuffEffect {
     AttackBuffAddDamage,
     AttackBuffAddStat,
-    AttackBuffMustHit
+    AttackBuffMustHit,
+    AttackBuffMoreAttack
 };
 
 struct AttackBuff {
@@ -189,6 +191,11 @@ enum EquipmentType_t {
     EquipArmor,
     EquipOmament,
     EquipShoe
+};
+
+enum SufferType_t {
+    SufferPhysical,
+    SufferMagic
 };
 
 struct EquipmentInfo {
