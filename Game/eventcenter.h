@@ -17,6 +17,7 @@ class GameCoordinate;
 class HeroItem;
 class GameMapElement;
 class HandCard;
+class ArtificialIntellegence;
 
 class EventCenter : public QObject {
     Q_OBJECT
@@ -98,6 +99,8 @@ class EventCenter : public QObject {
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
     QWidget* parent;
+    QList<ArtificialIntellegence*> AIs;
+    ArtificialIntellegence* curAI;
 
  signals:
     void roundInfoChanged(QStringList);

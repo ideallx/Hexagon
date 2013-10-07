@@ -10,7 +10,7 @@
 #include "carditem.h"
 #include "cardengine.h"
 #include "skillcenter.h"
-
+#include "artificialintellegence.h"
 #include "normalpackage.h"
 
 #define GIVEN_CONDITION
@@ -21,7 +21,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
       ic(scene->pIc()),
       curPhase(ChooseBirthPhase),
       gameBegined(false),
-      parent(parent) {
+      parent(parent),
+      curAI(NULL) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -34,12 +35,39 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curHero->addHeroSkill(new HsQianXing());
     curHero->addHeroSkill(new HsLengXue());
     birthChosed(QPoint(0, 12));
+    AIs.append(NULL);  // player 1 do not need AI = =
+
     curHero = heroSeq[1];
     birthChosed(QPoint(4, 1));
+    ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
+    AIs.append(AI);
+
     curHero = heroSeq[2];
     birthChosed(QPoint(0, 14));
+    AI = new ArtificialIntellegence(curHero);
+    AIs.append(AI);
+
     curHero = heroSeq[3];
     birthChosed(QPoint(4, 0));
+    AI = new ArtificialIntellegence(curHero);
+    AIs.append(AI);
+
+    for (int i = 0; i < heroSeq.size(); i++) {
+        if (AIs[i] != NULL) {
+            if (i % 2) {
+                for (int j = 0; j < heroSeq.size(); j+=2) {
+                    AIs[i]->addEnemy(heroSeq[j]);
+                    AIs[i]->addFriend(heroSeq[j+1]);
+                }
+            } else {
+                for (int j = 1; j < heroSeq.size(); j+=2) {
+                    AIs[i]->addEnemy(heroSeq[j]);
+                    AIs[i]->addFriend(heroSeq[j-1]);
+                }
+            }
+        }
+    }
+
     curHero = heroSeq[0];
     setCurHero(curHero);
     curPhase = BeginPhase;
@@ -261,13 +289,18 @@ void EventCenter::mapClear() {
 }
 
 void EventCenter::beginTurn() {
-    qDebug() << curHero->heroName() + "'s" << "Turn Begin";
     menu->setPrompt("");
+    qDebug() << curHero->heroName() + "'s" << "Turn Begin";
+
     getCard(HeroItem::beginTurnGetCards());
-    curPhase = BeginPhase;
     setCurHero(curHero);
     curHero->beginTurnSettle();
+    curPhase = BeginPhase;
     emit roundInfoChanged(buildRoundInfo());
+
+    if (curAI != NULL) {
+        //heroMoveToPoint(QPoint(2, 6));
+    }
 }
 
 void EventCenter::endTurn() {
@@ -292,7 +325,6 @@ void EventCenter::endTurn() {
     curHero->setPen(QPen(Qt::black, 3));
 
     if (curHero == heroSeq.last()) {
-        curHero = heroSeq[0];
         roundEnd();
         roundNum++;
         roundBegin();
@@ -347,6 +379,7 @@ void EventCenter::setCurHero(HeroItem* hi) {
     curHero = hi;
     curHero->setPen(QPen(Qt::darkMagenta, 3));
     listHeroInfo(curHero);
+    curAI = AIs[heroSeq.indexOf(curHero)];
 }
 
 void EventCenter::listHeroInfo(HeroItem* hi) {

@@ -35,7 +35,8 @@ SOURCES  += main.cpp \
     Widget/gameWidget.cpp \
     Game/Items/mapmark.cpp \
     Package/normalpackage.cpp \
-    Game/Items/equipment.cpp
+    Game/Items/equipment.cpp \
+    Game/artificialintellegence.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -63,7 +64,8 @@ HEADERS  += \
     Game/enums.h \
     Game/Items/mapmark.h \
     Package/normalpackage.h \
-    Game/Items/equipment.h
+    Game/Items/equipment.h \
+    Game/artificialintellegence.h
 
 INCLUDEPATH += include
 INCLUDEPATH += .
