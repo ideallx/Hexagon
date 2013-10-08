@@ -1,3 +1,5 @@
+#include <QDebug>
+#include <QStack>
 #include "coordinate.h"
 #include "backinfo.h"
 
@@ -11,12 +13,12 @@ GameCoordinate::GameCoordinate(GameBackInfo* gbi) {
     halfSqrt3 = 0.86;
 
     for (int i = 0; i < widthCount; i++) {
-        QList<struct RecursivePoint_t> list;
+        QList<RecursivePoint_t*> list;
         for (int j = 0; j < heightCount; j++) {
-            struct RecursivePoint_t point;
-            point.parent = outPoint();
-            point.self = QPoint(i, j);
-            point.state = NotChecked;
+            RecursivePoint_t* point = new RecursivePoint_t();
+            point->parent = outPoint();
+            point->self = QPoint(i, j);
+            point->state = NotChecked;
             list.append(point);
         }
         points.append(list);
@@ -24,15 +26,15 @@ GameCoordinate::GameCoordinate(GameBackInfo* gbi) {
 }
 
 void GameCoordinate::clearPoints() {
-    foreach(QList<struct RecursivePoint_t> list, points) {
-        foreach(struct RecursivePoint_t point, list) {
-            point.parent = outPoint();
-            point.state = NotChecked;
+    foreach(QList<RecursivePoint_t*> list, points) {
+        foreach(RecursivePoint_t *point, list) {
+            point->parent = outPoint();
+            point->state = NotChecked;
         }
     }
 }
 
-GameCoordinate::RecursivePoint_t GameCoordinate::getStruct(QPoint in) {
+GameCoordinate::RecursivePoint_t* GameCoordinate::getStruct(QPoint in) {
     return points[in.x()][in.y()];
 }
 
@@ -155,7 +157,7 @@ QPoint GameCoordinate::getCooxWithPos(QPointF point) {
     return coo;
 }
 
-// breadth-first search
+// breadth-first search  complete   A* search complete later
 QList<QPoint> GameCoordinate::path (QPoint from, QPoint to) {
     queue.clear();
     QList<QPoint> result;
@@ -164,13 +166,15 @@ QList<QPoint> GameCoordinate::path (QPoint from, QPoint to) {
         return result;
 
     clearPoints();
+    RecursivePoint_t *ss;
     while (!queue.isEmpty()) {
-        struct RecursivePoint_t ss = queue.dequeue();
-        ss.state = Checked;
-        from = ss.self;
+        ss = queue.dequeue();
+        ss->state = Checked;
+        from = ss->self;
         if (to == goUp(from)) {
             break;
         }
+        // qDebug() << "dequeue" << from;
         addPointToQueue(goUp(from), from);
         addPointToQueue(goUpLeft(from), from);
         addPointToQueue(goUpRight(from), from);
@@ -178,20 +182,34 @@ QList<QPoint> GameCoordinate::path (QPoint from, QPoint to) {
         addPointToQueue(goDownLeft(from), from);
         addPointToQueue(goDownRight(from), from);
     }
+    QStack<QPoint> stacks;
+    stacks.push(to);
+    do {
+        stacks.push(ss->parent);
+        ss = getStruct(ss->parent);
+    } while (ss->parent != outPoint());
 
-    // TODO return
+    while (!stacks.isEmpty()) {
+        QPoint p = stacks.pop();
+        qDebug() << p;
+        result.append(p);
+    }
+    return result;
 }
 
 bool GameCoordinate::addPointToQueue(QPoint p, QPoint from) {
     if (checkPointAvailable(p)) {
-        struct RecursivePoint_t ss = getStruct(p);
-        if (ss.state == NotChecked) {
+        RecursivePoint_t *ss = getStruct(p);
+        if (ss->state == NotChecked) {
             queue.append(ss);
-            ss.parent = from;
-            ss.state = Added;
+            ss->parent = from;
+            ss->state = Added;
+            // qDebug() << "point added" << p;
             return true;
         }
+        // qDebug() << "point already checked" <<p;
     }
+    // qDebug() << "point unavailable" << p;
     return false;
 }
 

@@ -18,7 +18,8 @@ class GameCoordinate {
         Checked
     };
 
-    struct RecursivePoint_t {
+    class RecursivePoint_t {
+     public:
         QPoint parent;
         QPoint self;
         enum PointState state;
@@ -36,7 +37,7 @@ class GameCoordinate {
     bool addPointToQueue(QPoint p, QPoint from);
     static QPoint outPoint() { return QPoint(-1, -1); }
     bool checkPointAvailable(QPoint in);
-    struct RecursivePoint_t getStruct(QPoint in);
+    RecursivePoint_t* getStruct(QPoint in);
     QPoint getCooxWithPos(QPointF);
     QPointF leftUpPosNoOffset(QPoint);
     QPointF getBeginPosWithCoo(QPoint);
@@ -45,8 +46,8 @@ class GameCoordinate {
     void clearPoints();
 
  private:
-    QQueue<struct RecursivePoint_t> queue;
-    QList<QList<struct RecursivePoint_t> > points;
+    QQueue<RecursivePoint_t*> queue;
+    QList<QList<RecursivePoint_t*> > points;
     int beginX;
     int beginY;
     int lineLength;

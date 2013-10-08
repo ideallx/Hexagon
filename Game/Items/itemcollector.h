@@ -84,6 +84,8 @@ class ItemCollector {
     QPointF getBeginPosOfHero(QPoint in);
     QPointF getCenterPosWithCoo(QPoint in);
 
+    QList<QPoint> path (QPoint from, QPoint to);
+
     static QPoint outPoint() { return QPoint(-1, -1); }
 
     template <typename T>
