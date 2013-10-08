@@ -158,7 +158,7 @@ QPoint GameCoordinate::getCooxWithPos(QPointF point) {
 }
 
 // breadth-first search  complete   A* search complete later
-QList<QPoint> GameCoordinate::path (QPoint from, QPoint to) {
+QList<QPoint> GameCoordinate::path (QPoint from, QPoint to, filter f) {
     queue.clear();
     QList<QPoint> result;
 
@@ -171,10 +171,12 @@ QList<QPoint> GameCoordinate::path (QPoint from, QPoint to) {
         ss = queue.dequeue();
         ss->state = Checked;
         from = ss->self;
-        if (to == goUp(from)) {
+
+        if ((to == goUp(from)) || (to == goDown(from)) ||
+                (to == goUpLeft(from)) || (to == goUpRight(from)) ||
+                (to == goDownLeft(from)) || (to == goDownRight(from))) {
             break;
         }
-        // qDebug() << "dequeue" << from;
         addPointToQueue(goUp(from), from);
         addPointToQueue(goUpLeft(from), from);
         addPointToQueue(goUpRight(from), from);
@@ -185,7 +187,7 @@ QList<QPoint> GameCoordinate::path (QPoint from, QPoint to) {
     QStack<QPoint> stacks;
     stacks.push(to);
     do {
-        stacks.push(ss->parent);
+        stacks.push(ss->self);
         ss = getStruct(ss->parent);
     } while (ss->parent != outPoint());
 

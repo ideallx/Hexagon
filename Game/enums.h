@@ -4,6 +4,8 @@
 #include <QString>
 #include <QPoint>
 
+typedef void(*filter)();
+
 enum GameEnvironment_t {
     AreaSpace,
     AreaGrass   = '1',

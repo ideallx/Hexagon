@@ -147,7 +147,11 @@ void EventCenter::moveBegin() {
     scene->clearRange();
     scene->showMoveRange(curHero);
     curPhase = MovePhase;
-    ic->path(curHero->point(), QPoint(2, 6));
+    ic->path(curHero->point(), QPoint(2, 6), mapFilter);
+}
+
+void EventCenter::mapFilter() {
+
 }
 
 void EventCenter::heroMoveToPoint(QPoint in) {

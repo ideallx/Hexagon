@@ -392,6 +392,6 @@ QList<HandCard*> ItemCollector::switchToBack(QList<HandCard*> in) {
     return result;
 }
 
-QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
-    return gc->path(from, to);
+QList<QPoint> ItemCollector::path (QPoint from, QPoint to, filter f) {
+    return gc->path(from, to, f);
 }
