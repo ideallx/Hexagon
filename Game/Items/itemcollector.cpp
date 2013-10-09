@@ -410,8 +410,11 @@ QList<HandCard*> ItemCollector::switchToBack(QList<HandCard*> in) {
 QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
     queue.clear();
     QList<QPoint> result;
+    filter f = &ItemCollector::normalFilter;
 
-    if (!addPointToQueue(from, outPoint()))
+    if (!isPointAvailable(to) || getHeroByPoint(to))
+        return result;
+    if (!addPointToQueue(from, outPoint(), f))
         return result;
 
     clearPoints();
@@ -426,12 +429,12 @@ QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
                 (to == gc->goDownLeft(from)) || (to == gc->goDownRight(from))) {
             break;
         }
-        addPointToQueue(gc->goUp(from), from);
-        addPointToQueue(gc->goUpLeft(from), from);
-        addPointToQueue(gc->goUpRight(from), from);
-        addPointToQueue(gc->goDown(from), from);
-        addPointToQueue(gc->goDownLeft(from), from);
-        addPointToQueue(gc->goDownRight(from), from);
+        addPointToQueue(gc->goUp(from), from, f);
+        addPointToQueue(gc->goUpLeft(from), from, f);
+        addPointToQueue(gc->goUpRight(from), from, f);
+        addPointToQueue(gc->goDown(from), from, f);
+        addPointToQueue(gc->goDownLeft(from), from, f);
+        addPointToQueue(gc->goDownRight(from), from, f);
     }
     QStack<QPoint> stacks;
     stacks.push(to);
@@ -448,8 +451,8 @@ QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
     return result;
 }
 
-bool ItemCollector::addPointToQueue(QPoint p, QPoint from) {
-    if (checkPointAvailable(p)) {
+bool ItemCollector::addPointToQueue(QPoint p, QPoint from, filter f) {
+    if (isPointAvailable(p) && (this->*f)(p)) {
         RecursivePoint_t *ss = getStruct(p);
         if (ss->state == NotChecked) {
             queue.append(ss);
@@ -464,16 +467,6 @@ bool ItemCollector::addPointToQueue(QPoint p, QPoint from) {
     return false;
 }
 
-
-bool ItemCollector::checkPointAvailable(QPoint in) {
-    if (in.x() < 0 || in.y() < 0 || in.x() >= wid || in.y() >= hei)
-        return false;
-    else if ((in.x() == wid-1) && (in.y()%2 == 1) && (wid%2 == 0))
-        return false;
-    else
-        return true;
-}
-
 void ItemCollector::clearPoints() {
     foreach(QList<RecursivePoint_t*> list, points) {
         foreach(RecursivePoint_t *point, list) {
@@ -485,4 +478,8 @@ void ItemCollector::clearPoints() {
 
 ItemCollector::RecursivePoint_t* ItemCollector::getStruct(QPoint in) {
     return points[in.x()][in.y()];
+}
+
+bool ItemCollector::normalFilter(QPoint point) {
+    return isPointMovable(point) && (!getHeroByPoint(point));
 }

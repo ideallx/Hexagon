@@ -17,6 +17,9 @@ class ArtificialIntellegence {
 
     void addFriend(HeroItem* hi) { friendHeros.append(hi); }
     void addEnemy(HeroItem* hi) { enemyHeros.append(hi); }
+    QList<HeroItem*> friends() { return friendHeros; }
+    QList<HeroItem*> enemys() { return enemyHeros; }
+    HeroItem* hero() { return AiHero; }
 
  private:
     friend class HeroItem;

@@ -76,7 +76,6 @@ class EventCenter : public QObject {
     void skillAnimate(HeroItem* item, GameMapElement* gme);
 
     void showCards(HeroItem* hi);
-    static void mapFilter();
 
     int roundNum;
 

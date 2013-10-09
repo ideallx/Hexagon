@@ -150,10 +150,6 @@ void EventCenter::moveBegin() {
     ic->path(curHero->point(), QPoint(2, 6));
 }
 
-void EventCenter::mapFilter() {
-
-}
-
 void EventCenter::heroMoveToPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
@@ -303,9 +299,20 @@ void EventCenter::beginTurn() {
     curPhase = BeginPhase;
     emit roundInfoChanged(buildRoundInfo());
 
-    if (curAI != NULL) {
-        //heroMoveToPoint(QPoint(2, 6));
+    if (curAI == NULL) {
+        return;
     }
+    moveBegin();
+    QPoint targetPoint = curAI->enemys()[0]->point();
+    QList<QPoint> result = ic->path(curHero->point(),
+                                    targetPoint);
+    if (result.size() > curHero->moveRange()+1) {
+        heroMoveToPoint(result[curHero->moveRange()-1]);
+    } else {
+        heroMoveToPoint(result[result.size()-2]);
+        heroAttackPoint(targetPoint);
+    }
+    endTurn();
 }
 
 void EventCenter::endTurn() {

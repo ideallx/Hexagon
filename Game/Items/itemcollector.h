@@ -32,6 +32,8 @@ enum rangeMode_t {
 
 class ItemCollector {
  public:
+    typedef bool (ItemCollector::*filter)(QPoint);
+
     ItemCollector(GameBackInfo*, GameCoordinate*);
     ~ItemCollector();
 
@@ -87,6 +89,8 @@ class ItemCollector {
 
     static QPoint outPoint() { return QPoint(-1, -1); }
 
+    bool normalFilter(QPoint point);
+
     template <typename T>
     static void shuffle(QList<T> &l) {
         for (int i = 0; i < l.size(); i++) {
@@ -108,8 +112,7 @@ class ItemCollector {
         enum PointState state;
     };
     QList<QPoint> path (QPoint from, QPoint to);
-    bool addPointToQueue(QPoint p, QPoint from);
-    bool checkPointAvailable(QPoint in);
+    bool addPointToQueue(QPoint p, QPoint from, filter f);
     RecursivePoint_t* getStruct(QPoint in);
     void clearPoints();
 
