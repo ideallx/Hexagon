@@ -77,6 +77,7 @@ class EventCenter : public QObject {
 
     void showCards(HeroItem* hi);
 
+    void waitForTime(int msec);
     int roundNum;
 
     HeroItem* curHero;

@@ -1,4 +1,5 @@
 #include <QMessageBox>
+#include <QTimer>
 #include "eventcenter.h"
 #include "heroitem.h"
 #include "itemcollector.h"
@@ -306,13 +307,24 @@ void EventCenter::beginTurn() {
     QPoint targetPoint = curAI->enemys()[0]->point();
     QList<QPoint> result = ic->path(curHero->point(),
                                     targetPoint);
+    int msec = 500;
     if (result.size() > curHero->moveRange()+1) {
+        waitForTime(msec);
         heroMoveToPoint(result[curHero->moveRange()-1]);
     } else {
+        waitForTime(msec);
         heroMoveToPoint(result[result.size()-2]);
+        waitForTime(msec);
         heroAttackPoint(targetPoint);
     }
     endTurn();
+}
+
+void EventCenter::waitForTime(int msec) {
+    QTimer timer;
+    QEventLoop l;
+    timer.start(msec);
+    connect(&timer, &QTimer::timeout, &l, &QEventLoop::quit);
 }
 
 void EventCenter::endTurn() {
@@ -426,6 +438,7 @@ void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     for (int i = 0; i <= frame; ++i)
         theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
     moveTimer->start();
+    waitForTime(moveTimer->duration());
 }
 
 void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
@@ -451,6 +464,7 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
     }
 
     attackTimer->start();
+    waitForTime(attackTimer->duration());
 }
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
