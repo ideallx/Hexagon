@@ -45,7 +45,7 @@ class EventCenter : public QObject {
     static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
-    void hit(bool got);
+    void dodge(bool got);
 
     enum gamePhase_t {
         BeginPhase,

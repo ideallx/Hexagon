@@ -178,19 +178,19 @@ void EventCenter::heroAttackPoint(QPoint in) {
     int hitRate = curHero->getMustHitRate();
 
     if (hitRate == 0x3F) {
-        hit(true);
+        dodge(true);
     } else {
         if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
-            hit(true);
+            dodge(true);
         } else {
             askForUseCard(targetHero, ShanBi);
-            waitingEvent = &EventCenter::hit;
+            waitingEvent = &EventCenter::dodge;
         }
     }
     return;
 }
 
-void EventCenter::hit(bool got) {
+void EventCenter::dodge(bool got) {
     scene->clearRange();
     menu->hideAllMenu();
     menu->setMoveAble(false);
@@ -199,27 +199,27 @@ void EventCenter::hit(bool got) {
     }
     curPhase = BeginPhase;
 
-    if (!got) {
+    if (got) {
         curHero->removetAttackBouns();
         return;
-    } else {
-        QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerAttackHit);
-        if (l.size() != 0) {
-            for (int i = 0; i < l.size(); i++) {
+    }
+
+    QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerAttackHit);
+    if (l.size() != 0) {
+        for (int i = 0; i < l.size(); i++) {
 //                if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
 //                    l.removeAt(i);
 //                } else {
-                    QVariant data;
-                    struct SkillPara sp;
-                    sp.ec = this;
-                    sp.data = data;
-                    sp.from = curHero;
-                    sp.to = targetHero;
-                    l[i]->skillFlow(sp);
-                    curSkill = l[i];
-                    listHeroInfo(curHero);
+                QVariant data;
+                struct SkillPara sp;
+                sp.ec = this;
+                sp.data = data;
+                sp.from = curHero;
+                sp.to = targetHero;
+                l[i]->skillFlow(sp);
+                curSkill = l[i];
+                listHeroInfo(curHero);
 //                }
-            }
         }
     }
 
@@ -540,7 +540,16 @@ void EventCenter::askForDiscardCards(int num) {
         return;
 
     menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
-    menu->askForNCards(num);
+
+    ArtificialIntellegence* ai = AIs[heroSeq.indexOf(curHero)];
+    if (ai == NULL) {
+        return;
+    }
+    QList<HandCard*> hcl = ai->useCard(num);
+    foreach(HandCard* hc, hcl)
+        curHero->removeCard(hc);
+    menu->updateCardsArea(curHero->cards());
+    return;
 }
 
 bool EventCenter::askForUseCard(HeroItem* hi,
@@ -550,7 +559,21 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(true);
     curPhase = AskForCardPhase;
-    return false;
+
+    ArtificialIntellegence* ai = AIs[heroSeq.indexOf(hi)];
+    if (ai == NULL)
+        return false;
+
+    HandCard* hc = ai->useCard(t);
+    if (hc) {
+        hi->removeCard(hc);
+        menu->updateCardsArea(curHero->cards());
+        (this->*waitingEvent)(true);
+        return true;
+    } else {
+        (this->*waitingEvent)(false);
+        return false;
+    }
 }
 
 bool EventCenter::askForNCard(HeroItem* hi, int n) {
@@ -559,7 +582,22 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(false);
     curPhase = AskForCardPhase;
-    return false;
+
+    ArtificialIntellegence* ai = AIs[heroSeq.indexOf(hi)];
+    if (ai == NULL)
+        return false;
+
+    QList<HandCard*> hcl = ai->useCard(n);
+    if (hcl.size() == n) {
+        foreach(HandCard* hc, hcl)
+            hi->removeCard(hc);
+        menu->updateCardsArea(curHero->cards());
+        (this->*waitingEvent)(true);
+        return true;
+    } else {
+        (this->*waitingEvent)(false);
+        return false;
+    }
 }
 
 QList<HandCard*> EventCenter::discardCard(HeroItem* hi, int num) {
@@ -635,7 +673,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         }
         if ((l.size() == 1) && (l[0]->cardType() == askCard.useCardType)) {
             if (waitingEvent)
-                (this->*waitingEvent)(false);
+                (this->*waitingEvent)(true);
         }
         break;
     case AskForNCards:
@@ -644,7 +682,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         }
         if (l.size() == askCard.n) {
             if (waitingEvent)
-                (this->*waitingEvent)(false);
+                (this->*waitingEvent)(true);
         }
         break;
     default:
@@ -658,7 +696,7 @@ void EventCenter::cardCancel() {
     case AskForNCards:
     case DiscardPhase:
         if (waitingEvent)
-            (this->*waitingEvent)(true);
+            (this->*waitingEvent)(false);
         break;
     default:
         break;
