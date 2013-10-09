@@ -1,3 +1,4 @@
+#include <QStack>
 #include "itemcollector.h"
 #include "heroitem.h"
 #include "heroengine.h"
@@ -100,6 +101,18 @@ void ItemCollector::addMapElementList() {
         for (int i = 0; i < wid; i++) {
             elements[j*wid+i]->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));
         }
+    }
+
+    for (int i = 0; i < wid; i++) {
+        QList<RecursivePoint_t*> list;
+        for (int j = 0; j < hei; j++) {
+            RecursivePoint_t* point = new RecursivePoint_t();
+            point->parent = outPoint();
+            point->self = QPoint(i, j);
+            point->state = NotChecked;
+            list.append(point);
+        }
+        points.append(list);
     }
 }
 
@@ -392,6 +405,84 @@ QList<HandCard*> ItemCollector::switchToBack(QList<HandCard*> in) {
     return result;
 }
 
-QList<QPoint> ItemCollector::path (QPoint from, QPoint to, filter f) {
-    return gc->path(from, to, f);
+
+// breadth-first search  complete   A* search complete later
+QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
+    queue.clear();
+    QList<QPoint> result;
+
+    if (!addPointToQueue(from, outPoint()))
+        return result;
+
+    clearPoints();
+    RecursivePoint_t *ss;
+    while (!queue.isEmpty()) {
+        ss = queue.dequeue();
+        ss->state = Checked;
+        from = ss->self;
+
+        if ((to == gc->goUp(from)) || (to == gc->goDown(from)) ||
+                (to == gc->goUpLeft(from)) || (to == gc->goUpRight(from)) ||
+                (to == gc->goDownLeft(from)) || (to == gc->goDownRight(from))) {
+            break;
+        }
+        addPointToQueue(gc->goUp(from), from);
+        addPointToQueue(gc->goUpLeft(from), from);
+        addPointToQueue(gc->goUpRight(from), from);
+        addPointToQueue(gc->goDown(from), from);
+        addPointToQueue(gc->goDownLeft(from), from);
+        addPointToQueue(gc->goDownRight(from), from);
+    }
+    QStack<QPoint> stacks;
+    stacks.push(to);
+    do {
+        stacks.push(ss->self);
+        ss = getStruct(ss->parent);
+    } while (ss->parent != outPoint());
+
+    while (!stacks.isEmpty()) {
+        QPoint p = stacks.pop();
+        qDebug() << p;
+        result.append(p);
+    }
+    return result;
+}
+
+bool ItemCollector::addPointToQueue(QPoint p, QPoint from) {
+    if (checkPointAvailable(p)) {
+        RecursivePoint_t *ss = getStruct(p);
+        if (ss->state == NotChecked) {
+            queue.append(ss);
+            ss->parent = from;
+            ss->state = Added;
+            // qDebug() << "point added" << p;
+            return true;
+        }
+        // qDebug() << "point already checked" <<p;
+    }
+    // qDebug() << "point unavailable" << p;
+    return false;
+}
+
+
+bool ItemCollector::checkPointAvailable(QPoint in) {
+    if (in.x() < 0 || in.y() < 0 || in.x() >= wid || in.y() >= hei)
+        return false;
+    else if ((in.x() == wid-1) && (in.y()%2 == 1) && (wid%2 == 0))
+        return false;
+    else
+        return true;
+}
+
+void ItemCollector::clearPoints() {
+    foreach(QList<RecursivePoint_t*> list, points) {
+        foreach(RecursivePoint_t *point, list) {
+            point->parent = outPoint();
+            point->state = NotChecked;
+        }
+    }
+}
+
+ItemCollector::RecursivePoint_t* ItemCollector::getStruct(QPoint in) {
+    return points[in.x()][in.y()];
 }

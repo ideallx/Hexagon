@@ -7,6 +7,7 @@
 #include <QPoint>
 #include <QPen>
 #include <QPixmap>
+#include <QQueue>
 #include "enums.h"
 
 class HeroItem;
@@ -84,8 +85,6 @@ class ItemCollector {
     QPointF getBeginPosOfHero(QPoint in);
     QPointF getCenterPosWithCoo(QPoint in);
 
-    QList<QPoint> path (QPoint from, QPoint to, filter f);
-
     static QPoint outPoint() { return QPoint(-1, -1); }
 
     template <typename T>
@@ -94,6 +93,25 @@ class ItemCollector {
             l.swap(i, rand()%l.size());
         }
     }
+
+
+    enum PointState {
+        NotChecked,
+        Added,
+        Checked
+    };
+
+    class RecursivePoint_t {
+     public:
+        QPoint parent;
+        QPoint self;
+        enum PointState state;
+    };
+    QList<QPoint> path (QPoint from, QPoint to);
+    bool addPointToQueue(QPoint p, QPoint from);
+    bool checkPointAvailable(QPoint in);
+    RecursivePoint_t* getStruct(QPoint in);
+    void clearPoints();
 
  private:
     void addHeroList(QList<struct ExternInfo> info);
@@ -138,6 +156,9 @@ class ItemCollector {
     QList<HandCard*> usedCards;
 
     QList<QList<Equipment*> > equips;
+
+    QQueue<RecursivePoint_t*> queue;
+    QList<QList<RecursivePoint_t*> > points;
 };
 
 #endif  // GAME_ITEMS_ITEMCOLLECTOR_H_
