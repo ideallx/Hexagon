@@ -35,22 +35,22 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curHero->addHeroSkill(new HsGuiShou());
     curHero->addHeroSkill(new HsQianXing());
     curHero->addHeroSkill(new HsLengXue());
-    birthChosed(QPoint(0, 12));
     AIs.append(NULL);  // player 1 do not need AI = =
+    birthChosed(QPoint(0, 12));
 
     curHero = heroSeq[1];
-    birthChosed(QPoint(4, 1));
     ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
+    birthChosed(QPoint(4, 1));
     AIs.append(AI);
 
     curHero = heroSeq[2];
-    birthChosed(QPoint(0, 14));
     AI = new ArtificialIntellegence(curHero);
+    birthChosed(QPoint(0, 14));
     AIs.append(AI);
 
     curHero = heroSeq[3];
-    birthChosed(QPoint(4, 0));
     AI = new ArtificialIntellegence(curHero);
+    birthChosed(QPoint(4, 0));
     AIs.append(AI);
 
     for (int i = 0; i < heroSeq.size(); i++) {
@@ -148,7 +148,6 @@ void EventCenter::moveBegin() {
     scene->clearRange();
     scene->showMoveRange(curHero);
     curPhase = MovePhase;
-    ic->path(curHero->point(), QPoint(2, 6));
 }
 
 void EventCenter::heroMoveToPoint(QPoint in) {
@@ -179,12 +178,15 @@ void EventCenter::heroAttackPoint(QPoint in) {
 
     if (hitRate == 0x3F) {
         dodge(true);
+    } else if (hitRate == 0){
+        waitingEvent = &EventCenter::dodge;
+        askForUseCard(targetHero, ShanBi);
     } else {
         if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
             dodge(true);
         } else {
-            askForUseCard(targetHero, ShanBi);
             waitingEvent = &EventCenter::dodge;
+            askForUseCard(targetHero, ShanBi);
         }
     }
     return;
@@ -323,8 +325,9 @@ void EventCenter::beginTurn() {
 void EventCenter::waitForTime(int msec) {
     QTimer timer;
     QEventLoop l;
-    timer.start(msec);
     connect(&timer, &QTimer::timeout, &l, &QEventLoop::quit);
+    timer.start(msec);
+    l.exec();
 }
 
 void EventCenter::endTurn() {
@@ -334,10 +337,23 @@ void EventCenter::endTurn() {
     if (curPhase == DiscardPhase)
         return;
 
+    listHeroInfo(curHero);
     if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
         curPhase = DiscardPhase;
         askForDiscardCards(curHero->cards().size() -
                            HeroItem::endTurnMaxCards());
+        if (curAI != NULL) {
+            if (curHero == heroSeq.last()) {
+                roundEnd();
+                roundNum++;
+                roundBegin();
+            } else {
+                curHero = heroSeq[heroSeq.indexOf(curHero)+1];
+            }
+
+            menu->beginTurnReset();
+            beginTurn();
+        }
         return;
     }
 
@@ -345,7 +361,6 @@ void EventCenter::endTurn() {
     curHero->removetAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End";
 
-    menu->beginTurnReset();
     curHero->setPen(QPen(Qt::black, 3));
 
     if (curHero == heroSeq.last()) {
@@ -356,6 +371,7 @@ void EventCenter::endTurn() {
         curHero = heroSeq[heroSeq.indexOf(curHero)+1];
     }
 
+    menu->beginTurnReset();
     beginTurn();
 }
 
@@ -645,7 +661,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         qDebug() << "cards num:" << curHero->cards().size();
         menu->updateCardsArea(curHero->cards());
         curPhase = FinalPhase;
-        beginTurn();
+        endTurn();
         break;
     case BeginPhase:
         if (curHero != menu->panelHero()) {
@@ -802,7 +818,7 @@ QList<int> EventCenter::rollTheDice(int n) {
             }
         }
     }
-    if (result.size() != 2) {
+    if (result.size() != n) {
         qDebug() << "Roll The Dices Error";
     }
     return result;

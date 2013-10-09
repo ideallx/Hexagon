@@ -411,13 +411,13 @@ QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
     queue.clear();
     QList<QPoint> result;
     filter f = &ItemCollector::normalFilter;
-
-    if (!isPointAvailable(to) || getHeroByPoint(to))
-        return result;
-    if (!addPointToQueue(from, outPoint(), f))
+    if (!isPointAvailable(to))
         return result;
 
     clearPoints();
+    if (!addPointToQueue(from, outPoint(), NULL))
+        return result;
+
     RecursivePoint_t *ss;
     while (!queue.isEmpty()) {
         ss = queue.dequeue();
@@ -445,14 +445,14 @@ QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
 
     while (!stacks.isEmpty()) {
         QPoint p = stacks.pop();
-        qDebug() << p;
+        // qDebug() << p;
         result.append(p);
     }
     return result;
 }
 
 bool ItemCollector::addPointToQueue(QPoint p, QPoint from, filter f) {
-    if (isPointAvailable(p) && (this->*f)(p)) {
+    if (isPointAvailable(p) && ((f == NULL) || (this->*f)(p))) {
         RecursivePoint_t *ss = getStruct(p);
         if (ss->state == NotChecked) {
             queue.append(ss);
