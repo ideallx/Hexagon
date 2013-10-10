@@ -333,6 +333,7 @@ void EventCenter::beginTurn() {
         waitForTime(msec);
         heroAttackPoint(targetPoint);
     }
+    waitForTime(msec*2);
     endTurn();
 }
 
