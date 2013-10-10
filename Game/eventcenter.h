@@ -8,6 +8,7 @@
 #include <QStringList>
 #include <QEventLoop>
 #include "enums.h"
+#include "coordinate.h"
 
 class SkillBase;
 class BackScene;
@@ -78,6 +79,12 @@ class EventCenter : public QObject {
     void showCards(HeroItem* hi);
 
     void waitForTime(int msec);
+
+    template <typename T1, typename T2>
+    int roughDistance(T1 t1, T2 t2) {
+        return GameCoordinate::roughDistance(t1->point(), t2->point());
+    }
+
     int roundNum;
 
     HeroItem* curHero;
@@ -103,6 +110,7 @@ class EventCenter : public QObject {
     QWidget* parent;
     QList<ArtificialIntellegence*> AIs;
     ArtificialIntellegence* curAI;
+    bool isAnimating;
 
  signals:
     void roundInfoChanged(QStringList);

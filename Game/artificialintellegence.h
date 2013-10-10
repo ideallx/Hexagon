@@ -21,9 +21,13 @@ class ArtificialIntellegence {
     QList<HeroItem*> enemys() { return enemyHeros; }
     HeroItem* hero() { return AiHero; }
 
+    HeroItem* target() { return targetEnemyHero; }
+    void setTarget(HeroItem* hi) { targetEnemyHero = hi; }
+
  private:
     friend class HeroItem;
     HeroItem* AiHero;
+    HeroItem* targetEnemyHero;
     QList<HeroItem*> friendHeros;
     QList<HeroItem*> enemyHeros;
 };

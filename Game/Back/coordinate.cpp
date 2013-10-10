@@ -132,10 +132,19 @@ QPoint GameCoordinate::getCooxWithPos(QPointF point) {
 }
 
 int GameCoordinate::roughDistance(QPoint p1, QPoint p2) {
+    /* verison 1
     TriPoint tp1 = transToTriPoint(p1);
     TriPoint tp2 = transToTriPoint(p2);
 
     return (qAbs(tp1.x - tp2.x) + qAbs(tp1.y - tp2.y) + qAbs(tp1.z - tp2.z))/2;
+    */
+
+    // version 2
+    int d1 = p1.x() + (1+p1.y())/2 - p2.x() - (1+p2.y())/2;
+    int d2 = 2*p1.x() + p1.y()%2 - 2*p2.x() - p2.y()%2;
+    int d3 = p1.x() - p1.y()/2 - p2.x() + p2.y()/2;
+
+    return (qAbs(d1) + qAbs(d2) + qAbs(d3))/2;
 }
 
 TriPoint GameCoordinate::transToTriPoint(QPoint p) {

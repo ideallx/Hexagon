@@ -23,7 +23,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
       curPhase(ChooseBirthPhase),
       gameBegined(false),
       parent(parent),
-      curAI(NULL) {
+      curAI(NULL),
+      isAnimating (false) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -258,6 +259,8 @@ void EventCenter::skillStraightTest(QPoint in) {
 }
 
 void EventCenter::targetClicked(QPoint in) {
+    if (isAnimating)
+        return;
     switch (curPhase) {
     case MovePhase:
         heroMoveToPoint(in);
@@ -306,7 +309,18 @@ void EventCenter::beginTurn() {
         return;
     }
     moveBegin();
-    QPoint targetPoint = curAI->enemys()[0]->point();
+    int nearest = 0;
+    int distance = GameCoordinate::roughDistance(
+                curAI->enemys()[0]->point(), curAI->hero()->point());
+    for (int i = 1; i < curAI->enemys().size(); i++) {
+        int d = roughDistance(curAI->hero(), curAI->enemys()[i]);
+        if (d < distance) {
+            nearest = i;
+            distance = d;
+        }
+    }
+    curAI->setTarget(curAI->enemys()[nearest]);
+    QPoint targetPoint = curAI->target()->point();
     QList<QPoint> result = ic->path(curHero->point(),
                                     targetPoint);
     int msec = 500;
@@ -408,6 +422,9 @@ QStringList EventCenter::buildRoundInfo() {
 }
 
 void EventCenter::showMenu(HeroItem* hi, QPoint p) {
+    if (isAnimating)
+        return;
+
     if (curPhase == ChooseBirthPhase)
         return;
     if (curHero == hi) {
@@ -451,10 +468,12 @@ void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
     qDebug() << "move from" << srcItem->point() <<
                 "to" << targetItem->point() << distance;
 
+    isAnimating = true;
     for (int i = 0; i <= frame; ++i)
         theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
     moveTimer->start();
     waitForTime(moveTimer->duration());
+    isAnimating = false;
 }
 
 void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
@@ -479,8 +498,10 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
         theGia->setPosAt(i/frame+0.5, src+distance/2-distance*i/frame);
     }
 
+    isAnimating = true;
     attackTimer->start();
     waitForTime(attackTimer->duration());
+    isAnimating = false;
 }
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
@@ -645,6 +666,8 @@ void EventCenter::mapElementChosen(QPoint p) {
 }
 
 void EventCenter::cardChosen(QList<HandCard*> l) {
+    if (isAnimating)
+        return;
     if (l.size() == 0)
         return;
 
@@ -707,6 +730,8 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
 }
 
 void EventCenter::cardCancel() {
+    if (isAnimating)
+        return;
     switch (curPhase) {
     case AskForCardPhase:
     case AskForNCards:
@@ -727,6 +752,8 @@ void EventCenter::openShop() {
 }
 
 void EventCenter::heroUseSkill(int n) {
+    if (isAnimating)
+        return;
     QVariant data;
     struct SkillPara sp;
     sp.ec = this;

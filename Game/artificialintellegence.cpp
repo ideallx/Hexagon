@@ -3,7 +3,8 @@
 #include "carditem.h"
 
 ArtificialIntellegence::ArtificialIntellegence(HeroItem *hi)
-    : AiHero (hi) {
+    : AiHero (hi),
+      targetEnemyHero(NULL) {
 }
 
 HandCard* ArtificialIntellegence::useCard(enum Card_Normal_Package_Type_t cnpt) {
