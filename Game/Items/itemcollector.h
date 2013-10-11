@@ -111,9 +111,12 @@ class ItemCollector {
         QPoint self;
         enum PointState state;
     };
-    QList<QPoint> path (QPoint from, QPoint to);
+    QList<QPoint> pathOnSearch (QPoint from, QPoint to);
     bool addPointToQueue(QPoint p, QPoint from, filter f);
     RecursivePoint_t* getStruct(QPoint in);
+
+    void calcWholeMapDistance(QPoint from);
+    QList<QPoint> pathAfterSearch (QPoint to);
     void clearPoints();
 
  private:

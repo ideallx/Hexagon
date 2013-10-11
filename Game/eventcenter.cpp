@@ -325,8 +325,8 @@ void EventCenter::beginTurn() {
     }
     curAI->setTarget(curAI->enemys()[nearest]);
     QPoint targetPoint = curAI->target()->point();
-    QList<QPoint> result = ic->path(curHero->point(),
-                                    targetPoint);
+    QList<QPoint> result = ic->pathOnSearch(curHero->point(),
+                                            targetPoint);
     int msec = 500;
     if (result.size() > curHero->moveRange()+1) {
         waitForTime(msec);
