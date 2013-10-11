@@ -33,6 +33,7 @@ class GameCoordinate {
     static QPoint goDown(QPoint);
     static int roughDistance(QPoint p1, QPoint p2);
     static TriPoint transToTriPoint(QPoint p);
+    static QList<QPoint> aroundPoint(QPoint p);
 
     QPoint getCooxWithPos(QPointF);
     QPointF leftUpPosNoOffset(QPoint);

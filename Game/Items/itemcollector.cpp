@@ -405,10 +405,15 @@ QList<HandCard*> ItemCollector::switchToBack(QList<HandCard*> in) {
     return result;
 }
 
-
-// breadth-first search  complete   A* search complete later
-QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
+/**
+ * @brief calc the path once it's called. Use breadth-first research
+ * @param from
+ * @param to
+ * @return
+ */
+QList<QPoint> ItemCollector::pathOnSearch (QPoint from, QPoint to) {
     queue.clear();
+    QQueue<RecursivePoint_t*> waitForChecks;
     QList<QPoint> result;
     filter f = &ItemCollector::normalFilter;
     if (!isPointAvailable(to))
@@ -417,38 +422,26 @@ QList<QPoint> ItemCollector::path (QPoint from, QPoint to) {
     clearPoints();
     if (!addPointToQueue(from, outPoint(), NULL))
         return result;
+    queue.swap(waitForChecks);
 
     RecursivePoint_t *ss;
-    while (!queue.isEmpty()) {
-        ss = queue.dequeue();
-        ss->state = Checked;
-        from = ss->self;
-
-        if ((to == gc->goUp(from)) || (to == gc->goDown(from)) ||
-                (to == gc->goUpLeft(from)) || (to == gc->goUpRight(from)) ||
-                (to == gc->goDownLeft(from)) || (to == gc->goDownRight(from))) {
-            break;
+    while (!waitForChecks.isEmpty()) {
+        while (!waitForChecks.isEmpty()) {
+            ss = waitForChecks.dequeue();
+            ss->state = Checked;
+            from = ss->self;
+            if (gc->roughDistance(from, to) == 1)
+                break;
+            addPointToQueue(gc->goUp(from), from, f);
+            addPointToQueue(gc->goUpLeft(from), from, f);
+            addPointToQueue(gc->goUpRight(from), from, f);
+            addPointToQueue(gc->goDown(from), from, f);
+            addPointToQueue(gc->goDownLeft(from), from, f);
+            addPointToQueue(gc->goDownRight(from), from, f);
         }
-        addPointToQueue(gc->goUp(from), from, f);
-        addPointToQueue(gc->goUpLeft(from), from, f);
-        addPointToQueue(gc->goUpRight(from), from, f);
-        addPointToQueue(gc->goDown(from), from, f);
-        addPointToQueue(gc->goDownLeft(from), from, f);
-        addPointToQueue(gc->goDownRight(from), from, f);
+        queue.swap(waitForChecks);
     }
-    QStack<QPoint> stacks;
-    stacks.push(to);
-    do {
-        stacks.push(ss->self);
-        ss = getStruct(ss->parent);
-    } while (ss->parent != outPoint());
-
-    while (!stacks.isEmpty()) {
-        QPoint p = stacks.pop();
-        // qDebug() << p;
-        result.append(p);
-    }
-    return result;
+    return pathAfterSearch(to);
 }
 
 bool ItemCollector::addPointToQueue(QPoint p, QPoint from, filter f) {
@@ -482,4 +475,49 @@ ItemCollector::RecursivePoint_t* ItemCollector::getStruct(QPoint in) {
 
 bool ItemCollector::normalFilter(QPoint point) {
     return isPointMovable(point) && (!getHeroByPoint(point));
+}
+
+void ItemCollector::calcWholeMapDistance(QPoint from) {
+    queue.clear();
+    QQueue<RecursivePoint_t*> waitForChecks;
+    filter f = &ItemCollector::normalFilter;
+
+    clearPoints();
+    if (!addPointToQueue(from, outPoint(), NULL))
+        return;
+    queue.swap(waitForChecks);
+
+    RecursivePoint_t *ss;
+    while (!waitForChecks.isEmpty()) {
+        while (!waitForChecks.isEmpty()) {
+            ss = waitForChecks.dequeue();
+            from = ss->self;
+            ss->state = Checked;
+            addPointToQueue(gc->goUp(from), from, f);
+            addPointToQueue(gc->goUpLeft(from), from, f);
+            addPointToQueue(gc->goUpRight(from), from, f);
+            addPointToQueue(gc->goDown(from), from, f);
+            addPointToQueue(gc->goDownLeft(from), from, f);
+            addPointToQueue(gc->goDownRight(from), from, f);
+        }
+        queue.swap(waitForChecks);
+    }
+}
+
+QList<QPoint> ItemCollector::pathAfterSearch (QPoint to) {
+    QList<QPoint> result;
+    QStack<QPoint> stacks;
+    RecursivePoint_t *ss;
+    stacks.push(to);
+    do {
+        stacks.push(ss->self);
+        ss = getStruct(ss->parent);
+    } while (ss->parent != outPoint());
+
+    while (!stacks.isEmpty()) {
+        QPoint p = stacks.pop();
+        // qDebug() << p;
+        result.append(p);
+    }
+    return result;
 }

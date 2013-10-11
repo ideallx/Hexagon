@@ -131,6 +131,8 @@ QPoint GameCoordinate::getCooxWithPos(QPointF point) {
     return coo;
 }
 
+// rough distance  // version 2 maybe faster and version 1 is the thinking
+// do not calc any obstacle
 int GameCoordinate::roughDistance(QPoint p1, QPoint p2) {
     /* verison 1
     TriPoint tp1 = transToTriPoint(p1);
@@ -153,4 +155,15 @@ TriPoint GameCoordinate::transToTriPoint(QPoint p) {
     tp.y = 2*p.x() + p.y()%2;
     tp.z = p.x() - p.y()/2;
     return tp;
+}
+
+QList<QPoint> GameCoordinate::aroundPoint(QPoint p) {
+     QList<QPoint> result;
+     result.append(goUp(p));
+     result.append(goUpLeft(p));
+     result.append(goUpRight(p));
+     result.append(goDown(p));
+     result.append(goDownLeft(p));
+     result.append(goDownRight(p));
+     return result;
 }
