@@ -39,18 +39,18 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
 
     curHero = heroSeq[1];
     ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
-    birthChosed(QPoint(4, 1));
     curHero->setAI(AI);
+    birthChosed(QPoint(4, 1));
 
     curHero = heroSeq[2];
     AI = new ArtificialIntellegence(curHero);
-    birthChosed(QPoint(0, 14));
     curHero->setAI(AI);
+    birthChosed(QPoint(0, 14));
 
     curHero = heroSeq[3];
     AI = new ArtificialIntellegence(curHero);
-    birthChosed(QPoint(4, 0));
     curHero->setAI(AI);
+    birthChosed(QPoint(4, 0));
 
     for (int i = 0; i < heroSeq.size(); i++) {
         ArtificialIntellegence* ai = heroSeq[i]->AI();
@@ -99,6 +99,8 @@ void EventCenter::setupConnection() {
             this, &EventCenter::cardCancel);
     connect(menu, &GameMenu::skillUsed,
             this, &EventCenter::heroUseSkill);
+    connect(menu, &GameMenu::cancelClicked,
+            scene, &BackScene::clearRange);
 }
 
 void EventCenter::gameBegin() {
@@ -154,6 +156,7 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
 
+    scene->clearRange();
     GameMapElement* gme = ic->getMapElementByPoint(in);
     moveAnimate(curHero, gme);
 
@@ -172,6 +175,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
 
+    scene->clearRange();
     waitingEvent = NULL;
     targetHero = ic->getHeroByPoint(in);
     int hitRate = curHero->getMustHitRate();
@@ -203,6 +207,9 @@ void EventCenter::dodge(bool got) {
 
     if (got) {
         curHero->removetAttackBouns();
+        if (curHero->AI() != NULL) {
+            endTurn();   // TODO(ideallx) jugg by AI after skills complete
+        }
         return;
     }
 
@@ -332,8 +339,10 @@ void EventCenter::beginTurn() {
         waitForTime(msec);
         heroMoveToPoint(result[curHero->moveRange()-1]);
     } else {
-        waitForTime(msec);
-        heroMoveToPoint(result[result.size()-2]);
+        if (GameCoordinate::roughDistance(curHero->point(), targetPoint) != 1) {
+            waitForTime(msec);
+            heroMoveToPoint(result[result.size()-2]);
+        }
         waitForTime(msec);
         heroAttackPoint(targetPoint);
         if (curAI->target()->AI() == NULL)
@@ -362,6 +371,8 @@ void EventCenter::endTurn() {
         curPhase = DiscardPhase;
         askForDiscardCards(curHero->cards().size() -
                            HeroItem::endTurnMaxCards());
+
+        curHero->setPen(QPen(Qt::black, 3));
         if (curHero->AI() != NULL) {
             if (curHero == heroSeq.last()) {
                 roundEnd();
@@ -377,7 +388,7 @@ void EventCenter::endTurn() {
         return;
     }
 
-    if (curHero->AI() == NULL)
+    if (curHero->AI() != NULL)
         waitForTime(1000);
 
     curPhase = FinalPhase;
@@ -585,6 +596,7 @@ void EventCenter::askForDiscardCards(int num) {
         return;
 
     menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
+    menu->setOneCardMode(false);
 
     ArtificialIntellegence* ai = curHero->AI();
     if (ai == NULL) {
@@ -605,9 +617,12 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     menu->setOneCardMode(true);
     curPhase = AskForCardPhase;
 
-    ArtificialIntellegence* ai = curHero->AI();
-    if (ai == NULL)
+    ArtificialIntellegence* ai = hi->AI();
+    if (ai == NULL) {
+        menu->setHeroInfo(hi);
+        showCards(hi);
         return false;
+    }
 
     HandCard* hc = ai->useCard(t);
     if (hc) {
@@ -719,6 +734,8 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
             return;
         }
         if ((l.size() == 1) && (l[0]->cardType() == askCard.useCardType)) {
+            askCard.useCardHero->removeCard(l[0]);
+            menu->updateCardsArea(askCard.useCardHero->cards());
             if (waitingEvent)
                 (this->*waitingEvent)(true);
         }

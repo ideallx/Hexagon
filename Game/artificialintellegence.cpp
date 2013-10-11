@@ -22,6 +22,7 @@ QList<HandCard*> ArtificialIntellegence::useCard(int n) {
         QList<HandCard*> result;
         while (n != 0) {
             result.append(AiHero->cards()[n-1]);
+            n--;
         }
         return result;
     }

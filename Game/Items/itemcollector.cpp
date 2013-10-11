@@ -430,8 +430,12 @@ QList<QPoint> ItemCollector::pathOnSearch (QPoint from, QPoint to) {
             ss = waitForChecks.dequeue();
             ss->state = Checked;
             from = ss->self;
-            if (gc->roughDistance(from, to) == 1)
-                break;
+            if (gc->roughDistance(from, to) == 1) {
+                ss = getStruct(to);
+                ss->parent = from;
+                ss->state = Checked;
+                return pathAfterSearch(to);
+            }
             addPointToQueue(gc->goUp(from), from, f);
             addPointToQueue(gc->goUpLeft(from), from, f);
             addPointToQueue(gc->goUpRight(from), from, f);
@@ -441,7 +445,7 @@ QList<QPoint> ItemCollector::pathOnSearch (QPoint from, QPoint to) {
         }
         queue.swap(waitForChecks);
     }
-    return pathAfterSearch(to);
+    return result;
 }
 
 bool ItemCollector::addPointToQueue(QPoint p, QPoint from, filter f) {
@@ -508,7 +512,7 @@ QList<QPoint> ItemCollector::pathAfterSearch (QPoint to) {
     QList<QPoint> result;
     QStack<QPoint> stacks;
     RecursivePoint_t *ss;
-    stacks.push(to);
+    ss = getStruct(to);
     do {
         stacks.push(ss->self);
         ss = getStruct(ss->parent);
@@ -516,7 +520,7 @@ QList<QPoint> ItemCollector::pathAfterSearch (QPoint to) {
 
     while (!stacks.isEmpty()) {
         QPoint p = stacks.pop();
-        // qDebug() << p;
+        qDebug() << p;
         result.append(p);
     }
     return result;
