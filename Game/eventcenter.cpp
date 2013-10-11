@@ -23,7 +23,6 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
       curPhase(ChooseBirthPhase),
       gameBegined(false),
       parent(parent),
-      curAI(NULL),
       isAnimating (false) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
@@ -36,35 +35,35 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     curHero->addHeroSkill(new HsGuiShou());
     curHero->addHeroSkill(new HsQianXing());
     curHero->addHeroSkill(new HsLengXue());
-    AIs.append(NULL);  // player 1 do not need AI = =
     birthChosed(QPoint(0, 12));
 
     curHero = heroSeq[1];
     ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
     birthChosed(QPoint(4, 1));
-    AIs.append(AI);
+    curHero->setAI(AI);
 
     curHero = heroSeq[2];
     AI = new ArtificialIntellegence(curHero);
     birthChosed(QPoint(0, 14));
-    AIs.append(AI);
+    curHero->setAI(AI);
 
     curHero = heroSeq[3];
     AI = new ArtificialIntellegence(curHero);
     birthChosed(QPoint(4, 0));
-    AIs.append(AI);
+    curHero->setAI(AI);
 
     for (int i = 0; i < heroSeq.size(); i++) {
-        if (AIs[i] != NULL) {
+        ArtificialIntellegence* ai = heroSeq[i]->AI();
+        if (ai != NULL) {
             if (i % 2) {
                 for (int j = 0; j < heroSeq.size(); j+=2) {
-                    AIs[i]->addEnemy(heroSeq[j]);
-                    AIs[i]->addFriend(heroSeq[j+1]);
+                    ai->addEnemy(heroSeq[j]);
+                    ai->addFriend(heroSeq[j+1]);
                 }
             } else {
                 for (int j = 1; j < heroSeq.size(); j+=2) {
-                    AIs[i]->addEnemy(heroSeq[j]);
-                    AIs[i]->addFriend(heroSeq[j-1]);
+                    ai->addEnemy(heroSeq[j]);
+                    ai->addFriend(heroSeq[j-1]);
                 }
             }
         }
@@ -232,6 +231,10 @@ void EventCenter::dodge(bool got) {
     qDebug() << curHero->heroName() <<
                 "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
+
+    if (curHero->AI() != NULL) {
+        endTurn();   // TODO(ideallx) jugg by AI after skills complete
+    }
 }
 
 void EventCenter::heroAttackPointH(HeroItem* hi) {
@@ -305,9 +308,10 @@ void EventCenter::beginTurn() {
     curPhase = BeginPhase;
     emit roundInfoChanged(buildRoundInfo());
 
-    if (curAI == NULL) {
+    if (curHero->AI() == NULL) {
         return;
     }
+    ArtificialIntellegence* curAI = curHero->AI();
     moveBegin();
     int nearest = 0;
     int distance = GameCoordinate::roughDistance(
@@ -332,8 +336,9 @@ void EventCenter::beginTurn() {
         heroMoveToPoint(result[result.size()-2]);
         waitForTime(msec);
         heroAttackPoint(targetPoint);
+        if (curAI->target()->AI() == NULL)
+            return;
     }
-    waitForTime(msec*2);
     endTurn();
 }
 
@@ -357,7 +362,7 @@ void EventCenter::endTurn() {
         curPhase = DiscardPhase;
         askForDiscardCards(curHero->cards().size() -
                            HeroItem::endTurnMaxCards());
-        if (curAI != NULL) {
+        if (curHero->AI() != NULL) {
             if (curHero == heroSeq.last()) {
                 roundEnd();
                 roundNum++;
@@ -371,6 +376,9 @@ void EventCenter::endTurn() {
         }
         return;
     }
+
+    if (curHero->AI() == NULL)
+        waitForTime(1000);
 
     curPhase = FinalPhase;
     curHero->removetAttackBouns();
@@ -437,7 +445,6 @@ void EventCenter::setCurHero(HeroItem* hi) {
     curHero = hi;
     curHero->setPen(QPen(Qt::darkMagenta, 3));
     listHeroInfo(curHero);
-    curAI = AIs[heroSeq.indexOf(curHero)];
 }
 
 void EventCenter::listHeroInfo(HeroItem* hi) {
@@ -579,7 +586,7 @@ void EventCenter::askForDiscardCards(int num) {
 
     menu->setPrompt(QString("Please Discard %1 Cards").arg(num));
 
-    ArtificialIntellegence* ai = AIs[heroSeq.indexOf(curHero)];
+    ArtificialIntellegence* ai = curHero->AI();
     if (ai == NULL) {
         return;
     }
@@ -598,7 +605,7 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     menu->setOneCardMode(true);
     curPhase = AskForCardPhase;
 
-    ArtificialIntellegence* ai = AIs[heroSeq.indexOf(hi)];
+    ArtificialIntellegence* ai = curHero->AI();
     if (ai == NULL)
         return false;
 
@@ -621,7 +628,7 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
     menu->setOneCardMode(false);
     curPhase = AskForCardPhase;
 
-    ArtificialIntellegence* ai = AIs[heroSeq.indexOf(hi)];
+    ArtificialIntellegence* ai = curHero->AI();
     if (ai == NULL)
         return false;
 

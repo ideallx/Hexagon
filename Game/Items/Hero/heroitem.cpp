@@ -15,7 +15,8 @@ HeroItem::HeroItem(int lineLength)
       lineLength(lineLength),
       theMoney(0),
       nextMustHit(0),
-      hitCount(1) {
+      hitCount(1),
+      ai(NULL) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);

@@ -9,6 +9,7 @@
 class HandCard;
 class SkillBase;
 class Equipment;
+class ArtificialIntellegence;
 
 class HeroItem : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
@@ -88,6 +89,9 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int getMustHitRate() { return nextMustHit; }
     bool isAttackAble() { return hitCount; }
 
+    void setAI(ArtificialIntellegence* a) { ai = a; }
+    ArtificialIntellegence* AI() { return ai; }
+
  private:
     QString thePlayerName;
     QList<SkillBase*> skills;
@@ -117,6 +121,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int theMoney;
     int nextMustHit;
     int hitCount;
+    ArtificialIntellegence* ai;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);

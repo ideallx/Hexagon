@@ -108,8 +108,6 @@ class EventCenter : public QObject {
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
     QWidget* parent;
-    QList<ArtificialIntellegence*> AIs;
-    ArtificialIntellegence* curAI;
     bool isAnimating;
 
  signals:
