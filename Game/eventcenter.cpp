@@ -372,20 +372,9 @@ void EventCenter::endTurn() {
         askForDiscardCards(curHero->cards().size() -
                            HeroItem::endTurnMaxCards());
 
-        curHero->setPen(QPen(Qt::black, 3));
-        if (curHero->AI() != NULL) {
-            if (curHero == heroSeq.last()) {
-                roundEnd();
-                roundNum++;
-                roundBegin();
-            } else {
-                curHero = heroSeq[heroSeq.indexOf(curHero)+1];
-            }
-
-            menu->beginTurnReset();
-            beginTurn();
+        if (curHero->AI() == NULL) {
+            return;
         }
-        return;
     }
 
     if (curHero->AI() != NULL)
