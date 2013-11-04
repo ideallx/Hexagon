@@ -112,6 +112,7 @@ class EventCenter : public QObject {
 
  signals:
     void roundInfoChanged(QStringList);
+    void endTurnLater();
 
  public slots:
     void targetClicked(QPoint p);

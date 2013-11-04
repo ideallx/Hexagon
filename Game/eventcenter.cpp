@@ -101,6 +101,8 @@ void EventCenter::setupConnection() {
             this, &EventCenter::heroUseSkill);
     connect(menu, &GameMenu::cancelClicked,
             scene, &BackScene::clearRange);
+    connect(this, &EventCenter::endTurnLater,
+            this, &EventCenter::endTurn, Qt::QueuedConnection);
 }
 
 void EventCenter::gameBegin() {
@@ -208,8 +210,10 @@ void EventCenter::dodge(bool got) {
     if (got) {
         curHero->removetAttackBouns();
         if (curHero->AI() != NULL) {
-            endTurn();   // TODO(ideallx) jugg by AI after skills complete
+            emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
         }
+        qDebug() << targetHero->heroName() <<
+                    "Dodged The Attack From" << curHero->heroName();
         return;
     }
 
@@ -240,7 +244,7 @@ void EventCenter::dodge(bool got) {
                 "And Made" << curHero->attack() << "Damage";
 
     if (curHero->AI() != NULL) {
-        endTurn();   // TODO(ideallx) jugg by AI after skills complete
+        emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
     }
 }
 
@@ -338,6 +342,7 @@ void EventCenter::beginTurn() {
     if (result.size() > curHero->moveRange()+1) {
         waitForTime(msec);
         heroMoveToPoint(result[curHero->moveRange()-1]);
+        qDebug() << "not attack";
     } else {
         if (GameCoordinate::roughDistance(curHero->point(), targetPoint) != 1) {
             waitForTime(msec);
@@ -348,7 +353,7 @@ void EventCenter::beginTurn() {
         if (curAI->target()->AI() == NULL)
             return;
     }
-    endTurn();
+    emit endTurnLater();
 }
 
 void EventCenter::waitForTime(int msec) {
@@ -382,7 +387,7 @@ void EventCenter::endTurn() {
 
     curPhase = FinalPhase;
     curHero->removetAttackBouns();
-    qDebug() << curHero->heroName() + "'s" << "Turn End";
+    qDebug() << curHero->heroName() + "'s" << "Turn End\n";
 
     curHero->setPen(QPen(Qt::black, 3));
 
@@ -407,7 +412,7 @@ void EventCenter::roundBegin() {
 }
 
 void EventCenter::roundEnd() {
-    qDebug() << "Round" << roundNum << "End";
+    qDebug() << "Round" << roundNum << "End\n";
     foreach(HeroItem* hi, heroSeq) {
         hi->endRoundSettle();
     }
@@ -696,7 +701,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         qDebug() << "cards num:" << curHero->cards().size();
         menu->updateCardsArea(curHero->cards());
         curPhase = FinalPhase;
-        endTurn();
+        emit endTurnLater();
         break;
     case BeginPhase:
         if (curHero != menu->panelHero()) {
