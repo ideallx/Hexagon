@@ -23,7 +23,7 @@ class EquipmentShop;
 class Equipment;
 struct externInfo;
 
-enum rangeMode_t {
+enum class RangeMode {
     ModeMove,
     ModeAttack,
     ModeSkill,
@@ -38,7 +38,7 @@ class ItemCollector {
     ~ItemCollector();
 
     void setMapElement(MapEngine *me);
-    void setHeroFactory(HeroFactory* hf, QList<struct ExternInfo> info);
+    void setHeroFactory(HeroFactory* hf, QList<ExternInfo> info);
     void setCardEngine(CardEngine* ce);
     void setEquipmentShop(EquipmentShop* es);
     void setCampHealth();
@@ -48,7 +48,7 @@ class ItemCollector {
     QList<HandCard*> switchToBack(QList<HandCard*> in);
     QString rscPath();
 
-    QList<QString> getHeroListAvaterPath(enum Camp_t c);
+    QList<QString> getHeroListAvaterPath(Camp c);
 
     bool isPointAvailable(QPoint);
     bool isPointMovable(QPoint);
@@ -59,7 +59,7 @@ class ItemCollector {
 
     QList<GameMapElement*> getRedTeamCamp();
     QList<GameMapElement*> getBlueTeamCamp();
-    QList<GameMapElement*> getAllElementTypeOf(enum GameEnvironment_t);
+    QList<GameMapElement*> getAllElementTypeOf(AreaHexagon);
     void setElementDefaultPen(QPoint);
     void setElementRestorePen(QPoint point);
     void setElementSpecialPen(QPoint, QPen);
@@ -76,8 +76,8 @@ class ItemCollector {
     QList<HandCard*> getCard(int n);
     void returnCard(QList<HandCard*> l);
     QList<QGraphicsLineItem*> getLines() { return targetLines; }
-    QList<QPoint> listRange(HeroItem* hero, enum rangeMode_t);
-    QList<QPoint> listSpecialRange(QPoint o, enum MapRangeType_t t, int range);
+    QList<QPoint> listRange(HeroItem* hero, RangeMode);
+    QList<QPoint> listSpecialRange(QPoint o, MapRangeType t, int range);
     QList<QPoint> listAllMap();
     QList<HandCard*> getJunkCards() { return usedCards; }
 
@@ -99,7 +99,7 @@ class ItemCollector {
     }
 
 
-    enum PointState {
+    enum class PointState {
         NotChecked,
         Added,
         Checked
@@ -109,7 +109,7 @@ class ItemCollector {
      public:
         QPoint parent;
         QPoint self;
-        enum PointState state;
+        PointState state;
     };
     QList<QPoint> pathOnSearch (QPoint from, QPoint to);
     bool addPointToQueue(QPoint p, QPoint from, filter f);
@@ -120,7 +120,7 @@ class ItemCollector {
     void clearPoints();
 
  private:
-    void addHeroList(QList<struct ExternInfo> info);
+    void addHeroList(QList<ExternInfo> info);
     void addCardList();
     void addMapElementList();
     void addHeroSide();
@@ -147,7 +147,7 @@ class ItemCollector {
     int hei;
     int wid;
     HeroItem* tempHero;
-    enum rangeMode_t type;
+    RangeMode type;
 
     QVector<HeroItem*> localHeros;
 

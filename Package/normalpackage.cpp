@@ -5,48 +5,48 @@
 #include "heroitem.h"
 
 CardPackageNormal::CardPackageNormal() {
-    const struct CardInfo kb   = {KuangBao, CardPackage_Normal, 0,
-                                  tr("KuangBao")};
-    const struct CardInfo zy   = {ZheYue, CardPackage_Normal, 0,
-                                  tr("ZheYue")};
-    const struct CardInfo flrs = {FaLiRanShao, CardPackage_Normal, 0,
-                                  tr("FaLiRanShao")};
-    const struct CardInfo smlz = {ShengMingLiZan, CardPackage_Normal, 0,
-                                  tr("ShengMingLiZan")};
-    const struct CardInfo cs   = {ChuanSong, CardPackage_Normal, 0,
-                                  tr("ChuanSong")};
-    const struct CardInfo fyfw = {FangYuFuWen, CardPackage_Normal, 0,
-                                  tr("FangYuFuWen")};
-    const struct CardInfo ztjh = {ZhuangTaiJingHua, CardPackage_Normal, 0,
-                                  tr("ZhuangTaiJingHua")};
-    const struct CardInfo mfhd = {MoFaHuDun, CardPackage_Normal, 0,
-                                  tr("MoFaHuDun")};
-    const struct CardInfo mfzh = {MoFaZhiHeng, CardPackage_Normal, 0,
-                                  tr("MoFaZhiHeng")};
-    const struct CardInfo mjbd = {MoJingBaoDan, CardPackage_Normal, 0,
-                                  tr("MoJingBaoDan")};
-    const struct CardInfo nlxj = {NengLiangXianJing, CardPackage_Normal, 0,
-                                  tr("NengLiangXianJing")};
-    const struct CardInfo jb2  = {JinBi_2, CardPackage_Normal, 0,
-                                  tr("JinBi_2")};
-    const struct CardInfo jb3  = {JinBi_3, CardPackage_Normal, 0,
-                                  tr("JinBi_3")};
-    const struct CardInfo jb4  = {JinBi_4,  CardPackage_Normal, 0,
-                                  tr("JinBi_4")};
-    const struct CardInfo zjj  = {ZhengJingJi, CardPackage_Normal, 0,
-                                  tr("ZhengJingJi")};
-    const struct CardInfo jjy  = {JiJiuYao, CardPackage_Normal, 0,
-                                  tr("JiJiuYao")};
-    const struct CardInfo sb   = {ShanBi, CardPackage_Normal, 0,
-                                  tr("ShanBi")};
+    const CardInfo kb   = {CardNormalPackageType::KuangBao,
+                           CardPackage::CardPackage_Normal, tr("KuangBao")};
+    const CardInfo zy   = {CardNormalPackageType::ZheYue,
+                           CardPackage::CardPackage_Normal, tr("ZheYue")};
+    const CardInfo flrs = {CardNormalPackageType::FaLiRanShao,
+                           CardPackage::CardPackage_Normal, tr("FaLiRanShao")};
+    const CardInfo smlz = {CardNormalPackageType::ShengMingLiZan,
+                           CardPackage::CardPackage_Normal, tr("ShengMingLiZan")};
+    const CardInfo cs   = {CardNormalPackageType::ChuanSong,
+                           CardPackage::CardPackage_Normal, tr("ChuanSong")};
+    const CardInfo fyfw = {CardNormalPackageType::FangYuFuWen,
+                           CardPackage::CardPackage_Normal, tr("FangYuFuWen")};
+    const CardInfo ztjh = {CardNormalPackageType::ZhuangTaiJingHua,
+                           CardPackage::CardPackage_Normal, tr("ZhuangTaiJingHua")};
+    const CardInfo mfhd = {CardNormalPackageType::MoFaHuDun,
+                           CardPackage::CardPackage_Normal, tr("MoFaHuDun")};
+    const CardInfo mfzh = {CardNormalPackageType::MoFaZhiHeng,
+                           CardPackage::CardPackage_Normal, tr("MoFaZhiHeng")};
+    const CardInfo mjbd = {CardNormalPackageType::MoJingBaoDan,
+                           CardPackage::CardPackage_Normal, tr("MoJingBaoDan")};
+    const CardInfo nlxj = {CardNormalPackageType::NengLiangXianJing,
+                           CardPackage::CardPackage_Normal, tr("NengLiangXianJing")};
+    const CardInfo jb2  = {CardNormalPackageType::JinBi_2,
+                           CardPackage::CardPackage_Normal, tr("JinBi_2")};
+    const CardInfo jb3  = {CardNormalPackageType::JinBi_3,
+                           CardPackage::CardPackage_Normal, tr("JinBi_3")};
+    const CardInfo jb4  = {CardNormalPackageType::JinBi_4,
+                           CardPackage::CardPackage_Normal, tr("JinBi_4")};
+    const CardInfo zjj  = {CardNormalPackageType::ZhengJingJi,
+                           CardPackage::CardPackage_Normal, tr("ZhengJingJi")};
+    const CardInfo jjy  = {CardNormalPackageType::JiJiuYao,
+                           CardPackage::CardPackage_Normal, tr("JiJiuYao")};
+    const CardInfo sb   = {CardNormalPackageType::ShanBi,
+                           CardPackage::CardPackage_Normal, tr("ShanBi")};
 
-    skillHash.insert(KuangBao, new CsKuangBao);
-    skillHash.insert(ZheYue, new CsZheYue);
-    skillHash.insert(ShengMingLiZan, new CsShengMingLiZan);
-    skillHash.insert(ChuanSong, new CsChuanSong);
-    skillHash.insert(JinBi_2, new CsMoney(2));
-    skillHash.insert(JinBi_3, new CsMoney(3));
-    skillHash.insert(JinBi_4, new CsMoney(4));
+    skillHash.insert(static_cast<int>(CardNormalPackageType::KuangBao), new CsKuangBao);
+    skillHash.insert(static_cast<int>(CardNormalPackageType::ZheYue), new CsZheYue);
+    skillHash.insert(static_cast<int>(CardNormalPackageType::ShengMingLiZan), new CsShengMingLiZan);
+    skillHash.insert(static_cast<int>(CardNormalPackageType::ChuanSong), new CsChuanSong);
+    skillHash.insert(static_cast<int>(CardNormalPackageType::JinBi_2), new CsMoney(2));
+    skillHash.insert(static_cast<int>(CardNormalPackageType::JinBi_3), new CsMoney(3));
+    skillHash.insert(static_cast<int>(CardNormalPackageType::JinBi_4), new CsMoney(4));
     // skillHash.insert(NengLiangXianJing, new CsNengLiangXianJing(path))
 
     int i = 0;
@@ -80,32 +80,56 @@ CardPackageNormal::CardPackageNormal() {
     }
 }
 
-#define BUILDEQUIP const struct EquipmentInfo
+#define BUILDEQUIP const EquipmentInfo
 EquipmentPackageNormal::EquipmentPackageNormal() {
-    BUILDEQUIP ajlzx = {EquipShoe, EquipmentPackage_Normal,
-                        AnJingLingZhiXue, 4, "AnJingLingZhiXue"};
-    BUILDEQUIP andzd = {EquipArmor, EquipmentPackage_Normal,
-                        ANuoDeZhiDun, 5, "ANuoDeZhiDun"};
-    BUILDEQUIP blqzj = {EquipOmament, EquipmentPackage_Normal,
-                        BuLanQiZhiJie, 4, "BuLanQiZhiJie"};
-    BUILDEQUIP flksz = {EquipWeapon, EquipmentPackage_Normal,
-                        FuLuoKenShenZhang, 8, "FuLuoKenShenZhang"};
-    BUILDEQUIP jgb   = {EquipWeapon, EquipmentPackage_Normal,
-                        JinGuBang, 7, "JinGuBang"};
-    BUILDEQUIP lqddj = {EquipOmament, EquipmentPackage_Normal,
-                        LaoQianDeDaoJu, 4, "LaoQianDeDaoJu"};
-    BUILDEQUIP lrg   = {EquipWeapon, EquipmentPackage_Normal,
-                        LieRiGong, 7, "LieRiGong"};
-    BUILDEQUIP lwfz  = {EquipWeapon, EquipmentPackage_Normal,
-                        LongWangFaZhang, 6, "LongWangFaZhang"};
-    BUILDEQUIP msypf = {EquipArmor, EquipmentPackage_Normal,
-                        MoShuYangDePiFeng, 6, "MoShuYangDePiFeng"};
-    BUILDEQUIP rszf  = {EquipWeapon, EquipmentPackage_Normal,
-                        RanShaoZhiFu, 6, "RanShaoZhiFu"};
-    BUILDEQUIP xjlbs = {EquipWeapon, EquipmentPackage_Normal,
-                        XueJingLingBiShou, 8, "XueJingLingBiShou"};
-    BUILDEQUIP ysdzf = {EquipArmor, EquipmentPackage_Normal,
-                        YuShenDeZhuFu, 5, "YuShenDeZhuFu"};
+    BUILDEQUIP ajlzx = {EquipmentType::EquipShoe,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::AnJingLingZhiXue,
+                        4, "AnJingLingZhiXue"};
+    BUILDEQUIP andzd = {EquipmentType::EquipArmor,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::ANuoDeZhiDun,
+                        5, "ANuoDeZhiDun"};
+    BUILDEQUIP blqzj = {EquipmentType::EquipOmament,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::BuLanQiZhiJie,
+                        4, "BuLanQiZhiJie"};
+    BUILDEQUIP flksz = {EquipmentType::EquipWeapon,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::FuLuoKenShenZhang,
+                        8, "FuLuoKenShenZhang"};
+    BUILDEQUIP jgb   = {EquipmentType::EquipWeapon,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::JinGuBang,
+                        7, "JinGuBang"};
+    BUILDEQUIP lqddj = {EquipmentType::EquipOmament,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::LaoQianDeDaoJu,
+                        4, "LaoQianDeDaoJu"};
+    BUILDEQUIP lrg   = {EquipmentType::EquipWeapon,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::LieRiGong,
+                        7, "LieRiGong"};
+    BUILDEQUIP lwfz  = {EquipmentType::EquipWeapon,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::LongWangFaZhang,
+                        6, "LongWangFaZhang"};
+    BUILDEQUIP msypf = {EquipmentType::EquipArmor,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::MoShuYangDePiFeng,
+                        6, "MoShuYangDePiFeng"};
+    BUILDEQUIP rszf  = {EquipmentType::EquipWeapon,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::RanShaoZhiFu,
+                        6, "RanShaoZhiFu"};
+    BUILDEQUIP xjlbs = {EquipmentType::EquipWeapon,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::XueJingLingBiShou,
+                        8, "XueJingLingBiShou"};
+    BUILDEQUIP ysdzf = {EquipmentType::EquipArmor,
+                        EquipmentPackage::EquipmentPackage_Normal,
+                        EquipNormalPackageId::YuShenDeZhuFu,
+                        5, "YuShenDeZhuFu"};
     eil.append(ajlzx);
     eil.append(andzd);
     eil.append(blqzj);
@@ -127,45 +151,45 @@ EquipmentPackageNormal::EquipmentPackageNormal() {
 
 
 HeroPackageNormal::HeroPackageNormal() {
-    const struct HeroInfo msz  = {1, 4, 8,  sex_female,
+    const HeroInfo msz  = {1, 4, 8,  Sexual::SexFemale,
                                   tr("MieShaZhe")};
-    const struct HeroInfo ls   = {1, 2, 8,  sex_male,
+    const HeroInfo ls   = {1, 2, 8,  Sexual::SexMale,
                                   tr("LeiShen")};
-    const struct HeroInfo bzsn = {1, 2, 8,  sex_female,
+    const HeroInfo bzsn = {1, 2, 8,  Sexual::SexFemale,
                                   tr("BingZhiShengNv")};
-    const struct HeroInfo hwz  = {1, 2, 8,  sex_female,
+    const HeroInfo hwz  = {1, 2, 8,  Sexual::SexFemale,
                                   tr("HuoWuZhe")};
-    const struct HeroInfo fxz  = {1, 3, 7,  sex_female,
+    const HeroInfo fxz  = {1, 3, 7,  Sexual::SexFemale,
                                   tr("FengXingZhe")};
-    const struct HeroInfo hyzq = {1, 3, 8,  sex_female,
+    const HeroInfo hyzq = {1, 3, 8,  Sexual::SexFemale,
                                   tr("HuanYingZhiQiang")};
-    const struct HeroInfo lhyz = {1, 3, 7,  sex_female,
+    const HeroInfo lhyz = {1, 3, 7,  Sexual::SexFemale,
                                   tr("LingHunYiZhe")};
-    const struct HeroInfo dt   = {1, 4, 8,  sex_male,
+    const HeroInfo dt   = {1, 4, 8,  Sexual::SexMale,
                                   tr("DuTu")};
-    const struct HeroInfo yy   = {1, 3, 8,  sex_male,
+    const HeroInfo yy   = {1, 3, 8,  Sexual::SexMale,
                                   tr("YingYan")};
-    const struct HeroInfo shz  = {1, 4, 8,  sex_female,
+    const HeroInfo shz  = {1, 4, 8,  Sexual::SexFemale,
                                   tr("ShiHunZhe")};
-    const struct HeroInfo ayzr = {1, 4, 7,  sex_male,
+    const HeroInfo ayzr = {1, 4, 7,  Sexual::SexMale,
                                   tr("AnYingZhiRen")};
-    const struct HeroInfo rz   = {1, 4, 8,  sex_male,
+    const HeroInfo rz   = {1, 4, 8,  Sexual::SexMale,
                                   tr("RenZhe")};
-    const struct HeroInfo xzlz = {1, 4, 8,  sex_male,
+    const HeroInfo xzlz = {1, 4, 8,  Sexual::SexMale,
                                   tr("XueZhiLiZhua")};
-    const struct HeroInfo qyz  = {1, 4, 8,  sex_male,
+    const HeroInfo qyz  = {1, 4, 8,  Sexual::SexMale,
                                   tr("QiYueZhe")};
-    const struct HeroInfo sqs  = {1, 3, 8,  sex_female,
+    const HeroInfo sqs  = {1, 3, 8,  Sexual::SexFemale,
                                   tr("ShengQiShi")};
-    const struct HeroInfo zlzj = {1, 3, 9,  sex_male,
+    const HeroInfo zlzj = {1, 3, 9,  Sexual::SexMale,
                                   tr("ZhanLanZhiJian")};
-    const struct HeroInfo zkzs = {1, 3, 10, sex_male,
+    const HeroInfo zkzs = {1, 3, 10, Sexual::SexMale,
                                   tr("ZhongKaiZhanShi")};
-    const struct HeroInfo ks   = {1, 3, 9,  sex_male,
+    const HeroInfo ks   = {1, 3, 9,  Sexual::SexMale,
                                   tr("KuangSha")};
-    const struct HeroInfo ss   = {1, 3, 9,  sex_male,
+    const HeroInfo ss   = {1, 3, 9,  Sexual::SexMale,
                                   tr("SiShen")};
-    const struct HeroInfo bx   = {1, 4, 8,  sex_male,
+    const HeroInfo bx   = {1, 4, 8,  Sexual::SexMale,
                                   tr("BaoXiong")};
 
     hil.append(msz);
@@ -193,7 +217,7 @@ HeroPackageNormal::HeroPackageNormal() {
 
 
 CsKuangBao::CsKuangBao()
-    : AttackBuffSkill(AttackBuffAddDamage, 1, 0x3F) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffAddDamage, 1, 0x3F) {
     setObjectName("KuangBao");
 }
 
@@ -207,7 +231,7 @@ void CsKuangBao::skillClicked(SkillPara sp) {
 }
 
 CsZheYue::CsZheYue()
-    : RangeSkill(RangeTypeRound, 2) {
+    : RangeSkill(MapRangeType::RangeTypeRound, 2) {
     setObjectName("ZheYue");
 }
 
@@ -217,14 +241,14 @@ void CsZheYue::skillAct(SkillPara sp) {
 }
 
 CsShengMingLiZan::CsShengMingLiZan()
-    : RangeSkill(RangeTypeRound, 1) {
+    : RangeSkill(MapRangeType::RangeTypeRound, 1) {
     setObjectName("ShengMingLiZan");
 }
 
 void CsShengMingLiZan::skillAct(SkillPara sp) {
     QList<QPoint> lp = sp.ec->getPointInRange(
                 static_cast<HeroItem*>(sp.from)->point(),
-                RangeTypeRound, 1);
+                MapRangeType::RangeTypeRound, 1);
     foreach(QPoint p, lp) {
         HeroItem* hi = sp.ec->hasHeroOnPoint(p);
         if (hi)
@@ -233,7 +257,7 @@ void CsShengMingLiZan::skillAct(SkillPara sp) {
 }
 
 CsChuanSong::CsChuanSong()
-    : RangeSkill(RangeTypeRound, 1) {
+    : RangeSkill(MapRangeType::RangeTypeRound, 1) {
     setObjectName("ChuanSong");
 }
 
@@ -247,7 +271,7 @@ void CsChuanSong::skillRange(SkillPara sp) {
     QList<HeroItem*> friendHeros = sp.ec->getHerosOfCamp(hi->camp());
     QList<QPoint> lp;
     foreach(HeroItem* hi, friendHeros) {
-        lp += sp.ec->getPointInRange(hi->point(), RangeTypeRound, 1);
+        lp += sp.ec->getPointInRange(hi->point(), MapRangeType::RangeTypeRound, 1);
     }
     sp.ec->showSkillRange(lp);
 }
@@ -257,7 +281,7 @@ CsNengLiangXianJing::CsNengLiangXianJing(QString path, int width)
 }
 
 HsGuiShou::HsGuiShou()
-    : AttackBuffSkill(AttackBuffAddDamage, 0, 0x3F, 0, 0) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffAddDamage, 0, 0x3F, 0, 0) {
     setObjectName("GuiShou");
 }
 
@@ -278,7 +302,7 @@ void HsGuiShou::skillClicked(SkillPara sp) {
 
 
 HsQianXing::HsQianXing()
-    : AttackBuffSkill(AttackBuffAddDamage, 1, 0x3F, 2, 2) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffAddDamage, 1, 0x3F, 2, 2) {
     setObjectName("QianXing");
 }
 
@@ -294,7 +318,7 @@ void HsQianXing::skillClicked(SkillPara sp) {
 }
 
 HsLengXue::HsLengXue()
-    : AttackBuffSkill(AttackBuffMustHit, 0, 0x3F, 2, 2) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffMustHit, 0, 0x3F, 2, 2) {
     setObjectName("LengXue");
 }
 
@@ -311,7 +335,7 @@ void HsLengXue::skillClicked(SkillPara sp) {
 }
 
 HsBaoNu::HsBaoNu()
-    : AttackBuffSkill(AttackBuffMoreAttack, 2, 0x3F, 2, 2) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffMoreAttack, 2, 0x3F, 2, 2) {
     setObjectName("BaoNu");
 }
 

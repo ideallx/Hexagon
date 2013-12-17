@@ -30,25 +30,25 @@ class EventCenter : public QObject {
     void checkHeros();
     bool isGameBegined() { return gameBegined; }
     void askForDiscardCards(int num);
-    bool askForUseCard(HeroItem* hi, enum Card_Normal_Package_Type_t t);
+    bool askForUseCard(HeroItem* hi, CardNormalPackageType t);
     bool askForNCard(HeroItem* hi, int n);
     QList<HandCard*> discardCard(HeroItem* hi, int num);
-    void showSkillRange(QGraphicsItem* from, enum MapRangeType_t,
+    void showSkillRange(QGraphicsItem* from, MapRangeType,
                         int range);
     void showSkillRange(QList<QPoint> lp);
     void setHeroPosition(HeroItem* hi, QPoint pos);
     QList<HeroItem*> getHerosInList(QList<QPoint> lp);
     QList<QPoint> getPointInRange(QPoint p,
-                                  enum MapRangeType_t,
+                                  MapRangeType,
                                   int range);
     HeroItem* hasHeroOnPoint(QPoint p);
-    QList<HeroItem*> getHerosOfCamp(Camp_t c);
+    QList<HeroItem*> getHerosOfCamp(Camp c);
     static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
     void dodge(bool got);
 
-    enum gamePhase_t {
+    enum class GamePhase {
         BeginPhase,
         ChooseBirthPhase,
         MovePhase,
@@ -92,14 +92,14 @@ class EventCenter : public QObject {
 
     struct AskForUseCard_t {
         HeroItem* useCardHero;
-        enum Card_Normal_Package_Type_t useCardType;
+        CardNormalPackageType useCardType;
         int n;
     } askCard;
 
     BackScene *scene;
     GameMenu* menu;
     ItemCollector* ic;
-    enum gamePhase_t curPhase;
+    GamePhase curPhase;
     QList<HeroItem*> heroSeq;
     bool gameBegined;
     int playerHeroNum;

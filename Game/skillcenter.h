@@ -20,7 +20,7 @@ struct SkillPara {
 
 
 class SkillBase : public QObject {
-    Q_ENUMS(TriggerTime_t)
+    Q_ENUMS(TriggerTime)
 
  public:
     SkillBase(int cdf, int cdmaxf)
@@ -28,12 +28,12 @@ class SkillBase : public QObject {
           cooldownMax(cdmaxf){;}
     virtual void skillPrepare(struct SkillPara sp) = 0;
     virtual void skillFlow(struct SkillPara sp) = 0;
-    virtual enum TriggerTime_t triggerTime() const = 0;
+    virtual TriggerTime triggerTime() const = 0;
     virtual bool isWorkNow() = 0;
     virtual int cdMax() { return cooldownMax; }
     virtual int cdNow() { return cooldown; }
     void addCoolDown(int n);
-    virtual enum SkillType_t type() { return SkillActive; }
+    virtual SkillType type() { return SkillType::SkillActive; }
 
  private:
     int cooldown;
@@ -42,49 +42,49 @@ class SkillBase : public QObject {
 
 class AttackBuffSkill : public SkillBase {
  public:
-    AttackBuffSkill(enum AttackBuffEffect abe, int stateType, int probability,
+    AttackBuffSkill(AttackBuffEffect abe, int stateType, int probability,
                     int cd = 0, int cdmax = 0, int effectTime = 1);
 
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
-    virtual enum TriggerTime_t triggerTime() const;
+    virtual TriggerTime triggerTime() const;
 
     virtual bool isWorkNow() { return false; }
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
     virtual void skillClicked(struct SkillPara sp) { Q_UNUSED(sp);}
-    virtual struct AttackBuff buffEffect();
+    virtual AttackBuff buffEffect();
 
     int effectTime() const { return theEffectTime; }
-    enum AttackBuffEffect attackEffect() { return ab.abe; }
+    AttackBuffEffect attackEffect() { return ab.abe; }
     bool skillAvailable() { return true; }
 
  private:
-    struct AttackBuff ab;
+    AttackBuff ab;
     bool availAble;
     int theEffectTime;
 };
 
 class RangeSkill : public SkillBase {
  public:
-    RangeSkill(enum MapRangeType_t, int range,
+    RangeSkill(MapRangeType, int range,
                int cd = 0, int cdmax = 0);
 
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
-    enum TriggerTime_t triggerTime() const { return TriggerInAction; }
+    TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
     virtual bool isWorkNow() { return true; }
 
     virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
     virtual void skillRange(struct SkillPara sp);
 
  private:
-    enum MapRangeType_t type;
+    MapRangeType type;
     int range;
 };
 
 class SufferSkill : public SkillBase {
  public:
-    SufferSkill(enum SufferType_t t, int floor,
+    SufferSkill(SufferType t, int floor,
                 int cd = 0, int cdmax = 0);
 };
 
@@ -95,7 +95,7 @@ class CsMoney : public SkillBase {
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
     bool isWorkNow() { return false; }
-    enum TriggerTime_t triggerTime() const { return TriggerInAction; }
+    TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
 
  private:
     int coin;
@@ -107,7 +107,7 @@ class MapMarkSkill : public SkillBase {
 
     void skillPrepare(struct SkillPara sp);
     void skillFlow(struct SkillPara sp);
-    enum TriggerTime_t triggerTime() const { return TriggerInAction; }
+    TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
     virtual bool isWorkNow() { return true; }
 
     virtual void skillAct(struct SkillPara sp);

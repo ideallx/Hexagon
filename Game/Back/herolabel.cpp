@@ -3,7 +3,7 @@
 
 HeroLabel::HeroLabel(QWidget *parent)
     : QToolButton(parent) {
-    theHeroNum = 0;
+    theHeroNum = HeroNum::MieShaZhe;
 }
 
 void HeroLabel::setPixmap(const QPixmap &qp) {

@@ -2,6 +2,7 @@
 #define GAME_BACK_HEROLABEL_H_
 
 #include <QToolButton>
+#include "enums.h"
 
 class HeroLabel : public QToolButton {
     Q_OBJECT
@@ -10,12 +11,12 @@ class HeroLabel : public QToolButton {
     explicit HeroLabel(QWidget *parent = 0);
 
     void setPixmap(const QPixmap &qp);
-    void setHeroNum(int i) { theHeroNum = i; }
-    int heroNum() { return theHeroNum; }
+    void setHeroNum(HeroNum i) { theHeroNum = i; }
+    HeroNum heroNum() { return theHeroNum; }
 
  private:
     static const int pixWidth = 200;
-    int theHeroNum;
+    HeroNum theHeroNum;
 };
 
 #endif  // GAME_BACK_HEROLABEL_H_

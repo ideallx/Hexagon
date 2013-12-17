@@ -4,7 +4,7 @@
 #include <QString>
 #include <QPoint>
 
-enum GameEnvironment_t {
+enum class AreaHexagon {
     AreaSpace,
     AreaGrass   = '1',
     AreaStone   = '2',
@@ -24,7 +24,7 @@ enum GameEnvironment_t {
     AreaNouse = 'Z'
 };
 
-enum TriggerTime_t {
+enum class TriggerTime {
     TriggerNever,
     TriggerGameBegin,
     TriggerRoundBegin,
@@ -42,14 +42,14 @@ enum TriggerTime_t {
     TriggerInAction
 };
 
-enum MapRangeType_t {
+enum class MapRangeType {
     RangeTypeStraight,
     RangeTypeDoubleLine,
     RangeTypeRound
 };
 
 
-enum HeroNum_t {
+enum class HeroNum {
     MieShaZhe,
     RenZhe,
     AnYingZhiRen,
@@ -72,57 +72,60 @@ enum HeroNum_t {
     HuoWuZhe
 };
 
-enum Camp_t {
-    camp_red,
-    camp_blue
+enum class Camp {
+    CampRed,
+    CampBlue
 };
 
-enum Sexual_t {
-    sex_male,
-    sex_female
+enum class Sexual {
+    SexMale,
+    SexFemale
 };
 
-enum Hero_package_t {
+enum class HeroPackage {
     HeroPackage_Normal,
     HeroPackage_Extend1,
     HeroPackage_Extend2
 };
 
-enum Card_Package_t {
+enum class CardPackage {
     CardPackage_Normal,
     CardPackage_Extend1,
     CardPackage_Extend2
 };
 
-enum EquipmentPackage_t {
+enum class EquipmentPackage {
     EquipmentPackage_Normal,
     EquipmentPackage_Extend1,
     EquipmentPackage_Extend2
 };
 
-struct HeroInfo {
+class HeroInfo {
+ public:
     int attackRange;
     int moveRange;
     int healthMax;
-    enum Sexual_t sexual;
+    Sexual sexual;
     QString heroName;
 };
 
-struct ExternInfo {
-    int h;
-    enum Camp_t c;
+class ExternInfo {
+ public:
+    HeroNum h;
+    Camp c;
     QPoint p;
 };
 
-enum AttackBuffEffect {
+enum class AttackBuffEffect {
     AttackBuffAddDamage,
     AttackBuffAddStat,
     AttackBuffMustHit,
     AttackBuffMoreAttack
 };
 
-struct AttackBuff {
-    enum AttackBuffEffect abe;
+class AttackBuff {
+ public:
+    AttackBuffEffect abe;
     union {
     int stateType;
     int damage;
@@ -130,15 +133,7 @@ struct AttackBuff {
     int probability;
 };
 
-struct CardInfo {
-    int cardType;
-    enum Card_Package_t cardPackage;
-    int cardId;
-    QString name;
-};
-
-
-enum Card_Normal_Package_Type_t {
+enum class CardNormalPackageType {
     KuangBao,
     ZheYue,
     FaLiRanShao,
@@ -158,7 +153,15 @@ enum Card_Normal_Package_Type_t {
     ShanBi
 };
 
-enum EquipNormalPackageId_t {
+class CardInfo {
+ public:
+    CardNormalPackageType cardType;
+    CardPackage cardPackage;
+    QString name;
+};
+
+
+enum class EquipNormalPackageId {
     AnJingLingZhiXue,
     ANuoDeZhiDun,
     BuLanQiZhiJie,
@@ -173,35 +176,36 @@ enum EquipNormalPackageId_t {
     YuShenDeZhuFu
 };
 
-enum HeroState_t {
+enum class HeroState {
     HeroStatePhysicalImmune,
     HeroStateSilence,
     HeroStateStunned,
     HeroStateUnmoveable
 };
 
-enum SkillType_t {
+enum class SkillType {
     SkillActive,
     SkillPositive,
     SkillPositiveTrigger
 };
 
-enum EquipmentType_t {
+enum class EquipmentType {
     EquipWeapon,
     EquipArmor,
     EquipOmament,
     EquipShoe
 };
 
-enum SufferType_t {
+enum class SufferType {
     SufferPhysical,
     SufferMagic
 };
 
-struct EquipmentInfo {
-    enum EquipmentType_t type;
-    enum EquipmentPackage_t eqPackage;
-    int equipmentId;
+class EquipmentInfo {
+ public:
+    EquipmentType type;
+    EquipmentPackage eqPackage;
+    EquipNormalPackageId equipmentId;
     int price;
     QString name;
 };

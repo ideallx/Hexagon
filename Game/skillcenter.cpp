@@ -21,7 +21,7 @@ void SkillBase::addCoolDown(int n) {
  * 1 0 0 1 0 0   0x24  when the dice get 1 or 4
  */
 
-AttackBuffSkill::AttackBuffSkill(enum AttackBuffEffect abe, int stateType,
+AttackBuffSkill::AttackBuffSkill(AttackBuffEffect abe, int stateType,
                                  int probability, int cd, int cdmax, int effectTime)
     : SkillBase(cd, cdmax),
       availAble(true),
@@ -45,15 +45,15 @@ void AttackBuffSkill::skillFlow(struct SkillPara sp) {
     qDebug() << objectName() << "acted";
 }
 
-struct AttackBuff AttackBuffSkill::buffEffect() {
+AttackBuff AttackBuffSkill::buffEffect() {
     return ab;
 }
 
-enum TriggerTime_t AttackBuffSkill::triggerTime() const {
-    return TriggerAttackBegin;
+TriggerTime AttackBuffSkill::triggerTime() const {
+    return TriggerTime::TriggerAttackBegin;
 }
 
-RangeSkill::RangeSkill(enum MapRangeType_t t, int range,
+RangeSkill::RangeSkill(MapRangeType t, int range,
                        int cd, int cdmax)
     : SkillBase(cd, cdmax),
       type(t),
@@ -71,7 +71,7 @@ void RangeSkill::skillPrepare(struct SkillPara sp) {
 }
 
 void RangeSkill::skillRange(struct SkillPara sp) {
-    sp.ec->showSkillRange(sp.from, RangeTypeRound, range);
+    sp.ec->showSkillRange(sp.from, MapRangeType::RangeTypeRound, range);
 }
 
 CsMoney::CsMoney(int money, int cd, int cdmax)
@@ -99,7 +99,7 @@ void MapMarkSkill::skillPrepare(SkillPara sp) {
 }
 
 void MapMarkSkill::skillRange(SkillPara sp) {
-    sp.ec->showSkillRange(sp.from, RangeTypeRound, range);
+    sp.ec->showSkillRange(sp.from, MapRangeType::RangeTypeRound, range);
 }
 
 void MapMarkSkill::skillAct(struct SkillPara sp) {

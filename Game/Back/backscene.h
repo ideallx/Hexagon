@@ -21,13 +21,13 @@ class BackScene : public QGraphicsScene {
     ~BackScene();
 
     ItemCollector* pIc() { return ic;}
-    QList<QString> getHeroListAvaterPath(enum Camp_t c);
+    QList<QString> getHeroListAvaterPath(Camp c);
     void showMoveRange(HeroItem* hero);
     void showAttackRange(HeroItem* hero);
-    void showSkillRange(HeroItem* hero, enum MapRangeType_t, int range);
-    void showBirthSquare(enum Camp_t camp, QList<QPoint> unshow);
+    void showSkillRange(HeroItem* hero, MapRangeType, int range);
+    void showBirthSquare(Camp camp, QList<QPoint> unshow);
     void showRangePoints(QList<QPoint> lp);
-    QList<QPoint> getSkillRange(QPoint o, enum MapRangeType_t, int range);
+    QList<QPoint> getSkillRange(QPoint o, MapRangeType, int range);
     QPoint getLastPoint() { return oldPoint; }
     bool isPointInRange(QPoint in) { return rangeList.contains(in); }
 

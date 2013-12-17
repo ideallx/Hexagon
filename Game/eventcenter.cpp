@@ -20,7 +20,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     : scene(scene),
       menu(menu),
       ic(scene->pIc()),
-      curPhase(ChooseBirthPhase),
+      curPhase(GamePhase::ChooseBirthPhase),
       gameBegined(false),
       parent(parent),
       isAnimating (false) {
@@ -71,7 +71,7 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
 
     curHero = heroSeq[0];
     setCurHero(curHero);
-    curPhase = BeginPhase;
+    curPhase = GamePhase::BeginPhase;
 #else
     menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
     QList<QPoint> l;
@@ -114,7 +114,7 @@ void EventCenter::gameBegin() {
         return;
     }
 
-    curPhase = BeginPhase;
+    curPhase = GamePhase::BeginPhase;
     gameBegined = true;
     curHero = heroSeq[0];
     beginTurn();
@@ -122,7 +122,7 @@ void EventCenter::gameBegin() {
 }
 
 void EventCenter::heroChosen(HeroItem* hero) {
-    if (curPhase == ChooseBirthPhase)
+    if (curPhase == GamePhase::ChooseBirthPhase)
         return;
     menu->setHeroInfo(hero);
     showCards(hero);
@@ -147,11 +147,11 @@ void EventCenter::getCard(int num) {
 }
 
 void EventCenter::moveBegin() {
-    if (curPhase == ChooseBirthPhase)
+    if (curPhase == GamePhase::ChooseBirthPhase)
         return;
     scene->clearRange();
     scene->showMoveRange(curHero);
-    curPhase = MovePhase;
+    curPhase = GamePhase::MovePhase;
 }
 
 void EventCenter::heroMoveToPoint(QPoint in) {
@@ -167,7 +167,7 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     menu->setMoveAble(false);
 
     curHero->setPoint(in);
-    curPhase = BeginPhase;
+    curPhase = GamePhase::BeginPhase;
 
     qDebug() << curHero->heroName() <<
                 "Move To Point" << curHero->point();
@@ -186,13 +186,13 @@ void EventCenter::heroAttackPoint(QPoint in) {
         dodge(true);
     } else if (hitRate == 0){
         waitingEvent = &EventCenter::dodge;
-        askForUseCard(targetHero, ShanBi);
+        askForUseCard(targetHero, CardNormalPackageType::ShanBi);
     } else {
         if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
             dodge(true);
         } else {
             waitingEvent = &EventCenter::dodge;
-            askForUseCard(targetHero, ShanBi);
+            askForUseCard(targetHero, CardNormalPackageType::ShanBi);
         }
     }
     return;
@@ -205,7 +205,7 @@ void EventCenter::dodge(bool got) {
     if (!curHero->isAttackAble()) {
         menu->setAttackAble(false);
     }
-    curPhase = BeginPhase;
+    curPhase = GamePhase::BeginPhase;
 
     if (got) {
         curHero->removetAttackBouns();
@@ -217,7 +217,7 @@ void EventCenter::dodge(bool got) {
         return;
     }
 
-    QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerAttackHit);
+    QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerTime::TriggerAttackHit);
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
 //                if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
@@ -269,23 +269,23 @@ void EventCenter::skillStraightTest(QPoint in) {
     menu->hideAllMenu();
     menu->setMoveAble(false);
     menu->setSkillAble(false);
-    curPhase = BeginPhase;
+    curPhase = GamePhase::BeginPhase;
 }
 
 void EventCenter::targetClicked(QPoint in) {
     if (isAnimating)
         return;
     switch (curPhase) {
-    case MovePhase:
+    case GamePhase::MovePhase:
         heroMoveToPoint(in);
         break;
-    case AttackPhase:
+    case GamePhase::AttackPhase:
         heroAttackPoint(in);
         break;
-    case SkillPhase:
+    case GamePhase::SkillPhase:
         skillStraightTest(in);
         break;
-    case ChooseBirthPhase:
+    case GamePhase::ChooseBirthPhase:
         birthChosed(in);
         break;
     default:
@@ -296,7 +296,7 @@ void EventCenter::targetClicked(QPoint in) {
 void EventCenter::attackBegin() {
     scene->clearRange();
     scene->showAttackRange(curHero);
-    curPhase = AttackPhase;
+    curPhase = GamePhase::AttackPhase;
 
 //    if (!scene->isPointInRange(scene->getLastPoint())) {
 //        curPhase = BeginPhase;
@@ -316,7 +316,7 @@ void EventCenter::beginTurn() {
     getCard(HeroItem::beginTurnGetCards());
     setCurHero(curHero);
     curHero->beginTurnSettle();
-    curPhase = BeginPhase;
+    curPhase = GamePhase::BeginPhase;
     emit roundInfoChanged(buildRoundInfo());
 
     if (curHero->AI() == NULL) {
@@ -368,12 +368,12 @@ void EventCenter::endTurn() {
     if (!gameBegined)
         return;
 
-    if (curPhase == DiscardPhase)
+    if (curPhase == GamePhase::DiscardPhase)
         return;
 
     listHeroInfo(curHero);
     if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
-        curPhase = DiscardPhase;
+        curPhase = GamePhase::DiscardPhase;
         askForDiscardCards(curHero->cards().size() -
                            HeroItem::endTurnMaxCards());
 
@@ -385,7 +385,7 @@ void EventCenter::endTurn() {
     if (curHero->AI() != NULL)
         waitForTime(1000);
 
-    curPhase = FinalPhase;
+    curPhase = GamePhase::FinalPhase;
     curHero->removetAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End\n";
 
@@ -423,7 +423,7 @@ QStringList EventCenter::buildRoundInfo() {
     QStringList qsl;
     QString qs;
     qs = "Camp Turn: ";
-    if (curHero->camp() == camp_red)
+    if (curHero->camp() == Camp::CampRed)
         qs += "Red Team";
     else
         qs += "Blue Team";
@@ -439,7 +439,7 @@ void EventCenter::showMenu(HeroItem* hi, QPoint p) {
     if (isAnimating)
         return;
 
-    if (curPhase == ChooseBirthPhase)
+    if (curPhase == GamePhase::ChooseBirthPhase)
         return;
     if (curHero == hi) {
         menu->showMenu(p);
@@ -460,8 +460,8 @@ void EventCenter::listHeroInfo(HeroItem* hi) {
 
 void EventCenter::skillBegin() {
     scene->clearRange();
-    scene->showSkillRange(curHero, RangeTypeStraight, 5);
-    curPhase = SkillPhase;
+    scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
+    curPhase = GamePhase::SkillPhase;
 }
 
 void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
@@ -518,7 +518,7 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
 }
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
-    QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerAttackBegin);
+    QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerTime::TriggerAttackBegin);
     to->addHealth(- from->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
@@ -604,12 +604,12 @@ void EventCenter::askForDiscardCards(int num) {
 }
 
 bool EventCenter::askForUseCard(HeroItem* hi,
-                                enum Card_Normal_Package_Type_t t) {
+                                CardNormalPackageType t) {
     askCard.useCardHero = hi;
     askCard.useCardType = t;
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(true);
-    curPhase = AskForCardPhase;
+    curPhase = GamePhase::AskForCardPhase;
 
     ArtificialIntellegence* ai = hi->AI();
     if (ai == NULL) {
@@ -635,7 +635,7 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
     askCard.n = n;
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(false);
-    curPhase = AskForCardPhase;
+    curPhase = GamePhase::AskForCardPhase;
 
     ArtificialIntellegence* ai = curHero->AI();
     if (ai == NULL)
@@ -689,7 +689,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         return;
 
     switch (curPhase) {
-    case DiscardPhase:
+    case GamePhase::DiscardPhase:
         if (curHero != menu->panelHero()) {
             return;
         }
@@ -700,10 +700,10 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         }
         qDebug() << "cards num:" << curHero->cards().size();
         menu->updateCardsArea(curHero->cards());
-        curPhase = FinalPhase;
+        curPhase = GamePhase::FinalPhase;
         emit endTurnLater();
         break;
-    case BeginPhase:
+    case GamePhase::BeginPhase:
         if (curHero != menu->panelHero()) {
             return;
         }
@@ -723,18 +723,19 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
             }
         }
         break;
-    case AskForCardPhase:
+    case GamePhase::AskForCardPhase:
         if (askCard.useCardHero != menu->panelHero()) {
             return;
         }
-        if ((l.size() == 1) && (l[0]->cardType() == askCard.useCardType)) {
+        if ((l.size() == 1) &&
+                (l[0]->cardType() == askCard.useCardType)) {
             askCard.useCardHero->removeCard(l[0]);
             menu->updateCardsArea(askCard.useCardHero->cards());
             if (waitingEvent)
                 (this->*waitingEvent)(true);
         }
         break;
-    case AskForNCards:
+    case GamePhase::AskForNCards:
         if (askCard.useCardHero != menu->panelHero()) {
             return;
         }
@@ -752,9 +753,9 @@ void EventCenter::cardCancel() {
     if (isAnimating)
         return;
     switch (curPhase) {
-    case AskForCardPhase:
-    case AskForNCards:
-    case DiscardPhase:
+    case GamePhase::AskForCardPhase:
+    case GamePhase::AskForNCards:
+    case GamePhase::DiscardPhase:
         if (waitingEvent)
             (this->*waitingEvent)(false);
         break;
@@ -780,7 +781,7 @@ void EventCenter::heroUseSkill(int n) {
     sp.from = curHero;
     sp.to = NULL;
     SkillBase *skl = curHero->getHeroSkill(n);
-    if (skl->type() == SkillActive) {
+    if (skl->type() == SkillType::SkillActive) {
         skl->skillPrepare(sp);
         listHeroInfo(curHero);
     }
@@ -802,7 +803,7 @@ void EventCenter::birthChosed(QPoint in) {
             l.append(heroSeq[i]->point());
         }
     }
-    qDebug() << "list camp" << curHero->camp();
+    // qDebug() << "list camp" << curHero->camp();
     scene->clearRange();
     scene->showBirthSquare(curHero->camp(), l);
     menu->setPrompt(tr("Choose Birth For Hero: %1").
@@ -810,14 +811,14 @@ void EventCenter::birthChosed(QPoint in) {
 }
 
 void EventCenter::showSkillRange(QGraphicsItem* from,
-                                 enum MapRangeType_t t , int r) {
+                                 MapRangeType t , int r) {
     scene->showSkillRange(static_cast<HeroItem*>(from), t, r);
-    curPhase = SkillPhase;
+    curPhase = GamePhase::SkillPhase;
 }
 
 void EventCenter::showSkillRange(QList<QPoint> lp) {
     scene->showRangePoints(lp);
-    curPhase = SkillPhase;
+    curPhase = GamePhase::SkillPhase;
 }
 
 QList<HeroItem*> EventCenter::getHerosInList(QList<QPoint> lp) {
@@ -831,7 +832,7 @@ QList<HeroItem*> EventCenter::getHerosInList(QList<QPoint> lp) {
 }
 
 QList<QPoint> EventCenter::getPointInRange(QPoint o,
-                              enum MapRangeType_t t,
+                              MapRangeType t,
                               int range) {
     return ic->listSpecialRange(o, t, range);
 }
@@ -840,7 +841,7 @@ HeroItem* EventCenter::hasHeroOnPoint(QPoint p) {
     return ic->getHeroByPoint(p);
 }
 
-QList<HeroItem*> EventCenter::getHerosOfCamp(Camp_t c) {
+QList<HeroItem*> EventCenter::getHerosOfCamp(Camp c) {
     QList<HeroItem*> hl;
     foreach(HeroItem* hi, heroSeq) {
         if (hi->camp() == c) {

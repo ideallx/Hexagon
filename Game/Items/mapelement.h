@@ -15,16 +15,16 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
     Q_OBJECT
 
  public:
-    GameMapElement(int, enum GameEnvironment_t, QPoint, QString);
+    GameMapElement(int, AreaHexagon, QPoint, QString);
 
     QVector<QPointF> getPolygonPointf(QPointF);
     QPolygonF polygonDeleteBound(double width);
 
     QPoint point() const { return thePoint; }
     QString getElementName() const { return elementName; }
-    bool isPointAvailable() const { return elementType != AreaNouse; }
+    bool isPointAvailable() const { return elementType != AreaHexagon::AreaNouse; }
     bool isMoveAvailable() const { return moveAvailable; }
-    enum GameEnvironment_t getType() const { return elementType; }
+    AreaHexagon getType() const { return elementType; }
 
     void setDefaultZValue();
     void setDefaultPen();
@@ -55,7 +55,7 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
     double halfSqrt3;
 
     bool moveAvailable;
-    enum GameEnvironment_t elementType;
+    AreaHexagon elementType;
     QString elementName;
     QPolygonF hexagon;
 };

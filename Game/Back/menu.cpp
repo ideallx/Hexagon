@@ -16,7 +16,7 @@ ChooseMenu::ChooseMenu(QWidget* parent)
 }
 
 GameMenu::GameMenu(QGraphicsView *parent)
-    : cardPhase(CardNormal),
+    : cardPhase(CardPhase::CardNormal),
       waitingCardNum(0),
       parent(parent),
       heroHeadSlideLength(80),
@@ -163,7 +163,7 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     setHeroHp(hero->health(), hero->maxHealth());
     setHeroAvaters(hero->wholePic());
     struct panelInfo pi;
-    struct HeroInfo hi = hero->getBaseInfo();
+    HeroInfo hi = hero->getBaseInfo();
     pi.attack = 1;
     pi.attackBouns = hero->attack() - pi.attack;
     pi.attackRange = hi.attackRange;
@@ -214,8 +214,8 @@ void GameMenu::on_buttonOK_clicked() {
     qDebug() << "Ok Clicked";
     emit buttonOkClicked(toHandCard(cs->getChosenItems()));
 
-    if (cardPhase == CardDiscard) {
-        cardPhase = CardNormal;
+    if (cardPhase == CardPhase::CardDiscard) {
+        cardPhase = CardPhase::CardNormal;
         waitingCardNum = 0;
     }
 }
@@ -229,7 +229,7 @@ void GameMenu::on_buttonCancel_clicked() {
 
 void GameMenu::askForNCards(int n) {
     ui->buttonOK->setEnabled(false);
-    cardPhase = CardDiscard;
+    cardPhase = CardPhase::CardDiscard;
     waitingCardNum = n;
     cs->setOneCardMode(false);
 }
@@ -240,9 +240,9 @@ void GameMenu::beginTurnReset() {
 }
 
 void GameMenu::chosenCardNumChanged(int n) {
-    if (cardPhase == CardNormal)
+    if (cardPhase == CardPhase::CardNormal)
         return;
-    if (cardPhase == CardChooseOne)
+    if (cardPhase == CardPhase::CardChooseOne)
         return;
 
     if (n == waitingCardNum)

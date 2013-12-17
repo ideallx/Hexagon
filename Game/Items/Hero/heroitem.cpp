@@ -9,7 +9,7 @@ HeroItem::HeroItem(int lineLength)
       theWhoPic(NULL),
       theHealth(7),
       theMaxHealth(7),
-      theSexual(sex_male),
+      theSexual(Sexual::SexMale),
       theMoveRange(2),
       theAttackRange(1),
       lineLength(lineLength),
@@ -48,9 +48,9 @@ QPainterPath HeroItem::shape() const {
     return path;
 }
 
-void HeroItem::setHeroProperty(Sexual_t s, int a, int m, int h) {
+void HeroItem::setHeroProperty(Sexual s, int ar, int m, int h) {
     theSexual = s;
-    baseInfo.attackRange = theAttackRange = a;
+    baseInfo.attackRange = theAttackRange = ar;
     baseInfo.moveRange = theMoveRange = m;
     theMaxHealth = h;
     theHealth = h;
@@ -58,7 +58,7 @@ void HeroItem::setHeroProperty(Sexual_t s, int a, int m, int h) {
 }
 
 
-void HeroItem::setHeroProperty(struct HeroInfo hi) {
+void HeroItem::setHeroProperty(HeroInfo hi) {
     theSexual = hi.sexual;
     theAttackRange = hi.attackRange;
     theMoveRange = hi.moveRange;
@@ -110,7 +110,7 @@ void HeroItem::removeSkill(SkillBase* s) {
 }
 
 // TODO(ideallx) sort by priority
-QList<SkillBase*> HeroItem::hasSkillTriggerAt(enum TriggerTime_t time) {
+QList<SkillBase*> HeroItem::hasSkillTriggerAt(TriggerTime time) {
     QList<SkillBase*> result;
     for (int i = 0; i < skills.size(); i++) {
         if (skills[i]->triggerTime() == time) {
@@ -131,22 +131,22 @@ void HeroItem::addHealth(int n) {
     }
 }
 
-void HeroItem::addNextAttackBouns(struct AttackBuff ab) {
+void HeroItem::addNextAttackBouns(AttackBuff ab) {
     tempBuff.append(ab);
-    if (ab.abe == AttackBuffAddDamage) {
+    if (ab.abe == AttackBuffEffect::AttackBuffAddDamage) {
         theAttack += ab.damage;
-    } else if (ab.abe == AttackBuffMustHit) {
+    } else if (ab.abe == AttackBuffEffect::AttackBuffMustHit) {
         nextMustHit |= ab.probability;  // just as its 100 percent
-    } else if (ab.abe == AttackBuffMoreAttack) {
+    } else if (ab.abe == AttackBuffEffect::AttackBuffMoreAttack) {
         hitCount += ab.damage;
     }
 }
 
 void HeroItem::removetAttackBouns() {
-    foreach(struct AttackBuff ab, tempBuff) {
-        if (ab.abe == AttackBuffAddDamage) {
+    foreach(AttackBuff ab, tempBuff) {
+        if (ab.abe ==AttackBuffEffect:: AttackBuffAddDamage) {
             theAttack -= ab.damage;
-        } else if (ab.abe == AttackBuffMustHit) {
+        } else if (ab.abe == AttackBuffEffect::AttackBuffMustHit) {
             nextMustHit = 0;  // just as its 100 percent
         }
     }
@@ -180,20 +180,22 @@ void HeroItem::reduceAllStatesCooldown() {
 }
 
 bool HeroItem::addEquipment(Equipment* eq) {
-    if (equipments[eq->type()]) {
+    Equipment* temp = equipments[static_cast<int>(eq->type())];
+    if (temp) {
         qDebug() << "Aleady Has Same Type Equipment";
         return false;
     }
-    equipments[eq->type()] = eq;
+    temp = eq;
     return true;
 }
 
 bool HeroItem::removeEquipment(Equipment* eq) {
-    if (equipments[eq->type()] != eq) {
+    Equipment* temp = equipments[static_cast<int>(eq->type())];
+    if (temp != eq) {
         qDebug() << "Hero Hasn't Such Equipment";
         return false;
     }
-    equipments[eq->type()] = NULL;
+    temp = NULL;
     return true;
 }
 
@@ -213,8 +215,8 @@ SkillBase* HeroItem::getHeroSkill(int n) {
         return heroSkills[n];
 }
 
-void HeroItem::addState(enum HeroState_t state, int lastTime) {
-    QPair<enum HeroState_t, int> states;
+void HeroItem::addState(HeroState state, int lastTime) {
+    QPair<HeroState, int> states;
     states.first = state;
     states.second = lastTime;
     heroStates.append(states);

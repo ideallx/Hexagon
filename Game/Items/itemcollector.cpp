@@ -20,7 +20,7 @@ ItemCollector::ItemCollector(GameBackInfo* gbii, GameCoordinate* gci)
         hei(gbi->getHeightCount()),
         wid(gbi->getWidthCount()),
         tempHero(NULL),
-        type(ModeMove) {
+        type(RangeMode::ModeMove) {
 }
 
 ItemCollector::~ItemCollector() {
@@ -43,7 +43,7 @@ void ItemCollector::setMapElement(MapEngine *me) {
 }
 
 void ItemCollector::setHeroFactory(HeroFactory* hf,
-                                   QList<struct ExternInfo> info) {
+                                   QList<ExternInfo> info) {
     this->hf = hf;
     addHeroList(info);
 }
@@ -69,11 +69,11 @@ void ItemCollector::setCampHealth() {
     ch->setPos(200, gbi->getPixmap().height()-200);
 }
 
-void ItemCollector::addHeroList(QList<struct ExternInfo> info) {
+void ItemCollector::addHeroList(QList<ExternInfo> info) {
     QList<HeroItem*> heros = hf->generateHeroes(info);
     for (int i = 0; i < heros.size(); i++) {
         heros.at(i)->setPos(gc->getBeginPosOfHero(heros.at(i)->point()));
-        if (heros.at(i)->camp() == camp_red) {
+        if (heros.at(i)->camp() == Camp::CampRed) {
             redTeamHeros.append(heros.at(i));
         }  else {
             blueTeamHeros.append(heros.at(i));
@@ -109,7 +109,7 @@ void ItemCollector::addMapElementList() {
             RecursivePoint_t* point = new RecursivePoint_t();
             point->parent = outPoint();
             point->self = QPoint(i, j);
-            point->state = NotChecked;
+            point->state = PointState::NotChecked;
             list.append(point);
         }
         points.append(list);
@@ -162,7 +162,7 @@ HeroItem* ItemCollector::getHeroByPoint(QPoint point) {
 }
 
 bool ItemCollector::listAddJudge(QList<QPoint>* set, QPoint point) {
-    if (type == ModeMove) {
+    if (type == RangeMode::ModeMove) {
         if (isPointAvailable(point) && isPointMovable(point)) {
             if (getHeroByPoint(point))
                 return false;
@@ -170,7 +170,7 @@ bool ItemCollector::listAddJudge(QList<QPoint>* set, QPoint point) {
                 set->append(point);
             return true;
         }
-    } else if (type == ModeAttack) {
+    } else if (type == RangeMode::ModeAttack) {
         HeroItem* hi = getHeroByPoint(point);
         if (isPointAvailable(point) && hi) {
             if (hi->camp() == tempHero->camp())
@@ -218,23 +218,23 @@ QList<QPoint> ItemCollector::recursionSeries(QList<QPoint>*set,
     return *set;
 }
 
-QList<QPoint> ItemCollector::listRange(HeroItem* hero, enum rangeMode_t t) {
+QList<QPoint> ItemCollector::listRange(HeroItem* hero, RangeMode t) {
     type = t;
     tempHero = hero;
     QList<QPoint> set;
 
-    if (type == ModeMove)
+    if (type == RangeMode::ModeMove)
         return recursionSeries(&set, hero->point(), hero->moveRange());
-    else if (type == ModeAttack)
+    else if (type == RangeMode::ModeAttack)
         return recursionSeries(&set, hero->point(), hero->attackRange());
     return set;
 }
 
 QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
-                                              enum MapRangeType_t t,
+                                              MapRangeType t,
                                               int range) {
     QList<QPoint> set;
-    if (t == RangeTypeRound) {
+    if (t == MapRangeType::RangeTypeRound) {
         return recursionSeries(&set, o, range);
     } else {   // TODO(ideallx)
         return set;
@@ -302,13 +302,13 @@ void ItemCollector::setElementSpecialPen(GameMapElement* gmeT, QPen pen) {
  * TODO(ideallx) change ui
  *
  */
-QList<QString> ItemCollector::getHeroListAvaterPath(enum Camp_t in) {
+QList<QString> ItemCollector::getHeroListAvaterPath(Camp in) {
     QList<QString> result;
     QList<HeroItem*> recv;
 
-    if (in == camp_red) {
+    if (in == Camp::CampRed) {
         recv = redTeamHeros;
-    } else if (in == camp_blue) {
+    } else if (in == Camp::CampBlue) {
         recv = blueTeamHeros;
     } else {
         return result;
@@ -352,15 +352,15 @@ QList<HeroItem*> ItemCollector::getActSequence() {
 }
 
 QList<GameMapElement*> ItemCollector::getRedTeamCamp() {
-    return getAllElementTypeOf(AreaRedHome);
+    return getAllElementTypeOf(AreaHexagon::AreaRedHome);
 }
 
 QList<GameMapElement*> ItemCollector::getBlueTeamCamp() {
-    return getAllElementTypeOf(AreaBlueHome);
+    return getAllElementTypeOf(AreaHexagon::AreaBlueHome);
 }
 
 QList<GameMapElement*> ItemCollector::getAllElementTypeOf(
-        enum GameEnvironment_t type) {
+        AreaHexagon type) {
     QList<GameMapElement*> result;
     for (int i = 0; i < elements.size(); i++) {
         if (elements[i]->getType() == type) {
@@ -428,12 +428,12 @@ QList<QPoint> ItemCollector::pathOnSearch (QPoint from, QPoint to) {
     while (!waitForChecks.isEmpty()) {
         while (!waitForChecks.isEmpty()) {
             ss = waitForChecks.dequeue();
-            ss->state = Checked;
+            ss->state = PointState::Checked;
             from = ss->self;
             if (gc->roughDistance(from, to) == 1) {
                 ss = getStruct(to);
                 ss->parent = from;
-                ss->state = Checked;
+                ss->state = PointState::Checked;
                 return pathAfterSearch(to);
             }
             addPointToQueue(gc->goUp(from), from, f);
@@ -451,10 +451,10 @@ QList<QPoint> ItemCollector::pathOnSearch (QPoint from, QPoint to) {
 bool ItemCollector::addPointToQueue(QPoint p, QPoint from, filter f) {
     if (isPointAvailable(p) && ((f == NULL) || (this->*f)(p))) {
         RecursivePoint_t *ss = getStruct(p);
-        if (ss->state == NotChecked) {
+        if (ss->state == PointState::NotChecked) {
             queue.append(ss);
             ss->parent = from;
-            ss->state = Added;
+            ss->state = PointState::Added;
             // qDebug() << "point added" << p;
             return true;
         }
@@ -468,7 +468,7 @@ void ItemCollector::clearPoints() {
     foreach(QList<RecursivePoint_t*> list, points) {
         foreach(RecursivePoint_t *point, list) {
             point->parent = outPoint();
-            point->state = NotChecked;
+            point->state = PointState::NotChecked;
         }
     }
 }
@@ -496,7 +496,7 @@ void ItemCollector::calcWholeMapDistance(QPoint from) {
         while (!waitForChecks.isEmpty()) {
             ss = waitForChecks.dequeue();
             from = ss->self;
-            ss->state = Checked;
+            ss->state = PointState::Checked;
             addPointToQueue(gc->goUp(from), from, f);
             addPointToQueue(gc->goUpLeft(from), from, f);
             addPointToQueue(gc->goUpRight(from), from, f);

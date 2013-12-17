@@ -11,7 +11,7 @@ HeroFactory::HeroFactory(GameBackInfo* gbi)
     heroAmount(0) {
 }
 
-HeroItem* HeroFactory::createHero(struct ExternInfo ei) {
+HeroItem* HeroFactory::createHero(ExternInfo ei) {
     HeroItem * item = new HeroItem(lineLength);
     QString temp = innerDir +
             getHeroInfoByNum(ei.h).heroName +
@@ -32,7 +32,7 @@ HeroItem* HeroFactory::createHero(struct ExternInfo ei) {
     return item;
 }
 
-QList<HeroItem*> HeroFactory::generateHeroes(QList<struct ExternInfo> list) {
+QList<HeroItem*> HeroFactory::generateHeroes(QList<ExternInfo> list) {
     QList<HeroItem*> result;
     for (int i = 0; i < list.size(); i++) {
         result.append(createHero(list[i]));
@@ -45,7 +45,8 @@ void HeroFactory::addPackage(AbstractHeroPacakage* ahp) {
     heroAmount += ahp->heroNumInPackage();
 }
 
-struct HeroInfo HeroFactory::getHeroInfoByNum(int n) {
+HeroInfo HeroFactory::getHeroInfoByNum(HeroNum hn) {
+    int n = static_cast<int>(hn);
     for (int i = 0; i < hpl.size(); i++) {
         if (n > hpl[i]->heroNumInPackage()) {
             n -= hpl[i]->heroNumInPackage();
@@ -54,6 +55,6 @@ struct HeroInfo HeroFactory::getHeroInfoByNum(int n) {
         }
     }
     qDebug() << "Hero Num Wrong";
-    struct HeroInfo white = {2, 3, 9,  sex_male, tr("wrongHero")};
+    HeroInfo white = {2, 3, 9,  Sexual::SexMale, tr("wrongHero")};
     return white;
 }

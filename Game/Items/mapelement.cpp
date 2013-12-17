@@ -12,7 +12,7 @@ QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei) {
         for (int i = 0; i < wid; i++) {
             GameMapElement *mapItem = new GameMapElement(
                         gbi->getLineLength(),
-                        (enum GameEnvironment_t)map[i+j*wid],
+                        (AreaHexagon)map[i+j*wid],
                         QPoint(i, j),
                         gbi->getConfigDir()+"elements/");
             elements.append(mapItem);
@@ -25,7 +25,7 @@ QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei) {
 }
 
 GameMapElement::GameMapElement(int lineLength,
-                               enum GameEnvironment_t elementType,
+                               AreaHexagon elementType,
                                QPoint point,
                                QString path)
     : elementType(elementType) {
@@ -57,60 +57,60 @@ void GameMapElement::setDefaultZValue() {
 void GameMapElement::variableInitial() {
     QPixmap block;
     switch (elementType) {
-    case AreaGrass:
+    case AreaHexagon::AreaGrass:
         block = QPixmap(path + "forest.png");
         elementName = QString(tr("grass"));
         break;
-    case AreaStone:
+    case AreaHexagon::AreaStone:
         block = QPixmap(path + "stone.png");
         elementName = QString(tr("stone"));
         moveAvailable = false;
         break;
-    case AreaShop:
+    case AreaHexagon::AreaShop:
         block = QPixmap(path + "shop.png");
         elementName = QString(tr("shop"));
         moveAvailable = false;
         break;
-    case AreaAlchemy:
+    case AreaHexagon::AreaAlchemy:
         block = QPixmap(path + "alchemy.png");
         elementName = QString(tr("alchemy"));
         break;
-    case AreaSpring:
+    case AreaHexagon::AreaSpring:
         block = QPixmap(path + "spring.png");
         elementName = QString(tr("spring"));
         moveAvailable = false;
         break;
-    case AreaCamp:
+    case AreaHexagon::AreaCamp:
         block = QPixmap(path + "camp.png");
         elementName = QString(tr("camp"));
         break;
-    case AreaSwamp:
+    case AreaHexagon::AreaSwamp:
         block = QPixmap(path + "swamp.png");
         elementName = QString(tr("swamp"));
         break;
-    case AreaDesert:
+    case AreaHexagon::AreaDesert:
         block = QPixmap(path + "desert.png");
         elementName = QString(tr("desert"));
         break;
-    case AreaWater:
+    case AreaHexagon::AreaWater:
         block = QPixmap(path + "water.png");
         elementName = QString(tr("water"));
         break;
-    case AreaFort:
+    case AreaHexagon::AreaFort:
         block = QPixmap(path + "fort.png");
         elementName = QString(tr("fort"));
         moveAvailable = false;
         break;
-    case AreaRedHome:
+    case AreaHexagon::AreaRedHome:
         block = QPixmap(path + "red.png");
         elementName = QString(tr("red camp"));
         break;
-    case AreaTree:
+    case AreaHexagon::AreaTree:
         block = QPixmap(path + "tree.png");
         elementName = QString(tr("tree"));;
         moveAvailable = false;
         break;
-    case AreaBlueHome:
+    case AreaHexagon::AreaBlueHome:
         block = QPixmap(path + "blue.png");
         elementName = QString(tr("blue camp"));
         break;

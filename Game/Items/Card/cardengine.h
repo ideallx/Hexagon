@@ -18,9 +18,9 @@ class AbstractCardPackage : public QObject {
  public:
     virtual int cardNumInPackage() = 0;
     virtual int cardTypeInPackage() = 0;
-    virtual enum Card_Package_t cardPackageIdicator() = 0;
-    virtual struct CardInfo getCardInfo(int n) = 0;
-    virtual QList<struct CardInfo> getAllCards() const = 0;
+    virtual CardPackage cardPackageIdicator() = 0;
+    virtual CardInfo getCardInfo(int n) = 0;
+    virtual QList<CardInfo> getAllCards() const = 0;
     virtual SkillBase* getSkillByCardTypeId(int i) = 0;
 };
 
@@ -32,7 +32,7 @@ class CardEngine : public QObject {
     void registerSkill(AbstractCardPackage* acp);
 
  private:
-    HandCard* createCard(struct CardInfo ci);
+    HandCard* createCard(CardInfo ci);
     int cardAmount;
     int cardsId;
     QString path;

@@ -15,15 +15,31 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
     Q_PROPERTY(QPoint thePoint READ point WRITE setPoint)
 
+    class AttackAbility {
+     public:
+        AttackAbility(int initAttack, int initRange);
+
+     private:
+        int attackTime;
+    };
+
+    class OtherInfo {
+     public:
+        OtherInfo();
+
+        int theCamp;
+
+    };
+
  public:
     explicit HeroItem(int lineLength);
-    void setHeroProperty(Sexual_t s, int a, int m, int h);
-    void setHeroProperty(struct HeroInfo);
-    struct HeroInfo getBaseInfo() { return baseInfo; }
+    void setHeroProperty(Sexual s, int ar, int m, int h);
+    void setHeroProperty(HeroInfo);
+    inline HeroInfo getBaseInfo() {return baseInfo; }
 
-    enum Camp_t camp() const { return theCamp;}
-    void setCamp(enum Camp_t c) { theCamp = c; }
-    enum Sexual_t sexual() const { return theSexual; }
+    Camp camp() const { return theCamp;}
+    void setCamp(Camp c) { theCamp = c; }
+    Sexual sexual() const { return theSexual; }
 
     int attackRange() const { return theAttackRange; }
     int moveRange() const { return theMoveRange; }
@@ -47,7 +63,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
 
     int attack() const { return theAttack; }
     void setAttack(int i) { theAttack = i; }
-    void addNextAttackBouns(struct AttackBuff ab);
+    void addNextAttackBouns(AttackBuff ab);
 
     void removetAttackBouns();
     void beginTurnSettle();
@@ -70,7 +86,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addSkill(SkillBase* s);
     void addHeroSkill(SkillBase* s);
     void removeSkill(SkillBase* s);
-    QList<SkillBase*> hasSkillTriggerAt(enum TriggerTime_t);
+    QList<SkillBase*> hasSkillTriggerAt(TriggerTime);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
@@ -84,7 +100,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
     void setMoney(int mo) { theMoney = mo; }
     SkillBase* getHeroSkill(int n);
-    void addState(enum HeroState_t state, int lastTime);
+    void addState(HeroState state, int lastTime);
     QList<SkillBase*> getSkills() { return heroSkills; }
     int getMustHitRate() { return nextMustHit; }
     bool isAttackAble() { return hitCount; }
@@ -98,23 +114,23 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<SkillBase*> heroSkills;
     QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
-    QList<struct AttackBuff> tempBuff;
+    QList<AttackBuff> tempBuff;
     QList<int> moneyList;
     QList<Equipment*> equipments;
-    QList<QPair<enum HeroState_t, int> > heroStates;
+    QList<QPair<HeroState, int> > heroStates;
     int theAttack;
     QPixmap* theAvaPic;
     QPixmap* theWhoPic;
     int theHealth;
     int theMaxHealth;
-    enum Camp_t theCamp;
+    Camp theCamp;
     QPoint thePoint;
-    enum Sexual_t theSexual;
+    Sexual theSexual;
     int theMoveRange;
     int theAttackRange;
     QString theHeroName;
 
-    struct HeroInfo baseInfo;
+    HeroInfo baseInfo;
 
     int lineLength;
     QColor color;

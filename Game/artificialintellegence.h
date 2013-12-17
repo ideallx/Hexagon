@@ -12,7 +12,7 @@ class ArtificialIntellegence {
  public:
     ArtificialIntellegence(HeroItem* hi);
     QList<HandCard*> useCard(int n);
-    HandCard* useCard(enum Card_Normal_Package_Type_t cnpt);
+    HandCard* useCard(CardNormalPackageType cnpt);
     QPoint nearestPointToNearestHero();
 
     void addFriend(HeroItem* hi) { friendHeros.append(hi); }

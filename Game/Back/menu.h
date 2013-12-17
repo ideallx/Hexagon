@@ -89,12 +89,14 @@ class GameMenu : public QObject {
     QList<HandCard*> toHandCard(QList<QGraphicsItem*> l);
     QList<SkillBase*> skills;
 
-    enum CardPhase_t {
+    enum class CardPhase {
         CardNormal,
         CardDiscard,
         CardChooseOne
     };
-    enum CardPhase_t cardPhase;
+    CardPhase cardPhase;
+
+
     int waitingCardNum;
     HeroItem* infoHero;
 

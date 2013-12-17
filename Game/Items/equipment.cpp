@@ -1,7 +1,7 @@
 #include <QBrush>
 #include "equipment.h"
 
-Equipment::Equipment(struct EquipmentInfo ei)
+Equipment::Equipment(EquipmentInfo ei)
     : theInfo(ei) {
 }
 
@@ -20,31 +20,31 @@ EquipmentShop::EquipmentShop(QString path)
 }
 
 void EquipmentShop::soldEquipment(Equipment* eq) {
-    if (!theLists[eq->type()].removeOne(eq))
+    if (!theLists[static_cast<int>(eq->type())].removeOne(eq))
         qDebug() << "Delete Equipment Error";
 }
 
 void EquipmentShop::recoverEquipment(Equipment* eq) {
-    if (theLists[eq->type()].contains(eq)) {
+    if (theLists[static_cast<int>(eq->type())].contains(eq)) {
         qDebug() << "Equipment Aready In Shop";
         return;
     }
-    theLists[eq->type()].append(eq);
+    theLists[static_cast<int>(eq->type())].append(eq);
 }
 
 void EquipmentShop::addEquipmentPackage(AbstractEquipmentPackage* aep) {
     epl.append(aep);
 }
 
-Equipment *EquipmentShop::createEquipment(struct EquipmentInfo ei) {
-    Equipment* ep = new Equipment(ei);
-    theLists[ep->type()].append(ep);
-    return ep;
+Equipment *EquipmentShop::createEquipment(EquipmentInfo ei) {
+    Equipment* eq = new Equipment(ei);
+    theLists[static_cast<int>(eq->type())].append(eq);
+    return eq;
 }
 
 QList<QList<Equipment*> > EquipmentShop::generateEquipment() {
     foreach(AbstractEquipmentPackage *aep, epl) {
-        foreach(struct EquipmentInfo ei, aep->getAllEquipments()) {
+        foreach(EquipmentInfo ei, aep->getAllEquipments()) {
             createEquipment(ei);
         }
     }

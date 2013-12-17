@@ -84,8 +84,8 @@ bool MainWindow::sceneInitial() {
     ui->graphicsView->setScene(scene);
     gp->getIc()->addItemsToScene(scene);
     menu = new GameMenu(ui->graphicsView);
-    menu->listSlideHeroHead(scene->getHeroListAvaterPath(camp_blue),
-                            scene->getHeroListAvaterPath(camp_red));
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath(Camp::CampBlue),
+                            scene->getHeroListAvaterPath(Camp::CampRed));
     ec = new EventCenter(scene, menu, this);
     qDebug("backView load complete...");
 

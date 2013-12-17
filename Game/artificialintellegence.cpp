@@ -7,7 +7,7 @@ ArtificialIntellegence::ArtificialIntellegence(HeroItem *hi)
       targetEnemyHero(NULL) {
 }
 
-HandCard* ArtificialIntellegence::useCard(enum Card_Normal_Package_Type_t cnpt) {
+HandCard* ArtificialIntellegence::useCard(CardNormalPackageType cnpt) {
     foreach(HandCard* hc, AiHero->cards()) {
         if (hc->cardType() == cnpt)
             return hc;

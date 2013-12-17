@@ -1,6 +1,6 @@
 #include "carditem.h"
 
-HandCard::HandCard(int t, int id, QString s, SkillBase* sk)
+HandCard::HandCard(CardNormalPackageType t, int id, QString s, SkillBase* sk)
     : typeCard(t),
       theId(id),
       pixmapPath(QPixmap(s)),

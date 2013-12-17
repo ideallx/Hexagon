@@ -48,13 +48,13 @@ void GameProcess::preGame() {
 #ifdef GIVEN_CONDITION
     loadResources("../rsc/DeathDesert2.xml");
     for (int i = 0; i < 4; i++) {
-        struct ExternInfo ei;
-        ei.h =  rand() % hf->getHeroAmount();
+        ExternInfo ei;
+        ei.h = static_cast<HeroNum>(rand() % hf->getHeroAmount());
         ei.p = QPoint(300, 300);  // untouchable point
         eil.append(ei);
     }
-    eil[0].h = AnYingZhiRen;
-    chosenHeroNum = 0;
+    eil[0].h = HeroNum::AnYingZhiRen;
+    chosenHeroNum = HeroNum::MieShaZhe;
     buildGameInfo();
 #else
     modeChooseScreen();
@@ -80,7 +80,7 @@ void GameProcess::gameChooseScreen() {
 
     int res = chooseDialog->exec();
     if (res == QDialog::Accepted) {
-        struct ExternInfo ei;
+        ExternInfo ei;
         int totalHero = 4;
 
         if (uig->mode_2person->isChecked())
@@ -96,7 +96,7 @@ void GameProcess::gameChooseScreen() {
 
         loadResources(path);
 
-        ei.h = (enum HeroNum_t)(0);
+        ei.h = HeroNum::MieShaZhe;
         ei.p = QPoint(300, 300);  // untouchable point
 
         for (int i = 0; i < totalHero; i++) {
@@ -116,7 +116,7 @@ void GameProcess::modeChooseScreen() {
 }
 
 void GameProcess::buildGameInfo() {
-    qDebug() << "choose num:" << chosenHeroNum;
+    qDebug() << "choose num:" << static_cast<int>(chosenHeroNum);
 
     gc = new GameCoordinate(gbi);
     qDebug() << "gc  load complete...";
@@ -131,20 +131,20 @@ void GameProcess::buildGameInfo() {
 
     ic->setCampHealth();
 
-    QVector<int> heroCode;
+    QVector<HeroNum> heroCode;
     heroCode.append(eil[playerHeroSeq].h);
     for (int i = 0; i < eil.size(); i++) {
         if (i%2)
-            eil[i].c = camp_red;
+            eil[i].c = Camp::CampRed;
         else
-            eil[i].c = camp_blue;
+            eil[i].c = Camp::CampBlue;
 
         if (i == playerHeroSeq)
             continue;
 
-        int code;
+        HeroNum code;
         do {
-            code = rand()%hf->getHeroAmount();
+            code = static_cast<HeroNum>(rand()%hf->getHeroAmount());
         } while (heroCode.contains(code));
         heroCode.append(code);
 
@@ -171,12 +171,12 @@ void GameProcess::heroChooseScreen() {
     chooseDialog->setModal(true);
     uic->setupUi(chooseDialog);
 
-    QList<int> heroNumList;
+    QList<HeroNum> heroNumList;
     qDebug() << "Total Hero Num:" << hf->getHeroAmount();
     for (int i = 0; i < 8; i++) {
-        int code;
+        HeroNum code;
         do {
-            code = rand()%hf->getHeroAmount();
+            code = static_cast<HeroNum>(rand()%hf->getHeroAmount());
         } while (heroNumList.contains(code));
         heroNumList.append(code);
     }
@@ -201,7 +201,7 @@ void GameProcess::heroChooseScreen() {
     int res = chooseDialog->exec();
     if (res != QDialog::Accepted)
         chosenHeroNum = heroNumList[rand()%8];
-    eil[playerHeroSeq].h = chosenHeroNum;
+    eil[playerHeroSeq].h = static_cast<HeroNum>(chosenHeroNum);
     buildGameInfo();
 }
 
@@ -221,28 +221,28 @@ void GameProcess::birthChooseScreen() {
     QGraphicsScene *qgs = new QGraphicsScene();
     for (int i = 0; i < 2; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum GameEnvironment_t)0,
+                (gbi->getLineLength(), (AreaHexagon)0,
                  QPoint(i, 1), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);
     }
     for (int i = 0; i < 3; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum GameEnvironment_t)0,
+                (gbi->getLineLength(), (AreaHexagon)0,
                  QPoint(i, 2), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);
     }
     for (int i = 0; i < 2; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum GameEnvironment_t)0,
+                (gbi->getLineLength(), (AreaHexagon)0,
                  QPoint(i, 3), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);
     }
     for (int i = 0; i < 2; i++) {
         GameMapElement* gme = new GameMapElement
-                (gbi->getLineLength(), (enum GameEnvironment_t)0,
+                (gbi->getLineLength(), (AreaHexagon)0,
                  QPoint(1, i*4), gbi->getConfigDir()+"elements/");
         gme->setPos(gc->leftUpPosNoOffset(gme->point()));
         qgs->addItem(gme);

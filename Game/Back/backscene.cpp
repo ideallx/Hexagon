@@ -99,7 +99,7 @@ void BackScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 void BackScene::showMoveRange(HeroItem* hi) {
     if (hi == NULL)
         return;
-    rangeList = ic->listRange(hi, ModeMove);
+    rangeList = ic->listRange(hi, RangeMode::ModeMove);
     for (int i = 0; i < rangeList.size(); i++) {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::yellow, 5));
     }
@@ -115,13 +115,13 @@ void BackScene::clearRange() {
 
 void BackScene::showAttackRange(HeroItem* hi) {
     rangeList.clear();
-    rangeList = ic->listRange(hi, ModeAttack);
+    rangeList = ic->listRange(hi, RangeMode::ModeAttack);
     for (int i = 0; i < rangeList.size(); i++) {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::red, 5));
     }
 }
 
-void BackScene::showSkillRange(HeroItem* hi, enum MapRangeType_t t, int range) {
+void BackScene::showSkillRange(HeroItem* hi, MapRangeType t, int range) {
     rangeList.clear();
 
     if (range < 0) {
@@ -143,16 +143,16 @@ void BackScene::showRangePoints(QList<QPoint> lp) {
     }
 }
 
-QList<QString> BackScene::getHeroListAvaterPath(enum Camp_t c) {
+QList<QString> BackScene::getHeroListAvaterPath(Camp c) {
     return ic->getHeroListAvaterPath(c);
 }
 
-void BackScene::showBirthSquare(enum Camp_t c, QList<QPoint> unshow) {
+void BackScene::showBirthSquare(Camp c, QList<QPoint> unshow) {
     rangeList.clear();
     QList<GameMapElement*> l;
-    if (c == camp_blue) {
+    if (c == Camp::CampBlue) {
         l = ic->getBlueTeamCamp();
-    } else if (c == camp_red) {
+    } else if (c == Camp::CampRed) {
         l = ic->getRedTeamCamp();
     }
 
@@ -176,7 +176,7 @@ void BackScene::restoreOldPoint(QPoint old) {
 }
 
 QList<QPoint> BackScene::getSkillRange(QPoint o,
-                                       enum MapRangeType_t t,
+                                       MapRangeType t,
                                        int range) {
     QList<QPoint> list;
     list = ic->listSpecialRange(o, t, range);

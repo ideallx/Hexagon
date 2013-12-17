@@ -11,8 +11,8 @@
 
 class Equipment : public QGraphicsRectItem {
  public:
-    explicit Equipment(struct EquipmentInfo ei);
-    int type() { return theInfo.type; }
+    explicit Equipment(EquipmentInfo ei);
+    inline EquipmentType type() { return theInfo.type; }
     int price() { return theInfo.price; }
     QString name() { return theInfo.name; }
     void setPixmap(QString s);
@@ -20,15 +20,15 @@ class Equipment : public QGraphicsRectItem {
 
  private:
     QPixmap pix;
-    struct EquipmentInfo theInfo;
+    EquipmentInfo theInfo;
 };
 
 class AbstractEquipmentPackage : public QObject {
  public:
     virtual int equipmentNumInPackage() = 0;
-    virtual enum EquipmentPackage_t equipmentPackageIdicator() = 0;
-    virtual struct EquipmentInfo getEquipmentInfo(int n) = 0;
-    virtual QList<struct EquipmentInfo> getAllEquipments() const = 0;
+    virtual EquipmentPackage equipmentPackageIdicator() = 0;
+    virtual EquipmentInfo getEquipmentInfo(int n) = 0;
+    virtual QList<EquipmentInfo> getAllEquipments() const = 0;
 };
 
 
@@ -38,7 +38,7 @@ class EquipmentShop {
     void soldEquipment(Equipment* eq);
     void recoverEquipment(Equipment* eq);
     void addEquipmentPackage(AbstractEquipmentPackage* aep);
-    Equipment* createEquipment(struct EquipmentInfo ei);
+    Equipment* createEquipment(EquipmentInfo ei);
     QList<QList<Equipment *> > generateEquipment();
 
     const QList<QList<Equipment*> > allEquips() { return theLists; }

@@ -14,7 +14,7 @@ CardEngine::CardEngine(GameBackInfo *gbi)
 QList<HandCard*> CardEngine::generateHandCards() {
     QList<HandCard*> result;
     for (int i = 0; i < cpl.size(); i++) {
-        QList<struct CardInfo> hcl = cpl[i]->getAllCards();
+        QList<CardInfo> hcl = cpl[i]->getAllCards();
         for (int j = 0; j < hcl.size(); j++) {
             result.append(createCard(hcl[j]));
         }
@@ -22,9 +22,9 @@ QList<HandCard*> CardEngine::generateHandCards() {
     return result;
 }
 
-HandCard* CardEngine::createCard(struct CardInfo ci) {
+HandCard* CardEngine::createCard(CardInfo ci) {
     return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg",
-                        skills[ci.cardType]);
+                        skills[static_cast<int>(ci.cardType)]);
 }
 
 void CardEngine::addPackage(AbstractCardPackage* acp) {

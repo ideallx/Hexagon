@@ -31,13 +31,13 @@ class CardPackageNormal : public AbstractCardPackage {
     CardPackageNormal();
     int cardNumInPackage() { return 60; }
     int cardTypeInPackage() { return 17;}
-    enum Card_Package_t cardPackageIdicator() {
-        return CardPackage_Normal;
+    CardPackage cardPackageIdicator() {
+        return CardPackage::CardPackage_Normal;
     }
-    struct CardInfo getCardInfo(int n) {
+    CardInfo getCardInfo(int n) {
         return cil[n];
     }
-    QList<struct CardInfo> getAllCards() const {
+    QList<CardInfo> getAllCards() const {
         return cil;
     }
 
@@ -46,26 +46,26 @@ class CardPackageNormal : public AbstractCardPackage {
  private:
     QHash<int, SkillBase*>skillHash;
     QString path;
-    QList<struct CardInfo> cil;
+    QList<CardInfo> cil;
 };
 
 class EquipmentPackageNormal : public AbstractEquipmentPackage {
  public:
     EquipmentPackageNormal();
     int equipmentNumInPackage() { return 12; }
-    enum EquipmentPackage_t equipmentPackageIdicator() {
-        return EquipmentPackage_Normal;
+    EquipmentPackage equipmentPackageIdicator() {
+        return EquipmentPackage::EquipmentPackage_Normal;
     }
-    struct EquipmentInfo getEquipmentInfo(int n) { return eil[n];}
-    QList<struct EquipmentInfo> getAllEquipments() const { return eil; }
+    EquipmentInfo getEquipmentInfo(int n) { return eil[n];}
+    QList<EquipmentInfo> getAllEquipments() const { return eil; }
 
  private:
-    QList<struct EquipmentInfo> eil;
+    QList<EquipmentInfo> eil;
 };
 
 class NoSkill : public SkillBase {
     void skillFlow(struct SkillPara sp) { Q_UNUSED(sp);}
-    enum TriggerTime_t triggerTime() { return TriggerNever; }
+    TriggerTime triggerTime() { return TriggerTime::TriggerNever; }
     bool isWorkNow() { return false; }
 };
 
@@ -74,11 +74,11 @@ class HeroPackageNormal : public AbstractHeroPacakage {
  public:
     HeroPackageNormal();
     int heroNumInPackage() { return 20; }
-    enum Hero_package_t heroPackageIndicator() { return HeroPackage_Normal; }
-    struct HeroInfo getHeroInfo(int n) { return hil[n]; }
+    HeroPackage heroPackageIndicator() { return HeroPackage::HeroPackage_Normal; }
+    HeroInfo getHeroInfo(int n) { return hil[n]; }
 
  private:
-    QList<struct HeroInfo> hil;
+    QList<HeroInfo> hil;
 };
 
 
@@ -120,7 +120,7 @@ class HsGuiShou : public AttackBuffSkill {
     HsGuiShou();
     void skillAct(struct SkillPara sp);
     void skillClicked(SkillPara sp);
-    virtual enum SkillType_t type() { return SkillPositive; }
+    virtual SkillType type() { return SkillType::SkillPositive; }
 };
 
 class HsQianXing : public AttackBuffSkill {
