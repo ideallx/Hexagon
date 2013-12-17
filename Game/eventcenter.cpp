@@ -208,7 +208,7 @@ void EventCenter::dodge(bool got) {
     curPhase = GamePhase::BeginPhase;
 
     if (got) {
-        curHero->removetAttackBouns();
+        curHero->removeAttackBouns();
         if (curHero->AI() != NULL) {
             emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
         }
@@ -238,7 +238,7 @@ void EventCenter::dodge(bool got) {
 
     attackAnimate(curHero, targetHero);
     attackCalc(curHero, targetHero);
-    curHero->removetAttackBouns();
+    curHero->removeAttackBouns();
     qDebug() << curHero->heroName() <<
                 "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
@@ -386,7 +386,7 @@ void EventCenter::endTurn() {
         waitForTime(1000);
 
     curPhase = GamePhase::FinalPhase;
-    curHero->removetAttackBouns();
+    curHero->removeAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End\n";
 
     curHero->setPen(QPen(Qt::black, 3));

@@ -4,19 +4,17 @@
 
 HeroItem::HeroItem(int lineLength)
     : thePlayerName(tr("player 1")),
-      theAttack(1),
       theAvaPic(NULL),
       theWhoPic(NULL),
       theHealth(7),
       theMaxHealth(7),
       theSexual(Sexual::SexMale),
-      theMoveRange(2),
-      theAttackRange(1),
       lineLength(lineLength),
       theMoney(0),
-      nextMustHit(0),
-      hitCount(1),
-      ai(NULL) {
+      ai(NULL),
+      aa(new AttackAbility),
+      ma(new MoveAbility),
+      isAlive(true) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -50,22 +48,24 @@ QPainterPath HeroItem::shape() const {
 
 void HeroItem::setHeroProperty(Sexual s, int ar, int m, int h) {
     theSexual = s;
-    baseInfo.attackRange = theAttackRange = ar;
-    baseInfo.moveRange = theMoveRange = m;
+    baseInfo.attackRange = ar;
+    baseInfo.moveRange = m;
     theMaxHealth = h;
     theHealth = h;
-    theAttack = 1;
+    aa->setAttack(1);
+    aa->setRange(ar);
+    ma->setRange(m);
 }
 
 
 void HeroItem::setHeroProperty(HeroInfo hi) {
     theSexual = hi.sexual;
-    theAttackRange = hi.attackRange;
-    theMoveRange = hi.moveRange;
     theMaxHealth = hi.healthMax;
     theHealth = hi.healthMax;
-    theAttack = hi.attackRange;
 
+    aa->setAttack(hi.attackRange);
+    aa->setRange(hi.attackRange);
+    ma->setRange(hi.moveRange);
     baseInfo = hi;
 }
 
@@ -131,30 +131,8 @@ void HeroItem::addHealth(int n) {
     }
 }
 
-void HeroItem::addNextAttackBouns(AttackBuff ab) {
-    tempBuff.append(ab);
-    if (ab.abe == AttackBuffEffect::AttackBuffAddDamage) {
-        theAttack += ab.damage;
-    } else if (ab.abe == AttackBuffEffect::AttackBuffMustHit) {
-        nextMustHit |= ab.probability;  // just as its 100 percent
-    } else if (ab.abe == AttackBuffEffect::AttackBuffMoreAttack) {
-        hitCount += ab.damage;
-    }
-}
-
-void HeroItem::removetAttackBouns() {
-    foreach(AttackBuff ab, tempBuff) {
-        if (ab.abe ==AttackBuffEffect:: AttackBuffAddDamage) {
-            theAttack -= ab.damage;
-        } else if (ab.abe == AttackBuffEffect::AttackBuffMustHit) {
-            nextMustHit = 0;  // just as its 100 percent
-        }
-    }
-    hitCount--;
-}
-
 void HeroItem::beginTurnSettle() {
-    hitCount = 1;
+    aa->restore();
 }
 
 void HeroItem::endRoundSettle() {

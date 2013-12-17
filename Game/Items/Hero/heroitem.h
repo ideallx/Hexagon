@@ -5,34 +5,40 @@
 #include <QPainter>
 #include "enums.h"
 #include "skillcenter.h"
+#include "attackability.h"
+#include "moveability.h"
 
 class HandCard;
 class SkillBase;
 class Equipment;
 class ArtificialIntellegence;
+class AttackAbility;
+class MoveAbility;
+
 
 class HeroItem : public QObject, public QGraphicsEllipseItem {
     Q_OBJECT
-    Q_PROPERTY(QPoint thePoint READ point WRITE setPoint)
-
-    class AttackAbility {
-     public:
-        AttackAbility(int initAttack, int initRange);
-
-     private:
-        int attackTime;
-    };
-
-    class OtherInfo {
-     public:
-        OtherInfo();
-
-        int theCamp;
-
-    };
 
  public:
     explicit HeroItem(int lineLength);
+
+    // AttackAbility
+    inline int getMustHitRate() { return aa->mustHitRate(); }
+    inline int isAttackAble() { return aa->remainingTimes(); }
+    inline int attack() { return aa->attack(); }
+    inline int attackRange() { return aa->attackRange(); }
+    inline void addNextAttackBouns(AttackBuff ab) {
+        aa->addNextAttackBouns(ab);
+    }
+    inline void removeAttackBouns() { aa->removeAttackBouns(); }
+    // AttackAbility
+
+    // MoveAbility
+    inline int moveRange() const { return ma->moveRange(); }
+    inline void setMoveRange(int n) { ma->setRange(n); }
+    // MoveAbility
+
+    // InnerInfo
     void setHeroProperty(Sexual s, int ar, int m, int h);
     void setHeroProperty(HeroInfo);
     inline HeroInfo getBaseInfo() {return baseInfo; }
@@ -41,14 +47,30 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline void setCamp(Camp c) { theCamp = c; }
     inline Sexual sexual() const { return theSexual; }
 
-    inline int attackRange() const { return theAttackRange; }
-    inline int moveRange() const { return theMoveRange; }
-
     inline int health() const { return theHealth; }
     void addHealth(int n);
     inline int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
 
+    inline QString playerName() const { return thePlayerName; }
+    inline QString heroName() const { return theHeroName; }
+    inline void setHeroName(QString n) { theHeroName = n; }
+
+    void addState(HeroState state, int lastTime);
+
+    QList<int> skillCoolDown();
+    void addSkill(SkillBase* s);
+    void addHeroSkill(SkillBase* s);
+    void removeSkill(SkillBase* s);
+    QList<SkillBase*> hasSkillTriggerAt(TriggerTime);
+    SkillBase* getHeroSkill(int n);
+    inline QList<SkillBase*> getSkills() { return heroSkills; }
+
+    inline QPoint point() const { return thePoint;}
+    inline void setPoint(QPoint p) { thePoint = p; }
+    // InnerInfo
+
+    // OuterInfo
     bool addEquipment(Equipment* eq);
     bool removeEquipment(Equipment* eq);
     inline QList<Equipment*> equipmentList() { return equipments; }
@@ -57,56 +79,37 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline QPixmap* wholePic() const { return theWhoPic; }
     void setAvaterPic(QPixmap* p) { theAvaPic = p;}
     void setwholePic(QString path);
+
     void setSkillPics(QString path);
     inline QList<QPixmap> skillButtons() { return theSkillButtons; }
-    QList<int> skillCoolDown();
 
-    int attack() const { return theAttack; }
-    void setAttack(int i) { theAttack = i; }
-    void addNextAttackBouns(AttackBuff ab);
-
-    void removetAttackBouns();
-    void beginTurnSettle();
-    void endRoundSettle();
-    void reduceAllSkillCooldown();
-    void reduceAllStatesCooldown();
-
-    inline QString playerName() const { return thePlayerName; }
-    inline QString heroName() const { return theHeroName; }
-    inline void setHeroName(QString n) { theHeroName = n; }
-
-    inline QPoint point() const { return thePoint;}
-    inline void setPoint(QPoint p) { thePoint = p; }
 
     inline void setCards(QList<HandCard*> c) { theCards = c; }
     void addCards(QList<HandCard*> c);
     inline QList<HandCard*> cards() { return theCards; }
     HandCard* removeCard(HandCard* hc);
 
-    void addSkill(SkillBase* s);
-    void addHeroSkill(SkillBase* s);
-    void removeSkill(SkillBase* s);
-    QList<SkillBase*> hasSkillTriggerAt(TriggerTime);
+    inline int money() { return theMoney; }
+    inline QList<int> moneyLists() { return moneyList; }
+    inline void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
+    inline void setMoney(int mo) { theMoney = mo; }
+
+    inline void setAI(ArtificialIntellegence* a) { ai = a; }
+    inline ArtificialIntellegence* AI() { return ai; }
+    // OuterInfo
+
+    void beginTurnSettle();
+    void endRoundSettle();
+    void reduceAllSkillCooldown();
+    void reduceAllStatesCooldown();
+    static int beginTurnGetCards() { return 2; }
+    static int endTurnMaxCards() { return 3; }
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
-    static int beginTurnGetCards() { return 2; }
-    static int endTurnMaxCards() { return 3; }
 
-    inline int money() { return theMoney; }
-    inline QList<int> moneyLists() { return moneyList; }
-    inline void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
-    inline void setMoney(int mo) { theMoney = mo; }
-    SkillBase* getHeroSkill(int n);
-    void addState(HeroState state, int lastTime);
-    inline QList<SkillBase*> getSkills() { return heroSkills; }
-    inline int getMustHitRate() { return nextMustHit; }
-    inline bool isAttackAble() { return hitCount; }
-
-    inline void setAI(ArtificialIntellegence* a) { ai = a; }
-    inline ArtificialIntellegence* AI() { return ai; }
 
  private:
     QString thePlayerName;
@@ -114,11 +117,9 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QList<SkillBase*> heroSkills;
     QList<HandCard*> theCards;
     QList<QPixmap> theSkillButtons;
-    QList<AttackBuff> tempBuff;
     QList<int> moneyList;
     QList<Equipment*> equipments;
     QList<QPair<HeroState, int> > heroStates;
-    int theAttack;
     QPixmap* theAvaPic;
     QPixmap* theWhoPic;
     int theHealth;
@@ -126,8 +127,6 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     Camp theCamp;
     QPoint thePoint;
     Sexual theSexual;
-    int theMoveRange;
-    int theAttackRange;
     QString theHeroName;
 
     HeroInfo baseInfo;
@@ -135,9 +134,10 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int lineLength;
     QColor color;
     int theMoney;
-    int nextMustHit;
-    int hitCount;
     ArtificialIntellegence* ai;
+    AttackAbility* aa;
+    MoveAbility* ma;
+    bool isAlive;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);
