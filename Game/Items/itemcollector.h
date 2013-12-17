@@ -68,18 +68,18 @@ class ItemCollector {
     void restoreAllPen();
 
     HeroItem* getHeroByPoint(QPoint);
-    void addLocalHero(HeroItem* h) { localHeros.append(h);}
-    bool isLocalHero(HeroItem* h) { return localHeros.contains(h); }
-    HeroItem* getLocalHero() { return localHeros[0]; }
+    inline void addLocalHero(HeroItem* h) { localHeros.append(h);}
+    inline bool isLocalHero(HeroItem* h) { return localHeros.contains(h); }
+    inline HeroItem* getLocalHero() { return localHeros[0]; }
 
     QList<HeroItem*> getActSequence();
     QList<HandCard*> getCard(int n);
     void returnCard(QList<HandCard*> l);
-    QList<QGraphicsLineItem*> getLines() { return targetLines; }
-    QList<QPoint> listRange(HeroItem* hero, RangeMode);
-    QList<QPoint> listSpecialRange(QPoint o, MapRangeType t, int range);
+    inline QList<QGraphicsLineItem*> getLines() { return targetLines; }
+    inline QList<QPoint> listRange(HeroItem* hero, RangeMode);
+    inline QList<QPoint> listSpecialRange(QPoint o, MapRangeType t, int range);
     QList<QPoint> listAllMap();
-    QList<HandCard*> getJunkCards() { return usedCards; }
+    inline QList<HandCard*> getJunkCards() { return usedCards; }
 
     QPixmap getPixmap();
     QPoint getCooxWithPos(QPointF);

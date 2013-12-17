@@ -11,14 +11,14 @@ class SkillBase;
 class HandCard : public QGraphicsRectItem {
  public:
     HandCard(CardNormalPackageType type, int id, QString pixmapPath, SkillBase* skill);
-    QPixmap pixmap() { return pixmapPath; }
-    void setPixmap(QString s) { pixmapPath = s; }
+    inline QPixmap pixmap() { return pixmapPath; }
+    inline void setPixmap(QString s) { pixmapPath = s; }
     void setId(int n) { theId = n; }
     int type() { return theId; }
-    CardNormalPackageType cardType() { return typeCard; }
+    inline CardNormalPackageType cardType() { return typeCard; }
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
-    SkillBase* skill() { return theSkill; }
+    inline SkillBase* skill() { return theSkill; }
 
  private:
     CardNormalPackageType typeCard;

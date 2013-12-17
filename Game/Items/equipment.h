@@ -13,8 +13,8 @@ class Equipment : public QGraphicsRectItem {
  public:
     explicit Equipment(EquipmentInfo ei);
     inline EquipmentType type() { return theInfo.type; }
-    int price() { return theInfo.price; }
-    QString name() { return theInfo.name; }
+    inline int price() { return theInfo.price; }
+    inline QString name() { return theInfo.name; }
     void setPixmap(QString s);
     QPixmap getPixmap() { return pix; }
 
@@ -41,11 +41,11 @@ class EquipmentShop {
     Equipment* createEquipment(EquipmentInfo ei);
     QList<QList<Equipment *> > generateEquipment();
 
-    const QList<QList<Equipment*> > allEquips() { return theLists; }
-    const QList<Equipment*> weapons() { return theWeapons; }
-    const QList<Equipment*> armors() { return theArmors; }
-    const QList<Equipment*> omaments() { return theOmaments; }
-    const QList<Equipment*> shoes() { return theShoes; }
+    inline const QList<QList<Equipment*> > allEquips() { return theLists; }
+    inline const QList<Equipment*> weapons() { return theWeapons; }
+    inline const QList<Equipment*> armors() { return theArmors; }
+    inline const QList<Equipment*> omaments() { return theOmaments; }
+    inline const QList<Equipment*> shoes() { return theShoes; }
 
  private:
     QString path;

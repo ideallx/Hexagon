@@ -9,15 +9,15 @@ class GameBackInfo {
  public:
     explicit GameBackInfo(QString configFilePath);
 
-    QPixmap getPixmap(void) const { return backgroundPicture; }
-    QRectF getCardRect(void) const { return backCardRect; }
-    QPointF getBeginPosition() const { return beginPosition; }
-    QString getConfigDir() const { return configDir; }
-    int getLineLength() const { return lineLength; }
-    int getWidthCount() const { return widthCount; }
-    int getHeightCount() const { return heightCount; }
-    QVector<char> getMapElement() const { return mapElement; }
-    bool isLoadSuccess() const { return isLoadingCorrectly; }
+    inline QPixmap getPixmap() const { return backgroundPicture; }
+    inline QRectF getCardRect() const { return backCardRect; }
+    inline QPointF getBeginPosition() const { return beginPosition; }
+    inline QString getConfigDir() const { return configDir; }
+    inline int getLineLength() const { return lineLength; }
+    inline int getWidthCount() const { return widthCount; }
+    inline int getHeightCount() const { return heightCount; }
+    inline QVector<char> getMapElement() const { return mapElement; }
+    inline bool isLoadSuccess() const { return isLoadingCorrectly; }
 
  private:
     double halfSqrt3;

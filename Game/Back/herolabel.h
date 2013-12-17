@@ -11,8 +11,8 @@ class HeroLabel : public QToolButton {
     explicit HeroLabel(QWidget *parent = 0);
 
     void setPixmap(const QPixmap &qp);
-    void setHeroNum(HeroNum i) { theHeroNum = i; }
-    HeroNum heroNum() { return theHeroNum; }
+    inline void setHeroNum(HeroNum i) {theHeroNum = i; }
+    inline HeroNum heroNum() { return theHeroNum; }
 
  private:
     static const int pixWidth = 200;

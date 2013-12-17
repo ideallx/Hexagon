@@ -20,11 +20,13 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
     QVector<QPointF> getPolygonPointf(QPointF);
     QPolygonF polygonDeleteBound(double width);
 
-    QPoint point() const { return thePoint; }
-    QString getElementName() const { return elementName; }
-    bool isPointAvailable() const { return elementType != AreaHexagon::AreaNouse; }
-    bool isMoveAvailable() const { return moveAvailable; }
-    AreaHexagon getType() const { return elementType; }
+    inline QPoint point() const { return thePoint; }
+    inline QString getElementName() const { return elementName; }
+    inline bool isPointAvailable() const {
+        return elementType != AreaHexagon::AreaNouse;
+    }
+    inline bool isMoveAvailable() const { return moveAvailable; }
+    inline AreaHexagon getType() const { return elementType; }
 
     void setDefaultZValue();
     void setDefaultPen();
@@ -42,7 +44,7 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
                QWidget *widget);
 
     void setPen(const QPen &pen);
-    QPen getOldPen() const { return oldPen; }
+    inline QPen getOldPen() const { return oldPen; }
     void restorePen() { QGraphicsPolygonItem::setPen(oldPen); }
 
  private:

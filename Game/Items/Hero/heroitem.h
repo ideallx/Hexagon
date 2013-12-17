@@ -37,28 +37,28 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setHeroProperty(HeroInfo);
     inline HeroInfo getBaseInfo() {return baseInfo; }
 
-    Camp camp() const { return theCamp;}
-    void setCamp(Camp c) { theCamp = c; }
-    Sexual sexual() const { return theSexual; }
+    inline Camp camp() const { return theCamp;}
+    inline void setCamp(Camp c) { theCamp = c; }
+    inline Sexual sexual() const { return theSexual; }
 
-    int attackRange() const { return theAttackRange; }
-    int moveRange() const { return theMoveRange; }
+    inline int attackRange() const { return theAttackRange; }
+    inline int moveRange() const { return theMoveRange; }
 
-    int health() const { return theHealth; }
+    inline int health() const { return theHealth; }
     void addHealth(int n);
-    int maxHealth() const { return theMaxHealth; }
+    inline int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
 
     bool addEquipment(Equipment* eq);
     bool removeEquipment(Equipment* eq);
-    QList<Equipment*> equipmentList() { return equipments; }
+    inline QList<Equipment*> equipmentList() { return equipments; }
 
-    QPixmap* avaterPic() const { return theAvaPic; }
-    QPixmap* wholePic() const { return theWhoPic; }
+    inline QPixmap* avaterPic() const { return theAvaPic; }
+    inline QPixmap* wholePic() const { return theWhoPic; }
     void setAvaterPic(QPixmap* p) { theAvaPic = p;}
     void setwholePic(QString path);
     void setSkillPics(QString path);
-    QList<QPixmap> skillButtons() { return theSkillButtons; }
+    inline QList<QPixmap> skillButtons() { return theSkillButtons; }
     QList<int> skillCoolDown();
 
     int attack() const { return theAttack; }
@@ -71,16 +71,16 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void reduceAllSkillCooldown();
     void reduceAllStatesCooldown();
 
-    QString playerName() const { return thePlayerName; }
-    QString heroName() const { return theHeroName; }
-    void setHeroName(QString n) { theHeroName = n; }
+    inline QString playerName() const { return thePlayerName; }
+    inline QString heroName() const { return theHeroName; }
+    inline void setHeroName(QString n) { theHeroName = n; }
 
-    QPoint point() const { return thePoint;}
-    void setPoint(QPoint p) { thePoint = p; }
+    inline QPoint point() const { return thePoint;}
+    inline void setPoint(QPoint p) { thePoint = p; }
 
-    void setCards(QList<HandCard*> c) { theCards = c; }
+    inline void setCards(QList<HandCard*> c) { theCards = c; }
     void addCards(QList<HandCard*> c);
-    QList<HandCard*> cards() { return theCards; }
+    inline QList<HandCard*> cards() { return theCards; }
     HandCard* removeCard(HandCard* hc);
 
     void addSkill(SkillBase* s);
@@ -95,18 +95,18 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     static int beginTurnGetCards() { return 2; }
     static int endTurnMaxCards() { return 3; }
 
-    int money() { return theMoney; }
-    QList<int> moneyLists() { return moneyList; }
-    void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
-    void setMoney(int mo) { theMoney = mo; }
+    inline int money() { return theMoney; }
+    inline QList<int> moneyLists() { return moneyList; }
+    inline void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
+    inline void setMoney(int mo) { theMoney = mo; }
     SkillBase* getHeroSkill(int n);
     void addState(HeroState state, int lastTime);
-    QList<SkillBase*> getSkills() { return heroSkills; }
-    int getMustHitRate() { return nextMustHit; }
-    bool isAttackAble() { return hitCount; }
+    inline QList<SkillBase*> getSkills() { return heroSkills; }
+    inline int getMustHitRate() { return nextMustHit; }
+    inline bool isAttackAble() { return hitCount; }
 
-    void setAI(ArtificialIntellegence* a) { ai = a; }
-    ArtificialIntellegence* AI() { return ai; }
+    inline void setAI(ArtificialIntellegence* a) { ai = a; }
+    inline ArtificialIntellegence* AI() { return ai; }
 
  private:
     QString thePlayerName;

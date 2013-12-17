@@ -28,8 +28,8 @@ class GameProcess : public QObject {
     void preGameClean();
     void inGame();
     void endGame();
-    ItemCollector* getIc() { return ic; }
-    QList<ExternInfo> getPreGameResult() { return eil; }
+    inline ItemCollector* getIc() { return ic; }
+    inline QList<ExternInfo> getPreGameResult() { return eil; }
 
  private:
     void loadResources(QString path);

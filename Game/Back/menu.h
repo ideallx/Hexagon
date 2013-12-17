@@ -61,19 +61,21 @@ class GameMenu : public QObject {
  public:
     explicit GameMenu(QGraphicsView *parent = 0);
     ~GameMenu();
-    bool MoveAble() { return isMoveAble; }
-    bool AttackAble() { return isAttackAble; }
-    bool AbilityAble() { return isSkillAble; }
-    void setMoveAble(bool b = true) { isMoveAble = b; }
-    void setAttackAble(bool b = true) { isAttackAble = b; }
-    void setSkillAble(bool b = true) { isSkillAble = b; }
+    inline bool MoveAble() { return isMoveAble; }
+    inline bool AttackAble() { return isAttackAble; }
+    inline bool AbilityAble() { return isSkillAble; }
+    inline void setMoveAble(bool b = true) { isMoveAble = b; }
+    inline void setAttackAble(bool b = true) { isAttackAble = b; }
+    inline void setSkillAble(bool b = true) {isSkillAble = b; }
     void resetMenuEnable();
     void setMap(QGraphicsScene* s);
     void setHeroAvaters(QPixmap *p);
-    void setHeroSkillButton(QList<QPixmap>in) { ss->setHeroSkillButton(in); }
+    inline void setHeroSkillButton(QList<QPixmap>in) {
+        ss->setHeroSkillButton(in);
+    }
     void setHeroSkillCoolDown(QList<SkillBase*> in);
     void setHeroHp(int curHp, int maxHp);
-    void setEssenial(struct panelInfo pi) { es->setContent(pi); }
+    inline void setEssenial(struct panelInfo pi) { es->setContent(pi); }
     void setHeroInfo(HeroItem* hero);
     void setPrompt(QString prompt);
     void askForNCards(int n);

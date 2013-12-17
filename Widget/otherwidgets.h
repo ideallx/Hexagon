@@ -13,7 +13,7 @@ class ModeChooseWidget : public QWidget {
  public:
     explicit ModeChooseWidget(QWidget *parent = 0);
     ~ModeChooseWidget();
-    QToolButton* singleButton() { return ui->singleGame; }
+    inline QToolButton* singleButton() { return ui->singleGame; }
 
  private:
     Ui::modeChoose *ui;

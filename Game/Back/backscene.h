@@ -20,7 +20,7 @@ class BackScene : public QGraphicsScene {
     BackScene(ItemCollector* ic, QObject *parent = 0);
     ~BackScene();
 
-    ItemCollector* pIc() { return ic;}
+    inline ItemCollector* pIc() { return ic;}
     QList<QString> getHeroListAvaterPath(Camp c);
     void showMoveRange(HeroItem* hero);
     void showAttackRange(HeroItem* hero);

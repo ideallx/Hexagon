@@ -15,14 +15,14 @@ class ArtificialIntellegence {
     HandCard* useCard(CardNormalPackageType cnpt);
     QPoint nearestPointToNearestHero();
 
-    void addFriend(HeroItem* hi) { friendHeros.append(hi); }
-    void addEnemy(HeroItem* hi) { enemyHeros.append(hi); }
-    QList<HeroItem*> friends() { return friendHeros; }
-    QList<HeroItem*> enemys() { return enemyHeros; }
-    HeroItem* hero() { return AiHero; }
+    inline void addFriend(HeroItem* hi) { friendHeros.append(hi); }
+    inline void addEnemy(HeroItem* hi) { enemyHeros.append(hi); }
+    inline QList<HeroItem*> friends() { return friendHeros; }
+    inline QList<HeroItem*> enemys() { return enemyHeros; }
+    inline HeroItem* hero() { return AiHero; }
 
-    HeroItem* target() { return targetEnemyHero; }
-    void setTarget(HeroItem* hi) { targetEnemyHero = hi; }
+    inline HeroItem* target() { return targetEnemyHero; }
+    inline void setTarget(HeroItem* hi) { targetEnemyHero = hi; }
 
  private:
     friend class HeroItem;

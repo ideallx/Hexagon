@@ -28,7 +28,7 @@ class EventCenter : public QObject {
     QStringList buildRoundInfo();
     void gameBegin();
     void checkHeros();
-    bool isGameBegined() { return gameBegined; }
+    inline bool isGameBegined() { return gameBegined; }
     void askForDiscardCards(int num);
     bool askForUseCard(HeroItem* hi, CardNormalPackageType t);
     bool askForNCard(HeroItem* hi, int n);
