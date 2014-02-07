@@ -76,8 +76,8 @@ class ItemCollector {
     QList<HandCard*> getCard(int n);
     void returnCard(QList<HandCard*> l);
     inline QList<QGraphicsLineItem*> getLines() { return targetLines; }
-    inline QList<QPoint> listRange(HeroItem* hero, RangeMode);
-    inline QList<QPoint> listSpecialRange(QPoint o, MapRangeType t, int range);
+    QList<QPoint> listRange(HeroItem* hero, RangeMode);
+    QList<QPoint> listSpecialRange(QPoint o, MapRangeType t, int range);
     QList<QPoint> listAllMap();
     inline QList<HandCard*> getJunkCards() { return usedCards; }
 

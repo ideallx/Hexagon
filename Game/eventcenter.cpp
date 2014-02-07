@@ -870,3 +870,22 @@ QList<int> EventCenter::rollTheDice(int n) {
     }
     return result;
 }
+
+void EventCenter::process() {
+    while (true) {
+        getHeroActSequence();
+        while (!isThisRoundComplete()) {
+            heroTurnBegin();
+            heroStatusCheck();
+            /*
+            heroMovePhase();
+            heroAttackPhase();
+            heroSkillPhase();
+            */
+            heroActPhase();
+            heroDicardPhase();
+            heroTurnEnd();
+        }
+        roundCompleteCheck();
+    }
+}
