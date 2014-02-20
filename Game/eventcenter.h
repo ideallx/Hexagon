@@ -7,6 +7,7 @@
 #include <QTimeLine>
 #include <QStringList>
 #include <QEventLoop>
+#include <QStack>
 #include "enums.h"
 #include "coordinate.h"
 
@@ -62,6 +63,8 @@ class EventCenter : public QObject {
 
  private:
     typedef void (EventCenter::* Callback)(bool);
+    typedef int (EventCenter::* eventExec)(GameEvent* e);  // return exec result
+    QStack<eventExec> eventStack;
     void setupConnection();
     void roundBegin();
     void roundEnd();

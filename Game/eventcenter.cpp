@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <QTimer>
+#include <gameevent.h>
 #include "eventcenter.h"
 #include "heroitem.h"
 #include "itemcollector.h"
@@ -869,6 +870,28 @@ QList<int> EventCenter::rollTheDice(int n) {
         qDebug() << "Roll The Dices Error";
     }
     return result;
+}
+
+void EventCenter::eventExecute() {
+
+}
+
+int EventCenter::heroMove(GameEvent* e) {
+    moveBegin();
+    qApp->sendEvent(this, e);
+}
+
+int EventCenter::heroActPhase(GameEvent* e) {
+    switch (e.type()) {
+    case GameEvent::HeroMove:
+        eventStack.append(heroMove);
+        break;
+    case GameEvent::HeroAttact:
+        heroAttack(e);
+        break;
+    default:
+        break;
+    }
 }
 
 void EventCenter::process() {
