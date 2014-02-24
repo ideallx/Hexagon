@@ -24,7 +24,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
       curPhase(GamePhase::ChooseBirthPhase),
       gameBegined(false),
       parent(parent),
-      isAnimating (false) {
+      isAnimating (false),
+      sem(new QSemaphore) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     heroSeq = ic->getActSequence();
@@ -896,19 +897,21 @@ int EventCenter::heroActPhase(GameEvent* e) {
 
 void EventCenter::process() {
     while (true) {
-        getHeroActSequence();
+        roundBegin();
         while (!isThisRoundComplete()) {
-            heroTurnBegin();
-            heroStatusCheck();
+            beginTurn();
             /*
             heroMovePhase();
             heroAttackPhase();
             heroSkillPhase();
             */
-            heroActPhase();
-            heroDicardPhase();
-            heroTurnEnd();
+            endTurn();
         }
-        roundCompleteCheck();
+        roundEnd();
     }
+}
+
+void EventCenter::run() {
+    gameBegin();
+    process();
 }

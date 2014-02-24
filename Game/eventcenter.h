@@ -8,6 +8,8 @@
 #include <QStringList>
 #include <QEventLoop>
 #include <QStack>
+#include <QThread>
+#include <QSemaphore>
 #include "enums.h"
 #include "coordinate.h"
 
@@ -21,7 +23,7 @@ class GameMapElement;
 class HandCard;
 class ArtificialIntellegence;
 
-class EventCenter : public QObject {
+class EventCenter : public QThread {
     Q_OBJECT
 
  public:
@@ -87,6 +89,7 @@ class EventCenter : public QObject {
     int roughDistance(T1 t1, T2 t2) {
         return GameCoordinate::roughDistance(t1->point(), t2->point());
     }
+    void run();
 
     int roundNum;
 
@@ -112,6 +115,7 @@ class EventCenter : public QObject {
     QGraphicsItemAnimation* theGia;
     QWidget* parent;
     bool isAnimating;
+    QSemaphore *sem;
 
  signals:
     void roundInfoChanged(QStringList);
