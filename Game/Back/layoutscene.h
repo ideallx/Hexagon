@@ -10,7 +10,8 @@
 
 class HandCard;
 
-struct panelInfo {
+class panelInfo {
+ public:
     int attackRange;
     int attackRangeBouns;
     int moveRange;
@@ -25,7 +26,7 @@ class EssenialScene : public QGraphicsScene {
     EssenialScene();
     ~EssenialScene();
 
-    void setContent(struct panelInfo);
+    void setContent(panelInfo);
 
  private:
     QString preMr;

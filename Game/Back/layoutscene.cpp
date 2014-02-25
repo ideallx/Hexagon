@@ -36,7 +36,7 @@ EssenialScene::~EssenialScene() {
 }
 
 
-void EssenialScene::setContent(struct panelInfo pi) {
+void EssenialScene::setContent(panelInfo pi) {
     QString text;
 
     text = preMr + QString::number(pi.moveRange);

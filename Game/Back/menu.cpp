@@ -167,7 +167,7 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     infoHero = hero;
     setHeroHp(hero->health(), hero->maxHealth());
     setHeroAvaters(hero->wholePic());
-    struct panelInfo pi;
+    panelInfo pi;
     HeroInfo hi = hero->getBaseInfo();
     pi.attack = 1;
     pi.attackBouns = hero->attack() - pi.attack;
@@ -177,7 +177,7 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     pi.moveRangeBouns = hero->moveRange() - pi.moveRange;
 
     pi.moneyList = hero->moneyLists();
-    setEssenial(pi);
+    es->setContent(pi);
     setHeroSkillButton(hero->skillButtons());
     setHeroSkillCoolDown(hero->getSkills());
     setSkillTips();

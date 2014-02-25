@@ -20,7 +20,6 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
     : scene(scene),
       menu(menu),
       ic(scene->pIc()),
-      curPhase(GamePhase::ChooseBirthPhase),
       gameBegined(false),
       parent(parent),
       isAnimating (false),
@@ -28,57 +27,9 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
       askType(AskType::AskForNone) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
-    heroSeq = ic->getActSequence();
     roundNum = 1;
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
-#ifdef GIVEN_CONDITION
-    curHero = heroSeq[0];
-    curHero->addHeroSkill(new HsGuiShou());
-    curHero->addHeroSkill(new HsQianXing());
-    curHero->addHeroSkill(new HsLengXue());
-    birthChosed(QPoint(0, 12));
-
-    curHero = heroSeq[1];
-    ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
-    curHero->setAI(AI);
-    birthChosed(QPoint(4, 1));
-
-    curHero = heroSeq[2];
-    AI = new ArtificialIntellegence(curHero);
-    curHero->setAI(AI);
-    birthChosed(QPoint(0, 14));
-
-    curHero = heroSeq[3];
-    AI = new ArtificialIntellegence(curHero);
-    curHero->setAI(AI);
-    birthChosed(QPoint(4, 0));
-
-    for (int i = 0; i < heroSeq.size(); i++) {
-        ArtificialIntellegence* ai = heroSeq[i]->AI();
-        if (ai != NULL) {
-            if (i % 2) {
-                for (int j = 0; j < heroSeq.size(); j+=2) {
-                    ai->addEnemy(heroSeq[j]);
-                    ai->addFriend(heroSeq[j+1]);
-                }
-            } else {
-                for (int j = 1; j < heroSeq.size(); j+=2) {
-                    ai->addEnemy(heroSeq[j]);
-                    ai->addFriend(heroSeq[j-1]);
-                }
-            }
-        }
-    }
-
-    curHero = heroSeq[0];
-    setCurHero(curHero);
-    curPhase = GamePhase::BeginPhase;
-#else
-    menu->setPrompt(tr("Choose Birth For Hero: %1").arg(curHero->heroName()));
-    QList<QPoint> l;
-    scene->showBirthSquare(curHero->camp(), l);
-#endif
 }
 
 void EventCenter::setupConnection() {
@@ -109,9 +60,67 @@ void EventCenter::setupConnection() {
             scene, &BackScene::clearRange);
     connect(this, &EventCenter::endTurnLater,
             this, &EventCenter::endTurn, Qt::QueuedConnection);
+    connect(this, &EventCenter::changeHeroInfo,
+            menu, &GameMenu::setHeroInfo);
 }
 
 void EventCenter::gameBegin() {
+    heroSeq = ic->getActSequence();
+#ifdef GIVEN_CONDITION
+    curHero = heroSeq[0];
+    curHero->addHeroSkill(new HsGuiShou());
+    curHero->addHeroSkill(new HsQianXing());
+    curHero->addHeroSkill(new HsLengXue());
+    curHero->setPoint(QPoint(0, 12));
+
+    curHero = heroSeq[1];
+    ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
+    curHero->setAI(AI);
+    curHero->setPoint(QPoint(4, 1));
+
+    curHero = heroSeq[2];
+    AI = new ArtificialIntellegence(curHero);
+    curHero->setAI(AI);
+    curHero->setPoint(QPoint(0, 14));
+
+    curHero = heroSeq[3];
+    AI = new ArtificialIntellegence(curHero);
+    curHero->setAI(AI);
+    curHero->setPoint(QPoint(4, 0));
+
+    for (int i = 0; i < heroSeq.size(); i++) {
+        ArtificialIntellegence* ai = heroSeq[i]->AI();
+        if (ai != NULL) {
+            if (i % 2) {
+                for (int j = 0; j < heroSeq.size(); j+=2) {
+                    ai->addEnemy(heroSeq[j]);
+                    ai->addFriend(heroSeq[j+1]);
+                }
+            } else {
+                for (int j = 1; j < heroSeq.size(); j+=2) {
+                    ai->addEnemy(heroSeq[j]);
+                    ai->addFriend(heroSeq[j-1]);
+                }
+            }
+        }
+    }
+
+    curHero = heroSeq[0];
+    setCurHero(curHero);
+#else
+    for (int i = 0; i < heroSeq.size(); i++) {
+        curHero = heroSeq[i];
+        menu->setPrompt(tr("Choose Birth For Hero: %1").
+                        arg(curHero->heroName()));
+        QList<QPoint> l;
+        scene->showBirthSquare(curHero->camp(), l);
+        QPoint birth = askForSelectPoint();
+        scene->clearRange();
+        curHero->setPoint(birth);
+    }
+
+#endif
+
     scene->clearRange();
     try {
         checkHeros();
@@ -120,10 +129,8 @@ void EventCenter::gameBegin() {
         return;
     }
 
-    curPhase = GamePhase::BeginPhase;
     gameBegined = true;
     curHero = heroSeq[0];
-    beginTurn();
     menu->setPrompt(tr("Game Begin"));
 }
 
@@ -143,8 +150,6 @@ void EventCenter::heroChosen(HeroItem* hero) {
         sem->release();
         return;
     }
-    if (curPhase == GamePhase::ChooseBirthPhase)
-        return;
 }
 
 void EventCenter::showCards(HeroItem* hero) {
@@ -179,7 +184,6 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     menu->setMoveAble(false);
 
     curHero->setPoint(in);
-    curPhase = GamePhase::BeginPhase;
 
     qDebug() << curHero->heroName() <<
                 "Move To Point" << curHero->point();
@@ -190,36 +194,12 @@ void EventCenter::heroAttackPoint(QPoint in) {
         return;
 
     scene->clearRange();
-    waitingEvent = NULL;
     targetHero = ic->getHeroByPoint(in);
+
     int hitRate = curHero->getMustHitRate();
+    bool isHit = dodge(hitRate);
 
-    if (hitRate == 0x3F) {
-        dodge(true);
-    } else if (hitRate == 0){
-        waitingEvent = &EventCenter::dodge;
-        askForUseCard(targetHero, CardNormalPackageType::ShanBi);
-    } else {
-        if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
-            dodge(true);
-        } else {
-            waitingEvent = &EventCenter::dodge;
-            askForUseCard(targetHero, CardNormalPackageType::ShanBi);
-        }
-    }
-    return;
-}
-
-void EventCenter::dodge(bool got) {
-    scene->clearRange();
-    menu->hideAllMenu();
-    menu->setMoveAble(false);
-    if (!curHero->isAttackAble()) {
-        menu->setAttackAble(false);
-    }
-    curPhase = GamePhase::BeginPhase;
-
-    if (got) {
+    if (!isHit) {
         curHero->removeAttackBouns();
         if (curHero->AI() != NULL) {
             emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
@@ -229,6 +209,7 @@ void EventCenter::dodge(bool got) {
         return;
     }
 
+    // if hit
     QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerTime::TriggerAttackHit);
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
@@ -258,6 +239,35 @@ void EventCenter::dodge(bool got) {
     if (curHero->AI() != NULL) {
         emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
     }
+    return;
+}
+
+/**
+ * @brief EventCenter::dodge
+ * @param hitRate
+ * @return true  targetHero get Hit
+ *         false targetHero doged the attack successfully
+ */
+bool EventCenter::dodge(int hitRate) {
+    scene->clearRange();
+    menu->hideAllMenu();
+    menu->setMoveAble(false);
+    if (!curHero->isAttackAble()) {
+        menu->setAttackAble(false);
+    }
+
+    if (hitRate == 0x3F) {
+        return true;
+    } else if (hitRate == 0){
+        return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
+    } else {
+        if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
+            return true;
+        } else {
+            return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
+        }
+    }
+
 }
 
 void EventCenter::skillStraightTest(QPoint in) {
@@ -276,7 +286,6 @@ void EventCenter::skillStraightTest(QPoint in) {
     menu->hideAllMenu();
     menu->setMoveAble(false);
     menu->setSkillAble(false);
-    curPhase = GamePhase::BeginPhase;
 }
 
 void EventCenter::targetClicked(QPoint in) {
@@ -286,23 +295,6 @@ void EventCenter::targetClicked(QPoint in) {
     if (askType == AskType::AskForPoint) {
         resultsPoint = in;
         sem->release();
-        return;
-    }
-
-    switch (curPhase) {
-    case GamePhase::MovePhase:
-        heroMoveToPoint(in);
-        break;
-    case GamePhase::AttackPhase:
-        heroAttackPoint(in);
-        break;
-    case GamePhase::SkillPhase:
-        skillStraightTest(in);
-        break;
-    case GamePhase::ChooseBirthPhase:
-        birthChosed(in);
-        break;
-    default:
         return;
     }
 }
@@ -319,7 +311,6 @@ void EventCenter::beginTurn() {
     getCard(HeroItem::beginTurnGetCards());
     setCurHero(curHero);
     curHero->beginTurnSettle();
-    curPhase = GamePhase::BeginPhase;
     emit roundInfoChanged(buildRoundInfo());
 
     if (curHero->AI() == NULL) {
@@ -374,12 +365,8 @@ void EventCenter::endTurn() {
     if (!gameBegined)
         return;
 
-    if (curPhase == GamePhase::DiscardPhase)
-        return;
-
     listHeroInfo(curHero);
     if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
-        curPhase = GamePhase::DiscardPhase;
         QList<HandCard*> result = askForNCard(curHero, curHero->cards().size() -
                                               HeroItem::endTurnMaxCards());
         foreach (HandCard* hc, result) {
@@ -394,7 +381,6 @@ void EventCenter::endTurn() {
     if (curHero->AI() != NULL)
         waitForTime(1000);
 
-    curPhase = GamePhase::FinalPhase;
     curHero->removeAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End\n";
 
@@ -448,8 +434,6 @@ void EventCenter::showMenu(HeroItem* hi, QPoint p) {
     if (isAnimating)
         return;
 
-    if (curPhase == GamePhase::ChooseBirthPhase)
-        return;
     if (curHero == hi) {
         menu->showMenu(p);
     }
@@ -462,7 +446,7 @@ void EventCenter::setCurHero(HeroItem* hi) {
 }
 
 void EventCenter::listHeroInfo(HeroItem* hi) {
-    menu->setHeroInfo(hi);
+    emit changeHeroInfo(hi);
     scene->views()[0]->centerOn(hi);
     showCards(hi);
 }
@@ -593,26 +577,23 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     askCard.useCardType = t;
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(true);
-    curPhase = GamePhase::AskForCardPhase;
 
     ArtificialIntellegence* ai = hi->AI();
     if (ai == NULL) {
         menu->setHeroInfo(hi);
         showCards(hi);
         sem->acquire();
-
-
-        return false;
+// TODO  resultsCard juggment
+        hi->removeCard(resultsCard[0]);
+        return (resultsCard.size() == 1);
     }
 
     HandCard* hc = ai->useCard(t);
     if (hc) {
         hi->removeCard(hc);
         menu->updateCardsArea(curHero->cards());
-        (this->*waitingEvent)(true);
         return true;
     } else {
-        (this->*waitingEvent)(false);
         return false;
     }
 }
@@ -622,7 +603,6 @@ QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
     askCard.n = n;
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(false);
-    curPhase = GamePhase::AskForCardPhase;
 
     ArtificialIntellegence* ai = curHero->AI();
     if (ai == NULL) {
@@ -631,12 +611,11 @@ QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
         return resultsCard;
     }
 
-//    QList<HandCard*> hcl = ai->useCard(n);
+    return ai->useCard(n);
 //    if (hcl.size() == n) {
 //        foreach(HandCard* hc, hcl)
 //            hi->removeCard(hc);
 //        menu->updateCardsArea(curHero->cards());
-//        (this->*waitingEvent)(true);
 //        return true;
 //    } else {
 //        (this->*waitingEvent)(false);
@@ -684,7 +663,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         sem->release();
         return;
     }
-
+/*
     switch (curPhase) {
     case GamePhase::DiscardPhase:
         if (curHero != menu->panelHero()) {
@@ -744,21 +723,12 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
     default:
         break;
     }
+    */
 }
 
 void EventCenter::cardCancel() {
     if (isAnimating)
         return;
-    switch (curPhase) {
-    case GamePhase::AskForCardPhase:
-    case GamePhase::AskForNCards:
-    case GamePhase::DiscardPhase:
-        if (waitingEvent)
-            (this->*waitingEvent)(false);
-        break;
-    default:
-        break;
-    }
 }
 
 void EventCenter::openShop() {
@@ -784,7 +754,7 @@ void EventCenter::heroUseSkill(int n) {
     }
 }
 
-
+/*
 void EventCenter::birthChosed(QPoint in) {
     setHeroPosition(curHero, in);
     if (curHero == heroSeq.last()) {
@@ -806,16 +776,15 @@ void EventCenter::birthChosed(QPoint in) {
     menu->setPrompt(tr("Choose Birth For Hero: %1").
                     arg(curHero->heroName()));
 }
+*/
 
 void EventCenter::showSkillRange(QGraphicsItem* from,
                                  MapRangeType t , int r) {
     scene->showSkillRange(static_cast<HeroItem*>(from), t, r);
-    curPhase = GamePhase::SkillPhase;
 }
 
 void EventCenter::showSkillRange(QList<QPoint> lp) {
     scene->showRangePoints(lp);
-    curPhase = GamePhase::SkillPhase;
 }
 
 QList<HeroItem*> EventCenter::getHerosInList(QList<QPoint> lp) {

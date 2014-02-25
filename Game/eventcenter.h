@@ -48,19 +48,7 @@ class EventCenter : public QThread {
     static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
-    void dodge(bool got);
-
-    enum class GamePhase {
-        BeginPhase,
-        ChooseBirthPhase,
-        MovePhase,
-        AttackPhase,
-        SkillPhase,
-        DiscardPhase,
-        FinalPhase,
-        AskForCardPhase,
-        AskForNCards
-    };
+    bool dodge(int hitRate);
 
     enum class AskType {
         AskForNone,
@@ -78,7 +66,6 @@ class EventCenter : public QThread {
     void heroAttackPoint(QPoint p);
     void attackCalc(HeroItem* from, HeroItem* to);
     void skillStraightTest(QPoint p);
-    void birthChosed(QPoint in);
 
     void menuClickAct(GameMenuType gmt);
     bool isThisRoundComplete();
@@ -114,19 +101,17 @@ class EventCenter : public QThread {
     BackScene *scene;
     GameMenu* menu;
     ItemCollector* ic;
-    GamePhase curPhase;
     QList<HeroItem*> heroSeq;
     bool gameBegined;
     int playerHeroNum;
-    Callback waitingEvent;
 
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
     QWidget* parent;
     bool isAnimating;
+
     QSemaphore *sem;
     AskType askType;
-
     QPoint resultsPoint;
     QList<HandCard*> resultsCard;
     GameMenuType resultsGMT;
@@ -134,6 +119,7 @@ class EventCenter : public QThread {
  signals:
     void roundInfoChanged(QStringList);
     void endTurnLater();
+    void changeHeroInfo(HeroItem* hi);
 
  public slots:
     void targetClicked(QPoint p);

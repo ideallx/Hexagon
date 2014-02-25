@@ -42,6 +42,7 @@ void MainWindow::gameBegin() {
     connect(openShop, &QAction::triggered, ec, &EventCenter::openShop);
     // changeRoundInfo(ec->buildRoundInfo());
     qDebug() << "initial complete...";
+    ec->start();
 }
 
 // AREA:element     coordinate:x, x    camp:hero
