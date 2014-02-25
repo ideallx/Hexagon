@@ -45,11 +45,16 @@ void GameMenu::menuInitial() {
     hideAllMenu();
     resetMenuEnable();
 
-    connect(moveButton, SIGNAL(clicked()), this, SIGNAL(moveClicked()));
-    connect(attackButton, SIGNAL(clicked()), this, SIGNAL(attackClicked()));
-    connect(skillButton, SIGNAL(clicked()), this, SIGNAL(skillButtonClicked()));
+    connect(moveButton, &QPushButton::clicked,
+            this, &GameMenu::moveClicked);
+    connect(attackButton, &QPushButton::clicked,
+            this, &GameMenu::attackClicked);
+    connect(skillButton, &QPushButton::clicked,
+            this, &GameMenu::skillButtonClicked);
+    connect(cancelButton, &QPushButton::clicked,
+            this, &GameMenu::cancelClicked);
+
     connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
-    connect(cancelButton, SIGNAL(clicked()), this, SIGNAL(cancelClicked()));
     connect(ss, &SkillScene::heroSkillUsed, this, &GameMenu::skillClicked);
 }
 
@@ -285,4 +290,20 @@ void GameMenu::setSkillTips() {
     setSkillTip(0);
     setSkillTip(1);
     setSkillTip(2);
+}
+
+void GameMenu::moveClicked() {
+    emit menuClicked(GameMenuType::Move);
+}
+
+void GameMenu::attackClicked() {
+    emit menuClicked(GameMenuType::Attack);
+}
+
+void GameMenu::skillButtonClicked() {
+    emit menuClicked(GameMenuType::Skill);
+}
+
+void GameMenu::cancelClicked() {
+    emit menuClicked(GameMenuType::Cancel);
 }

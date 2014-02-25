@@ -22,9 +22,9 @@ class AttackAbility {
 
  private:
     QList<AttackBuff> attackBuffs;          // special effects on attack
-    int theTime;                            // remaining attack time
     int theAttack;                          // attack damage
     int theRange;                           // attack range
+    int theTime;                            // remaining attack time
     int nextMustHit;
 };
 

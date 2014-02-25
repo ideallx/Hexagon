@@ -11,6 +11,7 @@
 #include <QSizePolicy>
 #include <QSignalMapper>
 #include "ui_front.h"
+#include "enums.h"
 
 class EssenialScene;
 class SkillScene;
@@ -119,15 +120,17 @@ class GameMenu : public QObject {
     QTabWidget* mapTable;
 
  signals:
+    void buttonOkClicked(QList<HandCard*> l);
+    void buttonCancelClicked();
+    void skillUsed(int n);
+    void menuClicked(GameMenuType gmt);
+
+ public slots:
     void moveClicked();
     void attackClicked();
     void skillButtonClicked();
     void cancelClicked();
-    void buttonOkClicked(QList<HandCard*> l);
-    void buttonCancelClicked();
-    void skillUsed(int n);
 
- public slots:
     void resizeItems();
     void skillClicked(int n);
     void listSlideHeroHead(QList<QString>leftColumn,

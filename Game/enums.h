@@ -201,6 +201,14 @@ enum class SufferType {
     SufferMagic
 };
 
+enum class GameMenuType {
+    Move,
+    Attack,
+    Skill,
+    Cancel,
+    EndTurn
+};
+
 class EquipmentInfo {
  public:
     EquipmentType type;

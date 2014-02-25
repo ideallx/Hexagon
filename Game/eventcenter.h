@@ -32,9 +32,8 @@ class EventCenter : public QThread {
     void gameBegin();
     void checkHeros();
     inline bool isGameBegined() { return gameBegined; }
-    void askForDiscardCards(int num);
     bool askForUseCard(HeroItem* hi, CardNormalPackageType t);
-    bool askForNCard(HeroItem* hi, int n);
+    QList<HandCard*> askForNCard(HeroItem* hi, int n);
     QList<HandCard*> discardCard(HeroItem* hi, int num);
     void showSkillRange(QGraphicsItem* from, MapRangeType,
                         int range);
@@ -63,19 +62,29 @@ class EventCenter : public QThread {
         AskForNCards
     };
 
+    enum class AskType {
+        AskForNone,
+        AskForCards,
+        AskForPoint,
+        AskForSkill
+    };
+
  private:
     typedef void (EventCenter::* Callback)(bool);
-    typedef int (EventCenter::* eventExec)(GameEvent* e);  // return exec result
-    QStack<eventExec> eventStack;
     void setupConnection();
     void roundBegin();
     void roundEnd();
     void heroMoveToPoint(QPoint p);
     void heroAttackPoint(QPoint p);
-    void heroAttackPointH(HeroItem* hi);
     void attackCalc(HeroItem* from, HeroItem* to);
     void skillStraightTest(QPoint p);
     void birthChosed(QPoint in);
+
+    void menuClickAct(GameMenuType gmt);
+    bool isThisRoundComplete();
+    QPoint askForSelectPoint();
+    GameMenuType askForNewEvent();
+    void process();
 
     void moveAnimate(HeroItem* item, GameMapElement* gme);
     void attackAnimate(HeroItem* srcItem, HeroItem* targetItem);
@@ -116,6 +125,11 @@ class EventCenter : public QThread {
     QWidget* parent;
     bool isAnimating;
     QSemaphore *sem;
+    AskType askType;
+
+    QPoint resultsPoint;
+    QList<HandCard*> resultsCard;
+    GameMenuType resultsGMT;
 
  signals:
     void roundInfoChanged(QStringList);
@@ -126,9 +140,6 @@ class EventCenter : public QThread {
     void heroChosen(HeroItem* hi);
     void getCard(int num = 1);
     void mapElementChosen(QPoint p);
-    void moveBegin();
-    void attackBegin();
-    void skillBegin();
     void endTurn();
     void beginTurn();
     void mapClear();

@@ -41,7 +41,6 @@ SOURCES  += main.cpp \
     Game/artificialintellegence.cpp \
     Game/Items/Hero/attackability.cpp \
     Game/Items/Hero/moveability.cpp \
-    Game/gameevent.cpp \
     Game/gamethread.cpp
 
 HEADERS  += \
@@ -74,7 +73,6 @@ HEADERS  += \
     Game/artificialintellegence.h \
     Game/Items/Hero/attackability.h \
     Game/Items/Hero/moveability.h \
-    Game/gameevent.h \
     Game/gamethread.h
 
 INCLUDEPATH += include
