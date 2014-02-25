@@ -33,25 +33,23 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
 }
 
 void EventCenter::setupConnection() {
-    connect(scene, SIGNAL(heroClicked(HeroItem*)),
-            this, SLOT(heroChosen(HeroItem*)));
-    connect(scene, SIGNAL(rangeClicked(QPoint)),
-            this, SLOT(targetClicked(QPoint)));
-    connect(scene, SIGNAL(buildMenu(HeroItem*, QPoint)),
-            this, SLOT(showMenu(HeroItem*, QPoint)));
-    connect(scene, SIGNAL(viewSizeChanged(QSize)),
-            menu, SLOT(reSetInterface(QSize)));
-    connect(scene, SIGNAL(mapElementClicked(QPoint)),
-            this, SLOT(mapElementChosen(QPoint)));
+    connect(scene, &BackScene::heroClicked,
+            this, &EventCenter::heroChosen);
+    connect(scene, &BackScene::rangeClicked,
+            this, &EventCenter::targetClicked);
+    connect(scene, &BackScene::buildMenu,
+            this, &EventCenter::showMenu);
+    connect(scene, &BackScene::mapElementClicked,
+            this, &EventCenter::mapElementChosen);
 
-//    connect(menu, SIGNAL(moveClicked()), this, SLOT(moveBegin()));
-//    connect(menu, SIGNAL(attackClicked()), this, SLOT(attackBegin()));
-//    connect(menu, SIGNAL(skillButtonClicked()), this, SLOT(skillBegin()));
+    connect(scene, &BackScene::viewSizeChanged,
+            menu, &GameMenu::reSetInterface);
+
     connect(menu, &GameMenu::menuClicked,
             this, &EventCenter::menuClickAct);
 
-    connect(menu, SIGNAL(buttonOkClicked(QList<HandCard*>)),
-            this, SLOT(cardChosen(QList<HandCard*>)));
+    connect(menu, &GameMenu::buttonOkClicked,
+            this, &EventCenter::cardChosen);
     connect(menu, &GameMenu::buttonCancelClicked,
             this, &EventCenter::cardCancel);
     connect(menu, &GameMenu::skillUsed,

@@ -110,8 +110,8 @@ void GameProcess::gameChooseScreen() {
 
 void GameProcess::modeChooseScreen() {
     mcw = new ModeChooseWidget(parent);
-    connect(mcw->singleButton(), SIGNAL(clicked()),
-            this, SLOT(gameChooseScreen()));
+    connect(mcw->singleButton(), &QToolButton::clicked,
+            this, &GameProcess::gameChooseScreen);
     mcw->show();
 }
 
@@ -187,7 +187,7 @@ void GameProcess::heroChooseScreen() {
                               "_Whole.png"));
         ql->setHeroNum(heroNumList[i]);
         uic->horizontalLayout->addWidget(ql);
-        connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
+        connect(ql, &HeroLabel::clicked, this, &GameProcess::heroChosed);
     }
     for (int i = 4; i < 8; i++) {
         HeroLabel* ql = new HeroLabel(chooseDialog);
@@ -196,7 +196,7 @@ void GameProcess::heroChooseScreen() {
                               "_Whole.png"));
         ql->setHeroNum(heroNumList[i]);
         uic->horizontalLayout1->addWidget(ql);
-        connect(ql, SIGNAL(clicked()), this, SLOT(heroChosed()));
+        connect(ql, &HeroLabel::clicked, this, &GameProcess::heroChosed);
     }
     int res = chooseDialog->exec();
     if (res != QDialog::Accepted)

@@ -10,8 +10,8 @@ ChooseMenu::ChooseMenu(QWidget* parent)
     qgb = new QGroupBox(this);
     setFixedSize(300, 200);
     mapper = new QSignalMapper(this);
-    connect(mapper, static_cast<void (QSignalMapper::*)(int)>
-            (&QSignalMapper::mapped),
+    connect(mapper,
+            static_cast<void (QSignalMapper::*)(int)> (&QSignalMapper::mapped),
             this, &QDialog::done);
 }
 
@@ -54,8 +54,10 @@ void GameMenu::menuInitial() {
     connect(cancelButton, &QPushButton::clicked,
             this, &GameMenu::cancelClicked);
 
-    connect(cancelButton, SIGNAL(clicked()), this, SLOT(hideAllMenu()));
-    connect(ss, &SkillScene::heroSkillUsed, this, &GameMenu::skillClicked);
+    connect(cancelButton, &QPushButton::clicked,
+            this, &GameMenu::hideAllMenu);
+    connect(ss, &SkillScene::heroSkillUsed,
+            this, &GameMenu::skillClicked);
 }
 
 GameMenu::~GameMenu() {
@@ -94,11 +96,12 @@ void GameMenu::interfaceInitial() {
     ui->buttonCancel->setFixedSize(50, 100);
     ui->buttonOK->setFixedSize(50, 100);
 
-    connect(ui->items, SIGNAL(resized()), this, SLOT(resizeItems()));
-    connect(cs, SIGNAL(chosenNCard(int)),
-            this, SLOT(chosenCardNumChanged(int)));
-    connect(ui->buttonOK, SIGNAL(clicked()),
-            this, SLOT(on_buttonOK_clicked()));
+    connect(ui->items, &ViewSendResize::resized,
+            this, &GameMenu::resizeItems);
+    connect(cs, &CardScene::chosenNCard,
+            this, &GameMenu::chosenCardNumChanged);
+    connect(ui->buttonOK, &QPushButton::clicked,
+            this, &GameMenu::on_buttonOK_clicked);
     connect(ui->buttonCancel, &QToolButton::clicked,
             this, &GameMenu::on_buttonCancel_clicked);
 }

@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->show();
 
     gp = new GameProcess(ui->centralWidget);
-    connect(gp, SIGNAL(gameStart()), this, SLOT(gameBegin()));
+    connect(gp, &GameProcess::gameStart, this, &MainWindow::gameBegin);
     gp->preGame();
 }
 
@@ -33,12 +33,12 @@ void MainWindow::gameBegin() {
     sceneInitial();
 
     qDebug() << "build ui";
-    connect(scene, SIGNAL(changeStatusBar(QStringList)),
-            this, SLOT(changeStatusInfo(QStringList)));
-    connect(ec, SIGNAL(roundInfoChanged(QStringList)),
-            this, SLOT(changeRoundInfo(QStringList)));
-    connect(getCardAction, SIGNAL(triggered()), ec, SLOT(getCard()));
-    connect(endTurnAction, SIGNAL(triggered()), ec, SLOT(endTurn()));
+    connect(scene, &BackScene::changeStatusBar,
+            this, &MainWindow::changeStatusInfo);
+    connect(ec, &EventCenter::roundInfoChanged,
+            this, &MainWindow::changeRoundInfo);
+    connect(getCardAction, &QAction::triggered, ec, &EventCenter::getCard);
+    connect(endTurnAction, &QAction::triggered, ec, &EventCenter::endTurn);
     connect(openShop, &QAction::triggered, ec, &EventCenter::openShop);
     // changeRoundInfo(ec->buildRoundInfo());
     qDebug() << "initial complete...";
