@@ -54,8 +54,8 @@ void EventCenter::setupConnection() {
             this, &EventCenter::cardCancel);
     connect(menu, &GameMenu::skillUsed,
             this, &EventCenter::heroUseSkill);
-    connect(menu, &GameMenu::cancelClicked,
-            scene, &BackScene::clearRange);
+//    connect(menu, &GameMenu::cancelClicked,
+//            scene, &BackScene::clearRange);
     connect(this, &EventCenter::endTurnLater,
             this, &EventCenter::endTurn, Qt::QueuedConnection);
     connect(this, &EventCenter::changeHeroInfo,
@@ -69,22 +69,22 @@ void EventCenter::gameBegin() {
     curHero->addHeroSkill(new HsGuiShou());
     curHero->addHeroSkill(new HsQianXing());
     curHero->addHeroSkill(new HsLengXue());
-    curHero->setPoint(QPoint(0, 12));
+    setHeroPosition(curHero, QPoint(0, 12));
 
     curHero = heroSeq[1];
     ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
     curHero->setAI(AI);
-    curHero->setPoint(QPoint(4, 1));
+    setHeroPosition(curHero, QPoint(4, 1));
 
     curHero = heroSeq[2];
     AI = new ArtificialIntellegence(curHero);
     curHero->setAI(AI);
-    curHero->setPoint(QPoint(0, 14));
+    setHeroPosition(curHero, QPoint(0, 14));
 
     curHero = heroSeq[3];
     AI = new ArtificialIntellegence(curHero);
     curHero->setAI(AI);
-    curHero->setPoint(QPoint(4, 0));
+    setHeroPosition(curHero, QPoint(4, 0));
 
     for (int i = 0; i < heroSeq.size(); i++) {
         ArtificialIntellegence* ai = heroSeq[i]->AI();
@@ -132,23 +132,6 @@ void EventCenter::gameBegin() {
     menu->setPrompt(tr("Game Begin"));
 }
 
-
-/**
- * @brief EventCenter::heroChosen
- * @param hero
- * change parameter to QPoint later
- */
-void EventCenter::heroChosen(HeroItem* hero) {
-    if (sem->available()) {
-        menu->setHeroInfo(hero);
-        showCards(hero);
-        return;
-    } else {
-        resultsPoint = hero->point();
-        sem->release();
-        return;
-    }
-}
 
 void EventCenter::showCards(HeroItem* hero) {
 //    if (heroSeq.indexOf(hero) == playerHeroNum) {
@@ -286,16 +269,6 @@ void EventCenter::skillStraightTest(QPoint in) {
     menu->setSkillAble(false);
 }
 
-void EventCenter::targetClicked(QPoint in) {
-    if (isAnimating)
-        return;
-
-    if (askType == AskType::AskForPoint) {
-        resultsPoint = in;
-        sem->release();
-        return;
-    }
-}
 
 void EventCenter::mapClear() {
     scene->clearRange();
@@ -311,10 +284,6 @@ void EventCenter::beginTurn() {
     curHero->beginTurnSettle();
     emit roundInfoChanged(buildRoundInfo());
 
-    if (curHero->AI() == NULL) {
-        sem->acquire();
-        return;
-    }
     /*
     ArtificialIntellegence* curAI = curHero->AI();
     moveBegin();
@@ -471,6 +440,7 @@ void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
         theGia->setPosAt(i/frame, srcItem->scenePos()+distance*i/frame);
     moveTimer->start();
     waitForTime(moveTimer->duration());
+    curHero->setPos(dst);
     isAnimating = false;
 }
 
@@ -851,13 +821,6 @@ bool EventCenter::isThisRoundComplete() {
     return false;
 }
 
-void EventCenter::menuClickAct(GameMenuType gmt) {
-    if (sem->available() == 0) {
-        sem->release();
-        resultsGMT = gmt;
-    }
-}
-
 QPoint EventCenter::askForSelectPoint() {
     askType = AskType::AskForPoint;
     sem->acquire();
@@ -874,24 +837,22 @@ GameMenuType EventCenter::askForNewEvent() {
         scene->clearRange();
         scene->showMoveRange(curHero);
 
-        askForSelectPoint();
-        heroMoveToPoint(resultsPoint);
+        heroMoveToPoint(askForSelectPoint());
         break;
     case GameMenuType::Attack:
         scene->clearRange();
         scene->showAttackRange(curHero);
 
-        askForSelectPoint();
-        heroAttackPoint(resultsPoint);
+        heroAttackPoint(askForSelectPoint());
         break;
     case GameMenuType::Skill:
         scene->clearRange();
         scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
 
-        askForSelectPoint();
-        skillStraightTest(resultsPoint);
+        skillStraightTest(askForSelectPoint());
         break;
     case GameMenuType::Cancel:
+        scene->clearRange();
         break;
     case GameMenuType::EndTurn:
         break;
@@ -899,6 +860,51 @@ GameMenuType EventCenter::askForNewEvent() {
         break;
     }
     return resultsGMT;
+}
+
+void EventCenter::menuClickAct(GameMenuType gmt) {
+    if (askType != AskType::AskForNone) {
+        return;
+    }
+
+    resultsGMT = gmt;
+    sem->release();
+}
+
+
+
+/**
+ * @brief EventCenter::heroChosen
+ * @param hero
+ * change parameter to QPoint later
+ */
+void EventCenter::heroChosen(HeroItem* hero) {
+    if (askType != AskType::AskForPoint) {
+        return;
+    }
+    if (sem->available()) {
+        menu->setHeroInfo(hero);
+        showCards(hero);
+        return;
+    } else {
+        resultsPoint = hero->point();
+        sem->release();
+        return;
+    }
+}
+
+void EventCenter::targetClicked(QPoint in) {
+    if (askType != AskType::AskForPoint) {
+        return;
+    }
+    if (isAnimating)
+        return;
+
+    if (askType == AskType::AskForPoint) {
+        resultsPoint = in;
+        sem->release();
+        return;
+    }
 }
 
 void EventCenter::run() {
