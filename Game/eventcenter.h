@@ -21,7 +21,7 @@ class GameCoordinate;
 class HeroItem;
 class GameMapElement;
 class HandCard;
-class ArtificialIntellegence;
+class AI;
 
 class EventCenter : public QThread {
     Q_OBJECT
@@ -78,6 +78,7 @@ class EventCenter : public QThread {
     void skillAnimate(HeroItem* item, GameMapElement* gme);
 
     void showCards(HeroItem* hi);
+    void acquire(AskType at);
 
     void waitForTime(int msec);
 

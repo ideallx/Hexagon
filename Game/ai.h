@@ -1,5 +1,5 @@
-#ifndef ARTIFICIALINTELLEGENCE_H
-#define ARTIFICIALINTELLEGENCE_H
+#ifndef AI_H
+#define AI_H
 
 #include <QList>
 #include <QPoint>
@@ -8,9 +8,9 @@
 class HeroItem;
 class HandCard;
 
-class ArtificialIntellegence {
+class AI {
  public:
-    ArtificialIntellegence(HeroItem* hi);
+    AI(HeroItem* hi);
     QList<HandCard*> useCard(int n);
     HandCard* useCard(CardNormalPackageType cnpt);
     QPoint nearestPointToNearestHero();
@@ -32,4 +32,4 @@ class ArtificialIntellegence {
     QList<HeroItem*> enemyHeros;
 };
 
-#endif // ARTIFICIALINTELLEGENCE_H
+#endif // AI_H

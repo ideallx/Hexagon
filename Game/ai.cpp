@@ -1,13 +1,13 @@
-#include "artificialintellegence.h"
+#include "ai.h"
 #include "heroitem.h"
 #include "carditem.h"
 
-ArtificialIntellegence::ArtificialIntellegence(HeroItem *hi)
+AI::AI(HeroItem *hi)
     : AiHero (hi),
       targetEnemyHero(NULL) {
 }
 
-HandCard* ArtificialIntellegence::useCard(CardNormalPackageType cnpt) {
+HandCard* AI::useCard(CardNormalPackageType cnpt) {
     foreach(HandCard* hc, AiHero->cards()) {
         if (hc->cardType() == cnpt)
             return hc;
@@ -15,7 +15,7 @@ HandCard* ArtificialIntellegence::useCard(CardNormalPackageType cnpt) {
     return NULL;
 }
 
-QList<HandCard*> ArtificialIntellegence::useCard(int n) {
+QList<HandCard*> AI::useCard(int n) {
     if (AiHero->cards().size() <= n) {
         return AiHero->cards();
     } else {

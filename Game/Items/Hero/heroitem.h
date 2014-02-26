@@ -11,7 +11,7 @@
 class HandCard;
 class SkillBase;
 class Equipment;
-class ArtificialIntellegence;
+class AI;
 class AttackAbility;
 class MoveAbility;
 
@@ -94,8 +94,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
     inline void setMoney(int mo) { theMoney = mo; }
 
-    inline void setAI(ArtificialIntellegence* a) { ai = a; }
-    inline ArtificialIntellegence* AI() { return ai; }
+    inline void setAI(AI* a) { ai = a; }
+    inline AI* getAI() { return ai; }
     // OuterInfo
 
     void beginTurnSettle();
@@ -134,7 +134,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int lineLength;
     QColor color;
     int theMoney;
-    ArtificialIntellegence* ai;
+    AI* ai;
     AttackAbility* aa;
     MoveAbility* ma;
     bool isAlive;

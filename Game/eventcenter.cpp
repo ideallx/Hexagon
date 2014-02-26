@@ -11,7 +11,7 @@
 #include "carditem.h"
 #include "cardengine.h"
 #include "skillcenter.h"
-#include "artificialintellegence.h"
+#include "ai.h"
 #include "normalpackage.h"
 
 #define GIVEN_CONDITION
@@ -72,22 +72,22 @@ void EventCenter::gameBegin() {
     setHeroPosition(curHero, QPoint(0, 12));
 
     curHero = heroSeq[1];
-    ArtificialIntellegence* AI = new ArtificialIntellegence(curHero);
-    curHero->setAI(AI);
+    AI* ai = new AI(curHero);
+    curHero->setAI(ai);
     setHeroPosition(curHero, QPoint(4, 1));
 
     curHero = heroSeq[2];
-    AI = new ArtificialIntellegence(curHero);
-    curHero->setAI(AI);
+    ai = new AI(curHero);
+    curHero->setAI(ai);
     setHeroPosition(curHero, QPoint(0, 14));
 
     curHero = heroSeq[3];
-    AI = new ArtificialIntellegence(curHero);
-    curHero->setAI(AI);
+    ai = new AI(curHero);
+    curHero->setAI(ai);
     setHeroPosition(curHero, QPoint(4, 0));
 
     for (int i = 0; i < heroSeq.size(); i++) {
-        ArtificialIntellegence* ai = heroSeq[i]->AI();
+        AI* ai = heroSeq[i]->getAI();
         if (ai != NULL) {
             if (i % 2) {
                 for (int j = 0; j < heroSeq.size(); j+=2) {
@@ -182,7 +182,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
 
     if (!isHit) {
         curHero->removeAttackBouns();
-        if (curHero->AI() != NULL) {
+        if (curHero->getAI() != NULL) {
             emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
         }
         qDebug() << targetHero->heroName() <<
@@ -217,7 +217,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
                 "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
 
-    if (curHero->AI() != NULL) {
+    if (curHero->getAI() != NULL) {
         emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
     }
     return;
@@ -340,12 +340,12 @@ void EventCenter::endTurn() {
             curHero->removeCard(hc);
         }
 
-        if (curHero->AI() == NULL) {
+        if (curHero->getAI() == NULL) {
             return;
         }
     }
 
-    if (curHero->AI() != NULL)
+    if (curHero->getAI() != NULL)
         waitForTime(1000);
 
     curHero->removeAttackBouns();
@@ -546,11 +546,11 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(true);
 
-    ArtificialIntellegence* ai = hi->AI();
+    AI* ai = hi->getAI();
     if (ai == NULL) {
         menu->setHeroInfo(hi);
         showCards(hi);
-        sem->acquire();
+        acquire(AskType::AskForCards);
 // TODO  resultsCard juggment
         hi->removeCard(resultsCard[0]);
         return (resultsCard.size() == 1);
@@ -572,10 +572,9 @@ QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
     menu->setPrompt(QString("Please Use Card:"));
     menu->setOneCardMode(false);
 
-    ArtificialIntellegence* ai = curHero->AI();
+    AI* ai = curHero->getAI();
     if (ai == NULL) {
-        askType = AskType::AskForCards;
-        sem->acquire();
+        acquire(AskType::AskForCards);
         return resultsCard;
     }
 
@@ -808,29 +807,22 @@ QList<int> EventCenter::rollTheDice(int n) {
 void EventCenter::process() {
     while (true) {
         roundBegin();
-        while (!isThisRoundComplete()) {
+        do {
             beginTurn();
             while (askForNewEvent() != GameMenuType::EndTurn);
             endTurn();
-        }
+        } while (!isThisRoundComplete());
         roundEnd();
     }
 }
 
 bool EventCenter::isThisRoundComplete() {
-    return false;
+    return curHero == heroSeq.last();
 }
 
-QPoint EventCenter::askForSelectPoint() {
-    askType = AskType::AskForPoint;
-    sem->acquire();
-
-    return resultsPoint;
-}
 
 GameMenuType EventCenter::askForNewEvent() {
-    askType = AskType::AskForNone;
-    sem->acquire();
+    acquire(AskType::AskForNone);
 
     switch (resultsGMT) {
     case GameMenuType::Move:
@@ -871,6 +863,11 @@ void EventCenter::menuClickAct(GameMenuType gmt) {
     sem->release();
 }
 
+QPoint EventCenter::askForSelectPoint() {
+    acquire(AskType::AskForPoint);
+
+    return resultsPoint;
+}
 
 
 /**
@@ -910,4 +907,14 @@ void EventCenter::targetClicked(QPoint in) {
 void EventCenter::run() {
     gameBegin();
     process();
+}
+
+void EventCenter::acquire(AskType at) {
+    askType = at;
+    AI* ai = curHero->getAI();
+
+    if (ai) {
+        // ai->dothings();
+    }
+    sem->acquire();
 }
