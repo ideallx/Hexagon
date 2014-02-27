@@ -36,6 +36,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     // MoveAbility
     inline int moveRange() const { return ma->moveRange(); }
     inline void setMoveRange(int n) { ma->setRange(n); }
+    inline int isMoveAble() { return ma->remainingTimes(); }
     // MoveAbility
 
     // InnerInfo

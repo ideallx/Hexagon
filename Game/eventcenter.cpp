@@ -71,17 +71,17 @@ void EventCenter::gameBegin() {
     setHeroPosition(curHero, QPoint(0, 12));
 
     curHero = heroSeq[1];
-    AI* ai = new AI(curHero);
+    AI* ai = new AI(curHero, ic);
     curHero->setAI(ai);
     setHeroPosition(curHero, QPoint(4, 1));
 
     curHero = heroSeq[2];
-    ai = new AI(curHero);
+    ai = new AI(curHero, ic);
     curHero->setAI(ai);
     setHeroPosition(curHero, QPoint(0, 14));
 
     curHero = heroSeq[3];
-    ai = new AI(curHero);
+    ai = new AI(curHero, ic);
     curHero->setAI(ai);
     setHeroPosition(curHero, QPoint(4, 0));
 
@@ -115,7 +115,6 @@ void EventCenter::gameBegin() {
         scene->clearRange();
         curHero->setPoint(birth);
     }
-
 #endif
 
     scene->clearRange();
@@ -193,12 +192,12 @@ void EventCenter::heroAttackPoint(QPoint in) {
 //                if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
 //                    l.removeAt(i);
 //                } else {
-                QVariant data;
                 SkillPara sp;
                 sp.ec = this;
-                sp.data = data;
+                sp.data = QVariant();
                 sp.from = curHero;
                 sp.to = targetHero;
+
                 l[i]->skillFlow(sp);
                 curSkill = l[i];
                 listHeroInfo(curHero);
@@ -282,41 +281,6 @@ void EventCenter::beginTurn() {
     setCurHero(curHero);
     curHero->beginTurnSettle();
     emit roundInfoChanged(buildRoundInfo());
-
-    /*
-    ArtificialIntellegence* curAI = curHero->AI();
-    moveBegin();
-    int nearest = 0;
-    int distance = GameCoordinate::roughDistance(
-                curAI->enemys()[0]->point(), curAI->hero()->point());
-    for (int i = 1; i < curAI->enemys().size(); i++) {
-        int d = roughDistance(curAI->hero(), curAI->enemys()[i]);
-        if (d < distance) {
-            nearest = i;
-            distance = d;
-        }
-    }
-    curAI->setTarget(curAI->enemys()[nearest]);
-    QPoint targetPoint = curAI->target()->point();
-    QList<QPoint> result = ic->pathOnSearch(curHero->point(),
-                                            targetPoint);
-    int msec = 500;
-    if (result.size() > curHero->moveRange()+1) {
-        waitForTime(msec);
-        heroMoveToPoint(result[curHero->moveRange()-1]);
-        qDebug() << "not attack";
-    } else {
-        if (GameCoordinate::roughDistance(curHero->point(), targetPoint) != 1) {
-            waitForTime(msec);
-            heroMoveToPoint(result[result.size()-2]);
-        }
-        waitForTime(msec);
-        heroAttackPoint(targetPoint);
-        if (curAI->target()->AI() == NULL)
-            return;
-    }
-    emit endTurnLater();
-    */
 }
 
 void EventCenter::waitForTime(int msec) {
@@ -485,6 +449,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
                 sp.data = data;
                 sp.from = from;
                 sp.to = to;
+
                 l[i]->skillPrepare(sp);
                 curSkill = l[i];
                 listHeroInfo(curHero);
@@ -708,21 +673,13 @@ void EventCenter::heroUseSkill(int n) {
     if (isAnimating)
         return;
 
+    if ((askType != AskType::AskForNone) &&
+            (askType != AskType::AskForSkill)) {
+        return;
+    }
     resultsNum = n;
     sem->release();
     return;
-
-    QVariant data;
-    SkillPara sp;
-    sp.ec = this;
-    sp.data = data;
-    sp.from = curHero;
-    sp.to = NULL;
-    SkillBase *skl = curHero->getHeroSkill(n);
-    if (skl->type() == SkillType::SkillActive) {
-        skl->skillPrepare(sp);
-        listHeroInfo(curHero);
-    }
 }
 
 /*
@@ -826,6 +783,11 @@ bool EventCenter::isThisRoundComplete() {
 
 
 GameMenuType EventCenter::askForNewEvent() {
+    AI* ai = curHero->getAI();
+    if (ai) {
+        ai->thinkNextEvent();
+    }
+
     acquire(AskType::AskForNone);
 
     scene->clearRange();
@@ -840,9 +802,20 @@ GameMenuType EventCenter::askForNewEvent() {
 
         heroAttackPoint(askForSelectPoint());
         break;
-    case GameMenuType::Skill:
+    case GameMenuType::Skill: {
+        SkillPara sp;
+        sp.ec = this;
+        sp.data = QVariant();
+        sp.from = curHero;
+        sp.to = NULL;
 
+        SkillBase *skl = curHero->getHeroSkill(resultsNum);
+        if (skl->type() == SkillType::SkillActive) {
+            skl->skillPrepare(sp);
+            listHeroInfo(curHero);
+        }
         break;
+    }
     case GameMenuType::SkillTest:
         scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
 
@@ -918,7 +891,7 @@ void EventCenter::acquire(AskType at) {
     AI* ai = curHero->getAI();
 
     if (ai) {
-        // ai->dothings();
+        ai->dothings(at);
     }
     sem->acquire();
 }

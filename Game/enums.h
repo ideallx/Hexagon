@@ -210,6 +210,13 @@ enum class GameMenuType {
     SkillTest
 };
 
+enum class AskType {
+    AskForNone,
+    AskForCards,
+    AskForPoint,
+    AskForSkill
+};
+
 class EquipmentInfo {
  public:
     EquipmentType type;

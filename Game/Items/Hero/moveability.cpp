@@ -2,5 +2,6 @@
 
 MoveAbility::MoveAbility(int range)
     : theRange(range),
-      ignoreHeroWhenMove(false) {
+      ignoreHeroWhenMove(false),
+      moveTime(1) {
 }

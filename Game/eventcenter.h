@@ -50,13 +50,6 @@ class EventCenter : public QThread {
     void listHeroInfo(HeroItem* hi);
     bool dodge(int hitRate);
 
-    enum class AskType {
-        AskForNone,
-        AskForCards,
-        AskForPoint,
-        AskForSkill
-    };
-
  private:
     typedef void (EventCenter::* Callback)(bool);
     void setupConnection();
