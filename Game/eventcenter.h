@@ -53,6 +53,7 @@ class EventCenter : public QThread {
  private:
     typedef void (EventCenter::* Callback)(bool);
     void setupConnection();
+    void setupAIConnection();
     void roundBegin();
     void roundEnd();
     void heroMoveToPoint(QPoint p);
@@ -129,6 +130,7 @@ class EventCenter : public QThread {
     void cardCancel();
     void openShop();
     void heroUseSkill(int n);
+    void endTurnSignal();
 };
 
 #endif  // GAME_EVENTCENTER_H_

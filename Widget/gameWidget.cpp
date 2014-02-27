@@ -38,7 +38,7 @@ void MainWindow::gameBegin() {
     connect(ec, &EventCenter::roundInfoChanged,
             this, &MainWindow::changeRoundInfo);
     connect(getCardAction, &QAction::triggered, ec, &EventCenter::getCard);
-    connect(endTurnAction, &QAction::triggered, ec, &EventCenter::endTurn);
+    connect(endTurnAction, &QAction::triggered, ec, &EventCenter::endTurnSignal);
     connect(openShop, &QAction::triggered, ec, &EventCenter::openShop);
     // changeRoundInfo(ec->buildRoundInfo());
     qDebug() << "initial complete...";

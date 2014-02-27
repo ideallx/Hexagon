@@ -16,9 +16,9 @@ void SkillBase::addCoolDown(int n) {
 
 /*
  * probability every bit is a side of the dice
- * 0 0 0 0 0 0   0x00  no condition
- * 1 1 1 1 1 1   0x3F  100%
- * 1 0 0 1 0 0   0x24  when the dice get 1 or 4
+ * 0 0 0 0 0 0 0 0   0x00  no condition
+ * 0 0 1 1 1 1 1 1   0x3F  100%
+ * 0 0 1 0 0 1 0 0   0x24  when the dice get 1 or 4
  */
 
 AttackBuffSkill::AttackBuffSkill(AttackBuffEffect abe, int stateType,

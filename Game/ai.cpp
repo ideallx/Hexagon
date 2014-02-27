@@ -38,6 +38,7 @@ QList<HandCard*> AI::useCard(int n) {
 }
 
 void AI::dothings(AskType at) {
+    qDebug() << "AI moves";
     sem->release();
 }
 
@@ -56,11 +57,16 @@ HeroItem* AI::findAttackTarget() {
 }
 
 void AI::thinkNextEvent() {
+    qDebug() << "wake up AI";
+    sem->acquire();
     if (AiHero->isMoveAble()) {
+        qDebug() << "AI ready to move";
         processMove();
     } else if (AiHero->isAttackAble() && isTargetNearAI()) {
+        qDebug() << "AI ready to attack";
         processAttack();
     } else {
+        emit endTurn();
     }
 }
 
@@ -87,7 +93,6 @@ void AI::processMove() {
         }
     }
     emit rangeClicked(targetPoint);
-    sem->acquire();
 }
 
 bool AI::isTargetNearAI() {
@@ -103,7 +108,6 @@ void AI::processAttack() {
     sem->acquire();
 
     emit rangeClicked(targetEnemyHero->point());
-    sem->acquire();
 }
 
 void AI::waitForTime(int msec) {

@@ -61,6 +61,27 @@ void EventCenter::setupConnection() {
             menu, &GameMenu::setHeroInfo);
 }
 
+void EventCenter::setupAIConnection() {
+    foreach (HeroItem* hi, heroSeq) {
+        AI *ai = hi->getAI();
+        if (ai == NULL) {
+            continue;
+        }
+        connect(ai, &AI::heroClicked, this, &EventCenter::heroChosen,
+                Qt::DirectConnection);
+        connect(ai, &AI::rangeClicked, this, &EventCenter::targetClicked,
+                Qt::DirectConnection);
+        connect(ai, &AI::menuClicked, this, &EventCenter::menuClickAct,
+                Qt::DirectConnection);
+        connect(ai, &AI::buttonOkClicked, this, &EventCenter::cardChosen,
+                Qt::DirectConnection);
+        connect(ai, &AI::skillUsed, this, &EventCenter::heroUseSkill,
+                Qt::DirectConnection);
+        connect(ai, &AI::endTurn, this, &EventCenter::endTurnSignal,
+                Qt::DirectConnection);
+    }
+}
+
 void EventCenter::gameBegin() {
     heroSeq = ic->getActSequence();
 #ifdef GIVEN_CONDITION
@@ -116,6 +137,7 @@ void EventCenter::gameBegin() {
         curHero->setPoint(birth);
     }
 #endif
+    setupAIConnection();
 
     scene->clearRange();
     try {
@@ -154,6 +176,10 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
 
+    if (!curHero->isMoveAble()) {
+        return;
+    }
+
     scene->clearRange();
     GameMapElement* gme = ic->getMapElementByPoint(in);
     moveAnimate(curHero, gme);
@@ -163,6 +189,7 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     menu->setMoveAble(false);
 
     curHero->setPoint(in);
+    curHero->moved();
 
     qDebug() << curHero->heroName() <<
                 "Move To Point" << curHero->point();
@@ -273,6 +300,14 @@ void EventCenter::mapClear() {
     menu->hideAllMenu();
 }
 
+void EventCenter::waitForTime(int msec) {
+    QTimer timer;
+    QEventLoop l;
+    connect(&timer, &QTimer::timeout, &l, &QEventLoop::quit);
+    timer.start(msec);
+    l.exec();
+}
+
 void EventCenter::beginTurn() {
     menu->setPrompt("");
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
@@ -281,14 +316,6 @@ void EventCenter::beginTurn() {
     setCurHero(curHero);
     curHero->beginTurnSettle();
     emit roundInfoChanged(buildRoundInfo());
-}
-
-void EventCenter::waitForTime(int msec) {
-    QTimer timer;
-    QEventLoop l;
-    connect(&timer, &QTimer::timeout, &l, &QEventLoop::quit);
-    timer.start(msec);
-    l.exec();
 }
 
 void EventCenter::endTurn() {
@@ -302,10 +329,6 @@ void EventCenter::endTurn() {
         foreach (HandCard* hc, result) {
             curHero->removeCard(hc);
         }
-
-        if (curHero->getAI() == NULL) {
-            return;
-        }
     }
 
     if (curHero->getAI() != NULL)
@@ -316,16 +339,7 @@ void EventCenter::endTurn() {
 
     curHero->setPen(QPen(Qt::black, 3));
 
-    if (curHero == heroSeq.last()) {
-        roundEnd();
-        roundNum++;
-        roundBegin();
-    } else {
-        curHero = heroSeq[heroSeq.indexOf(curHero)+1];
-    }
-
     menu->beginTurnReset();
-    beginTurn();
 }
 
 void EventCenter::roundBegin() {
@@ -778,14 +792,19 @@ void EventCenter::process() {
 }
 
 bool EventCenter::isThisRoundComplete() {
-    return curHero == heroSeq.last();
+    if (curHero == heroSeq.last()) {
+        return true;
+    } else {
+        curHero = heroSeq[heroSeq.indexOf(curHero)+1];
+        return false;
+    }
 }
 
 
 GameMenuType EventCenter::askForNewEvent() {
     AI* ai = curHero->getAI();
     if (ai) {
-        ai->thinkNextEvent();
+        ai->start();
     }
 
     acquire(AskType::AskForNone);
@@ -837,6 +856,11 @@ void EventCenter::menuClickAct(GameMenuType gmt) {
     }
 
     resultsGMT = gmt;
+    sem->release();
+}
+
+void EventCenter::endTurnSignal() {
+    resultsGMT = GameMenuType::EndTurn;
     sem->release();
 }
 

@@ -44,13 +44,13 @@ class AI : public QThread {
     QSemaphore* sem;
     ItemCollector* ic;
 
-
  signals:
     void heroClicked(HeroItem* h);
     void rangeClicked(QPoint p);
     void menuClicked(GameMenuType gmt);
     void buttonOkClicked(QList<HandCard*> l);
     void skillUsed(int n);
+    void endTurn();
 };
 
 #endif // AI_H

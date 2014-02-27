@@ -100,6 +100,7 @@ void BackScene::showMoveRange(HeroItem* hi) {
     if (hi == NULL)
         return;
     rangeList = ic->listRange(hi, RangeMode::ModeMove);
+
     for (int i = 0; i < rangeList.size(); i++) {
         ic->setElementSpecialPen(rangeList.at(i), QPen(Qt::yellow, 5));
     }

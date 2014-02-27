@@ -56,6 +56,7 @@ void GameMenu::menuInitial() {
 
     connect(cancelButton, &QPushButton::clicked,
             this, &GameMenu::hideAllMenu);
+
     connect(ss, &SkillScene::heroSkillUsed,
             this, &GameMenu::skillClicked);
 }

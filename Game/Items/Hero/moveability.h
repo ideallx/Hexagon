@@ -9,6 +9,7 @@ class MoveAbility
     inline int moveRange() { return theRange; }
     inline int remainingTimes() { return moveTime; }
     inline void restore() { moveTime = 1; }
+    inline void moveTimeMinus() { moveTime -= 1; }
 
  private:
     int theRange;
