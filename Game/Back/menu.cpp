@@ -304,7 +304,7 @@ void GameMenu::attackClicked() {
 }
 
 void GameMenu::skillButtonClicked() {
-    emit menuClicked(GameMenuType::Skill);
+    emit menuClicked(GameMenuType::SkillTest);
 }
 
 void GameMenu::cancelClicked() {

@@ -11,7 +11,8 @@ class HeroItem;
 class EventCenter;
 class MapMark;
 
-struct SkillPara {
+class SkillPara {
+ public:
     EventCenter* ec;
     QVariant data;
     QGraphicsItem* from;
@@ -26,8 +27,8 @@ class SkillBase : public QObject {
     SkillBase(int cdf, int cdmaxf)
         : cooldown(cdf),
           cooldownMax(cdmaxf){;}
-    virtual void skillPrepare(struct SkillPara sp) = 0;
-    virtual void skillFlow(struct SkillPara sp) = 0;
+    virtual void skillPrepare(SkillPara sp) = 0;
+    virtual void skillFlow(SkillPara sp) = 0;
     virtual TriggerTime triggerTime() const = 0;
     virtual bool isWorkNow() = 0;
     virtual int cdMax() { return cooldownMax; }
@@ -45,13 +46,13 @@ class AttackBuffSkill : public SkillBase {
     AttackBuffSkill(AttackBuffEffect abe, int stateType, int probability,
                     int cd = 0, int cdmax = 0, int effectTime = 1);
 
-    void skillPrepare(struct SkillPara sp);
-    void skillFlow(struct SkillPara sp);
+    void skillPrepare(SkillPara sp);
+    void skillFlow(SkillPara sp);
     virtual TriggerTime triggerTime() const;
 
     virtual bool isWorkNow() { return false; }
-    virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
-    virtual void skillClicked(struct SkillPara sp) { Q_UNUSED(sp);}
+    virtual void skillAct(SkillPara sp) { Q_UNUSED(sp);}
+    virtual void skillClicked(SkillPara sp) { Q_UNUSED(sp);}
     virtual AttackBuff buffEffect();
 
     int effectTime() const { return theEffectTime; }
@@ -69,13 +70,13 @@ class RangeSkill : public SkillBase {
     RangeSkill(MapRangeType, int range,
                int cd = 0, int cdmax = 0);
 
-    void skillPrepare(struct SkillPara sp);
-    void skillFlow(struct SkillPara sp);
+    void skillPrepare(SkillPara sp);
+    void skillFlow(SkillPara sp);
     TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
     virtual bool isWorkNow() { return true; }
 
-    virtual void skillAct(struct SkillPara sp) { Q_UNUSED(sp);}
-    virtual void skillRange(struct SkillPara sp);
+    virtual void skillAct(SkillPara sp) { Q_UNUSED(sp);}
+    virtual void skillRange(SkillPara sp);
 
  private:
     MapRangeType type;
@@ -105,13 +106,13 @@ class MapMarkSkill : public SkillBase {
  public:
     MapMarkSkill(MapMark* mark, int range, int cd = 0, int cdmax = 0);
 
-    void skillPrepare(struct SkillPara sp);
-    void skillFlow(struct SkillPara sp);
+    void skillPrepare(SkillPara sp);
+    void skillFlow(SkillPara sp);
     TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
     virtual bool isWorkNow() { return true; }
 
-    virtual void skillAct(struct SkillPara sp);
-    virtual void skillRange(struct SkillPara sp);
+    virtual void skillAct(SkillPara sp);
+    virtual void skillRange(SkillPara sp);
  private:
     MapMark* mark;
     int range;

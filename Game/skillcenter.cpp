@@ -32,7 +32,7 @@ AttackBuffSkill::AttackBuffSkill(AttackBuffEffect abe, int stateType,
     ab.probability = probability;
 }
 
-void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
+void AttackBuffSkill::skillPrepare(SkillPara sp) {
     skillClicked(sp);
     if (theEffectTime <= 0)
         availAble = false;
@@ -40,7 +40,7 @@ void AttackBuffSkill::skillPrepare(struct SkillPara sp) {
     qDebug() << objectName() << "triggered";
 }
 
-void AttackBuffSkill::skillFlow(struct SkillPara sp) {
+void AttackBuffSkill::skillFlow(SkillPara sp) {
     skillAct(sp);
     qDebug() << objectName() << "acted";
 }
@@ -60,17 +60,17 @@ RangeSkill::RangeSkill(MapRangeType t, int range,
       range(range) {
 }
 
-void RangeSkill::skillFlow(struct SkillPara sp) {
+void RangeSkill::skillFlow(SkillPara sp) {
     skillAct(sp);
     qDebug() << objectName() << "acted";
 }
 
-void RangeSkill::skillPrepare(struct SkillPara sp) {
+void RangeSkill::skillPrepare(SkillPara sp) {
     skillRange(sp);
     qDebug() << objectName() << "triggered";
 }
 
-void RangeSkill::skillRange(struct SkillPara sp) {
+void RangeSkill::skillRange(SkillPara sp) {
     sp.ec->showSkillRange(sp.from, MapRangeType::RangeTypeRound, range);
 }
 
@@ -102,7 +102,7 @@ void MapMarkSkill::skillRange(SkillPara sp) {
     sp.ec->showSkillRange(sp.from, MapRangeType::RangeTypeRound, range);
 }
 
-void MapMarkSkill::skillAct(struct SkillPara sp) {
+void MapMarkSkill::skillAct(SkillPara sp) {
     Q_UNUSED(sp);
     // mark->setPos(sp.ec);
 }

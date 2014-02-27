@@ -19,7 +19,7 @@ class CardScene;
 class HandCard;
 class HeroItem;
 class SkillBase;
-struct heroInfo;
+class heroInfo;
 
 class ChooseMenu : public QDialog {
     Q_OBJECT

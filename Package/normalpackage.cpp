@@ -146,7 +146,7 @@ EquipmentPackageNormal::EquipmentPackageNormal() {
 
 
 #define HeroInfoStructBuild(Abbr, AR, MR, HP, SEX, Name) \
-    const struct heroInfo HeroPackageNormal::##Abbr = \
+    const heroInfo HeroPackageNormal::##Abbr = \
 { AR, MR, HP, SEX, Name }
 
 
@@ -221,7 +221,7 @@ CsKuangBao::CsKuangBao()
     setObjectName("KuangBao");
 }
 
-void CsKuangBao::skillAct(struct SkillPara sp) {
+void CsKuangBao::skillAct(SkillPara sp) {
     Q_UNUSED(sp);
 }
 
@@ -306,7 +306,7 @@ HsQianXing::HsQianXing()
     setObjectName("QianXing");
 }
 
-void HsQianXing::skillAct(struct SkillPara sp) {
+void HsQianXing::skillAct(SkillPara sp) {
     Q_UNUSED(sp);
     // get physical immune
 }
@@ -322,7 +322,7 @@ HsLengXue::HsLengXue()
     setObjectName("LengXue");
 }
 
-void HsLengXue::skillAct(struct SkillPara sp) {
+void HsLengXue::skillAct(SkillPara sp) {
     HeroItem* fr = static_cast<HeroItem*>(sp.from);
     HeroItem* to = static_cast<HeroItem*>(sp.from);
     to->addHealth(- fr->attack());  // change to suffer magic
@@ -339,7 +339,7 @@ HsBaoNu::HsBaoNu()
     setObjectName("BaoNu");
 }
 
-void HsBaoNu::skillAct(struct SkillPara sp) {
+void HsBaoNu::skillAct(SkillPara sp) {
     Q_UNUSED(sp);
 }
 

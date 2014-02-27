@@ -11,7 +11,7 @@ class GameCoordinate;
 class HeroItem;
 class HeroFactory;
 class SkillBase;
-struct externInfo;
+class externInfo;
 
 class BackScene : public QGraphicsScene {
     Q_OBJECT

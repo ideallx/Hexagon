@@ -16,7 +16,7 @@ class GameCoordinate;
 class ItemCollector;
 class BackScene;
 class HeroFactory;
-struct externInfo;
+class externInfo;
 
 class GameProcess : public QObject {
     Q_OBJECT

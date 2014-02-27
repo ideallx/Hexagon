@@ -206,7 +206,8 @@ enum class GameMenuType {
     Attack,
     Skill,
     Cancel,
-    EndTurn
+    EndTurn,
+    SkillTest
 };
 
 class EquipmentInfo {

@@ -24,7 +24,8 @@ EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
       parent(parent),
       isAnimating (false),
       sem(new QSemaphore),
-      askType(AskType::AskForNone) {
+      askType(AskType::AskForNone),
+      resultsNum(0) {
     setupConnection();
     theGia = new QGraphicsItemAnimation();
     roundNum = 1;
@@ -56,8 +57,6 @@ void EventCenter::setupConnection() {
             this, &EventCenter::heroUseSkill);
 //    connect(menu, &GameMenu::cancelClicked,
 //            scene, &BackScene::clearRange);
-    connect(this, &EventCenter::endTurnLater,
-            this, &EventCenter::endTurn, Qt::QueuedConnection);
     connect(this, &EventCenter::changeHeroInfo,
             menu, &GameMenu::setHeroInfo);
 }
@@ -182,9 +181,6 @@ void EventCenter::heroAttackPoint(QPoint in) {
 
     if (!isHit) {
         curHero->removeAttackBouns();
-        if (curHero->getAI() != NULL) {
-            emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
-        }
         qDebug() << targetHero->heroName() <<
                     "Dodged The Attack From" << curHero->heroName();
         return;
@@ -198,7 +194,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
 //                    l.removeAt(i);
 //                } else {
                 QVariant data;
-                struct SkillPara sp;
+                SkillPara sp;
                 sp.ec = this;
                 sp.data = data;
                 sp.from = curHero;
@@ -216,10 +212,6 @@ void EventCenter::heroAttackPoint(QPoint in) {
     qDebug() << curHero->heroName() <<
                 "Attack" << targetHero->heroName() <<
                 "And Made" << curHero->attack() << "Damage";
-
-    if (curHero->getAI() != NULL) {
-        emit endTurnLater();   // TODO(ideallx) jugg by AI after skills complete
-    }
     return;
 }
 
@@ -237,24 +229,31 @@ bool EventCenter::dodge(int hitRate) {
         menu->setAttackAble(false);
     }
 
-    if (hitRate == 0x3F) {
+    // if 100%hit  or  dice rolls at a certain num  you cant dodge
+    if ((hitRate == 0x3F) || ((1 << (rollTheDice(1)[0]-1)) & hitRate)) {
         return true;
-    } else if (hitRate == 0){
-        return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
     } else {
-        if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
-            return true;
-        } else {
-            return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
-        }
+        return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
     }
+
+//    if (hitRate == 0x3F) {
+//        return true;
+//    } else if (hitRate == 0){
+//        return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
+//    } else {
+//        if ((1 << (rollTheDice(1)[0]-1)) & hitRate) {
+//            return true;
+//        } else {
+//            return !askForUseCard(targetHero, CardNormalPackageType::ShanBi);
+//        }
+//    }
 
 }
 
 void EventCenter::skillStraightTest(QPoint in) {
     GameMapElement* gme = ic->getMapElementByPoint(in);
 
-    struct SkillPara sp;
+    SkillPara sp;
     sp.data = QVariant();
     sp.from = curHero;
     sp.to = gme;
@@ -481,7 +480,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
                 l.removeAt(i);
             } else {
                 QVariant data;
-                struct SkillPara sp;
+                SkillPara sp;
                 sp.ec = this;
                 sp.data = data;
                 sp.from = from;
@@ -652,7 +651,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         }
         if (l.size() == 1) {
             QVariant data;
-            struct SkillPara sp;
+            SkillPara sp;
             sp.ec = this;
             sp.data = data;
             sp.from = curHero;
@@ -708,8 +707,13 @@ void EventCenter::openShop() {
 void EventCenter::heroUseSkill(int n) {
     if (isAnimating)
         return;
+
+    resultsNum = n;
+    sem->release();
+    return;
+
     QVariant data;
-    struct SkillPara sp;
+    SkillPara sp;
     sp.ec = this;
     sp.data = data;
     sp.from = curHero;
@@ -824,27 +828,27 @@ bool EventCenter::isThisRoundComplete() {
 GameMenuType EventCenter::askForNewEvent() {
     acquire(AskType::AskForNone);
 
+    scene->clearRange();
     switch (resultsGMT) {
     case GameMenuType::Move:
-        scene->clearRange();
         scene->showMoveRange(curHero);
 
         heroMoveToPoint(askForSelectPoint());
         break;
     case GameMenuType::Attack:
-        scene->clearRange();
         scene->showAttackRange(curHero);
 
         heroAttackPoint(askForSelectPoint());
         break;
     case GameMenuType::Skill:
-        scene->clearRange();
+
+        break;
+    case GameMenuType::SkillTest:
         scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
 
         skillStraightTest(askForSelectPoint());
         break;
     case GameMenuType::Cancel:
-        scene->clearRange();
         break;
     case GameMenuType::EndTurn:
         break;

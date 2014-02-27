@@ -64,7 +64,7 @@ class EquipmentPackageNormal : public AbstractEquipmentPackage {
 };
 
 class NoSkill : public SkillBase {
-    void skillFlow(struct SkillPara sp) { Q_UNUSED(sp);}
+    void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
     TriggerTime triggerTime() { return TriggerTime::TriggerNever; }
     bool isWorkNow() { return false; }
 };
@@ -87,14 +87,14 @@ class HeroPackageNormal : public AbstractHeroPacakage {
 class CsKuangBao : public AttackBuffSkill {
  public:
     CsKuangBao();
-    void skillAct(struct SkillPara sp);
+    void skillAct(SkillPara sp);
     void skillClicked(SkillPara sp);
 };
 
 class CsZheYue : public RangeSkill {
  public:
     CsZheYue();
-    void skillAct(struct SkillPara sp);
+    void skillAct(SkillPara sp);
 };
 
 class CsShengMingLiZan : public RangeSkill {
@@ -118,7 +118,7 @@ class CsNengLiangXianJing : public MapMarkSkill {
 class HsGuiShou : public AttackBuffSkill {
  public:
     HsGuiShou();
-    void skillAct(struct SkillPara sp);
+    void skillAct(SkillPara sp);
     void skillClicked(SkillPara sp);
     virtual SkillType type() { return SkillType::SkillPositive; }
 };
@@ -126,21 +126,21 @@ class HsGuiShou : public AttackBuffSkill {
 class HsQianXing : public AttackBuffSkill {
  public:
     HsQianXing();
-    void skillAct(struct SkillPara sp);
+    void skillAct(SkillPara sp);
     void skillClicked(SkillPara sp);
 };
 
 class HsLengXue : public AttackBuffSkill {
  public:
     HsLengXue();
-    void skillAct(struct SkillPara sp);
+    void skillAct(SkillPara sp);
     void skillClicked(SkillPara sp);
 };
 
 class HsBaoNu : public AttackBuffSkill {
  public:
     HsBaoNu();
-    void skillAct(struct SkillPara sp);
+    void skillAct(SkillPara sp);
     void skillClicked(SkillPara sp);
 };
 

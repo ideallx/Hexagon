@@ -93,7 +93,8 @@ class EventCenter : public QThread {
     HeroItem* curHero;
     HeroItem* targetHero;
 
-    struct AskForUseCard_t {
+    class AskForUseCard_t {
+     public:
         HeroItem* useCardHero;
         CardNormalPackageType useCardType;
         int n;
@@ -116,10 +117,10 @@ class EventCenter : public QThread {
     QPoint resultsPoint;
     QList<HandCard*> resultsCard;
     GameMenuType resultsGMT;
+    int resultsNum;
 
  signals:
     void roundInfoChanged(QStringList);
-    void endTurnLater();
     void changeHeroInfo(HeroItem* hi);
 
  public slots:

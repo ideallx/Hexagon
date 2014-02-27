@@ -21,7 +21,7 @@ class MapEngine;
 class CampHealth;
 class EquipmentShop;
 class Equipment;
-struct externInfo;
+class externInfo;
 
 enum class RangeMode {
     ModeMove,
