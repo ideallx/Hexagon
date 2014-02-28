@@ -50,7 +50,7 @@ class AI : public QThread {
     void menuClicked(GameMenuType gmt);
     void buttonOkClicked(QList<HandCard*> l);
     void skillUsed(int n);
-    void endTurn();
+    void turnEnd();
 };
 
 #endif // AI_H

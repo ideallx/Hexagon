@@ -34,7 +34,8 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
         if (moveAvailable)
             return QPen(Qt::black);
         else
-            return QPen(Qt::white); }
+            return QPen(Qt::white);
+    }
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

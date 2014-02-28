@@ -24,18 +24,13 @@ class GameProcess : public QObject {
  public:
     explicit GameProcess(QWidget *parent = 0);
     ~GameProcess();
-    void preGame();
     void preGameClean();
-    void inGame();
-    void endGame();
-    inline ItemCollector* getIc() { return ic; }
-    inline QList<ExternInfo> getPreGameResult() { return eil; }
 
  private:
-    void loadResources(QString path);
+//    void loadResources(QString path);
+//    void buildGameInfo();
     void chooseBirthScreen();
     void modeChooseScreen();
-    void buildGameInfo();
 
     Ui::chooseHero* uic;
     Ui::ChooseGame* uig;
@@ -48,14 +43,6 @@ class GameProcess : public QObject {
     QDialog *chooseDialog;
     EventCenter* ec;
 
-    GameBackInfo* gbi;
-    GameCoordinate* gc;
-    ItemCollector* ic;
-    BackScene* bs;
-    HeroFactory *hf;
-
-    QList<ExternInfo> eil;
-
  signals:
     void choseHeroChoose();
     void gameStart();
@@ -64,7 +51,7 @@ class GameProcess : public QObject {
     void heroChosed();
     void heroChooseScreen();
     void gameChooseScreen();
-    void birthChooseScreen();
+    // void birthChooseScreen();
 };
 
 #endif  // GAME_GAMEPROCESS_H_

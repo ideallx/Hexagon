@@ -66,7 +66,7 @@ void AI::thinkNextEvent() {
         qDebug() << "AI ready to attack";
         processAttack();
     } else {
-        emit endTurn();
+        emit turnEnd();
     }
 }
 
@@ -120,4 +120,5 @@ void AI::waitForTime(int msec) {
 
 void AI::run() {
     thinkNextEvent();
+    qDebug() << "AI finished an event";
 }

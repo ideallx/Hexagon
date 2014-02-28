@@ -32,10 +32,6 @@ class MainWindow : public QMainWindow {
     void stateMachineInitial();
     void moveToPos(HeroItem* hi, QPoint p);
 
-    GameMenu* menu;
-    BackScene *scene;
-    GameBackInfo* gbi;
-    GameCoordinate *gc;
     EventCenter *ec;
 
     GameProcess *gp;

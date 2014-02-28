@@ -520,8 +520,14 @@ QList<QPoint> ItemCollector::pathAfterSearch (QPoint to) {
 
     while (!stacks.isEmpty()) {
         QPoint p = stacks.pop();
-        qDebug() << p;
+        // qDebug() << p;
         result.append(p);
     }
     return result;
+}
+
+void ItemCollector::moveToThread(QThread* td) {
+    foreach (GameMapElement* gme, elements) {
+        gme->moveToThread(td);
+    }
 }

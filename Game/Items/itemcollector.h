@@ -8,6 +8,7 @@
 #include <QPen>
 #include <QPixmap>
 #include <QQueue>
+#include <QThread>
 #include "enums.h"
 
 class HeroItem;
@@ -118,6 +119,7 @@ class ItemCollector {
     void calcWholeMapDistance(QPoint from);
     QList<QPoint> pathAfterSearch (QPoint to);
     void clearPoints();
+    void moveToThread(QThread* td);
 
  private:
     void addHeroList(QList<ExternInfo> info);

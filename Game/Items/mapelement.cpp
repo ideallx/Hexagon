@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "mapelement.h"
 #include "backinfo.h"
 
@@ -52,6 +53,17 @@ void GameMapElement::setDefaultZValue() {
         setZValue(0.6);
     else
         setZValue(0.8);
+}
+
+QRectF GameMapElement::boundingRect() const {
+    return QRectF(0, 0, 2*lineLength, 1.73*lineLength);
+}
+
+void GameMapElement::setDefaultPen() {
+    if (moveAvailable)
+        setPen(QPen(Qt::gray, 2));
+    else
+        setPen(QPen(Qt::white, 5));
 }
 
 void GameMapElement::variableInitial() {
@@ -120,17 +132,6 @@ void GameMapElement::variableInitial() {
     }
     setBrush(QBrush(block.scaledToWidth(2*lineLength,
                                         Qt::SmoothTransformation)));
-}
-
-QRectF GameMapElement::boundingRect() const {
-    return QRectF(0, 0, 2*lineLength, 1.73*lineLength);
-}
-
-void GameMapElement::setDefaultPen() {
-    if (moveAvailable)
-        setPen(QPen(Qt::gray, 2));
-    else
-        setPen(QPen(Qt::white, 5));
 }
 
 void GameMapElement::paint(QPainter *painter,

@@ -21,7 +21,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     gp = new GameProcess(ui->centralWidget);
     connect(gp, &GameProcess::gameStart, this, &MainWindow::gameBegin);
-    gp->preGame();
+    ec = new EventCenter(this);
+    gameBegin();
 }
 
 MainWindow::~MainWindow() {
@@ -30,11 +31,11 @@ MainWindow::~MainWindow() {
 
 void MainWindow::gameBegin() {
     gp->preGameClean();
-    sceneInitial();
+    ec->gameReady(ui->graphicsView);
 
     qDebug() << "build ui";
-    connect(scene, &BackScene::changeStatusBar,
-            this, &MainWindow::changeStatusInfo);
+//    connect(scene, &BackScene::changeStatusBar,
+//            this, &MainWindow::changeStatusInfo);
     connect(ec, &EventCenter::roundInfoChanged,
             this, &MainWindow::changeRoundInfo);
     connect(getCardAction, &QAction::triggered, ec, &EventCenter::getCard);
@@ -76,19 +77,6 @@ bool MainWindow::variableInitial() {
     roundLabel = new QLabel(this);
     roundLabel->setFixedWidth(200);
     ui->statusBar->addWidget(roundLabel);
-
-    return true;
-}
-
-bool MainWindow::sceneInitial() {
-    scene = new BackScene(gp->getIc(), this);
-    ui->graphicsView->setScene(scene);
-    gp->getIc()->addItemsToScene(scene);
-    menu = new GameMenu(ui->graphicsView);
-    menu->listSlideHeroHead(scene->getHeroListAvaterPath(Camp::CampBlue),
-                            scene->getHeroListAvaterPath(Camp::CampRed));
-    ec = new EventCenter(scene, menu, this);
-    qDebug("backView load complete...");
 
     return true;
 }

@@ -21,13 +21,15 @@ class GameCoordinate;
 class HeroItem;
 class GameMapElement;
 class HandCard;
+class HeroFactory;
 class AI;
+class BackView;
 
 class EventCenter : public QThread {
     Q_OBJECT
 
  public:
-    EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent = 0);
+    EventCenter(QWidget* parent = 0);
     QStringList buildRoundInfo();
     void gameBegin();
     void checkHeros();
@@ -49,6 +51,12 @@ class EventCenter : public QThread {
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
     bool dodge(int hitRate);
+
+    void preGame();
+    void gameReady(BackView *bv);
+    void loadResources(QString);
+    void buildGameInfo(HeroNum);
+    void askForChooseBox();
 
  private:
     typedef void (EventCenter::* Callback)(bool);
@@ -97,6 +105,9 @@ class EventCenter : public QThread {
     BackScene *scene;
     GameMenu* menu;
     ItemCollector* ic;
+    GameBackInfo* gbi;
+    GameCoordinate* gc;
+    HeroFactory* hf;
     QList<HeroItem*> heroSeq;
     bool gameBegined;
     int playerHeroNum;
@@ -107,6 +118,7 @@ class EventCenter : public QThread {
     bool isAnimating;
 
     QSemaphore *sem;
+    QList<ExternInfo> eil;
     AskType askType;
     QPoint resultsPoint;
     QList<HandCard*> resultsCard;
@@ -122,8 +134,8 @@ class EventCenter : public QThread {
     void heroChosen(HeroItem* hi);
     void getCard(int num = 1);
     void mapElementChosen(QPoint p);
-    void endTurn();
-    void beginTurn();
+    void turnEnd();
+    void turnBegin();
     void mapClear();
     void showMenu(HeroItem* hi, QPoint p);
     void cardChosen(QList<HandCard*> l);

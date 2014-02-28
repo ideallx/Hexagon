@@ -40,7 +40,6 @@ SOURCES  += main.cpp \
     Game/Items/equipment.cpp \
     Game/Items/Hero/attackability.cpp \
     Game/Items/Hero/moveability.cpp \
-    Game/gamethread.cpp \
     Game/ai.cpp
 
 HEADERS  += \
@@ -72,7 +71,6 @@ HEADERS  += \
     Game/Items/equipment.h \
     Game/Items/Hero/attackability.h \
     Game/Items/Hero/moveability.h \
-    Game/gamethread.h \
     Game/ai.h
 
 INCLUDEPATH += include

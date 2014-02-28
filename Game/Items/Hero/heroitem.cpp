@@ -133,6 +133,7 @@ void HeroItem::addHealth(int n) {
 
 void HeroItem::beginTurnSettle() {
     aa->restore();
+    ma->restore();
 }
 
 void HeroItem::endRoundSettle() {

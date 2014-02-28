@@ -13,24 +13,35 @@
 #include "skillcenter.h"
 #include "ai.h"
 #include "normalpackage.h"
+#include "backinfo.h"
 
 #define GIVEN_CONDITION
 
-EventCenter::EventCenter(BackScene* scene, GameMenu* menu, QWidget* parent)
-    : scene(scene),
-      menu(menu),
-      ic(scene->pIc()),
-      gameBegined(false),
+void EventCenter::gameReady(BackView* bv) {
+    scene = new BackScene(ic, this);
+    bv->setScene(scene);
+    ic->addItemsToScene(scene);
+    menu = new GameMenu(bv);
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath(Camp::CampBlue),
+                            scene->getHeroListAvaterPath(Camp::CampRed));
+    qDebug("backView load complete...");
+
+    setupConnection();
+    theGia = new QGraphicsItemAnimation(this);
+    roundNum = 0;
+    playerHeroNum = ic->playSeq();
+    qDebug() << "event center initialized";
+}
+
+EventCenter::EventCenter(QWidget* parent)
+    : gameBegined(false),
       parent(parent),
       isAnimating (false),
       sem(new QSemaphore),
       askType(AskType::AskForNone),
-      resultsNum(0) {
-    setupConnection();
-    theGia = new QGraphicsItemAnimation();
-    roundNum = 1;
-    playerHeroNum = ic->playSeq();
-    qDebug() << "event center initialized";
+      resultsNum(0),
+      playerHeroNum(0) {
+    preGame();
 }
 
 void EventCenter::setupConnection() {
@@ -77,7 +88,7 @@ void EventCenter::setupAIConnection() {
                 Qt::DirectConnection);
         connect(ai, &AI::skillUsed, this, &EventCenter::heroUseSkill,
                 Qt::DirectConnection);
-        connect(ai, &AI::endTurn, this, &EventCenter::endTurnSignal,
+        connect(ai, &AI::turnEnd, this, &EventCenter::endTurnSignal,
                 Qt::DirectConnection);
     }
 }
@@ -108,17 +119,18 @@ void EventCenter::gameBegin() {
 
     for (int i = 0; i < heroSeq.size(); i++) {
         AI* ai = heroSeq[i]->getAI();
-        if (ai != NULL) {
-            if (i % 2) {
-                for (int j = 0; j < heroSeq.size(); j+=2) {
-                    ai->addEnemy(heroSeq[j]);
-                    ai->addFriend(heroSeq[j+1]);
-                }
-            } else {
-                for (int j = 1; j < heroSeq.size(); j+=2) {
-                    ai->addEnemy(heroSeq[j]);
-                    ai->addFriend(heroSeq[j-1]);
-                }
+        if (ai == NULL) {
+            continue;
+        }
+        if (i % 2) {
+            for (int j = 0; j < heroSeq.size(); j+=2) {
+                ai->addEnemy(heroSeq[j]);
+                ai->addFriend(heroSeq[j+1]);
+            }
+        } else {
+            for (int j = 1; j < heroSeq.size(); j+=2) {
+                ai->addEnemy(heroSeq[j]);
+                ai->addFriend(heroSeq[j-1]);
             }
         }
     }
@@ -308,17 +320,18 @@ void EventCenter::waitForTime(int msec) {
     l.exec();
 }
 
-void EventCenter::beginTurn() {
+void EventCenter::turnBegin() {
     menu->setPrompt("");
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
 
     getCard(HeroItem::beginTurnGetCards());
     setCurHero(curHero);
     curHero->beginTurnSettle();
+    menu->beginTurnReset();
     emit roundInfoChanged(buildRoundInfo());
 }
 
-void EventCenter::endTurn() {
+void EventCenter::turnEnd() {
     if (!gameBegined)
         return;
 
@@ -338,13 +351,13 @@ void EventCenter::endTurn() {
     qDebug() << curHero->heroName() + "'s" << "Turn End\n";
 
     curHero->setPen(QPen(Qt::black, 3));
-
-    menu->beginTurnReset();
 }
+
 
 void EventCenter::roundBegin() {
     // ic->herosLoadPassiveSkill();
     // ic->mapElementAward();
+    roundNum++;
     qDebug() << "Round" << roundNum << "Begin";
     curHero = heroSeq[0];
     scene->views()[0]->centerOn(curHero->pos());
@@ -783,9 +796,9 @@ void EventCenter::process() {
     while (true) {
         roundBegin();
         do {
-            beginTurn();
+            turnBegin();
             while (askForNewEvent() != GameMenuType::EndTurn);
-            endTurn();
+            turnEnd();
         } while (!isThisRoundComplete());
         roundEnd();
     }
@@ -807,6 +820,7 @@ GameMenuType EventCenter::askForNewEvent() {
         ai->start();
     }
 
+    qDebug() << "Wait For New Event";
     acquire(AskType::AskForNone);
 
     scene->clearRange();
@@ -878,6 +892,7 @@ QPoint EventCenter::askForSelectPoint() {
  */
 void EventCenter::heroChosen(HeroItem* hero) {
     if (askType != AskType::AskForPoint) {
+        menu->setHeroInfo(hero);
         return;
     }
     if (sem->available()) {
@@ -908,6 +923,83 @@ void EventCenter::targetClicked(QPoint in) {
 void EventCenter::run() {
     gameBegin();
     process();
+}
+
+void EventCenter::preGame() {
+#ifdef GIVEN_CONDITION
+    loadResources("../rsc/DeathDesert2.xml");
+    for (int i = 0; i < 4; i++) {
+        ExternInfo ei;
+        ei.h = static_cast<HeroNum>(rand() % hf->getHeroAmount());
+        ei.p = QPoint(300, 300);  // untouchable point
+        eil.append(ei);
+    }
+    eil[0].h = HeroNum::AnYingZhiRen;
+    buildGameInfo(HeroNum::MieShaZhe);
+#else
+    modeChooseScreen();
+#endif
+}
+
+void EventCenter::buildGameInfo(HeroNum chosenHeroNum) {
+    qDebug() << "choose num:" << static_cast<int>(chosenHeroNum);
+
+    gc = new GameCoordinate(gbi);
+    qDebug() << "gc  load complete...";
+
+    ic = new ItemCollector(gbi, gc);
+
+    ic->setMapElement(new MapEngine(gbi));
+
+    CardEngine *ce = new CardEngine(gbi);
+    ce->addPackage(new CardPackageNormal());
+    ic->setCardEngine(ce);
+
+    ic->setCampHealth();
+
+    QVector<HeroNum> heroCode;
+    heroCode.append(eil[playerHeroNum].h);
+    for (int i = 0; i < eil.size(); i++) {
+        if (i%2)
+            eil[i].c = Camp::CampRed;
+        else
+            eil[i].c = Camp::CampBlue;
+
+        if (i == playerHeroNum)
+            continue;
+
+        HeroNum code;
+        do {
+            code = static_cast<HeroNum>(rand()%hf->getHeroAmount());
+        } while (heroCode.contains(code));
+        heroCode.append(code);
+
+        eil[i].h = code;
+    }
+
+    ic->setHeroFactory(hf, eil);
+    ic->setPlaySeq(playerHeroNum);
+    qDebug() << "ic  load complete...";
+    EquipmentShop* es = new EquipmentShop(gbi->getConfigDir());
+    es->addEquipmentPackage(new EquipmentPackageNormal());
+    ic->setEquipmentShop(es);
+}
+
+void EventCenter::loadResources(QString path) {
+    try {
+        gbi = new GameBackInfo(path);
+        qDebug() << "gbi load complete...";
+
+        hf = new HeroFactory(gbi);
+        hf->addPackage(new HeroPackageNormal());
+        qDebug() << "hf  load complete...";
+    } catch(const QString& e) {
+        QMessageBox::critical(NULL, tr("LYBNS"), e);
+    }
+}
+
+void EventCenter::askForChooseBox() {
+
 }
 
 void EventCenter::acquire(AskType at) {
