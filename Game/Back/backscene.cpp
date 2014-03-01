@@ -13,7 +13,6 @@ BackScene::BackScene(ItemCollector *ic, QObject *parent)
     back->setPixmap(QPixmap(ic->getPixmap()));
     back->setZValue(-10);
     this->addItem(back);
-    this->setParent(parent);
     isPressing = false;
     oldPoint = ic->outPoint();
 }

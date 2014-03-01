@@ -20,18 +20,20 @@ MainWindow::MainWindow(QWidget *parent)
     this->show();
 
     gp = new GameProcess(ui->centralWidget);
-    connect(gp, &GameProcess::gameStart, this, &MainWindow::gameBegin);
-    ec = new EventCenter(this);
+    ec = new EventCenter(ui->graphicsView, this);
+    ec->preGame();
     gameBegin();
 }
 
 MainWindow::~MainWindow() {
+    qDebug() << "Main Dellocate" ;
     delete ui;
+    delete ec;
+    delete gp;
 }
 
 void MainWindow::gameBegin() {
     gp->preGameClean();
-    ec->gameReady(ui->graphicsView);
 
     qDebug() << "build ui";
 //    connect(scene, &BackScene::changeStatusBar,
@@ -43,7 +45,7 @@ void MainWindow::gameBegin() {
     connect(openShop, &QAction::triggered, ec, &EventCenter::openShop);
     // changeRoundInfo(ec->buildRoundInfo());
     qDebug() << "initial complete...";
-    ec->start();
+    ec->run();
 }
 
 // AREA:element     coordinate:x, x    camp:hero

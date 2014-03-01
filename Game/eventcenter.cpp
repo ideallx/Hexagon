@@ -17,31 +17,21 @@
 
 #define GIVEN_CONDITION
 
-void EventCenter::gameReady(BackView* bv) {
-    scene = new BackScene(ic, this);
-    bv->setScene(scene);
-    ic->addItemsToScene(scene);
-    menu = new GameMenu(bv);
-    menu->listSlideHeroHead(scene->getHeroListAvaterPath(Camp::CampBlue),
-                            scene->getHeroListAvaterPath(Camp::CampRed));
-    qDebug("backView load complete...");
-
-    setupConnection();
-    theGia = new QGraphicsItemAnimation(this);
-    roundNum = 0;
-    playerHeroNum = ic->playSeq();
-    qDebug() << "event center initialized";
-}
-
-EventCenter::EventCenter(QWidget* parent)
+EventCenter::EventCenter(BackView *bv, QWidget* parent)
     : gameBegined(false),
       parent(parent),
-      isAnimating (false),
-      sem(new QSemaphore),
+      isAnimating(false),
       askType(AskType::AskForNone),
-      resultsNum(0),
-      playerHeroNum(0) {
-    preGame();
+      bv(bv),
+      loop(new QEventLoop),
+      playerHeroNum(0),
+      resultsNum(0) {
+}
+
+EventCenter::~EventCenter() {
+    loop->quit();
+    loop->exit();
+    qDebug() << "loop quit";
 }
 
 void EventCenter::setupConnection() {
@@ -70,6 +60,9 @@ void EventCenter::setupConnection() {
 //            scene, &BackScene::clearRange);
     connect(this, &EventCenter::changeHeroInfo,
             menu, &GameMenu::setHeroInfo);
+
+    connect(this, &EventCenter::releaseLock, loop, &QEventLoop::quit,
+            Qt::QueuedConnection);
 }
 
 void EventCenter::setupAIConnection() {
@@ -618,7 +611,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
     if (askType == AskType::AskForCards) {
         resultsCard.clear();
         resultsCard += l;
-        sem->release();
+        release();
         return;
     }
 /*
@@ -705,7 +698,7 @@ void EventCenter::heroUseSkill(int n) {
         return;
     }
     resultsNum = n;
-    sem->release();
+    release();
     return;
 }
 
@@ -870,12 +863,13 @@ void EventCenter::menuClickAct(GameMenuType gmt) {
     }
 
     resultsGMT = gmt;
-    sem->release();
+    release();
 }
 
 void EventCenter::endTurnSignal() {
     resultsGMT = GameMenuType::EndTurn;
-    sem->release();
+    qDebug() << "End Turn";
+    release();
 }
 
 QPoint EventCenter::askForSelectPoint() {
@@ -895,15 +889,15 @@ void EventCenter::heroChosen(HeroItem* hero) {
         menu->setHeroInfo(hero);
         return;
     }
-    if (sem->available()) {
-        menu->setHeroInfo(hero);
-        showCards(hero);
-        return;
-    } else {
-        resultsPoint = hero->point();
-        sem->release();
-        return;
-    }
+//    if (sem->available()) {
+//        menu->setHeroInfo(hero);
+//        showCards(hero);
+//        return;
+//    } else {
+//        resultsPoint = hero->point();
+//        sem->release();
+//        return;
+//    }
 }
 
 void EventCenter::targetClicked(QPoint in) {
@@ -915,7 +909,7 @@ void EventCenter::targetClicked(QPoint in) {
 
     if (askType == AskType::AskForPoint) {
         resultsPoint = in;
-        sem->release();
+        release();
         return;
     }
 }
@@ -923,6 +917,11 @@ void EventCenter::targetClicked(QPoint in) {
 void EventCenter::run() {
     gameBegin();
     process();
+}
+
+void EventCenter::release() {
+    // sem->release();
+    emit releaseLock();
 }
 
 void EventCenter::preGame() {
@@ -939,6 +938,23 @@ void EventCenter::preGame() {
 #else
     modeChooseScreen();
 #endif
+    gameReady();
+}
+
+void EventCenter::gameReady() {
+    scene = new BackScene(ic, bv);
+    bv->setScene(scene);
+    ic->addItemsToScene(scene);
+    menu = new GameMenu(bv);
+    menu->listSlideHeroHead(scene->getHeroListAvaterPath(Camp::CampBlue),
+                            scene->getHeroListAvaterPath(Camp::CampRed));
+    qDebug("backView load complete...");
+
+    setupConnection();
+    theGia = new QGraphicsItemAnimation(this);
+    roundNum = 0;
+    playerHeroNum = ic->playSeq();
+    qDebug() << "event center initialized";
 }
 
 void EventCenter::buildGameInfo(HeroNum chosenHeroNum) {
@@ -1009,5 +1025,8 @@ void EventCenter::acquire(AskType at) {
     if (ai) {
         ai->dothings(at);
     }
-    sem->acquire();
+    qDebug() << "acquire";
+    loop->exec();
+    qDebug() << "release";
+    // sem->acquire();
 }

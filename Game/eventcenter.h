@@ -8,8 +8,6 @@
 #include <QStringList>
 #include <QEventLoop>
 #include <QStack>
-#include <QThread>
-#include <QSemaphore>
 #include "enums.h"
 #include "coordinate.h"
 
@@ -25,11 +23,12 @@ class HeroFactory;
 class AI;
 class BackView;
 
-class EventCenter : public QThread {
+class EventCenter : public QObject {
     Q_OBJECT
 
  public:
-    EventCenter(QWidget* parent = 0);
+    EventCenter(BackView* bv, QWidget* parent = 0);
+    ~EventCenter();
     QStringList buildRoundInfo();
     void gameBegin();
     void checkHeros();
@@ -53,10 +52,12 @@ class EventCenter : public QThread {
     bool dodge(int hitRate);
 
     void preGame();
-    void gameReady(BackView *bv);
+    void gameReady();
     void loadResources(QString);
     void buildGameInfo(HeroNum);
     void askForChooseBox();
+    void release();
+    void run();
 
  private:
     typedef void (EventCenter::* Callback)(bool);
@@ -88,7 +89,6 @@ class EventCenter : public QThread {
     int roughDistance(T1 t1, T2 t2) {
         return GameCoordinate::roughDistance(t1->point(), t2->point());
     }
-    void run();
 
     int roundNum;
 
@@ -103,6 +103,7 @@ class EventCenter : public QThread {
     } askCard;
 
     BackScene *scene;
+    BackView* bv;
     GameMenu* menu;
     ItemCollector* ic;
     GameBackInfo* gbi;
@@ -110,24 +111,25 @@ class EventCenter : public QThread {
     HeroFactory* hf;
     QList<HeroItem*> heroSeq;
     bool gameBegined;
-    int playerHeroNum;
 
     SkillBase* curSkill;
     QGraphicsItemAnimation* theGia;
     QWidget* parent;
     bool isAnimating;
 
-    QSemaphore *sem;
     QList<ExternInfo> eil;
     AskType askType;
     QPoint resultsPoint;
     QList<HandCard*> resultsCard;
     GameMenuType resultsGMT;
+    QEventLoop* loop;
+    int playerHeroNum;
     int resultsNum;
 
  signals:
     void roundInfoChanged(QStringList);
     void changeHeroInfo(HeroItem* hi);
+    void releaseLock();
 
  public slots:
     void targetClicked(QPoint p);
