@@ -27,10 +27,7 @@ class MainWindow : public QMainWindow {
 
  private:
     bool variableInitial();
-    bool sceneInitial();
-    void chooseBirth();
-    void stateMachineInitial();
-    void moveToPos(HeroItem* hi, QPoint p);
+    void closeEvent(QCloseEvent *);
 
     EventCenter *ec;
 
@@ -47,6 +44,9 @@ class MainWindow : public QMainWindow {
     QAction *openShop;
 
     Ui::MainWindow *ui;
+
+ signals:
+    void quitLoop();
 
  public slots:
     void gameBegin();

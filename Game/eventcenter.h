@@ -122,7 +122,6 @@ class EventCenter : public QObject {
     QPoint resultsPoint;
     QList<HandCard*> resultsCard;
     GameMenuType resultsGMT;
-    QEventLoop* loop;
     int playerHeroNum;
     int resultsNum;
 
@@ -145,6 +144,7 @@ class EventCenter : public QObject {
     void openShop();
     void heroUseSkill(int n);
     void endTurnSignal();
+    void endLoop();
 };
 
 #endif  // GAME_EVENTCENTER_H_

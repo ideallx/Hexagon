@@ -43,6 +43,7 @@ void MainWindow::gameBegin() {
     connect(getCardAction, &QAction::triggered, ec, &EventCenter::getCard);
     connect(endTurnAction, &QAction::triggered, ec, &EventCenter::endTurnSignal);
     connect(openShop, &QAction::triggered, ec, &EventCenter::openShop);
+    connect(this, &MainWindow::quitLoop, ec, &EventCenter::endLoop);
     // changeRoundInfo(ec->buildRoundInfo());
     qDebug() << "initial complete...";
     ec->run();
@@ -79,7 +80,6 @@ bool MainWindow::variableInitial() {
     roundLabel = new QLabel(this);
     roundLabel->setFixedWidth(200);
     ui->statusBar->addWidget(roundLabel);
-
     return true;
 }
 
@@ -98,5 +98,11 @@ void MainWindow::changeRoundInfo(QStringList in) {
     campLabel->setText(in[0]);
     HeroLabel->setText(in[1]);
     roundLabel->setText(in[2]);
+}
+
+void MainWindow::closeEvent(QCloseEvent *e) {
+    Q_UNUSED(e);
+    qDebug() << "close";
+    emit quitLoop();
 }
 

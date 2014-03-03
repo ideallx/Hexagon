@@ -18,19 +18,17 @@
 #define GIVEN_CONDITION
 
 EventCenter::EventCenter(BackView *bv, QWidget* parent)
-    : gameBegined(false),
+    : roundNum(0),
+      gameBegined(false),
       parent(parent),
       isAnimating(false),
-      askType(AskType::AskForNone),
       bv(bv),
-      loop(new QEventLoop),
+      askType(AskType::AskForNone),
       playerHeroNum(0),
       resultsNum(0) {
 }
 
 EventCenter::~EventCenter() {
-    loop->quit();
-    loop->exit();
     qDebug() << "loop quit";
 }
 
@@ -60,9 +58,6 @@ void EventCenter::setupConnection() {
 //            scene, &BackScene::clearRange);
     connect(this, &EventCenter::changeHeroInfo,
             menu, &GameMenu::setHeroInfo);
-
-    connect(this, &EventCenter::releaseLock, loop, &QEventLoop::quit,
-            Qt::QueuedConnection);
 }
 
 void EventCenter::setupAIConnection() {
@@ -872,6 +867,10 @@ void EventCenter::endTurnSignal() {
     release();
 }
 
+void EventCenter::endLoop() {
+    qDebug() << "End Loop";
+}
+
 QPoint EventCenter::askForSelectPoint() {
     acquire(AskType::AskForPoint);
 
@@ -952,7 +951,6 @@ void EventCenter::gameReady() {
 
     setupConnection();
     theGia = new QGraphicsItemAnimation(this);
-    roundNum = 0;
     playerHeroNum = ic->playSeq();
     qDebug() << "event center initialized";
 }
@@ -1025,8 +1023,8 @@ void EventCenter::acquire(AskType at) {
     if (ai) {
         ai->dothings(at);
     }
-    qDebug() << "acquire";
-    loop->exec();
-    qDebug() << "release";
-    // sem->acquire();
+    QEventLoop l;
+    connect(this, &EventCenter::releaseLock, &l, &QEventLoop::quit,
+            Qt::QueuedConnection);
+    l.exec();
 }
