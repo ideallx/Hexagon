@@ -25,7 +25,9 @@ EventCenter::EventCenter(BackView *bv, QWidget* parent)
       bv(bv),
       askType(AskType::AskForNone),
       playerHeroNum(0),
-      resultsNum(0) {
+      resultsNum(0),
+      gameTerminated(false),
+      loop(new QEventLoop) {
 }
 
 EventCenter::~EventCenter() {
@@ -58,6 +60,9 @@ void EventCenter::setupConnection() {
 //            scene, &BackScene::clearRange);
     connect(this, &EventCenter::changeHeroInfo,
             menu, &GameMenu::setHeroInfo);
+
+    connect(this, &EventCenter::releaseLock,
+            loop, &QEventLoop::quit);
 }
 
 void EventCenter::setupAIConnection() {
@@ -78,6 +83,8 @@ void EventCenter::setupAIConnection() {
                 Qt::DirectConnection);
         connect(ai, &AI::turnEnd, this, &EventCenter::endTurnSignal,
                 Qt::DirectConnection);
+        connect(ai, &AI::buttonCancelClicked,
+                this, &EventCenter::cardCancel, Qt::DirectConnection);
     }
 }
 
@@ -518,37 +525,33 @@ void EventCenter::checkHeros() {
     }
 }
 
+
 bool EventCenter::askForUseCard(HeroItem* hi,
                                 CardNormalPackageType t) {
     askCard.useCardHero = hi;
     askCard.useCardType = t;
-    menu->setPrompt(QString("Please Use Card:"));
+    menu->setPrompt(QString("Please Use Card:"));  // type
     menu->setOneCardMode(true);
 
     AI* ai = hi->getAI();
     if (ai == NULL) {
         menu->setHeroInfo(hi);
         showCards(hi);
-        acquire(AskType::AskForCards);
-// TODO  resultsCard juggment
-        hi->removeCard(resultsCard[0]);
-        return (resultsCard.size() == 1);
     }
 
-    HandCard* hc = ai->useCard(t);
-    if (hc) {
-        hi->removeCard(hc);
-        menu->updateCardsArea(curHero->cards());
-        return true;
-    } else {
-        return false;
-    }
+    // For Test  Queued Connection
+    ai->useCard(t);
+    acquire(AskType::AskForCards);
+
+
+    hi->removeCard(resultsCard[0]);
+    return (resultsCard.size() == 1);
 }
 
 QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
     askCard.useCardHero = hi;
     askCard.n = n;
-    menu->setPrompt(QString("Please Use Card:"));
+    menu->setPrompt(QString("Please Use %1 Cards:").arg(n));
     menu->setOneCardMode(false);
 
     AI* ai = curHero->getAI();
@@ -557,7 +560,7 @@ QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
         return resultsCard;
     }
 
-    return ai->useCard(n);
+    return ai->useCards(n);
 //    if (hcl.size() == n) {
 //        foreach(HandCard* hc, hcl)
 //            hi->removeCard(hc);
@@ -781,14 +784,18 @@ QList<int> EventCenter::rollTheDice(int n) {
 }
 
 void EventCenter::process() {
-    while (true) {
-        roundBegin();
-        do {
-            turnBegin();
-            while (askForNewEvent() != GameMenuType::EndTurn);
-            turnEnd();
-        } while (!isThisRoundComplete());
-        roundEnd();
+    try {
+        while (true) {
+            roundBegin();
+            do {
+                turnBegin();
+                while (askForNewEvent() != GameMenuType::EndTurn);
+                turnEnd();
+            } while (!isThisRoundComplete());
+            roundEnd();
+        }
+    } catch(const QString& e) {
+        qDebug() << e;
     }
 }
 
@@ -869,6 +876,7 @@ void EventCenter::endTurnSignal() {
 
 void EventCenter::endLoop() {
     qDebug() << "End Loop";
+    gameTerminated = true;
 }
 
 QPoint EventCenter::askForSelectPoint() {
@@ -1016,15 +1024,16 @@ void EventCenter::askForChooseBox() {
 
 }
 
-void EventCenter::acquire(AskType at) {
+void EventCenter::acquire(AskType at, bool active) {
     askType = at;
     AI* ai = curHero->getAI();
 
-    if (ai) {
+    if (ai && active) {
         ai->dothings(at);
     }
-    QEventLoop l;
-    connect(this, &EventCenter::releaseLock, &l, &QEventLoop::quit,
-            Qt::QueuedConnection);
-    l.exec();
+
+    loop->exec();
+    if (gameTerminated) {
+        throw QString(tr("Game Terminated"));
+    }
 }

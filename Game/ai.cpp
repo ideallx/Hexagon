@@ -16,28 +16,41 @@ AI::AI(HeroItem *hi, ItemCollector *ic)
     qDebug() << "AI";
 }
 
-HandCard* AI::useCard(CardNormalPackageType cnpt) {
+void AI::useCard(CardNormalPackageType cnpt) {
+    QList<HandCard*> result;
     foreach(HandCard* hc, AiHero->cards()) {
-        if (hc->cardType() == cnpt)
-            return hc;
+        if (hc->cardType() == cnpt) {
+            result.append(hc);
+            break;
+        }
     }
-    return NULL;
+    if (result.size() == 0) {
+        emit buttonCancelClicked();
+        qDebug() << "AI Not Dodge";
+    } else {
+        emit buttonOkClicked(result);
+        qDebug() << "AI Dodged";
+    }
 }
 
-QList<HandCard*> AI::useCard(int n) {
+QList<HandCard*> AI::useCards(int n) {
+    QList<HandCard*> result;
     if (AiHero->cards().size() <= n) {
-        return AiHero->cards();
+        result = AiHero->cards();
     } else {
         QList<HandCard*> result;
         while (n != 0) {
             result.append(AiHero->cards()[n-1]);
             n--;
         }
-        return result;
+        result = result;
     }
+    emit buttonOkClicked(result);
+    return result;
 }
 
 void AI::dothings(AskType at) {
+    Q_UNUSED(at);
     qDebug() << "AI moves";
     sem->release();
 }

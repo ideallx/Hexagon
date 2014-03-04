@@ -17,8 +17,8 @@ class AI : public QThread {
 
  public:
     AI(HeroItem* hi, ItemCollector *ic);
-    QList<HandCard*> useCard(int n);
-    HandCard* useCard(CardNormalPackageType cnpt);
+    QList<HandCard*> useCards(int n);
+    void useCard(CardNormalPackageType cnpt);
     void dothings(AskType at);
     void thinkNextEvent();
 
@@ -49,6 +49,7 @@ class AI : public QThread {
     void rangeClicked(QPoint p);
     void menuClicked(GameMenuType gmt);
     void buttonOkClicked(QList<HandCard*> l);
+    void buttonCancelClicked();
     void skillUsed(int n);
     void turnEnd();
 };

@@ -81,7 +81,7 @@ class EventCenter : public QObject {
     void skillAnimate(HeroItem* item, GameMapElement* gme);
 
     void showCards(HeroItem* hi);
-    void acquire(AskType at);
+    void acquire(AskType at, bool active = true);
 
     void waitForTime(int msec);
 
@@ -103,7 +103,6 @@ class EventCenter : public QObject {
     } askCard;
 
     BackScene *scene;
-    BackView* bv;
     GameMenu* menu;
     ItemCollector* ic;
     GameBackInfo* gbi;
@@ -116,6 +115,7 @@ class EventCenter : public QObject {
     QGraphicsItemAnimation* theGia;
     QWidget* parent;
     bool isAnimating;
+    BackView* bv;
 
     QList<ExternInfo> eil;
     AskType askType;
@@ -124,6 +124,8 @@ class EventCenter : public QObject {
     GameMenuType resultsGMT;
     int playerHeroNum;
     int resultsNum;
+    bool gameTerminated;
+    QEventLoop *loop;
 
  signals:
     void roundInfoChanged(QStringList);
