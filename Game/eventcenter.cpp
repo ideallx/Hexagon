@@ -51,9 +51,9 @@ void EventCenter::setupConnection() {
             this, &EventCenter::menuClickAct);
 
     connect(menu, &GameMenu::buttonOkClicked,
-            this, &EventCenter::cardChosen);
+            this, &EventCenter::cardChosen, Qt::QueuedConnection);
     connect(menu, &GameMenu::buttonCancelClicked,
-            this, &EventCenter::cardCancel);
+            this, &EventCenter::cardCancel, Qt::QueuedConnection);
     connect(menu, &GameMenu::skillUsed,
             this, &EventCenter::heroUseSkill);
 //    connect(menu, &GameMenu::cancelClicked,
