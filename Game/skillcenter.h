@@ -13,6 +13,14 @@ class MapMark;
 
 class SkillPara {
  public:
+    SkillPara(EventCenter *ec, QVariant data,
+              QGraphicsItem* from, QGraphicsItem* to)
+        : ec(ec) ,
+          data(data),
+          from(from),
+          to(to) {
+    }
+
     EventCenter* ec;
     QVariant data;
     QGraphicsItem* from;

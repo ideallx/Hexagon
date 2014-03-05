@@ -204,12 +204,13 @@ void EventCenter::heroMoveToPoint(QPoint in) {
 
 void EventCenter::heroAttackPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
-        return;
+        throw QString(tr("Attack Target Not Found"));
 
     scene->clearRange();
     targetHero = ic->getHeroByPoint(in);
 
     int hitRate = curHero->getMustHitRate();
+
     bool isHit = dodge(hitRate);
 
     if (!isHit) {
@@ -223,19 +224,11 @@ void EventCenter::heroAttackPoint(QPoint in) {
     QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerTime::TriggerAttackHit);
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
-//                if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
-//                    l.removeAt(i);
-//                } else {
-                SkillPara sp;
-                sp.ec = this;
-                sp.data = QVariant();
-                sp.from = curHero;
-                sp.to = targetHero;
+            SkillPara sp(this, QVariant(), curHero, targetHero);
 
-                l[i]->skillFlow(sp);
-                curSkill = l[i];
-                listHeroInfo(curHero);
-//                }
+            l[i]->skillFlow(sp);
+            curSkill = l[i];
+            listHeroInfo(curHero);
         }
     }
 
@@ -286,11 +279,7 @@ bool EventCenter::dodge(int hitRate) {
 void EventCenter::skillStraightTest(QPoint in) {
     GameMapElement* gme = ic->getMapElementByPoint(in);
 
-    SkillPara sp;
-    sp.data = QVariant();
-    sp.from = curHero;
-    sp.to = gme;
-    sp.ec = this;
+    SkillPara sp(this, QVariant(), curHero, gme);
 
     skillAnimate(curHero, gme);
     curSkill->skillFlow(sp);
@@ -465,12 +454,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
             if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
                 l.removeAt(i);
             } else {
-                QVariant data;
-                SkillPara sp;
-                sp.ec = this;
-                sp.data = data;
-                sp.from = from;
-                sp.to = to;
+                SkillPara sp(this, QVariant(), from, to);
 
                 l[i]->skillPrepare(sp);
                 curSkill = l[i];
@@ -831,11 +815,7 @@ GameMenuType EventCenter::askForNewEvent() {
         heroAttackPoint(askForSelectPoint());
         break;
     case GameMenuType::Skill: {
-        SkillPara sp;
-        sp.ec = this;
-        sp.data = QVariant();
-        sp.from = curHero;
-        sp.to = NULL;
+        SkillPara sp(this, QVariant(), curHero, NULL);
 
         SkillBase *skl = curHero->getHeroSkill(resultsNum);
         if (skl->type() == SkillType::SkillActive) {

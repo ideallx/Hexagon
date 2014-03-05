@@ -22,6 +22,7 @@ class HandCard;
 class HeroFactory;
 class AI;
 class BackView;
+class SkillPara;
 
 class EventCenter : public QObject {
     Q_OBJECT
@@ -69,6 +70,7 @@ class EventCenter : public QObject {
     void heroAttackPoint(QPoint p);
     void attackCalc(HeroItem* from, HeroItem* to);
     void skillStraightTest(QPoint p);
+    void actSkills(QList<SkillBase*> sbl);
 
     void menuClickAct(GameMenuType gmt);
     bool isThisRoundComplete();

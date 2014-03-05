@@ -58,7 +58,7 @@ void GameProcess::preGameClean() {
 
 void GameProcess::gameChooseScreen() {
     uig = new Ui::ChooseGame();
-    chooseDialog = new QDialog(mcw);
+    chooseDialog = new QDialog();
     chooseDialog->setModal(true);
     uig->setupUi(chooseDialog);
 
@@ -145,6 +145,7 @@ void GameProcess::heroChosed() {
     chosenHeroNum = static_cast<HeroLabel*>(this->sender())->heroNum();
     chooseDialog->accept();
 }
+
 /*
 // deprecated
 void GameProcess::birthChooseScreen() {
