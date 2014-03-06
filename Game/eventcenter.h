@@ -86,6 +86,7 @@ class EventCenter : public QObject {
     void acquire(AskType at, bool active = true);
 
     void waitForTime(int msec);
+    void runSkills(TriggerTime tt, HeroItem *from, QGraphicsItem* to);
 
     template <typename T1, typename T2>
     int roughDistance(T1 t1, T2 t2) {

@@ -32,9 +32,10 @@ class SkillBase : public QObject {
     Q_ENUMS(TriggerTime)
 
  public:
-    SkillBase(int cdf, int cdmaxf)
+    SkillBase(int cdf = 0, int cdmaxf = 0, DamageType dt = DamageType::Physical)
         : cooldown(cdf),
-          cooldownMax(cdmaxf){;}
+          cooldownMax(cdmaxf),
+          dt(dt) {;}
     virtual void skillPrepare(SkillPara sp) = 0;
     virtual void skillFlow(SkillPara sp) = 0;
     virtual TriggerTime triggerTime() const = 0;
@@ -43,22 +44,24 @@ class SkillBase : public QObject {
     virtual int cdNow() { return cooldown; }
     void addCoolDown(int n);
     virtual SkillType type() { return SkillType::SkillActive; }
+    inline DamageType damType() { return dt; }
 
  private:
     int cooldown;
     int cooldownMax;
+    DamageType dt;
 };
 
 class AttackBuffSkill : public SkillBase {
  public:
     AttackBuffSkill(AttackBuffEffect abe, int stateType, int probability,
-                    int cd = 0, int cdmax = 0, int effectTime = 1);
+                    int cd = 0, int cdmax = 0, int duration = 1);
 
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp);
     virtual TriggerTime triggerTime() const;
 
-    virtual bool isWorkNow() { return false; }
+    virtual bool isWorkNow() { return availAble; }
     virtual void skillAct(SkillPara sp) { Q_UNUSED(sp);}
     virtual void skillClicked(SkillPara sp) { Q_UNUSED(sp);}
     virtual AttackBuff buffEffect();
@@ -121,6 +124,7 @@ class MapMarkSkill : public SkillBase {
 
     virtual void skillAct(SkillPara sp);
     virtual void skillRange(SkillPara sp);
+
  private:
     MapMark* mark;
     int range;

@@ -131,6 +131,7 @@ class AttackBuff {
     int damage;
     };
     int probability;
+    int duration;
 };
 
 enum class CardNormalPackageType {
@@ -215,6 +216,12 @@ enum class AskType {
     AskForCards,
     AskForPoint,
     AskForSkill
+};
+
+enum class DamageType {
+    Physical,
+    Magical,
+    Divine
 };
 
 class EquipmentInfo {

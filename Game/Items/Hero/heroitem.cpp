@@ -200,4 +200,3 @@ void HeroItem::addState(HeroState state, int lastTime) {
     states.second = lastTime;
     heroStates.append(states);
 }
-

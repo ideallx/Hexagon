@@ -183,7 +183,7 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
         return;
 
-    if (!curHero->isMoveAble()) {
+    if (!curHero->ma->remainingTimes()) {
         return;
     }
 
@@ -196,7 +196,7 @@ void EventCenter::heroMoveToPoint(QPoint in) {
     menu->setMoveAble(false);
 
     curHero->setPoint(in);
-    curHero->moved();
+    curHero->ma->moveTimeMinus();
 
     qDebug() << curHero->heroName() <<
                 "Move To Point" << curHero->point();
@@ -209,35 +209,29 @@ void EventCenter::heroAttackPoint(QPoint in) {
     scene->clearRange();
     targetHero = ic->getHeroByPoint(in);
 
-    int hitRate = curHero->getMustHitRate();
+    runSkills(TriggerTime::TriggerAttackBegin, curHero, targetHero);
+    int hitRate = curHero->aa->mustHitRate();
 
     bool isHit = dodge(hitRate);
 
     if (!isHit) {
-        curHero->removeAttackBouns();
+        curHero->aa->removeAttackBouns();
         qDebug() << targetHero->heroName() <<
                     "Dodged The Attack From" << curHero->heroName();
         return;
     }
 
     // if hit
-    QList<SkillBase*> l = curHero->hasSkillTriggerAt(TriggerTime::TriggerAttackHit);
-    if (l.size() != 0) {
-        for (int i = 0; i < l.size(); i++) {
-            SkillPara sp(this, QVariant(), curHero, targetHero);
-
-            l[i]->skillFlow(sp);
-            curSkill = l[i];
-            listHeroInfo(curHero);
-        }
-    }
+    runSkills(TriggerTime::TriggerAttackHit, curHero, targetHero);
+    runSkills(TriggerTime::TriggerAttackEnd, curHero, targetHero);
 
     attackAnimate(curHero, targetHero);
-    attackCalc(curHero, targetHero);
-    curHero->removeAttackBouns();
+    // attackCalc(curHero, targetHero);
+    curHero->aa->removeAttackBouns();
+    listHeroInfo(curHero);
     qDebug() << curHero->heroName() <<
                 "Attack" << targetHero->heroName() <<
-                "And Made" << curHero->attack() << "Damage";
+                "And Made" << curHero->aa->attack() << "Damage";
     return;
 }
 
@@ -251,7 +245,7 @@ bool EventCenter::dodge(int hitRate) {
     scene->clearRange();
     menu->hideAllMenu();
     menu->setMoveAble(false);
-    if (!curHero->isAttackAble()) {
+    if (!curHero->aa->remainingTimes()) {
         menu->setAttackAble(false);
     }
 
@@ -331,7 +325,7 @@ void EventCenter::turnEnd() {
     if (curHero->getAI() != NULL)
         waitForTime(1000);
 
-    curHero->removeAttackBouns();
+    curHero->aa->removeAttackBouns();
     qDebug() << curHero->heroName() + "'s" << "Turn End\n";
 
     curHero->setPen(QPen(Qt::black, 3));
@@ -448,7 +442,7 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
     QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerTime::TriggerAttackBegin);
-    to->addHealth(- from->attack());
+    to->addHealth(- from->aa->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
             if (!l[i]->isWorkNow()) {   // TODO(ideallx) to fix
@@ -456,7 +450,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
             } else {
                 SkillPara sp(this, QVariant(), from, to);
 
-                l[i]->skillPrepare(sp);
+                l[i]->skillFlow(sp);
                 curSkill = l[i];
                 listHeroInfo(curHero);
             }
@@ -1015,5 +1009,17 @@ void EventCenter::acquire(AskType at, bool active) {
     loop->exec();
     if (gameTerminated) {
         throw QString(tr("Game Terminated"));
+    }
+}
+
+void EventCenter::runSkills(TriggerTime tt,
+                            HeroItem* from, QGraphicsItem* to) {
+    QList<SkillBase*> l = from->hasSkillTriggerAt(tt);
+    if (l.size() != 0) {
+        for (int i = 0; i < l.size(); i++) {
+            SkillPara sp(this, QVariant(), from, to);
+
+            l[i]->skillFlow(sp);
+        }
     }
 }

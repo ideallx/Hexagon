@@ -174,11 +174,11 @@ void GameMenu::setHeroInfo(HeroItem* hero) {
     panelInfo pi;
     HeroInfo hi = hero->getBaseInfo();
     pi.attack = 1;
-    pi.attackBouns = hero->attack() - pi.attack;
+    pi.attackBouns = hero->aa->attack() - pi.attack;
     pi.attackRange = hi.attackRange;
-    pi.attackRangeBouns = hero->attackRange() - pi.attackRange;
+    pi.attackRangeBouns = hero->aa->attackRange() - pi.attackRange;
     pi.moveRange = hi.moveRange;
-    pi.moveRangeBouns = hero->moveRange() - pi.moveRange;
+    pi.moveRangeBouns = hero->ma->moveRange() - pi.moveRange;
 
     pi.moneyList = hero->moneyLists();
     es->setContent(pi);

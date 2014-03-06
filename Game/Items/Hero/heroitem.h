@@ -22,23 +22,6 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
  public:
     explicit HeroItem(int lineLength);
 
-    // AttackAbility
-    inline int getMustHitRate() { return aa->mustHitRate(); }
-    inline int isAttackAble() { return aa->remainingTimes(); }
-    inline int attack() { return aa->attack(); }
-    inline int attackRange() { return aa->attackRange(); }
-    inline void addNextAttackBouns(AttackBuff ab) {
-        aa->addNextAttackBouns(ab);
-    }
-    inline void removeAttackBouns() { aa->removeAttackBouns(); }
-    // AttackAbility
-
-    // MoveAbility
-    inline int moveRange() const { return ma->moveRange(); }
-    inline void setMoveRange(int n) { ma->setRange(n); }
-    inline int isMoveAble() { return ma->remainingTimes(); }
-    inline void moved() { ma->moveTimeMinus(); }
-    // MoveAbility
 
     // InnerInfo
     void setHeroProperty(Sexual s, int ar, int m, int h);
@@ -111,6 +94,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QPainterPath shape() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);
 
+    AttackAbility* aa;
+    MoveAbility* ma;
 
 
  private:
@@ -137,8 +122,6 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QColor color;
     int theMoney;
     AI* ai;
-    AttackAbility* aa;
-    MoveAbility* ma;
     bool isAlive;
 
  signals:

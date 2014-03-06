@@ -14,9 +14,9 @@ class AttackAbility {
     inline int attackRange() const { return theRange; }
     inline void setRange(int i) { theRange = i; }
 
-    void addNextAttackBouns(AttackBuff ab);
+    void addBouns(AttackBuff ab);
     void removeAttackBouns();
-    inline void restore() { theTime = 1; }
+    inline void restore() { theTime = 1;}
     inline int remainingTimes() { return theTime; }
     inline int mustHitRate() { return nextMustHit; }
 

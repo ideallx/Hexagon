@@ -22,26 +22,28 @@ void SkillBase::addCoolDown(int n) {
  */
 
 AttackBuffSkill::AttackBuffSkill(AttackBuffEffect abe, int stateType,
-                                 int probability, int cd, int cdmax, int effectTime)
+                                 int probability, int cd, int cdmax, int duration)
     : SkillBase(cd, cdmax),
       availAble(true),
-      theEffectTime(effectTime) {
+      theEffectTime(duration) {
     ab.abe = abe;
     ab.stateType = stateType;
     ab.damage = stateType;
     ab.probability = probability;
+    ab.duration = duration;
 }
 
 void AttackBuffSkill::skillPrepare(SkillPara sp) {
+    if (theEffectTime <= 0) {
+        throw QString("skill dont cooldown now");
+    }
     skillClicked(sp);
-    if (theEffectTime <= 0)
-        availAble = false;
-    theEffectTime--;
     qDebug() << objectName() << "triggered";
 }
 
 void AttackBuffSkill::skillFlow(SkillPara sp) {
     skillAct(sp);
+    theEffectTime--;
     qDebug() << objectName() << "acted";
 }
 

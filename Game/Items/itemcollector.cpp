@@ -224,9 +224,9 @@ QList<QPoint> ItemCollector::listRange(HeroItem* hero, RangeMode t) {
     QList<QPoint> set;
 
     if (type == RangeMode::ModeMove)
-        return recursionSeries(&set, hero->point(), hero->moveRange());
+        return recursionSeries(&set, hero->point(), hero->ma->moveRange());
     else if (type == RangeMode::ModeAttack)
-        return recursionSeries(&set, hero->point(), hero->attackRange());
+        return recursionSeries(&set, hero->point(), hero->aa->attackRange());
     return set;
 }
 

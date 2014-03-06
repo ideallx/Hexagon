@@ -72,10 +72,10 @@ HeroItem* AI::findAttackTarget() {
 void AI::thinkNextEvent() {
     qDebug() << "wake up AI";
     sem->acquire();
-    if (AiHero->isMoveAble()) {
+    if (AiHero->ma->remainingTimes()) {
         qDebug() << "AI ready to move";
         processMove();
-    } else if (AiHero->isAttackAble() && isTargetNearAI()) {
+    } else if (AiHero->aa->remainingTimes() && isTargetNearAI()) {
         qDebug() << "AI ready to attack";
         processAttack();
     } else {
@@ -93,14 +93,14 @@ void AI::processMove() {
 
     int msec = 500;
     QPoint targetPoint;
-    if (result.size() > AiHero->moveRange()+1) {
+    if (result.size() > AiHero->ma->moveRange()+1) {
         waitForTime(msec);
         qDebug() << "not attack";
-        targetPoint = result[AiHero->moveRange()-1];
+        targetPoint = result[AiHero->ma->moveRange()-1];
     } else {
         if (!isTargetNearAI()) {
             waitForTime(msec);
-            targetPoint = result[AiHero->moveRange()-1];
+            targetPoint = result[AiHero->ma->moveRange()-1];
         } else {
             return;  // your target in your range
         }
@@ -110,8 +110,8 @@ void AI::processMove() {
 
 bool AI::isTargetNearAI() {
     return GameCoordinate::roughDistance(
-                AiHero->point(), targetEnemyHero->point()) ==
-            AiHero->attackRange();
+                AiHero->point(), targetEnemyHero->point()) <=
+            AiHero->aa->attackRange();
 }
 
 void AI::processAttack() {

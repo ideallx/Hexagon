@@ -3,11 +3,13 @@
 AttackAbility::AttackAbility(int initAttack, int initRange)
     : theAttack(initAttack),
       theRange(initRange),
-      theTime(1) {
+      theTime(1),
+      nextMustHit(0) {
 }
 
-void AttackAbility::addNextAttackBouns(AttackBuff ab) {
+void AttackAbility::addBouns(AttackBuff ab) {
     attackBuffs.append(ab);
+
     if (ab.abe == AttackBuffEffect::AttackBuffAddDamage) {
         setAttack(theAttack + ab.damage);
     } else if (ab.abe == AttackBuffEffect::AttackBuffMustHit) {

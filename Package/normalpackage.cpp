@@ -227,7 +227,7 @@ void CsKuangBao::skillAct(SkillPara sp) {
 
 void CsKuangBao::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
-    hi->addNextAttackBouns(buffEffect());
+    hi->aa->addBouns(buffEffect());
 }
 
 CsZheYue::CsZheYue()
@@ -286,18 +286,12 @@ HsGuiShou::HsGuiShou()
 }
 
 void HsGuiShou::skillAct(SkillPara sp) {
-    HeroItem* toHero = static_cast<HeroItem*>(sp.to);
-    if (toHero->cards().size() == 0) {
-        toHero->addHealth(-1);
-    } else {
-        QList<HandCard*> hcl = sp.ec->discardCard(toHero, 1);
-        HeroItem* fromHero = static_cast<HeroItem*>(sp.from);
-        fromHero->addCards(hcl);
-    }
+    Q_UNUSED(sp);
 }
 
 void HsGuiShou::skillClicked(SkillPara sp) {
-    Q_UNUSED(sp);
+    HeroItem* from = static_cast<HeroItem*>(sp.from);
+    from->aa->addBouns(buffEffect());
 }
 
 
@@ -313,7 +307,7 @@ void HsQianXing::skillAct(SkillPara sp) {
 
 void HsQianXing::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
-    hi->addNextAttackBouns(buffEffect());
+    hi->aa->addBouns(buffEffect());
     this->addCoolDown(this->cdMax());
 }
 
@@ -325,12 +319,12 @@ HsLengXue::HsLengXue()
 void HsLengXue::skillAct(SkillPara sp) {
     HeroItem* fr = static_cast<HeroItem*>(sp.from);
     HeroItem* to = static_cast<HeroItem*>(sp.from);
-    to->addHealth(- fr->attack());  // change to suffer magic
+    to->addHealth(- fr->aa->attack());  // change to suffer magic
 }
 
 void HsLengXue::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
-    hi->addNextAttackBouns(buffEffect());
+    hi->aa->addBouns(buffEffect());
     this->addCoolDown(this->cdMax());
 }
 
@@ -345,6 +339,6 @@ void HsBaoNu::skillAct(SkillPara sp) {
 
 void HsBaoNu::skillClicked(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
-    hi->addNextAttackBouns(buffEffect());
+    hi->aa->addBouns(buffEffect());
     this->addCoolDown(this->cdMax());
 }
