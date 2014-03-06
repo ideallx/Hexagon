@@ -16,7 +16,7 @@ AI::AI(HeroItem *hi, ItemCollector *ic)
     qDebug() << "AI";
 }
 
-void AI::useCard(CardNormalPackageType cnpt) {
+QList<HandCard*> AI::useCard(CardNormalPackageType cnpt) {
     QList<HandCard*> result;
     foreach(HandCard* hc, AiHero->cards()) {
         if (hc->cardType() == cnpt) {
@@ -26,11 +26,12 @@ void AI::useCard(CardNormalPackageType cnpt) {
     }
     if (result.size() == 0) {
         emit buttonCancelClicked();
-        qDebug() << "AI Not Dodge";
+        qDebug() << "AI use single card";
     } else {
         emit buttonOkClicked(result);
-        qDebug() << "AI Dodged";
+        qDebug() << "AI not use single card";
     }
+    return result;
 }
 
 QList<HandCard*> AI::useCards(int n) {

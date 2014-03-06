@@ -77,14 +77,15 @@ void EventCenter::setupAIConnection() {
                 Qt::DirectConnection);
         connect(ai, &AI::menuClicked, this, &EventCenter::menuClickAct,
                 Qt::DirectConnection);
-        connect(ai, &AI::buttonOkClicked, this, &EventCenter::cardChosen,
-                Qt::DirectConnection);
         connect(ai, &AI::skillUsed, this, &EventCenter::heroUseSkill,
                 Qt::DirectConnection);
         connect(ai, &AI::turnEnd, this, &EventCenter::endTurnSignal,
                 Qt::DirectConnection);
-        connect(ai, &AI::buttonCancelClicked,
-                this, &EventCenter::cardCancel, Qt::DirectConnection);
+
+//        connect(ai, &AI::buttonOkClicked, this, &EventCenter::cardChosen,
+//                Qt::QueuedConnection);
+//        connect(ai, &AI::buttonCancelClicked, this, &EventCenter::cardCancel,
+//                Qt::QueuedConnection);
     }
 }
 
@@ -515,15 +516,20 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     if (ai == NULL) {
         menu->setHeroInfo(hi);
         showCards(hi);
+        acquire(AskType::AskForCards, false);
+    } else {
+
+        // For Test  Queued Connection
+        resultsCard = ai->useCard(t);
     }
-
-    // For Test  Queued Connection
-    ai->useCard(t);
-    acquire(AskType::AskForCards);
-
-
-    hi->removeCard(resultsCard[0]);
-    return (resultsCard.size() == 1);
+    if (resultsCard.size() > 1) {
+        throw QString(tr("chose more than 1 card"));
+    } else if (resultsCard.size() == 1) {
+        hi->removeCard(resultsCard[0]);
+        return true;
+    } else {
+        return false;
+    }
 }
 
 QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
@@ -585,6 +591,7 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
         return;
 
     if (askType == AskType::AskForCards) {
+        qDebug() << "card chosen";
         resultsCard.clear();
         resultsCard += l;
         release();
@@ -656,6 +663,12 @@ void EventCenter::cardChosen(QList<HandCard*> l) {
 void EventCenter::cardCancel() {
     if (isAnimating)
         return;
+    if (askType == AskType::AskForCards) {
+        resultsCard.clear();
+        qDebug() << "card cancel";
+        release();
+        return;
+    }
 }
 
 void EventCenter::openShop() {
@@ -849,8 +862,9 @@ void EventCenter::endTurnSignal() {
 }
 
 void EventCenter::endLoop() {
-    qDebug() << "End Loop";
     gameTerminated = true;
+    release();
+    qDebug() << "End Loop";
 }
 
 QPoint EventCenter::askForSelectPoint() {

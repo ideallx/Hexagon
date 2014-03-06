@@ -18,7 +18,7 @@ class AI : public QThread {
  public:
     AI(HeroItem* hi, ItemCollector *ic);
     QList<HandCard*> useCards(int n);
-    void useCard(CardNormalPackageType cnpt);
+    QList<HandCard*> useCard(CardNormalPackageType cnpt);
     void dothings(AskType at);
     void thinkNextEvent();
 
