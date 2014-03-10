@@ -12,7 +12,8 @@ AI::AI(HeroItem *hi, ItemCollector *ic)
     : AiHero (hi),
       targetEnemyHero(NULL),
       sem(new QSemaphore),
-      ic(ic) {
+      ic(ic),
+      askForWhat(AskType::AskForNone) {
     qDebug() << "AI";
 }
 
@@ -47,12 +48,15 @@ QList<HandCard*> AI::useCards(int n) {
         result = result;
     }
     emit buttonOkClicked(result);
+
+    askForWhat = AskType::AskForAIReact;
+    sem->acquire();
     return result;
 }
 
 void AI::dothings(AskType at) {
     Q_UNUSED(at);
-    qDebug() << "AI moves";
+    qDebug() << "AI do things";
     sem->release();
 }
 
@@ -133,6 +137,40 @@ void AI::waitForTime(int msec) {
 }
 
 void AI::run() {
-    thinkNextEvent();
-    qDebug() << "AI finished an event";
+    while (true) {
+        sem->acquire();
+        switch (askForWhat) {
+        case AskType::AskForAITurn:
+            thinkNextEvent();
+            break;
+        case AskType::AskForAIReact:
+            thinkHowToReact();
+            break;
+        default:
+            continue;
+        }
+        qDebug() << "AI finished an event";
+    }
+}
+
+
+void AI::aisTurn() {
+    askForWhat = AskType::AskForAITurn;
+    sem->release();
+}
+
+void AI::aisReact() {
+    askForWhat = AskType::AskForAIReact;
+    sem->release();
+}
+
+void AI::thinkHowToReact() {
+    qDebug() << "wake up AI";
+    sem->acquire();
+
+    switch (askForWhat) {
+    case AskType::AskForCards:
+        break;
+
+    }
 }

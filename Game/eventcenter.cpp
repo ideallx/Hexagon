@@ -86,6 +86,7 @@ void EventCenter::setupAIConnection() {
 //                Qt::QueuedConnection);
 //        connect(ai, &AI::buttonCancelClicked, this, &EventCenter::cardCancel,
 //                Qt::QueuedConnection);
+        ai->start();
     }
 }
 
@@ -516,11 +517,11 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     if (ai == NULL) {
         menu->setHeroInfo(hi);
         showCards(hi);
-        acquire(AskType::AskForCards, false);
+        acquire(AskType::AskForCards);
     } else {
-
-        // For Test  Queued Connection
-        resultsCard = ai->useCard(t);
+        acquireAI(ai, AskType::AskForCards);
+        ai->useCard(t);
+        loopExec();
     }
     if (resultsCard.size() > 1) {
         throw QString(tr("chose more than 1 card"));
@@ -775,18 +776,14 @@ QList<int> EventCenter::rollTheDice(int n) {
 }
 
 void EventCenter::process() {
-    try {
-        while (true) {
-            roundBegin();
-            do {
-                turnBegin();
-                while (askForNewEvent() != GameMenuType::EndTurn);
-                turnEnd();
-            } while (!isThisRoundComplete());
-            roundEnd();
-        }
-    } catch(const QString& e) {
-        qDebug() << e;
+    while (true) {
+        roundBegin();
+        do {
+            turnBegin();
+            while (askForNewEvent() != GameMenuType::EndTurn);
+            turnEnd();
+        } while (!isThisRoundComplete());
+        roundEnd();
     }
 }
 
@@ -801,12 +798,12 @@ bool EventCenter::isThisRoundComplete() {
 
 
 GameMenuType EventCenter::askForNewEvent() {
+    qDebug() << "Wait For New Event";
     AI* ai = curHero->getAI();
     if (ai) {
-        ai->start();
+        ai->aisTurn();
     }
 
-    qDebug() << "Wait For New Event";
     acquire(AskType::AskForNone);
 
     scene->clearRange();
@@ -910,8 +907,12 @@ void EventCenter::targetClicked(QPoint in) {
 }
 
 void EventCenter::run() {
-    gameBegin();
-    process();
+    try {
+        gameBegin();
+        process();
+    } catch(const QString& e) {
+        qDebug() << e;
+    }
 }
 
 void EventCenter::release() {
@@ -1012,18 +1013,27 @@ void EventCenter::askForChooseBox() {
 
 }
 
-void EventCenter::acquire(AskType at, bool active) {
+void EventCenter::acquire(AskType at) {
     askType = at;
-    AI* ai = curHero->getAI();
 
-    if (ai && active) {
+    AI* ai = curHero->getAI();
+    if (ai) {
         ai->dothings(at);
     }
+    loopExec();
+}
 
+void EventCenter::loopExec() {
     loop->exec();
     if (gameTerminated) {
         throw QString(tr("Game Terminated"));
     }
+}
+
+void EventCenter::acquireAI(AI* ai, AskType at) {
+    Q_ASSERT(ai != NULL);
+    askType = at;
+    ai->aisReact();
 }
 
 void EventCenter::runSkills(TriggerTime tt,

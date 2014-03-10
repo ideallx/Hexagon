@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QDateTime>
+#include <QDebug>
 #include "gameWidget.h"
 #include "gameprocess.h"
 
@@ -12,7 +13,6 @@ int main(int argc, char *argv[]) {
 */
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
     MainWindow m;
-    // m.show();
 
-    return a.exec();
+    return 0;
 }

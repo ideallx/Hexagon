@@ -83,7 +83,9 @@ class EventCenter : public QObject {
     void skillAnimate(HeroItem* item, GameMapElement* gme);
 
     void showCards(HeroItem* hi);
-    void acquire(AskType at, bool active = true);
+    void acquire(AskType at);
+    void acquireAI(AI* ai, AskType at);
+    void loopExec();
 
     void waitForTime(int msec);
     void runSkills(TriggerTime tt, HeroItem *from, QGraphicsItem* to);

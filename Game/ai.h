@@ -20,7 +20,10 @@ class AI : public QThread {
     QList<HandCard*> useCards(int n);
     QList<HandCard*> useCard(CardNormalPackageType cnpt);
     void dothings(AskType at);
+    void thinkHowToReact();
     void thinkNextEvent();
+    void aisTurn();
+    void aisReact();
 
     inline void addFriend(HeroItem* hi) { friendHeros.append(hi); }
     inline void addEnemy(HeroItem* hi) { enemyHeros.append(hi); }
@@ -43,6 +46,11 @@ class AI : public QThread {
     QList<HeroItem*> enemyHeros;
     QSemaphore* sem;
     ItemCollector* ic;
+    AskType askForWhat;
+
+    int resultsCardNum;
+    // TODO
+
 
  signals:
     void heroClicked(HeroItem* h);

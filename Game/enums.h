@@ -215,7 +215,9 @@ enum class AskType {
     AskForNone,
     AskForCards,
     AskForPoint,
-    AskForSkill
+    AskForSkill,
+    AskForAITurn,
+    AskForAIReact
 };
 
 enum class DamageType {
