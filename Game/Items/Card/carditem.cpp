@@ -1,5 +1,7 @@
 #include "carditem.h"
 
+Q_DECLARE_METATYPE(HandCard)
+
 HandCard::HandCard(CardNormalPackageType t, int id, QString s, SkillBase* sk)
     : typeCard(t),
       theId(id),
@@ -7,6 +9,18 @@ HandCard::HandCard(CardNormalPackageType t, int id, QString s, SkillBase* sk)
       theSkill(sk) {
     setRect(0, 0, 137, 200);
     setBrush(pixmapPath.scaledToHeight(200, Qt::SmoothTransformation));
+}
+
+HandCard::HandCard() {
+
+}
+
+HandCard::~HandCard() {
+
+}
+
+HandCard::HandCard(const HandCard&) {
+
 }
 
 QRectF HandCard::boundingRect() const {

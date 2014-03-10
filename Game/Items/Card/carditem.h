@@ -11,6 +11,9 @@ class SkillBase;
 class HandCard : public QGraphicsRectItem {
  public:
     HandCard(CardNormalPackageType type, int id, QString pixmapPath, SkillBase* skill);
+    HandCard();
+    HandCard(const HandCard&);
+    ~HandCard();
     inline QPixmap pixmap() { return pixmapPath; }
     inline void setPixmap(QString s) { pixmapPath = s; }
     void setId(int n) { theId = n; }
@@ -26,4 +29,6 @@ class HandCard : public QGraphicsRectItem {
     QPixmap pixmapPath;
     SkillBase* theSkill;
 };
+
+
 #endif  // GAME_ITEMS_CARD_CARDITEM_H_
