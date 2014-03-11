@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     translator.load("lang__zhCN.qm", ":/");
     a.installTranslator(&translator);
 */
-    qRegisterMetaType<HandCard>("HandCard");
+    qRegisterMetaType<QList<HandCard*> >("QList<HandCard*>");
     qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
     MainWindow m;
 

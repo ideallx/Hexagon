@@ -82,10 +82,10 @@ void EventCenter::setupAIConnection() {
         connect(ai, &AI::turnEnd, this, &EventCenter::endTurnSignal,
                 Qt::DirectConnection);
 
-//        connect(ai, &AI::buttonOkClicked, this, &EventCenter::chosenCard,
-//                Qt::QueuedConnection);
-//        connect(ai, &AI::buttonCancelClicked, this, &EventCenter::chosenCancel,
-//                Qt::QueuedConnection);
+        connect(ai, &AI::buttonOkClicked, this, &EventCenter::chosenCard,
+                Qt::QueuedConnection);
+        connect(ai, &AI::buttonCancelClicked, this, &EventCenter::chosenCancel,
+                Qt::QueuedConnection);
         ai->start();
     }
 }
@@ -359,6 +359,8 @@ void EventCenter::heroMoveToPoint(QPoint in) {
         return;
     }
 
+    Q_ASSERT(ic->getHeroByPoint(in) == NULL);
+
     scene->clearRange();
     GameMapElement* gme = ic->getMapElementByPoint(in);
     moveAnimate(curHero, gme);
@@ -479,23 +481,22 @@ GameMenuType EventCenter::askForNewEvent() {
         ai->aisTurn();
     }
 
+    qDebug() << "Process:" << "1 / X";
     acquire(AskType::AskForNone);
+    qDebug() << "Process:" << "2 / X";
 
     scene->clearRange();
     switch (resultsGMT) {
     case GameMenuType::Move:
         scene->showMoveRange(curHero);
-
         heroMoveToPoint(askForSelectPoint());
         break;
     case GameMenuType::Attack:
         scene->showAttackRange(curHero);
-
         heroAttackPoint(askForSelectPoint());
         break;
     case GameMenuType::Skill: {
         SkillPara sp(this, QVariant(), curHero, NULL);
-
         SkillBase *skl = curHero->getHeroSkill(resultsNum);
         if (skl->type() == SkillType::SkillActive) {
             skl->skillPrepare(sp);
@@ -515,6 +516,8 @@ GameMenuType EventCenter::askForNewEvent() {
     default:
         break;
     }
+
+    qDebug() << "Process:" << "4 / X";
     return resultsGMT;
 }
 
@@ -534,8 +537,10 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     } else {
         acquireAI(ai, AskType::AskForCards);
         ai->askCard(t, 1);
+        ai->dothings(AskType::AskForCards);
         loopExec();
     }
+    qDebug() << "Process:" << "3 / X";
     if (resultsCard.size() > 1) {
         throw QString(tr("chose more than 1 card"));
     } else if (resultsCard.size() == 1) {

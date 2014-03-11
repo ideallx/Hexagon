@@ -44,7 +44,6 @@ HeroItem* AI::findAttackTarget() {
 }
 
 void AI::thinkNextEvent() {
-    qDebug() << "wake up AI";
     sem->acquire();
     if (AiHero->ma->remainingTimes()) {
         qDebug() << "AI ready to move";
@@ -67,14 +66,14 @@ void AI::processMove() {
 
     int msec = 500;
     QPoint targetPoint;
-    if (result.size() > AiHero->ma->moveRange()+1) {
+    if (result.size() > AiHero->ma->moveRange() + 1) {
         waitForTime(msec);
         qDebug() << "not attack";
-        targetPoint = result[AiHero->ma->moveRange()-1];
+        targetPoint = result[AiHero->ma->moveRange() - 1];
     } else {
         if (!isTargetNearAI()) {
             waitForTime(msec);
-            targetPoint = result[AiHero->ma->moveRange()-1];
+            targetPoint = result[result.size() - 2];
         } else {
             return;  // your target in your range
         }
@@ -108,15 +107,19 @@ void AI::waitForTime(int msec) {
 void AI::run() {
     while (true) {
         sem->acquire();
-        switch (askForWhat) {
-        case AskType::AskForAITurn:
-            thinkNextEvent();
-            break;
-        case AskType::AskForAIReact:
-            thinkHowToReact();
-            break;
-        default:
-            continue;
+        try {
+            switch (askForWhat) {
+            case AskType::AskForAITurn:
+                thinkNextEvent();
+                break;
+            case AskType::AskForAIReact:
+                thinkHowToReact();
+                break;
+            default:
+                continue;
+            }
+        } catch (QString e) {
+            qDebug() << e;
         }
         qDebug() << "AI finished an event";
     }
@@ -134,7 +137,6 @@ void AI::aisReact() {
 }
 
 void AI::thinkHowToReact() {
-    qDebug() << "do work AI";
     sem->acquire();
 
     switch (askForWhat) {
@@ -147,6 +149,7 @@ void AI::thinkHowToReact() {
 }
 
 void AI::useCard() {
+    waitForTime(500);
     QList<HandCard*> result;
     foreach(HandCard* hc, AiHero->cards()) {
         if ((hc->cardType() == resultsCardType) ||
