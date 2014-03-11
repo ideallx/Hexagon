@@ -50,7 +50,7 @@ class EventCenter : public QObject {
     static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
     void listHeroInfo(HeroItem* hi);
-    bool dodge(int hitRate);
+    bool heroDodge(int hitRate);
 
     void preGame();
     void gameReady();
@@ -69,10 +69,10 @@ class EventCenter : public QObject {
     void heroMoveToPoint(QPoint p);
     void heroAttackPoint(QPoint p);
     void attackCalc(HeroItem* from, HeroItem* to);
-    void skillStraightTest(QPoint p);
+    void heroSkillTest(QPoint p);
     void actSkills(QList<SkillBase*> sbl);
 
-    void menuClickAct(GameMenuType gmt);
+    void chosenMenu(GameMenuType gmt);
     bool isThisRoundComplete();
     QPoint askForSelectPoint();
     GameMenuType askForNewEvent();
@@ -138,16 +138,16 @@ class EventCenter : public QObject {
     void releaseLock();
 
  public slots:
-    void targetClicked(QPoint p);
-    void heroChosen(HeroItem* hi);
+    void chosenTarget(QPoint p);
+    void chosenHero(HeroItem* hi);
     void getCard(int num = 1);
-    void mapElementChosen(QPoint p);
+    void chosenMapElement(QPoint p);
     void turnEnd();
     void turnBegin();
     void mapClear();
     void showMenu(HeroItem* hi, QPoint p);
-    void cardChosen(QList<HandCard*> l);
-    void cardCancel();
+    void chosenCard(QList<HandCard*> l);
+    void chosenCancel();
     void openShop();
     void heroUseSkill(int n);
     void endTurnSignal();
