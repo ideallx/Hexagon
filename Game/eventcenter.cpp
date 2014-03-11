@@ -213,7 +213,6 @@ void EventCenter::heroAttackPoint(QPoint in) {
 
     runSkills(TriggerTime::TriggerAttackBegin, curHero, targetHero);
     int hitRate = curHero->aa->mustHitRate();
-
     bool isHit = dodge(hitRate);
 
     if (!isHit) {
@@ -317,9 +316,9 @@ void EventCenter::turnEnd() {
 
     listHeroInfo(curHero);
     if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
-        QList<HandCard*> result = askForNCard(curHero, curHero->cards().size() -
-                                              HeroItem::endTurnMaxCards());
-        foreach (HandCard* hc, result) {
+        askForNCard(curHero, curHero->cards().size() -
+                    HeroItem::endTurnMaxCards());
+        foreach (HandCard* hc, resultsCard) {
             curHero->removeCard(hc);
         }
     }
@@ -520,7 +519,7 @@ bool EventCenter::askForUseCard(HeroItem* hi,
         acquire(AskType::AskForCards);
     } else {
         acquireAI(ai, AskType::AskForCards);
-        ai->useCard(t);
+        ai->askCard(t, 1);
         loopExec();
     }
     if (resultsCard.size() > 1) {
@@ -533,7 +532,7 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     }
 }
 
-QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
+bool EventCenter::askForNCard(HeroItem* hi, int n) {
     askCard.useCardHero = hi;
     askCard.n = n;
     menu->setPrompt(QString("Please Use %1 Cards:").arg(n));
@@ -542,10 +541,11 @@ QList<HandCard*> EventCenter::askForNCard(HeroItem* hi, int n) {
     AI* ai = curHero->getAI();
     if (ai == NULL) {
         acquire(AskType::AskForCards);
-        return resultsCard;
+        return true;
     }
 
-    return ai->useCards(n);
+    ai->askCard(CardNormalPackageType::Any, n);
+    return true;
 //    if (hcl.size() == n) {
 //        foreach(HandCard* hc, hcl)
 //            hi->removeCard(hc);
@@ -687,6 +687,8 @@ void EventCenter::heroUseSkill(int n) {
             (askType != AskType::AskForSkill)) {
         return;
     }
+
+    resultsGMT = GameMenuType::Skill;
     resultsNum = n;
     release();
     return;

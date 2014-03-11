@@ -17,8 +17,7 @@ class AI : public QThread {
 
  public:
     AI(HeroItem* hi, ItemCollector *ic);
-    QList<HandCard*> useCards(int n);
-    QList<HandCard*> useCard(CardNormalPackageType cnpt);
+    void askCard(CardNormalPackageType cnpt, int n);
     void dothings(AskType at);
     void thinkHowToReact();
     void thinkNextEvent();
@@ -32,6 +31,7 @@ class AI : public QThread {
     inline HeroItem* hero() { return AiHero; }
 
  private:
+    void useCard();
     HeroItem* findAttackTarget();
     bool isTargetNearAI();
     void run();
@@ -48,7 +48,9 @@ class AI : public QThread {
     ItemCollector* ic;
     AskType askForWhat;
 
+
     int resultsCardNum;
+    CardNormalPackageType resultsCardType;
     // TODO
 
 

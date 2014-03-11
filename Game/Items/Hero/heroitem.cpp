@@ -3,7 +3,9 @@
 #include "equipment.h"
 
 HeroItem::HeroItem(int lineLength)
-    : thePlayerName(tr("player 1")),
+    : aa(new AttackAbility),
+      ma(new MoveAbility),
+      thePlayerName(tr("player 1")),
       theAvaPic(NULL),
       theWhoPic(NULL),
       theHealth(7),
@@ -12,8 +14,6 @@ HeroItem::HeroItem(int lineLength)
       lineLength(lineLength),
       theMoney(0),
       ai(NULL),
-      aa(new AttackAbility),
-      ma(new MoveAbility),
       isAlive(true) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);

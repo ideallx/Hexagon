@@ -11,16 +11,22 @@ HandCard::HandCard(CardNormalPackageType t, int id, QString s, SkillBase* sk)
     setBrush(pixmapPath.scaledToHeight(200, Qt::SmoothTransformation));
 }
 
-HandCard::HandCard() {
-
+HandCard::HandCard()
+    : typeCard(CardNormalPackageType::None),
+      theId(-1),
+      pixmapPath(""),
+      theSkill(NULL) {
 }
 
 HandCard::~HandCard() {
 
 }
 
-HandCard::HandCard(const HandCard&) {
-
+HandCard::HandCard(const HandCard& that) {
+    this->typeCard = that.typeCard;
+    this->theId = that.theId;
+    this->pixmapPath = that.pixmapPath;
+    this->theSkill = that.theSkill;
 }
 
 QRectF HandCard::boundingRect() const {

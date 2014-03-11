@@ -135,6 +135,8 @@ class AttackBuff {
 };
 
 enum class CardNormalPackageType {
+    None,
+    Any,
     KuangBao,
     ZheYue,
     FaLiRanShao,

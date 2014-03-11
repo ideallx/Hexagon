@@ -17,41 +17,10 @@ AI::AI(HeroItem *hi, ItemCollector *ic)
     qDebug() << "AI";
 }
 
-QList<HandCard*> AI::useCard(CardNormalPackageType cnpt) {
-    QList<HandCard*> result;
-    foreach(HandCard* hc, AiHero->cards()) {
-        if (hc->cardType() == cnpt) {
-            result.append(hc);
-            break;
-        }
-    }
-    if (result.size() == 0) {
-        emit buttonCancelClicked();
-        qDebug() << "AI use single card";
-    } else {
-        emit buttonOkClicked(result);
-        qDebug() << "AI not use single card";
-    }
-    return result;
-}
-
-QList<HandCard*> AI::useCards(int n) {
-    QList<HandCard*> result;
-    if (AiHero->cards().size() <= n) {
-        result = AiHero->cards();
-    } else {
-        QList<HandCard*> result;
-        while (n != 0) {
-            result.append(AiHero->cards()[n-1]);
-            n--;
-        }
-        result = result;
-    }
-    emit buttonOkClicked(result);
-
-    askForWhat = AskType::AskForAIReact;
-    sem->acquire();
-    return result;
+void AI::askCard(CardNormalPackageType cnpt, int n) {
+    resultsCardNum = n;
+    resultsCardType = cnpt;
+    return;
 }
 
 void AI::dothings(AskType at) {
@@ -165,12 +134,34 @@ void AI::aisReact() {
 }
 
 void AI::thinkHowToReact() {
-    qDebug() << "wake up AI";
+    qDebug() << "do work AI";
     sem->acquire();
 
     switch (askForWhat) {
     case AskType::AskForCards:
+        useCard();
         break;
+    default:
+        break;
+    }
+}
 
+void AI::useCard() {
+    QList<HandCard*> result;
+    foreach(HandCard* hc, AiHero->cards()) {
+        if ((hc->cardType() == resultsCardType) ||
+                resultsCardType == CardNormalPackageType::Any) {
+            result.append(hc);
+            if (result.size() == resultsCardNum) {
+                break;
+            }
+        }
+    }
+    if (result.size() != resultsCardNum) {
+        qDebug() << "AI canceled using card";
+        emit buttonCancelClicked();
+    } else {
+        qDebug() << "AI using card";
+        emit buttonOkClicked(result);
     }
 }

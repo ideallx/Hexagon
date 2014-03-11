@@ -35,7 +35,7 @@ class EventCenter : public QObject {
     void checkHeros();
     inline bool isGameBegined() { return gameBegined; }
     bool askForUseCard(HeroItem* hi, CardNormalPackageType t);
-    QList<HandCard*> askForNCard(HeroItem* hi, int n);
+    bool askForNCard(HeroItem* hi, int n);
     QList<HandCard*> discardCard(HeroItem* hi, int num);
     void showSkillRange(QGraphicsItem* from, MapRangeType,
                         int range);
