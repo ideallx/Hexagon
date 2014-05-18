@@ -27,6 +27,7 @@ void AI::dothings(AskType at) {
     Q_UNUSED(at);
     qDebug() << "AI do things";
     sem->release();
+    askForWhat = at;
 }
 
 HeroItem* AI::findAttackTarget() {
@@ -45,7 +46,7 @@ HeroItem* AI::findAttackTarget() {
 
 void AI::thinkNextEvent() {
     sem->acquire();
-    if (AiHero->ma->remainingTimes()) {
+    if (AiHero->ma->remainingTimes() && !isTargetNearAI()) {
         qDebug() << "AI ready to move";
         processMove();
     } else if (AiHero->aa->remainingTimes() && isTargetNearAI()) {
@@ -57,7 +58,6 @@ void AI::thinkNextEvent() {
 }
 
 void AI::processMove() {
-    findAttackTarget();
     emit menuClicked(GameMenuType::Move);
     sem->acquire();
 
@@ -107,6 +107,7 @@ void AI::waitForTime(int msec) {
 void AI::run() {
     while (true) {
         sem->acquire();
+        findAttackTarget();
         try {
             switch (askForWhat) {
             case AskType::AskForAITurn:
@@ -144,6 +145,7 @@ void AI::thinkHowToReact() {
         useCard();
         break;
     default:
+        qDebug() << "Think Error" << static_cast<int>(askForWhat);
         break;
     }
 }

@@ -353,11 +353,10 @@ QStringList EventCenter::buildRoundInfo() {
 // 3 SINGLE PROCESS START
 void EventCenter::heroMoveToPoint(QPoint in) {
     if (!ic->isPointAvailable(in))
-        return;
+        throw QString("Move To Point: target is not available");
 
-    if (!curHero->ma->remainingTimes()) {
-        return;
-    }
+    if (!curHero->ma->remainingTimes())
+        throw QString("Move To Point: hero cannot move now");
 
     Q_ASSERT(ic->getHeroByPoint(in) == NULL);
 
@@ -481,43 +480,43 @@ GameMenuType EventCenter::askForNewEvent() {
         ai->aisTurn();
     }
 
-    qDebug() << "Process:" << "1 / X";
     acquire(AskType::AskForNone);
-    qDebug() << "Process:" << "2 / X";
 
-    scene->clearRange();
-    switch (resultsGMT) {
-    case GameMenuType::Move:
-        scene->showMoveRange(curHero);
-        heroMoveToPoint(askForSelectPoint());
-        break;
-    case GameMenuType::Attack:
-        scene->showAttackRange(curHero);
-        heroAttackPoint(askForSelectPoint());
-        break;
-    case GameMenuType::Skill: {
-        SkillPara sp(this, QVariant(), curHero, NULL);
-        SkillBase *skl = curHero->getHeroSkill(resultsNum);
-        if (skl->type() == SkillType::SkillActive) {
-            skl->skillPrepare(sp);
-            listHeroInfo(curHero);
+    try {
+        scene->clearRange();
+        switch (resultsGMT) {
+        case GameMenuType::Move:
+            scene->showMoveRange(curHero);
+            heroMoveToPoint(askForSelectPoint());
+            break;
+        case GameMenuType::Attack:
+            scene->showAttackRange(curHero);
+            heroAttackPoint(askForSelectPoint());
+            break;
+        case GameMenuType::Skill:
+            SkillPara sp(this, QVariant(), curHero, NULL);
+            SkillBase *skl = curHero->getHeroSkill(resultsNum);
+            if (skl->type() == SkillType::SkillActive) {
+                skl->skillPrepare(sp);
+                listHeroInfo(curHero);
+            }
+            break;
+        case GameMenuType::SkillTest:
+            scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
+
+            heroSkillTest(askForSelectPoint());
+            break;
+        case GameMenuType::Cancel:
+            break;
+        case GameMenuType::EndTurn:
+            break;
+        default:
+            break;
         }
-        break;
-    }
-    case GameMenuType::SkillTest:
-        scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
-
-        heroSkillTest(askForSelectPoint());
-        break;
-    case GameMenuType::Cancel:
-        break;
-    case GameMenuType::EndTurn:
-        break;
-    default:
-        break;
+    } catch (QString e) {
+        qDebug() << e;
     }
 
-    qDebug() << "Process:" << "4 / X";
     return resultsGMT;
 }
 
@@ -540,7 +539,6 @@ bool EventCenter::askForUseCard(HeroItem* hi,
         ai->dothings(AskType::AskForCards);
         loopExec();
     }
-    qDebug() << "Process:" << "3 / X";
     if (resultsCard.size() > 1) {
         throw QString(tr("chose more than 1 card"));
     } else if (resultsCard.size() == 1) {
