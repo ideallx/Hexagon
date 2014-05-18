@@ -83,9 +83,9 @@ void EventCenter::setupAIConnection() {
                 Qt::DirectConnection);
 
         connect(ai, &AI::buttonOkClicked, this, &EventCenter::chosenCard,
-                Qt::QueuedConnection);
+                Qt::DirectConnection);
         connect(ai, &AI::buttonCancelClicked, this, &EventCenter::chosenCancel,
-                Qt::QueuedConnection);
+                Qt::DirectConnection);
         ai->start();
     }
 }
