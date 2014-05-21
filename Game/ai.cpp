@@ -53,8 +53,16 @@ void AI::thinkNextEvent() {
         qDebug() << "AI ready to attack";
         processAttack();
     } else {
-        emit turnEnd();
+        processTurnEnd();
     }
+}
+
+void AI::processTurnEnd() {
+    if (AiHero->cards().size() > AiHero->endTurnMaxCards()) {
+        thinkHowToReact();   // How to react turn end
+    }
+    qDebug() << "AI Turn End";
+    emit turnEnd();
 }
 
 void AI::processMove() {
@@ -139,6 +147,7 @@ void AI::aisReact() {
 
 void AI::thinkHowToReact() {
     sem->acquire();
+    qDebug() << "AI Prepare to React";
 
     switch (askForWhat) {
     case AskType::AskForCards:

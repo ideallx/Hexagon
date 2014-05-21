@@ -38,6 +38,7 @@ class AI : public QThread {
     void waitForTime(int msec);
     void processMove();
     void processAttack();
+    void processTurnEnd();
 
     friend class HeroItem;
     HeroItem* AiHero;

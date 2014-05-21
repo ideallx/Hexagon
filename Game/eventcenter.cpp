@@ -300,11 +300,12 @@ void EventCenter::turnEnd() {
         return;
 
     listHeroInfo(curHero);
-    if (curHero->cards().size() > HeroItem::endTurnMaxCards()) {
+    if (curHero->cards().size() > curHero->endTurnMaxCards()) {
         askForNCard(curHero, curHero->cards().size() -
                     HeroItem::endTurnMaxCards());
         foreach (HandCard* hc, resultsCard) {
-            curHero->removeCard(hc);
+            if (!curHero->removeCard(hc))
+                throw QString("Turn End Discard Error");
         }
     }
 
@@ -481,7 +482,6 @@ GameMenuType EventCenter::askForNewEvent() {
     }
 
     acquire(AskType::AskForNone);
-
     try {
         scene->clearRange();
         switch (resultsGMT) {
@@ -493,17 +493,17 @@ GameMenuType EventCenter::askForNewEvent() {
             scene->showAttackRange(curHero);
             heroAttackPoint(askForSelectPoint());
             break;
-        case GameMenuType::Skill:
-            SkillPara sp(this, QVariant(), curHero, NULL);
-            SkillBase *skl = curHero->getHeroSkill(resultsNum);
-            if (skl->type() == SkillType::SkillActive) {
-                skl->skillPrepare(sp);
-                listHeroInfo(curHero);
+        case GameMenuType::Skill: {
+                SkillPara sp(this, QVariant(), curHero, NULL);
+                SkillBase *skl = curHero->getHeroSkill(resultsNum);
+                if (skl->type() == SkillType::SkillActive) {
+                    skl->skillPrepare(sp);
+                    listHeroInfo(curHero);
+                }
             }
             break;
         case GameMenuType::SkillTest:
             scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
-
             heroSkillTest(askForSelectPoint());
             break;
         case GameMenuType::Cancel:
@@ -559,9 +559,11 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
     if (ai == NULL) {
         acquire(AskType::AskForCards);
         return true;
+    } else {
+        ai->askCard(CardNormalPackageType::Any, n);
+        ai->dothings(AskType::AskForCards);
+        loopExec();
     }
-
-    ai->askCard(CardNormalPackageType::Any, n);
     return true;
 //    if (hcl.size() == n) {
 //        foreach(HandCard* hc, hcl)
@@ -621,17 +623,9 @@ void EventCenter::release() {
 void EventCenter::chosenHero(HeroItem* hero) {
     if (askType != AskType::AskForPoint) {
         menu->setHeroInfo(hero);
+        showCards(hero);
         return;
     }
-//    if (sem->available()) {
-//        menu->setHeroInfo(hero);
-//        showCards(hero);
-//        return;
-//    } else {
-//        resultsPoint = hero->point();
-//        sem->release();
-//        return;
-//    }
 }
 
 void EventCenter::chosenTarget(QPoint in) {
