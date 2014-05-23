@@ -74,7 +74,7 @@ class ItemCollector {
     inline HeroItem* getLocalHero() { return localHeros[0]; }
 
     QList<HeroItem*> getActSequence();
-    QList<HandCard*> getCard(int n);
+    QList<int> getCard(int n);
     void returnCard(QList<HandCard*> l);
     inline QList<QGraphicsLineItem*> getLines() { return targetLines; }
     QList<QPoint> listRange(HeroItem* hero, RangeMode);
@@ -121,6 +121,10 @@ class ItemCollector {
     void clearPoints();
     void moveToThread(QThread* td);
 
+    HandCard* card(int id) { return allCards[id];}
+    QList<HandCard*> cardList(QList<int>);
+    QList<int> cardList(QList<HandCard*>);
+
  private:
     void addHeroList(QList<ExternInfo> info);
     void addCardList();
@@ -162,6 +166,7 @@ class ItemCollector {
     QList<HandCard*> unusedCards;
     QList<HandCard*> backCards;
     QList<HandCard*> usedCards;
+    QList<HandCard*> allCards;
 
     QList<QList<Equipment*> > equips;
 

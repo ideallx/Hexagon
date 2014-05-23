@@ -303,7 +303,7 @@ void EventCenter::turnEnd() {
     if (curHero->cards().size() > curHero->endTurnMaxCards()) {
         askForNCard(curHero, curHero->cards().size() -
                     HeroItem::endTurnMaxCards());
-        foreach (HandCard* hc, resultsCard) {
+        foreach (int hc, resultsCard) {
             if (!curHero->removeCard(hc))
                 throw QString("Turn End Discard Error");
         }
@@ -565,15 +565,6 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
         loopExec();
     }
     return true;
-//    if (hcl.size() == n) {
-//        foreach(HandCard* hc, hcl)
-//            hi->removeCard(hc);
-//        menu->updateCardsArea(curHero->cards());
-//        return true;
-//    } else {
-//        (this->*waitingEvent)(false);
-//        return false;
-//    }
 }
 
 QPoint EventCenter::askForSelectPoint() {
@@ -658,7 +649,7 @@ void EventCenter::chosenMapElement(QPoint p) {
     menu->hideAllMenu();
 }
 
-void EventCenter::chosenCard(QList<HandCard*> l) {
+void EventCenter::chosenCard(QList<int> l) {
     if (isAnimating)
         return;
     if (l.size() == 0)
@@ -671,67 +662,6 @@ void EventCenter::chosenCard(QList<HandCard*> l) {
         release();
         return;
     }
-/*
-    switch (curPhase) {
-    case GamePhase::DiscardPhase:
-        if (curHero != menu->panelHero()) {
-            return;
-        }
-        for (int i = 0; i < l.size(); i++) {
-            ic->returnCard(l);
-            if (!curHero->removeCard(l[i]))
-                qDebug() << "discard card error";
-        }
-        qDebug() << "cards num:" << curHero->cards().size();
-        menu->updateCardsArea(curHero->cards());
-        curPhase = GamePhase::FinalPhase;
-        emit endTurnLater();
-        break;
-    case GamePhase::BeginPhase:
-        if (curHero != menu->panelHero()) {
-            return;
-        }
-        if (l.size() == 1) {
-            QVariant data;
-            SkillPara sp;
-            sp.ec = this;
-            sp.data = data;
-            sp.from = curHero;
-            sp.to = NULL;
-            if (l[0]->skill() != 0) {
-                if (l[0]->skill()->isWorkNow())
-                    curSkill = l[0]->skill();
-                curHero->removeCard(l[0]);
-                l[0]->skill()->skillPrepare(sp);
-                listHeroInfo(curHero);
-            }
-        }
-        break;
-    case GamePhase::AskForCardPhase:
-        if (askCard.useCardHero != menu->panelHero()) {
-            return;
-        }
-        if ((l.size() == 1) &&
-                (l[0]->cardType() == askCard.useCardType)) {
-            askCard.useCardHero->removeCard(l[0]);
-            menu->updateCardsArea(askCard.useCardHero->cards());
-            if (waitingEvent)
-                (this->*waitingEvent)(true);
-        }
-        break;
-    case GamePhase::AskForNCards:
-        if (askCard.useCardHero != menu->panelHero()) {
-            return;
-        }
-        if (l.size() == askCard.n) {
-            if (waitingEvent)
-                (this->*waitingEvent)(true);
-        }
-        break;
-    default:
-        break;
-    }
-    */
 }
 
 void EventCenter::chosenCancel() {
@@ -908,11 +838,11 @@ void EventCenter::setHeroPosition(HeroItem* hi, QPoint pos) {
 
 
 
-QList<HandCard*> EventCenter::discardCard(HeroItem* hi, int num) {
-    QList<HandCard*> cards = hi->cards();
-    QList<HandCard*> result;
+QList<int> EventCenter::discardCard(HeroItem* hi, int num) {
+    QList<int> cards = hi->cards();
+    QList<int> result;
     if (cards.size() < num) {
-        foreach(HandCard* hc, cards) {
+        foreach(int hc, cards) {
             if (!hi->removeCard(hc))
                 qDebug() << "Discard Cards Error";
             else
@@ -920,8 +850,8 @@ QList<HandCard*> EventCenter::discardCard(HeroItem* hi, int num) {
         }
     } else {
         for (int i = 0; i < num; i++) {
-            QList<HandCard*> cards = hi->cards();
-            HandCard* hc = cards.at(rand()/cards.size());
+            QList<int> cards = hi->cards();
+            int hc = cards.at(rand() / cards.size());
             if (!hi->removeCard(hc))
                 qDebug() << "Discard Cards Error";
             else
@@ -1057,5 +987,5 @@ void EventCenter::showCards(HeroItem* hero) {
 //    } else {
 //        menu->updateCardsArea(ic->switchToBack(hero->cards()));
 //    }
-    menu->updateCardsArea(hero->cards());
+    menu->updateCardsArea(ic->cardList(hero->cards()));
 }

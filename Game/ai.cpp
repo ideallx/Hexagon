@@ -58,11 +58,12 @@ void AI::thinkNextEvent() {
 }
 
 void AI::processTurnEnd() {
+    emit turnEnd();
     if (AiHero->cards().size() > AiHero->endTurnMaxCards()) {
         thinkHowToReact();   // How to react turn end
+        emit turnEnd();
     }
     qDebug() << "AI Turn End";
-    emit turnEnd();
 }
 
 void AI::processMove() {
@@ -162,7 +163,7 @@ void AI::thinkHowToReact() {
 void AI::useCard() {
     waitForTime(500);
     QList<HandCard*> result;
-    foreach(HandCard* hc, AiHero->cards()) {
+    foreach(HandCard* hc, AiHero->theCards) {
         if ((hc->cardType() == resultsCardType) ||
                 resultsCardType == CardNormalPackageType::Any) {
             result.append(hc);

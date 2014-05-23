@@ -40,7 +40,6 @@ class AI : public QThread {
     void processAttack();
     void processTurnEnd();
 
-    friend class HeroItem;
     HeroItem* AiHero;
     HeroItem* targetEnemyHero;
     QList<HeroItem*> friendHeros;

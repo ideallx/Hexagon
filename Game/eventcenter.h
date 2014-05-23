@@ -36,7 +36,7 @@ class EventCenter : public QObject {
     inline bool isGameBegined() { return gameBegined; }
     bool askForUseCard(HeroItem* hi, CardNormalPackageType t);
     bool askForNCard(HeroItem* hi, int n);
-    QList<HandCard*> discardCard(HeroItem* hi, int num);
+    QList<int> discardCard(HeroItem* hi, int num);
     void showSkillRange(QGraphicsItem* from, MapRangeType,
                         int range);
     void showSkillRange(QList<QPoint> lp);
@@ -125,7 +125,7 @@ class EventCenter : public QObject {
     QList<ExternInfo> eil;
     AskType askType;
     QPoint resultsPoint;
-    QList<HandCard*> resultsCard;
+    QList<int> resultsCard;
     GameMenuType resultsGMT;
     int playerHeroNum;
     int resultsNum;
@@ -146,7 +146,7 @@ class EventCenter : public QObject {
     void turnBegin();
     void mapClear();
     void showMenu(HeroItem* hi, QPoint p);
-    void chosenCard(QList<HandCard*> l);
+    void chosenCard(QList<int> l);
     void chosenCancel();
     void openShop();
     void heroUseSkill(int n);

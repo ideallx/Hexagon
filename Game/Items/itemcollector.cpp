@@ -52,6 +52,7 @@ void ItemCollector::setCardEngine(CardEngine* ce) {
     this->ce = ce;
     addCardList();
     shuffle(unusedCards);
+    allCards = unusedCards;
 }
 
 void ItemCollector::setEquipmentShop(EquipmentShop *es) {
@@ -322,12 +323,12 @@ QList<QString> ItemCollector::getHeroListAvaterPath(Camp in) {
     return result;
 }
 
-QList<HandCard*> ItemCollector::getCard(int n) {
-    QList<HandCard*> result;
+QList<int> ItemCollector::getCard(int n) {
+    QList<int*> result;
     if (unusedCards.size() < n)
         n = unusedCards.size();
     for (int i = 0; i < n; i++) {
-        result.append(unusedCards[0]);
+        result.append(unusedCards[0]->id());
         unusedCards.removeAt(0);
     }
     return result;
@@ -530,4 +531,20 @@ void ItemCollector::moveToThread(QThread* td) {
     foreach (GameMapElement* gme, elements) {
         gme->moveToThread(td);
     }
+}
+
+QList<HandCard*> ItemCollector::cardList(QList<int> in) {
+    QList<HandCard*> result;
+    foreach (int id, in) {
+        result.append(allCards[id]);
+    }
+    return result;
+}
+
+QList<int> ItemCollector::cardList(QList<HandCard*> in) {
+    QList<int> result;
+    foreach (HandCard* hc, in) {
+        result.append(allCards.indexOf(hc));
+    }
+
 }

@@ -69,10 +69,10 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline QList<QPixmap> skillButtons() { return theSkillButtons; }
 
 
-    inline void setCards(QList<HandCard*> c) { theCards = c; }
-    void addCards(QList<HandCard*> c);
-    inline QList<HandCard*> cards() { return theCards; }
-    HandCard* removeCard(HandCard* hc);
+    inline void setCards(QList<int> c) { theCards = c; }
+    void addCards(QList<int> c);
+    inline QList<int> cards() { return theCards; }
+    int removeCard(int cardId);
 
     inline int money() { return theMoney; }
     inline QList<int> moneyLists() { return moneyList; }
@@ -87,7 +87,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void endRoundSettle();
     void reduceAllSkillCooldown();
     void reduceAllStatesCooldown();
-    static int beginTurnGetCards() { return 2; }
+    static int beginTurnGetCards() { return 5; }
     static int endTurnMaxCards() { return 3; }
 
     QRectF boundingRect() const;
@@ -102,7 +102,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QString thePlayerName;
     QList<SkillBase*> skills;
     QList<SkillBase*> heroSkills;
-    QList<HandCard*> theCards;
+    QList<int> theCards;
     QList<QPixmap> theSkillButtons;
     QList<int> moneyList;
     QList<Equipment*> equipments;
@@ -128,6 +128,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void mouseClicked(QGraphicsSceneMouseEvent *event);
     void heroInvokeMenu(QPointF);
     void changeStatus(QString);
+
+    friend class AI;
 };
 
 #endif  // GAME_ITEMS_HERO_HEROITEM_H_

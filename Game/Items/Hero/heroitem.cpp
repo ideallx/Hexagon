@@ -82,15 +82,15 @@ void HeroItem::setSkillPics(QString path) {
     theSkillButtons.append(pic);
 }
 
-void HeroItem::addCards(QList<HandCard*> c) {
+void HeroItem::addCards(QList<int> c) {
     theCards += c;
 }
 
-HandCard* HeroItem::removeCard(HandCard* hc) {
-    if (theCards.removeOne(hc)) {
-        return hc;
+int HeroItem::removeCard(int cardId) {
+    if (theCards.removeOne(cardId)) {
+        return cardId;
     } else {
-        return NULL;
+        return -1;
     }
 }
 
