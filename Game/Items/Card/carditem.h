@@ -17,7 +17,7 @@ class HandCard : public QGraphicsRectItem {
     inline QPixmap pixmap() { return pixmapPath; }
     inline void setPixmap(QString s) { pixmapPath = s; }
     void setId(int n) { theId = n; }
-    int id() { return theId; }
+    int type() { return theId; }
     inline CardNormalPackageType cardType() { return typeCard; }
     QRectF boundingRect() const;
     void paint(QPainter*, const QStyleOptionGraphicsItem*, QWidget*);

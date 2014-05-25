@@ -58,7 +58,7 @@ class AI : public QThread {
     void heroClicked(HeroItem* h);
     void rangeClicked(QPoint p);
     void menuClicked(GameMenuType gmt);
-    void buttonOkClicked(QList<HandCard*> l);
+    void buttonOkClicked(QList<int> l);
     void buttonCancelClicked();
     void skillUsed(int n);
     void turnEnd();

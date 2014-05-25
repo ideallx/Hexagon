@@ -48,7 +48,7 @@ class CardScene : public QGraphicsScene {
     void clearChosenItems();
     void listCards();
     inline void setOneCardMode(bool s) {oneCardMode = s; }
-    inline QList<QGraphicsItem*> getChosenItems() {return chosenItem; }
+    QList<int> getChosenItems();
     QGraphicsItemGroup* cardGroup;
 
  private:

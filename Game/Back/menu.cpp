@@ -221,7 +221,7 @@ void GameMenu::setPrompt(QString prompt) {
 
 void GameMenu::on_buttonOK_clicked() {
     qDebug() << "Ok Clicked";
-    emit buttonOkClicked(toHandCard(cs->getChosenItems())); // TOGO
+    emit buttonOkClicked(cs->getChosenItems());
 
     if (cardPhase == CardPhase::CardDiscard) {
         cardPhase = CardPhase::CardNormal;

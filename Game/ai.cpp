@@ -162,9 +162,9 @@ void AI::thinkHowToReact() {
 
 void AI::useCard() {
     waitForTime(500);
-    QList<HandCard*> result;
-    foreach(HandCard* hc, AiHero->theCards) {
-        if ((hc->cardType() == resultsCardType) ||
+    QList<int> result;
+    foreach(int hc, AiHero->theCards) {
+        if (ic->card(hc)->cardType() == resultsCardType ||
                 resultsCardType == CardNormalPackageType::Any) {
             result.append(hc);
             if (result.size() == resultsCardNum) {

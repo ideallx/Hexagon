@@ -119,7 +119,7 @@ class GameMenu : public QObject {
     QTabWidget* mapTable;
 
  signals:
-    void buttonOkClicked(QList<HandCard*> l);
+    void buttonOkClicked(QList<int> l);
     void buttonCancelClicked();
     void skillUsed(int n);
     void menuClicked(GameMenuType gmt);

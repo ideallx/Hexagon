@@ -324,11 +324,11 @@ QList<QString> ItemCollector::getHeroListAvaterPath(Camp in) {
 }
 
 QList<int> ItemCollector::getCard(int n) {
-    QList<int*> result;
+    QList<int> result;
     if (unusedCards.size() < n)
         n = unusedCards.size();
     for (int i = 0; i < n; i++) {
-        result.append(unusedCards[0]->id());
+        result.append(unusedCards[0]->type());
         unusedCards.removeAt(0);
     }
     return result;

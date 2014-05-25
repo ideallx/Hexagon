@@ -237,6 +237,14 @@ void CardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
     }
 }
 
+QList<int> CardScene::getChosenItems() {
+    QList<int> result;
+    foreach(QGraphicsItem* qgi, chosenItem) {
+        result.append(qgi->type());
+    }
+    return result;
+}
+
 ViewSendResize::ViewSendResize(QWidget *parent)
     : QGraphicsView(parent) {
 }
