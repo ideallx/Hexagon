@@ -51,8 +51,8 @@ void ItemCollector::setHeroFactory(HeroFactory* hf,
 void ItemCollector::setCardEngine(CardEngine* ce) {
     this->ce = ce;
     addCardList();
-    shuffle(unusedCards);
     allCards = unusedCards;
+    shuffle(unusedCards);
 }
 
 void ItemCollector::setEquipmentShop(EquipmentShop *es) {

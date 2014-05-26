@@ -560,6 +560,7 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
         acquire(AskType::AskForCards);
         return true;
     } else {
+        acquireAI(ai, AskType::AskForCards);
         ai->askCard(CardNormalPackageType::Any, n);
         ai->dothings(AskType::AskForCards);
         loopExec();
@@ -661,6 +662,16 @@ void EventCenter::chosenCard(QList<int> l) {
         resultsCard += l;
         release();
         return;
+    } else if (l.size() == 1) {
+        SkillBase* sk = ic->card(l[0])->skill();
+        if (sk == 0)
+            return;
+        SkillPara sp(this, QVariant(), curHero, NULL);
+        sk->skillPrepare(sp);
+        sk->skillFlow(sp);
+        curHero->removeCard(l[0]);
+        showCards(curHero);
+        menu->setHeroInfo(curHero);
     }
 }
 

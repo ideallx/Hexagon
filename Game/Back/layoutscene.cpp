@@ -1,5 +1,6 @@
 #include "layoutscene.h"
 #include "cardengine.h"
+#include "carditem.h"
 
 EssenialScene::EssenialScene() {
     preMr = tr("Move Range: ");
@@ -240,7 +241,7 @@ void CardScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 QList<int> CardScene::getChosenItems() {
     QList<int> result;
     foreach(QGraphicsItem* qgi, chosenItem) {
-        result.append(qgi->type());
+        result.append(static_cast<HandCard*>(qgi)->type());
     }
     return result;
 }
