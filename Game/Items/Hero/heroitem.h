@@ -36,6 +36,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addHealth(int n);
     inline int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
+    void ambulance();
 
     inline QString playerName() const { return thePlayerName; }
     inline QString heroName() const { return theHeroName; }
@@ -130,6 +131,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void changeStatus(QString);
 
     friend class AI;
+    friend class VvTestTest;
 };
 
 #endif  // GAME_ITEMS_HERO_HEROITEM_H_

@@ -126,9 +126,15 @@ void HeroItem::addHealth(int n) {
         theHealth = theMaxHealth;
     } else if (theHealth < 0) {
         theHealth = 0;
+        isAlive = false;
     } else {
         return;
     }
+}
+
+void HeroItem::ambulance() {
+    isAlive = true;
+    theHealth = 2;
 }
 
 void HeroItem::beginTurnSettle() {
