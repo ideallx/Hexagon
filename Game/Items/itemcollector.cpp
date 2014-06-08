@@ -546,5 +546,5 @@ QList<int> ItemCollector::cardList(QList<HandCard*> in) {
     foreach (HandCard* hc, in) {
         result.append(allCards.indexOf(hc));
     }
-
+    return result;
 }

@@ -78,9 +78,8 @@ class GameMenu : public QObject {
     void setHeroHp(int curHp, int maxHp);
     void setHeroInfo(HeroItem* hero);
     void setPrompt(QString prompt);
-    void askForNCards(int n);
     void beginTurnReset();
-    void setOneCardMode(bool in) { cs->setOneCardMode(in); }
+    void setChosenCardNumber(int in) { cs->setChosenCardNumber(in); waitingCardNum = in;}
     void setSkillTip(int);
     void setSkillTips();
     HeroItem* panelHero() { return infoHero; }

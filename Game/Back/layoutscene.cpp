@@ -159,7 +159,7 @@ QRectF skillButton::boundingRect() const
 CardScene::CardScene()
     : cardGroup(this->createItemGroup(this->items())),
       oldItem(0),
-      oneCardMode(true) {
+      chosenNumber(1) {
 }
 
 CardScene::~CardScene() {
@@ -201,7 +201,7 @@ void CardScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         oldItem->setPos(oldItem->pos().x(), 0.2*height());
         chosenItem.removeAt(chosenItem.indexOf(oldItem));
     } else {
-        if (oneCardMode) {
+        if (chosenNumber == 1) {
             clearChosenItems();
             listCards();
         }

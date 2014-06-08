@@ -2,9 +2,10 @@
 #include <QDebug>
 
 GameBackInfo::GameBackInfo(QString configFilePath) {
+    qDebug() << "test";
     QFile file(configFilePath);
     isLoadingCorrectly = true;
-    halfSqrt3 = 0.86;
+    halfSqrt3 = sqrt(3) / 2;
     beginX = beginPosition.x();
     beginY = beginPosition.y();
     int i = configFilePath.lastIndexOf(QChar('/'));

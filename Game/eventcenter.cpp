@@ -399,7 +399,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
     runSkills(TriggerTime::TriggerAttackEnd, curHero, targetHero);
 
     attackAnimate(curHero, targetHero);
-    // attackCalc(curHero, targetHero);
+    attackCalc(curHero, targetHero);
     curHero->aa->removeAttackBouns();
     listHeroInfo(curHero);
     qDebug() << curHero->heroName() <<
@@ -526,7 +526,7 @@ bool EventCenter::askForUseCard(HeroItem* hi,
     askCard.useCardHero = hi;
     askCard.useCardType = t;
     menu->setPrompt(QString("Please Use Card:"));  // type
-    menu->setOneCardMode(true);
+    menu->setChosenCardNumber(1);
 
     AI* ai = hi->getAI();
     if (ai == NULL) {
@@ -553,7 +553,7 @@ bool EventCenter::askForNCard(HeroItem* hi, int n) {
     askCard.useCardHero = hi;
     askCard.n = n;
     menu->setPrompt(QString("Please Use %1 Cards:").arg(n));
-    menu->setOneCardMode(false);
+    menu->setChosenCardNumber(n);
 
     AI* ai = curHero->getAI();
     if (ai == NULL) {

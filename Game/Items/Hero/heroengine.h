@@ -39,6 +39,8 @@ class HeroFactory : public QObject {
     QString innerDir;
     int lineLength;
     int heroAmount;
+
+ friend class VvTestTest;
 };
 
 

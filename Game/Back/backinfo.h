@@ -34,6 +34,8 @@ class GameBackInfo {
     int widthCount;
     int heightCount;
     bool isLoadingCorrectly;
+
+    friend class VvTestTest;
 };
 
 #endif  // GAME_BACK_BACKINFO_H_

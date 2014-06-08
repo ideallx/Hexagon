@@ -12,7 +12,7 @@ class HandCard : public QGraphicsRectItem {
  public:
     HandCard(CardNormalPackageType type, int id, QString pixmapPath, SkillBase* skill);
     HandCard();
-    HandCard(const HandCard&that);
+    explicit HandCard(const HandCard&that);
     ~HandCard();
     inline QPixmap pixmap() { return pixmapPath; }
     inline void setPixmap(QString s) { pixmapPath = s; }

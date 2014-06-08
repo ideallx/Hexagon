@@ -17,7 +17,7 @@ ChooseMenu::ChooseMenu(QWidget* parent)
 
 GameMenu::GameMenu(QGraphicsView *parent)
     : cardPhase(CardPhase::CardNormal),
-      waitingCardNum(0),
+      waitingCardNum(1),
       parent(parent),
       heroHeadSlideLength(80),
       ui(new Ui::Form) {  // uncertain
@@ -225,7 +225,7 @@ void GameMenu::on_buttonOK_clicked() {
 
     if (cardPhase == CardPhase::CardDiscard) {
         cardPhase = CardPhase::CardNormal;
-        waitingCardNum = 0;
+        waitingCardNum = 1;
     }
 }
 
@@ -236,23 +236,16 @@ void GameMenu::on_buttonCancel_clicked() {
     cs->listCards();
 }
 
-void GameMenu::askForNCards(int n) {
-    ui->buttonOK->setEnabled(false);
-    cardPhase = CardPhase::CardDiscard;
-    waitingCardNum = n;
-    cs->setOneCardMode(false);
-}
-
 void GameMenu::beginTurnReset() {
     resetMenuEnable();
-    cs->setOneCardMode(true);
+    cs->setChosenCardNumber(1);
 }
 
 void GameMenu::chosenCardNumChanged(int n) {
-    if (cardPhase == CardPhase::CardNormal)
-        return;
-    if (cardPhase == CardPhase::CardChooseOne)
-        return;
+//    if (cardPhase == CardPhase::CardNormal)
+//        return;
+//    if (cardPhase == CardPhase::CardChooseOne)
+//        return;
 
     if (n == waitingCardNum)
         ui->buttonOK->setEnabled(true);
