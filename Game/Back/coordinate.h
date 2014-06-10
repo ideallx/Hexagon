@@ -50,6 +50,8 @@ class GameCoordinate {
     int heightCount;
     QVector<char> mapElement;
     QList<QPoint> showRange;
+
+ friend class VvTestTest;
 };
 
 

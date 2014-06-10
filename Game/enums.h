@@ -24,6 +24,12 @@ enum class AreaHexagon {
     AreaNouse = 'Z'
 };
 
+enum class DeathStatus {
+    Alive,
+    Dying,
+    Died
+};
+
 enum class TriggerTime {
     TriggerNever,
     TriggerGameBegin,

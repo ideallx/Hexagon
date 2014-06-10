@@ -14,7 +14,7 @@ HeroItem::HeroItem(int lineLength)
       lineLength(lineLength),
       theMoney(0),
       ai(NULL),
-      isAlive(true) {
+      isAlive(DeathStatus::Alive) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -126,15 +126,20 @@ void HeroItem::addHealth(int n) {
         theHealth = theMaxHealth;
     } else if (theHealth < 0) {
         theHealth = 0;
-        isAlive = false;
+        isAlive = DeathStatus::Dying;
     } else {
         return;
     }
 }
 
-void HeroItem::ambulance() {
-    isAlive = true;
-    theHealth = 2;
+void HeroItem::ambulance(bool get) {
+    if (get) {
+        isAlive = DeathStatus::Alive;
+        theHealth = 2;
+    } else {
+        isAlive = DeathStatus::Died;
+        theHealth = theMaxHealth;
+    }
 }
 
 void HeroItem::beginTurnSettle() {
@@ -205,4 +210,15 @@ void HeroItem::addState(HeroState state, int lastTime) {
     states.first = state;
     states.second = lastTime;
     heroStates.append(states);
+}
+
+void HeroItem::useMoney(QList<int> money) {
+    foreach (int coin, money) {
+        if (!moneyList.contains(coin)) {
+            throw QString("HeroItem > useMoney : no such coin found");
+        } else {
+            moneyList.removeOne(coin);
+            theMoney -= coin;
+        }
+    }
 }

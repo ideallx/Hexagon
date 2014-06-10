@@ -36,7 +36,9 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void addHealth(int n);
     inline int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
-    void ambulance();
+    void ambulance(bool get = true);
+    inline void revive() { isAlive = DeathStatus::Alive; }
+    inline DeathStatus heroAliveState() { return isAlive; }
 
     inline QString playerName() const { return thePlayerName; }
     inline QString heroName() const { return theHeroName; }
@@ -78,7 +80,8 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline int money() { return theMoney; }
     inline QList<int> moneyLists() { return moneyList; }
     inline void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
-    inline void setMoney(int mo) { theMoney = mo; }
+    inline void cleanMoney(int mo) { theMoney = 0; moneyList.clear(); }
+    void useMoney(QList<int> money);
 
     inline void setAI(AI* a) { ai = a; }
     inline AI* getAI() { return ai; }
@@ -88,7 +91,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void endRoundSettle();
     void reduceAllSkillCooldown();
     void reduceAllStatesCooldown();
-    static int beginTurnGetCards() { return 5; }
+    static int beginTurnGetCards() { return 2; }
     static int endTurnMaxCards() { return 3; }
 
     QRectF boundingRect() const;
@@ -123,7 +126,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     QColor color;
     int theMoney;
     AI* ai;
-    bool isAlive;
+    DeathStatus isAlive;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);

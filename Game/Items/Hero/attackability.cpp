@@ -28,5 +28,10 @@ void AttackAbility::removeAttackBouns() {
         }
     }
     attackBuffs.clear();
-    theTime--;
+    attackTimeMinus();
+}
+
+void AttackAbility::attackTimeMinus() {
+    if (theTime > 0)
+        theTime --;
 }

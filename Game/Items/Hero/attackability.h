@@ -19,6 +19,7 @@ class AttackAbility {
     inline void restore() { theTime = 1;}
     inline int remainingTimes() { return theTime; }
     inline int mustHitRate() { return nextMustHit; }
+    void attackTimeMinus();
 
  private:
     QList<AttackBuff> attackBuffs;          // special effects on attack

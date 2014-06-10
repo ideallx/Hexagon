@@ -10,7 +10,7 @@ GameCoordinate::GameCoordinate(GameBackInfo* gbi) {
     widthCount = gbi->getWidthCount();
     heightCount = gbi->getHeightCount();
     mapElement = gbi->getMapElement();
-    halfSqrt3 = 0.86;
+    halfSqrt3 = sqrt(3) / 2;
 }
 
 /*
