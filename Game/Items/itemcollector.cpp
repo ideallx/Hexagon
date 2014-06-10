@@ -97,7 +97,7 @@ void ItemCollector::addCardList() {
 }
 
 void ItemCollector::addMapElementList() {
-    elements = me->generateMapElements(wid, hei);
+    elements = me->generateMapElements();
     for (int j = 0; j < hei; j++) {
         for (int i = 0; i < wid; i++) {
             elements[j*wid+i]->setPos(gc->getBeginPosWithCoo(QPoint(i, j)));

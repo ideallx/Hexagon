@@ -2,18 +2,21 @@
 #include "mapelement.h"
 #include "backinfo.h"
 
-MapEngine::MapEngine(GameBackInfo* gbii)
-    : gbi(gbii) {
+MapEngine::MapEngine(GameBackInfo* gbi)
+    : gbi(gbi) {
 }
 
-QList<GameMapElement*> MapEngine::generateMapElements(int wid, int hei) {
+// wid and hei is total width and total height
+QList<GameMapElement*> MapEngine::generateMapElements() {
     QList<GameMapElement*> elements;
     QVector<char> map = gbi->getMapElement();
+    int hei = gbi->getHeightCount();
+    int wid = gbi->getWidthCount();
     for (int j = 0; j < hei; j++) {
         for (int i = 0; i < wid; i++) {
             GameMapElement *mapItem = new GameMapElement(
                         gbi->getLineLength(),
-                        (AreaHexagon)map[i+j*wid],
+                        static_cast<AreaHexagon>(map[i+j*wid]),
                         QPoint(i, j),
                         gbi->getConfigDir()+"elements/");
             elements.append(mapItem);
@@ -31,7 +34,7 @@ GameMapElement::GameMapElement(int lineLength,
                                QString path)
     : elementType(elementType) {
     this->lineLength = lineLength;
-    this->halfSqrt3 = 0.86;
+    this->halfSqrt3 = sqrt(3) / 2;
     this->path = path;
 
     getPolygonPointf(QPointF(0, 0));

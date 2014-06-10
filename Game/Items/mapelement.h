@@ -61,13 +61,15 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
     AreaHexagon elementType;
     QString elementName;
     QPolygonF hexagon;
+
+    friend class VvTestTest;
 };
 
 
 class MapEngine {
  public:
-    explicit MapEngine(GameBackInfo* gbii);
-    QList<GameMapElement*> generateMapElements(int width, int height);
+    explicit MapEngine(GameBackInfo* gbi);
+    QList<GameMapElement*> generateMapElements();
 
  private:
     GameBackInfo* gbi;

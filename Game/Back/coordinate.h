@@ -24,7 +24,6 @@ class GameCoordinate {
  public:
 
     explicit GameCoordinate(GameBackInfo* gbi);
-    inline QList<QPoint> getMovePoint() const { return showRange; }
     static QPoint goUpLeft(QPoint);
     static QPoint goUpRight(QPoint);
     static QPoint goUp(QPoint);
@@ -49,7 +48,6 @@ class GameCoordinate {
     int widthCount;
     int heightCount;
     QVector<char> mapElement;
-    QList<QPoint> showRange;
 
  friend class VvTestTest;
 };

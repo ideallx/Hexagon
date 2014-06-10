@@ -6,6 +6,8 @@
 #include "heroitem.h"
 #include "normalpackage.h"
 #include "coordinate.h"
+#include "itemcollector.h"
+#include "mapelement.h"
 
 class VvTestTest : public QObject
 {
@@ -14,21 +16,31 @@ class VvTestTest : public QObject
 public:
     VvTestTest();
 
+private:
+    void testGameMapElement(GameMapElement*gme, int id);
+
 private Q_SLOTS:
     void testGbiDesert2();
     void testHf();
     void testHero();
     void testGameCoordinate();
+    void testMapEngine();
     void testItemCollector();
 
 private:
+    int lineLength;
+    QString pathPrefix;
+
     GameBackInfo *gbi;
     HeroFactory* hf;
     GameCoordinate* gc;
+    ItemCollector* ic;
+    MapEngine* me;
 };
 
 VvTestTest::VvTestTest()
-{
+    : lineLength(50),
+      pathPrefix("C:/Users/xiang/Documents/GitHub/") {
 
 }
 
@@ -37,22 +49,22 @@ VvTestTest::VvTestTest()
  */
 void VvTestTest::testGbiDesert2()
 {
-    gbi = new GameBackInfo("C:/Users/xiang/Documents/GitHub/rsc/DeathDesert2.xml");
+    gbi = new GameBackInfo("%1rsc/DeathDesert2.xml".arg(pathPrefix));
     QVERIFY2(gbi->isLoadingCorrectly, "Initialize Failed");
-    QCOMPARE(gbi->configDir, QString("C:/Users/xiang/Documents/GitHub/rsc/"));
+    QCOMPARE(gbi->configDir, QString("%1rsc/").arg(pathPrefix));
     QCOMPARE(gbi->halfSqrt3, sqrt(3) / 2);  // important factor  sin(60)
 
     QCOMPARE(gbi->beginX, 320);             // begin positon of the leftTop element in the map
     QCOMPARE(gbi->beginY, 200);
 
-    QCOMPARE(gbi->lineLength, 50);          // line length of single hexagon slide
+    QCOMPARE(gbi->lineLength, lineLength);  // line length of single hexagon slide
     QCOMPARE(gbi->backCardRect,             // card size depand on the line Length;
              QRectF(0, 0, 190.0, 130.0));   // width is 3.8x  height is 2.6x
 
     QCOMPARE(gbi->widthCount, 5);           // count of width map element in game
     QCOMPARE(gbi->heightCount, 16);         // count of height
     QCOMPARE(gbi->backgroundPicture,
-             QPixmap("C:/Users/xiang/Documents/GitHub/rsc/skinDefault/wallpaper4.jpg").
+             QPixmap(QString("%1rsc/skinDefault/wallpaper4.jpg").arg(pathPrefix)).
              scaled(1500, 1200));
 
     QCOMPARE(gbi->mapElement.size(), 80);   // TODO how to check total 80 convenient
@@ -69,8 +81,8 @@ void VvTestTest::testHf()
     QCOMPARE(hf->hpl.size(), 1);
     QCOMPARE(hf->hpl[0]->heroPackageIndicator(),
             HeroPackage::HeroPackage_Normal);
-    QCOMPARE(hf->innerDir, QString("C:/Users/xiang/Documents/GitHub/rsc/heros/"));
-    QCOMPARE(hf->lineLength, 50);           // make sure no error
+    QCOMPARE(hf->innerDir, QString("%1rsc/heros/").arg(pathPrefix));
+    QCOMPARE(hf->lineLength, lineLength);   // make sure no error
 
     QVector<QString> heros;
     for (int i = 0; i < 20; i++) {
@@ -103,7 +115,7 @@ void VvTestTest::testHero() {
     QCOMPARE(hi->heroStates.size(), 0);                 // no states now
     QCOMPARE(hi->theSexual, Sexual::SexMale);           // masculine hero
     QCOMPARE(hi->theHeroName, QString("BaoXiong"));     // hero name
-    QCOMPARE(hi->lineLength, 50);                       // ordinary check
+    QCOMPARE(hi->lineLength, lineLength);               // ordinary check
     QCOMPARE(hi->theMoney, 0);                          // no money now
     //QCOMPARE(hi->ai, );  error when compare null      // no ai now
     QCOMPARE(hi->isAlive, DeathStatus::Alive);                        // still alive~
@@ -169,7 +181,7 @@ void VvTestTest::testGameCoordinate() {
     gc = new GameCoordinate(gbi);
     QCOMPARE(gc->beginX, gbi->beginX);
     QCOMPARE(gc->beginY, gbi->beginY);
-    QCOMPARE(gc->lineLength, 50);
+    QCOMPARE(gc->lineLength, lineLength);
     QCOMPARE(gc->widthCount, gbi->widthCount);
     QCOMPARE(gc->heightCount, gbi->heightCount);
     QCOMPARE(gc->halfSqrt3, sqrt(3) / 2);
@@ -189,11 +201,99 @@ void VvTestTest::testGameCoordinate() {
     QCOMPARE(gc->goDown(QPoint(1, 2)), QPoint(1, 4));
     QCOMPARE(gc->goDownLeft(QPoint(1, 2)), QPoint(0, 3));
     QCOMPARE(gc->goDownRight(QPoint(1, 2)), QPoint(1, 3));
+
+    // TODO other algorithm test
 }
 
+void VvTestTest::testGameMapElement(GameMapElement *gme, int id) {
+    int i = id / gbi->widthCount;
+    int j = id % gbi->heightCount;
+    QCOMPARE(gme->point(), QPoint(i, j));
+    QCOMPARE(gme->lineLength, lineLength);
+    QCOMPARE(gme->halfSqrt3, sqrt(3) / 2);
+    QCOMPARE(gme->path, QString("%1/rsc/elements").arg(pathPrefix));
+    QCOMPARE(gme->elementType, static_cast<AreaHexagon> (gbi->mapElement[id]));
+    QPixmap block;
+    QString elementName;
+    switch (gme->elementType) {
+    case AreaHexagon::AreaGrass:
+        block = QPixmap(gme->path + "forest.png");
+        elementName = QString(tr("grass"));
+        break;
+    case AreaHexagon::AreaStone:
+        block = QPixmap(gme->path + "stone.png");
+        elementName = QString(tr("stone"));
+        moveAvailable = false;
+        break;
+    case AreaHexagon::AreaShop:
+        block = QPixmap(gme->path + "shop.png");
+        elementName = QString(tr("shop"));
+        moveAvailable = false;
+        break;
+    case AreaHexagon::AreaAlchemy:
+        block = QPixmap(gme->path + "alchemy.png");
+        elementName = QString(tr("alchemy"));
+        break;
+    case AreaHexagon::AreaSpring:
+        block = QPixmap(gme->path + "spring.png");
+        elementName = QString(tr("spring"));
+        moveAvailable = false;
+        break;
+    case AreaHexagon::AreaCamp:
+        block = QPixmap(gme->path + "camp.png");
+        elementName = QString(tr("camp"));
+        break;
+    case AreaHexagon::AreaSwamp:
+        block = QPixmap(gme->path + "swamp.png");
+        elementName = QString(tr("swamp"));
+        break;
+    case AreaHexagon::AreaDesert:
+        block = QPixmap(gme->path + "desert.png");
+        elementName = QString(tr("desert"));
+        break;
+    case AreaHexagon::AreaWater:
+        block = QPixmap(gme->path + "water.png");
+        elementName = QString(tr("water"));
+        break;
+    case AreaHexagon::AreaFort:
+        block = QPixmap(gme->path + "fort.png");
+        elementName = QString(tr("fort"));
+        moveAvailable = false;
+        break;
+    case AreaHexagon::AreaRedHome:
+        block = QPixmap(gme->path + "red.png");
+        elementName = QString(tr("red camp"));
+        break;
+    case AreaHexagon::AreaTree:
+        block = QPixmap(gme->path + "tree.png");
+        elementName = QString(tr("tree"));;
+        moveAvailable = false;
+        break;
+    case AreaHexagon::AreaBlueHome:
+        block = QPixmap(gme->path + "blue.png");
+        elementName = QString(tr("blue camp"));
+        break;
+    default:
+        block = QPixmap(gme->path + "desert.png");
+        elementName = QString(tr("desert"));
+    }
+    QCOMPARE(gme->brush(), QBrush(block.scaledToWidth(2 * lineLength,
+                                                      Qt::SmoothTransformation)));
+    QCOMPARE(gme->elementName, elementName);
+}
+
+void VvTestTest::testMapEngine() {
+    me = new MapEngine(gbi);
+    QList<GameMapElement*> mapList = me->generateMapElements();
+    for (int i = 0; i < mapList.size(); i++) {
+        GameMapElement *gme = mapList[i];
+        testGameMapElement(gme, i);
+    }
+}
 
 void VvTestTest::testItemCollector() {
-
+    ic = new ItemCollector(gbi, gc);
+    ic->setMapElement(me);
 }
 
 QTEST_MAIN(VvTestTest)
