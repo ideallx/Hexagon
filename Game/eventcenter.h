@@ -152,6 +152,8 @@ class EventCenter : public QObject {
     void heroUseSkill(int n);
     void endTurnSignal();
     void endLoop();
+
+ friend class VvTestTest;
 };
 
 #endif  // GAME_EVENTCENTER_H_

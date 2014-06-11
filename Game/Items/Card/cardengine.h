@@ -39,6 +39,8 @@ class CardEngine : public QObject {
     int skillsNum;
     QList<AbstractCardPackage*> cpl;
     QHash<int, SkillBase*>skills;
+
+ friend class VvTestTest;
 };
 
 #endif  // GAME_ITEMS_CARD_CARDENGINE_H_

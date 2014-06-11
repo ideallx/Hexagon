@@ -23,8 +23,9 @@ QList<HandCard*> CardEngine::generateHandCards() {
 }
 
 HandCard* CardEngine::createCard(CardInfo ci) {
-    return new HandCard(ci.cardType, cardsId++, path+ci.name+".jpg",
-                        skills[static_cast<int>(ci.cardType)]);
+    return new HandCard(ci.cardType, cardsId++,
+                        QString("%1%2.jpg").arg(path).arg(ci.name),
+                        skills[static_cast<int> (ci.cardType)]);
 }
 
 void CardEngine::addPackage(AbstractCardPackage* acp) {

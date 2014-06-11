@@ -14,9 +14,9 @@ class HandCard : public QGraphicsRectItem {
     HandCard();
     explicit HandCard(const HandCard&that);
     ~HandCard();
-    inline QPixmap pixmap() { return pixmapPath; }
-    inline void setPixmap(QString s) { pixmapPath = s; }
-    void setId(int n) { theId = n; }
+    inline QPixmap pixmap() { return thePixmap; }
+    inline void setPixmap(QString s) { thePixmap = QPixmap(s); }
+//    void setId(int n) { theId = n; }
     int type() { return theId; }
     inline CardNormalPackageType cardType() { return typeCard; }
     QRectF boundingRect() const;
@@ -26,8 +26,10 @@ class HandCard : public QGraphicsRectItem {
  private:
     CardNormalPackageType typeCard;
     int theId;
-    QPixmap pixmapPath;
+    QPixmap thePixmap;
     SkillBase* theSkill;
+
+ friend class VvTestTest;
 };
 
 

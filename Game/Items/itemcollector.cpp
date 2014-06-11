@@ -37,7 +37,7 @@ ItemCollector::~ItemCollector() {
     elements.clear();
 }
 
-void ItemCollector::setMapElement(MapEngine *me) {
+void ItemCollector::setMapEngine(MapEngine *me) {
     this->me = me;
     addMapElementList();
 }
@@ -547,4 +547,8 @@ QList<int> ItemCollector::cardList(QList<HandCard*> in) {
         result.append(allCards.indexOf(hc));
     }
     return result;
+}
+
+bool ItemCollector::initialCompete() {
+    return me && hf && ce;
 }

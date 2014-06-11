@@ -8,6 +8,32 @@
 #include "coordinate.h"
 #include "itemcollector.h"
 #include "mapelement.h"
+#include "cardengine.h"
+#include "carditem.h"
+#include "Package/normalpackage.h"
+#include "eventcenter.h"
+
+/**
+ * @brief The VvTestTest class
+ * object initial Sequence
+ *
+ *  MainWindow
+ *      UiMainWindow
+ *      GameProcess
+ *      EventCenter
+ *          GameCoordinate
+ *          ItemCollector
+ *              MapEngine
+ *                  GameMapElement
+ *              CardEngine
+ *                  CardItem
+ *              HeroFactory
+ *                  HeroItem
+ *              EquipShop
+ *                  Equipment
+ *
+ */
+
 
 class VvTestTest : public QObject
 {
@@ -18,14 +44,19 @@ public:
 
 private:
     void testGameMapElement(GameMapElement*gme, int id);
+    void testCardItem(HandCard* hc, int id);
 
 private Q_SLOTS:
     void testGbiDesert2();
+    void testGameCoordinate();
+    void testItemCollector();
+    void testMapEngine();
+    void testCardEngine();
     void testHf();
     void testHero();
-    void testGameCoordinate();
-    void testMapEngine();
-    void testItemCollector();
+    void testEquipShop();
+
+    void testEventCenter();
 
 private:
     int lineLength;
@@ -36,6 +67,9 @@ private:
     GameCoordinate* gc;
     ItemCollector* ic;
     MapEngine* me;
+    CardEngine* ce;
+    CardPackageNormal* cpn;
+    EventCenter* ec;
 };
 
 VvTestTest::VvTestTest()
@@ -77,6 +111,7 @@ void VvTestTest::testHf()
 {
     hf = new HeroFactory(gbi);
     hf->addPackage(new HeroPackageNormal());
+    // ic->setHeroFactory(hf);
     QCOMPARE(hf->getHeroAmount(), 20);      // count of hero in this package
     QCOMPARE(hf->hpl.size(), 1);
     QCOMPARE(hf->hpl[0]->heroPackageIndicator(),
@@ -284,6 +319,7 @@ void VvTestTest::testGameMapElement(GameMapElement *gme, int id) {
 
 void VvTestTest::testMapEngine() {
     me = new MapEngine(gbi);
+    ic->setMapEngine(me);
     QList<GameMapElement*> mapList = me->generateMapElements();
     for (int i = 0; i < mapList.size(); i++) {
         GameMapElement *gme = mapList[i];
@@ -293,7 +329,69 @@ void VvTestTest::testMapEngine() {
 
 void VvTestTest::testItemCollector() {
     ic = new ItemCollector(gbi, gc);
-    ic->setMapElement(me);
+    QVERIFY(!ic->initialCompete());
+
+}
+
+void VvTestTest::testCardEngine() {
+    ce = new CardEngine(gbi);
+    QCOMPARE(ce->cardAmount, 0);    // no cards before add package
+    QCOMPARE(ce->cardsId, 0);       //
+
+    cpn = new CardPackageNormal();
+    ce->addPackage(cpn);            // TODO add new package to test
+    ic->setCardEngine(ce);
+
+    QCOMPARE(ce->cardAmount, 60);   // 60 cards in this package
+    QCOMPARE(ce->cardsId, 60);      // next package will count begin as 60
+    QCOMPARE(ce->path, QString("%1rsc/cards/"));    // dir of cards pixmap
+
+    CardInfo testInfo;              // test create card
+    testInfo.cardPackage = CardPackage::CardPackage_Normal;
+    testInfo.cardType = CardNormalPackageType::FaLiRanShao;
+    testInfo.name = "FaLiRanShao";
+    HandCard* testCard = ce->createCard(testInfo);
+    testCardItem(testCard, 0);
+
+    QList<HandCard*> cards = generateHandCards();
+    ce->cardsId = 0;                // regenerate cards;
+    for (int i = 0; i < ce->cardAmount; i++) {
+        testCardItem(cards[i], i);
+    }
+}
+
+void VvTestTest::testCardItem(HandCard* hc, int id) {   // TODO multi package
+    QCOMPARE(hc->theId, id);
+    QCOMPARE(hc->type(), id);       // its type is id
+    QCOMPARE(hc->cardType(), cpn->getCardInfo(i).cardType);
+    QCOMPARE(hc->pixmap(), QPixmap(QString("%1%2.jpg").
+                                   arg(ce->path).
+                                   arg(cpn->getCardInfo(i).name)));
+
+    // card skills remain undone
+}
+
+// use its own inner variable not involve with the upstairs case
+void VvTestTest::testEventCenter() {
+    BackView* bv = new BackView();
+    ec = new EventCenter(bv);
+    QCOMPARE(ec->roundNum, 0);          // game not begun now
+    QCOMPARE(ec->gameBegined, false);
+    QCOMPARE(ec->gameTerminated, false);
+    QCOMPARE(ec->playerHeroNum, 0);     // no hero now
+    QCOMPARE(ec->heroSeq.size(), 0);    //
+
+    ec->preGame();                      // choose hero, birth, camp
+    QCOMPARE(ec->playerHeroNum, 4);     // no hero now
+    QCOMPARE(ec->heroSeq.size(), 4);    //
+    // TODO
+
+    ec->gameBegin();
+    QCOMPARE(ec->gameBegined, true);
+    QCOMPARE(ec->gameTerminated, false);
+
+    // now player 1 is human player 2 3 4 are all AI
+
 }
 
 QTEST_MAIN(VvTestTest)

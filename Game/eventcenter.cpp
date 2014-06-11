@@ -131,7 +131,7 @@ void EventCenter::buildGameInfo(HeroNum chosenHeroNum) {
 
     ic = new ItemCollector(gbi, gc);
 
-    ic->setMapElement(new MapEngine(gbi));
+    ic->setMapEngine(new MapEngine(gbi));
 
     CardEngine *ce = new CardEngine(gbi);
     ce->addPackage(new CardPackageNormal());

@@ -5,16 +5,16 @@ Q_DECLARE_METATYPE(HandCard)
 HandCard::HandCard(CardNormalPackageType t, int id, QString s, SkillBase* sk)
     : typeCard(t),
       theId(id),
-      pixmapPath(QPixmap(s)),
+      thePixmap(QPixmap(s)),
       theSkill(sk) {
     setRect(0, 0, 137, 200);
-    setBrush(pixmapPath.scaledToHeight(200, Qt::SmoothTransformation));
+    setBrush(thePixmap.scaledToHeight(200, Qt::SmoothTransformation));
 }
 
 HandCard::HandCard()
     : typeCard(CardNormalPackageType::None),
       theId(-1),
-      pixmapPath(""),
+      thePixmap(""),
       theSkill(NULL) {
 }
 
@@ -25,7 +25,7 @@ HandCard::~HandCard() {
 HandCard::HandCard(const HandCard& that) {
     this->typeCard = that.typeCard;
     this->theId = that.theId;
-    this->pixmapPath = that.pixmapPath;
+    this->thePixmap = that.thePixmap;
     this->theSkill = that.theSkill;
 }
 

@@ -38,11 +38,12 @@ class ItemCollector {
     ItemCollector(GameBackInfo*, GameCoordinate*);
     ~ItemCollector();
 
-    void setMapElement(MapEngine *me);
+    void setMapEngine(MapEngine *me);
     void setHeroFactory(HeroFactory* hf, QList<ExternInfo> info);
     void setCardEngine(CardEngine* ce);
     void setEquipmentShop(EquipmentShop* es);
     void setCampHealth();
+    bool initialCompete();
     void addItemsToScene(QGraphicsScene* gs);
     void setPlaySeq(int i) { thePlayerSeq = i; }
     int playSeq() const { return thePlayerSeq; }
