@@ -32,19 +32,18 @@ GameMapElement::GameMapElement(int lineLength,
                                AreaHexagon elementType,
                                QPoint point,
                                QString path)
-    : elementType(elementType) {
-    this->lineLength = lineLength;
-    this->halfSqrt3 = sqrt(3) / 2;
-    this->path = path;
+    : elementType(elementType),
+      lineLength(lineLength),
+      halfSqrt3(sqrt(3) / 2),
+      path(path),
+      thePoint(point),
+      moveAvailable(true) {
 
     getPolygonPointf(QPointF(0, 0));
 
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
     setPolygon(hexagon);
-
-    this->thePoint = point;
-    this->moveAvailable = true;
 
     variableInitial();
     setDefaultPen();
