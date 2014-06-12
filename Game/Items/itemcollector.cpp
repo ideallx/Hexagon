@@ -235,7 +235,7 @@ QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
                                               MapRangeType t,
                                               int range) {
     QList<QPoint> set;
-    if (t == MapRangeType::RangeTypeRound) {
+    if (t == MapRangeType::Round) {
         return recursionSeries(&set, o, range);
     } else {   // TODO(ideallx)
         return set;

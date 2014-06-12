@@ -73,7 +73,7 @@ void RangeSkill::skillPrepare(SkillPara sp) {
 }
 
 void RangeSkill::skillRange(SkillPara sp) {
-    sp.ec->showSkillRange(sp.from, MapRangeType::RangeTypeRound, range);
+    sp.ec->showSkillRange(sp.from, MapRangeType::Round, range);
 }
 
 CsMoney::CsMoney(int money, int cd, int cdmax)
@@ -101,7 +101,7 @@ void MapMarkSkill::skillPrepare(SkillPara sp) {
 }
 
 void MapMarkSkill::skillRange(SkillPara sp) {
-    sp.ec->showSkillRange(sp.from, MapRangeType::RangeTypeRound, range);
+    sp.ec->showSkillRange(sp.from, MapRangeType::Round, range);
 }
 
 void MapMarkSkill::skillAct(SkillPara sp) {

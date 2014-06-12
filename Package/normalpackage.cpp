@@ -231,39 +231,31 @@ void CsKuangBao::skillClicked(SkillPara sp) {
 }
 
 CsZheYue::CsZheYue()
-    : RangeSkill(MapRangeType::RangeTypeRound, 2) {
+    : RangeSkill(MapRangeType::Round, 2) {
     setObjectName("ZheYue");
+}
+
+void CsZheYue::skillRange(SkillPara sp) {
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    QList<QPoint> lp = sp.ec->getPointInRange(hi->point(),
+                                              MapRangeType::Round, 2);
+    sp.ec->showSkillRange(lp);
+    to = sp.ec->gmeOnPoint(sp.ec->askForSelectPoint());
 }
 
 void CsZheYue::skillAct(SkillPara sp) {
     sp.ec->setHeroPosition(static_cast<HeroItem*>(sp.from),
-                           static_cast<GameMapElement*>(sp.to)->point());
-}
-
-CsShengMingLiZan::CsShengMingLiZan()
-    : RangeSkill(MapRangeType::RangeTypeRound, 1) {
-    setObjectName("ShengMingLiZan");
-}
-
-void CsShengMingLiZan::skillAct(SkillPara sp) {
-    QList<QPoint> lp = sp.ec->getPointInRange(
-                static_cast<HeroItem*>(sp.from)->point(),
-                MapRangeType::RangeTypeRound, 1);
-    foreach(QPoint p, lp) {
-        HeroItem* hi = sp.ec->hasHeroOnPoint(p);
-        if (hi)
-            hi->addHealth(1);
-    }
+                           static_cast<GameMapElement*>(to)->point());
 }
 
 CsChuanSong::CsChuanSong()
-    : RangeSkill(MapRangeType::RangeTypeRound, 1) {
+    : RangeSkill(MapRangeType::Round, 1) {
     setObjectName("ChuanSong");
 }
 
 void CsChuanSong::skillAct(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
-    sp.ec->setHeroPosition(hi, static_cast<GameMapElement*>(sp.to)->point());
+    sp.ec->setHeroPosition(hi, static_cast<GameMapElement*>(to)->point());
 }
 
 void CsChuanSong::skillRange(SkillPara sp) {
@@ -271,14 +263,38 @@ void CsChuanSong::skillRange(SkillPara sp) {
     QList<HeroItem*> friendHeros = sp.ec->getHerosOfCamp(hi->camp());
     QList<QPoint> lp;
     foreach(HeroItem* hi, friendHeros) {
-        lp += sp.ec->getPointInRange(hi->point(), MapRangeType::RangeTypeRound, 1);
+        lp += sp.ec->getPointInRange(hi->point(), MapRangeType::Round, 1);
     }
     sp.ec->showSkillRange(lp);
+    QPoint qp = sp.ec->askForSelectPoint();
+    if (sp.ec->hasHeroOnPoint(qp)) {
+        return;     // cannot chuansong to point which has a hero on it
+    }
+    to = sp.ec->gmeOnPoint(qp);
 }
 
 CsNengLiangXianJing::CsNengLiangXianJing(QString path, int width)
     : MapMarkSkill(new MapMark(path, width), -1) {
 }
+
+
+CsShengMingLiZan::CsShengMingLiZan()
+    : RangeSkill(MapRangeType::Round, 1) {
+    setObjectName("ShengMingLiZan");
+}
+
+void CsShengMingLiZan::skillAct(SkillPara sp) {
+    QList<QPoint> lp = sp.ec->getPointInRange(
+                static_cast<HeroItem*>(sp.from)->point(),
+                MapRangeType::Round, 1);
+    foreach(QPoint p, lp) {
+        HeroItem* hi = sp.ec->hasHeroOnPoint(p);
+        if (hi)
+            hi->addHealth(1);
+    }
+}
+
+
 
 HsGuiShou::HsGuiShou()
     : AttackBuffSkill(AttackBuffEffect::AttackBuffAddDamage, 0, 0x3F, 0, 0) {
@@ -296,7 +312,7 @@ void HsGuiShou::skillClicked(SkillPara sp) {
 
 
 HsQianXing::HsQianXing()
-    : AttackBuffSkill(AttackBuffEffect::AttackBuffAddDamage, 1, 0x3F, 2, 2) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffAddDamage, 1, 0x3F, 0, 2) {
     setObjectName("QianXing");
 }
 
@@ -314,7 +330,7 @@ void HsQianXing::skillClicked(SkillPara sp) {
 }
 
 HsLengXue::HsLengXue()
-    : AttackBuffSkill(AttackBuffEffect::AttackBuffMustHit, 0, 0x3F, 2, 2) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffMustHit, 0, 0x3F, 0, 2) {
     setObjectName("LengXue");
 }
 
@@ -322,7 +338,7 @@ void HsLengXue::skillAct(SkillPara sp) {
     HeroItem* fr = static_cast<HeroItem*>(sp.from);
     HeroItem* to = static_cast<HeroItem*>(sp.from);
     to->addHealth(- fr->aa->attack(),
-                  SufferType::Magic);  // change to suffer magic
+                  DamageType::Magical);  // change to suffer magic
 }
 
 void HsLengXue::skillClicked(SkillPara sp) {
@@ -332,7 +348,7 @@ void HsLengXue::skillClicked(SkillPara sp) {
 }
 
 HsBaoNu::HsBaoNu()
-    : AttackBuffSkill(AttackBuffEffect::AttackBuffMoreAttack, 2, 0x3F, 2, 2) {
+    : AttackBuffSkill(AttackBuffEffect::AttackBuffMoreAttack, 2, 0x3F, 0, 2) {
     setObjectName("BaoNu");
 }
 

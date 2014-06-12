@@ -511,13 +511,21 @@ GameMenuType EventCenter::askForNewEvent() {
             }
             break;
         case GameMenuType::SkillTest:
-            scene->showSkillRange(curHero, MapRangeType::RangeTypeStraight, 5);
+            scene->showSkillRange(curHero, MapRangeType::Straight, 5);
             heroSkillTest(askForSelectPoint());
             break;
         case GameMenuType::Cancel:
             break;
         case GameMenuType::EndTurn:
             break;
+        case GameMenuType::CardSkill: {
+            SkillPara sp(this, QVariant(), curHero, NULL);
+            curSkill->skillPrepare(sp);
+            curSkill->skillFlow(sp);
+            listHeroInfo(curHero);
+            scene->clearRange();
+            break;
+        }
         default:
             break;
         }
@@ -669,14 +677,13 @@ void EventCenter::chosenCard(QList<int> l) {
         release();
         return;
     } else if (l.size() == 1) {
-        SkillBase* sk = ic->card(l[0])->skill();
-        if (sk == 0)
+        curSkill = ic->card(l[0])->skill();
+        if (curSkill == 0)
             return;
-        SkillPara sp(this, QVariant(), curHero, NULL);
-        sk->skillPrepare(sp);
-        sk->skillFlow(sp);
+
         curHero->removeCard(l[0]);
-        listHeroInfo(curHero);
+        resultsGMT = GameMenuType::CardSkill;
+        release();
     }
 }
 
@@ -926,6 +933,10 @@ QList<QPoint> EventCenter::getPointInRange(QPoint o,
                               MapRangeType t,
                               int range) {
     return ic->listSpecialRange(o, t, range);
+}
+
+GameMapElement* EventCenter::gmeOnPoint(QPoint p) {
+    return ic->getMapElementByPoint(p);
 }
 
 HeroItem* EventCenter::hasHeroOnPoint(QPoint p) {

@@ -50,9 +50,9 @@ enum class TriggerTime {
 };
 
 enum class MapRangeType {
-    RangeTypeStraight,
-    RangeTypeDoubleLine,
-    RangeTypeRound
+    Straight,
+    DoubleLine,
+    Round
 };
 
 
@@ -210,18 +210,14 @@ enum class EquipmentType {
     EquipShoe
 };
 
-enum class SufferType {
-    Physical,
-    Magic
-};
-
 enum class GameMenuType {
     Move,
     Attack,
     Skill,
     Cancel,
     EndTurn,
-    SkillTest
+    SkillTest,
+    CardSkill
 };
 
 enum class AskType {

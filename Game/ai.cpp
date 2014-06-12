@@ -33,7 +33,7 @@ void AI::dothings(AskType at) {
 HeroItem* AI::findAttackTarget() {
     int nearest = 0;
     int distance = 500;
-    for (int i = 1; i < enemyHeros.size(); i++) {
+    for (int i = 0; i < enemyHeros.size(); i++) {
         int d = GameCoordinate::roughDistance(enemyHeros[i]->point(),
                               AiHero->point());
         if (d < distance) {
@@ -131,7 +131,7 @@ void AI::run() {
         } catch (QString e) {
             qDebug() << e;
         }
-        qDebug() << "AI finished an event";
+        qDebug() << "AI finished an event\n";
     }
 }
 

@@ -4,6 +4,7 @@
 #include "carditem.h"
 #include "layoutscene.h"
 #include "heroitem.h"
+#include "skillcenter.h"
 
 ChooseMenu::ChooseMenu(QWidget* parent)
     : QDialog(parent) {
@@ -279,9 +280,17 @@ void GameMenu::skillClicked(int n) {
 
 void GameMenu::setSkillTip(int n) {
     if (skills.size() == 0) {
+        ss->getSkill(n)->setOpacity(1.0);   // no skill done by me.
         return;
     }
-    ss->getSkill(n)->setToolTip(QString("%1/%2").arg(skills[n]->cdNow()).arg(skills[n]->cdMax()));
+    SkillBase* sk = skills[n];
+    ss->getSkill(n)->setToolTip(QString("%1/%2").arg(sk->cdNow()).arg(sk->cdMax()));
+
+    // 2 benefits:
+    // (1) not divede by 0
+    // (2) not completely transparent
+    ss->getSkill(n)->setOpacity(qreal(sk->cdNow() + 0.5) /
+                                qreal(sk->cdMax() + 0.5));
 }
 
 void GameMenu::setSkillTips() {

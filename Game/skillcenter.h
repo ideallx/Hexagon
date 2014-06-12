@@ -33,8 +33,8 @@ class SkillBase : public QObject {
 
  public:
     SkillBase(int cdf = 0, int cdmaxf = 0, DamageType dt = DamageType::Physical)
-        : cooldown(cdf),
-          cooldownMax(cdmaxf),
+        : cooldown(cdf),        // default is 0, when cooldown == cooldownMax, skill is available
+          cooldownMax(cdmaxf),  //
           dt(dt) {;}
     virtual void skillPrepare(SkillPara sp) = 0;
     virtual void skillFlow(SkillPara sp) = 0;
@@ -96,7 +96,7 @@ class RangeSkill : public SkillBase {
 
 class SufferSkill : public SkillBase {
  public:
-    SufferSkill(SufferType t, int floor,
+    SufferSkill(DamageType t, int floor,
                 int cd = 0, int cdmax = 0);
 };
 

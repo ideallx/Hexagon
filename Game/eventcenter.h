@@ -37,6 +37,7 @@ class EventCenter : public QObject {
     bool askForUseCard(HeroItem* hi, CardNormalPackageType t);
     bool askForNCard(HeroItem* hi, int n);
     QList<int> discardCard(HeroItem* hi, int num);
+    QPoint askForSelectPoint();
     void showSkillRange(QGraphicsItem* from, MapRangeType,
                         int range);
     void showSkillRange(QList<QPoint> lp);
@@ -46,6 +47,7 @@ class EventCenter : public QObject {
                                   MapRangeType,
                                   int range);
     HeroItem* hasHeroOnPoint(QPoint p);
+    GameMapElement* gmeOnPoint(QPoint p);
     QList<HeroItem*> getHerosOfCamp(Camp c);
     static QList<int> rollTheDice(int n);
     void setCurHero(HeroItem* hi);
@@ -77,7 +79,6 @@ class EventCenter : public QObject {
 
     void chosenMenu(GameMenuType gmt);
     bool isThisRoundComplete();
-    QPoint askForSelectPoint();
     GameMenuType askForNewEvent();
     void process();
 

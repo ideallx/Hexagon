@@ -120,7 +120,7 @@ QList<SkillBase*> HeroItem::hasSkillTriggerAt(TriggerTime time) {
     return result;
 }
 
-void HeroItem::addHealth(int n, SufferType st) {
+void HeroItem::addHealth(int n, DamageType st) {
     //TODO magic
     Q_UNUSED(st);
     theHealth += n;
@@ -156,8 +156,8 @@ void HeroItem::endRoundSettle() {
 
 void HeroItem::reduceAllSkillCooldown() {
     foreach(SkillBase* sb, heroSkills) {
-        if (sb->cdNow() != 0) {
-            sb->addCoolDown(-1);
+        if (sb->cdNow() != sb->cdMax()) {
+            sb->addCoolDown(1);
         }
     }
 }

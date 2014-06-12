@@ -95,7 +95,11 @@ class CsKuangBao : public AttackBuffSkill {
 class CsZheYue : public RangeSkill {
  public:
     CsZheYue();
+    void skillRange(SkillPara sp);
     void skillAct(SkillPara sp);
+
+private:
+   QGraphicsItem* to;
 };
 
 class CsShengMingLiZan : public RangeSkill {
@@ -109,6 +113,9 @@ class CsChuanSong : public RangeSkill {
     CsChuanSong();
     void skillRange(SkillPara sp);
     void skillAct(SkillPara sp);
+
+ private:
+    QGraphicsItem* to;
 };
 
 class CsNengLiangXianJing : public MapMarkSkill {

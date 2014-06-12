@@ -33,7 +33,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline Sexual sexual() const { return theSexual; }
 
     inline int health() const { return theHealth; }
-    void addHealth(int n, SufferType st = SufferType::Physical);
+    void addHealth(int n, DamageType st = DamageType::Physical);
     inline int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
     void ambulance(bool get = true);
@@ -91,7 +91,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void endRoundSettle();
     void reduceAllSkillCooldown();
     void reduceAllStatesCooldown();
-    static int beginTurnGetCards() { return 2; }
+    static int beginTurnGetCards() { return 5; }
     static int endTurnMaxCards() { return 3; }
 
     QRectF boundingRect() const;
