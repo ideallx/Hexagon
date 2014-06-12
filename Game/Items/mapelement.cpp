@@ -33,8 +33,8 @@ GameMapElement::GameMapElement(int lineLength,
                                QPoint point,
                                QString path)
     : elementType(elementType),
-      lineLength(lineLength),
       halfSqrt3(sqrt(3) / 2),
+      lineLength(lineLength),
       path(path),
       thePoint(point),
       moveAvailable(true) {

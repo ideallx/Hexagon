@@ -302,6 +302,8 @@ HsQianXing::HsQianXing()
 
 void HsQianXing::skillAct(SkillPara sp) {
     Q_UNUSED(sp);
+    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    hi->addState(HeroState::PhysicalImmune, 1);
     // get physical immune
 }
 
@@ -319,7 +321,8 @@ HsLengXue::HsLengXue()
 void HsLengXue::skillAct(SkillPara sp) {
     HeroItem* fr = static_cast<HeroItem*>(sp.from);
     HeroItem* to = static_cast<HeroItem*>(sp.from);
-    to->addHealth(- fr->aa->attack());  // change to suffer magic
+    to->addHealth(- fr->aa->attack(),
+                  SufferType::Magic);  // change to suffer magic
 }
 
 void HsLengXue::skillClicked(SkillPara sp) {
@@ -338,7 +341,7 @@ void HsBaoNu::skillAct(SkillPara sp) {
 }
 
 void HsBaoNu::skillClicked(SkillPara sp) {
-    HeroItem* hi = static_cast<HeroItem*>(sp.from);
+    HeroItem* hi = static_cast<HeroItem*> (sp.from);
     hi->aa->addBouns(buffEffect());
     this->addCoolDown(this->cdMax());
 }

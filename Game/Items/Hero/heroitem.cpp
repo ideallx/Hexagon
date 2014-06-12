@@ -120,7 +120,9 @@ QList<SkillBase*> HeroItem::hasSkillTriggerAt(TriggerTime time) {
     return result;
 }
 
-void HeroItem::addHealth(int n) {
+void HeroItem::addHealth(int n, SufferType st) {
+    //TODO magic
+    Q_UNUSED(st);
     theHealth += n;
     if (theHealth > theMaxHealth) {
         theHealth = theMaxHealth;
@@ -210,6 +212,7 @@ void HeroItem::addState(HeroState state, int lastTime) {
     states.first = state;
     states.second = lastTime;
     heroStates.append(states);
+    // TODO add some prompt
 }
 
 void HeroItem::useMoney(QList<int> money) {

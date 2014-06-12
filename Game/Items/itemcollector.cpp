@@ -226,7 +226,7 @@ QList<QPoint> ItemCollector::listRange(HeroItem* hero, RangeMode t) {
 
     if (type == RangeMode::ModeMove)
         return recursionSeries(&set, hero->point(), hero->ma->moveRange());
-    else if (type == RangeMode::ModeAttack)
+    else if (type == RangeMode::ModeAttack) // TODO physical immune
         return recursionSeries(&set, hero->point(), hero->aa->attackRange());
     return set;
 }

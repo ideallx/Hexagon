@@ -52,7 +52,7 @@ AttackBuff AttackBuffSkill::buffEffect() {
 }
 
 TriggerTime AttackBuffSkill::triggerTime() const {
-    return TriggerTime::TriggerAttackBegin;
+    return TriggerTime::AttackBegin;
 }
 
 RangeSkill::RangeSkill(MapRangeType t, int range,

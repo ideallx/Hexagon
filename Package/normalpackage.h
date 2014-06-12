@@ -19,6 +19,7 @@ class AbstractPackage {
     AbstractCardPackage* getAcp() { return acp; }
     AbstractEquipmentPackage * getAep() { return aep;}
     AbstractHeroPacakage* getAhp() { return ahp; }
+
  private:
     AbstractCardPackage* acp;
     AbstractEquipmentPackage *aep;
@@ -65,7 +66,7 @@ class EquipmentPackageNormal : public AbstractEquipmentPackage {
 
 class NoSkill : public SkillBase {
     void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
-    TriggerTime triggerTime() { return TriggerTime::TriggerNever; }
+    TriggerTime triggerTime() { return TriggerTime::Never; }
     bool isWorkNow() { return false; }
 };
 

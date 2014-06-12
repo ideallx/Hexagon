@@ -60,6 +60,9 @@ class EventCenter : public QObject {
     void release();
     void run();
 
+    void checkDying(HeroItem *hi);
+    void askForAll(HeroItem* hi, TriggerTime tt);
+
  private:
     typedef void (EventCenter::* Callback)(bool);
     void setupConnection();

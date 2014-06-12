@@ -83,7 +83,7 @@ class RangeSkill : public SkillBase {
 
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp);
-    TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
+    TriggerTime triggerTime() const { return TriggerTime::InAction; }
     virtual bool isWorkNow() { return true; }
 
     virtual void skillAct(SkillPara sp) { Q_UNUSED(sp);}
@@ -107,7 +107,7 @@ class CsMoney : public SkillBase {
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp) { Q_UNUSED(sp);}
     bool isWorkNow() { return false; }
-    TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
+    TriggerTime triggerTime() const { return TriggerTime::InAction; }
 
  private:
     int coin;
@@ -119,7 +119,7 @@ class MapMarkSkill : public SkillBase {
 
     void skillPrepare(SkillPara sp);
     void skillFlow(SkillPara sp);
-    TriggerTime triggerTime() const { return TriggerTime::TriggerInAction; }
+    TriggerTime triggerTime() const { return TriggerTime::InAction; }
     virtual bool isWorkNow() { return true; }
 
     virtual void skillAct(SkillPara sp);

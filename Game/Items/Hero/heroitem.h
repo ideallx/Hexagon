@@ -33,7 +33,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline Sexual sexual() const { return theSexual; }
 
     inline int health() const { return theHealth; }
-    void addHealth(int n);
+    void addHealth(int n, SufferType st = SufferType::Physical);
     inline int maxHealth() const { return theMaxHealth; }
     void setHealth(int h) { theHealth = h; }
     void ambulance(bool get = true);
@@ -80,7 +80,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     inline int money() { return theMoney; }
     inline QList<int> moneyLists() { return moneyList; }
     inline void addMoney(int mo) { theMoney += mo; moneyList.append(mo);}
-    inline void cleanMoney(int mo) { theMoney = 0; moneyList.clear(); }
+    inline void cleanMoney() { theMoney = 0; moneyList.clear(); }
     void useMoney(QList<int> money);
 
     inline void setAI(AI* a) { ai = a; }

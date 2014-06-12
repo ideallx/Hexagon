@@ -239,6 +239,7 @@ void GameMenu::on_buttonCancel_clicked() {
 void GameMenu::beginTurnReset() {
     resetMenuEnable();
     cs->setChosenCardNumber(1);
+    cs->listCards();
 }
 
 void GameMenu::chosenCardNumChanged(int n) {

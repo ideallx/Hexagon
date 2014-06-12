@@ -52,13 +52,14 @@ class GameMapElement : public QObject, public QGraphicsPolygonItem {
     void variableInitial();
 
     QPen oldPen;
+
+    AreaHexagon elementType;
+    double halfSqrt3;
+    int lineLength;
     QString path;
     QPoint thePoint;
-    int lineLength;
-    double halfSqrt3;
-
     bool moveAvailable;
-    AreaHexagon elementType;
+
     QString elementName;
     QPolygonF hexagon;
 

@@ -31,21 +31,22 @@ enum class DeathStatus {
 };
 
 enum class TriggerTime {
-    TriggerNever,
-    TriggerGameBegin,
-    TriggerRoundBegin,
-    TriggerTurnBegin,
-    TriggerMoveBegin,
-    TriggerMoveEnd,
-    TriggerAttackBegin,
-    TriggerAttackHit,
-    TriggerAttackEnd,
-    TriggerOtherSkillBegin,
-    TriggerOtherSkillEnd,
-    TriggerTurnEnd,
-    TriggerRoundEnd,
-    TriggerGameEnd,
-    TriggerInAction
+    Never,
+    GameBegin,
+    RoundBegin,
+    TurnBegin,
+    MoveBegin,
+    MoveEnd,
+    AttackBegin,
+    AttackHit,
+    AttackEnd,
+    OtherSkillBegin,
+    OtherSkillEnd,
+    OnDying,
+    TurnEnd,
+    RoundEnd,
+    GameEnd,
+    InAction
 };
 
 enum class MapRangeType {
@@ -140,6 +141,10 @@ class AttackBuff {
     int duration;
 };
 
+enum class MapMardNormalPackageType {
+
+};
+
 enum class CardNormalPackageType {
     None,
     Any,
@@ -186,10 +191,10 @@ enum class EquipNormalPackageId {
 };
 
 enum class HeroState {
-    HeroStatePhysicalImmune,
-    HeroStateSilence,
-    HeroStateStunned,
-    HeroStateUnmoveable
+    PhysicalImmune,
+    Silence,
+    Stunned,
+    Unmoveable
 };
 
 enum class SkillType {
@@ -206,8 +211,8 @@ enum class EquipmentType {
 };
 
 enum class SufferType {
-    SufferPhysical,
-    SufferMagic
+    Physical,
+    Magic
 };
 
 enum class GameMenuType {

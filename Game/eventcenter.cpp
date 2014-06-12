@@ -58,8 +58,8 @@ void EventCenter::setupConnection() {
             this, &EventCenter::heroUseSkill);
 //    connect(menu, &GameMenu::cancelClicked,
 //            scene, &BackScene::clearRange);
-    connect(this, &EventCenter::changeHeroInfo,
-            menu, &GameMenu::setHeroInfo);
+//    connect(this, &EventCenter::changeHeroInfo,
+//            menu, &GameMenu::setHeroInfo);
 
     connect(this, &EventCenter::releaseLock,
             loop, &QEventLoop::quit);
@@ -289,9 +289,9 @@ void EventCenter::turnBegin() {
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
 
     getCard(HeroItem::beginTurnGetCards());
-    setCurHero(curHero);
     curHero->beginTurnSettle();
     menu->beginTurnReset();
+    setCurHero(curHero);
     emit roundInfoChanged(buildRoundInfo());
 }
 
@@ -308,6 +308,7 @@ void EventCenter::turnEnd() {
                 throw QString("Turn End Discard Error");
         }
     }
+    Q_ASSERT(curHero->cards().size() <= 3);
 
     if (curHero->getAI() != NULL)
         waitForTime(1000);
@@ -383,7 +384,7 @@ void EventCenter::heroAttackPoint(QPoint in) {
     scene->clearRange();
     targetHero = ic->getHeroByPoint(in);
 
-    runSkills(TriggerTime::TriggerAttackBegin, curHero, targetHero);
+    runSkills(TriggerTime::AttackBegin, curHero, targetHero);
     int hitRate = curHero->aa->mustHitRate();
     bool isHit = heroDodge(hitRate);
 
@@ -395,10 +396,9 @@ void EventCenter::heroAttackPoint(QPoint in) {
     }
 
     // if hit
-    runSkills(TriggerTime::TriggerAttackHit, curHero, targetHero);
-    runSkills(TriggerTime::TriggerAttackEnd, curHero, targetHero);
-
+    runSkills(TriggerTime::AttackHit, curHero, targetHero);
     attackAnimate(curHero, targetHero);
+    runSkills(TriggerTime::AttackEnd, curHero, targetHero);
     attackCalc(curHero, targetHero);
     curHero->aa->removeAttackBouns();
     listHeroInfo(curHero);
@@ -474,6 +474,14 @@ void EventCenter::heroSkillTest(QPoint in) {
 // 3 SINGLE PROCESS END
 
 // 4 PLAYER EVENT START
+void EventCenter::askForAll(HeroItem* hi, TriggerTime tt) {
+    foreach (HeroItem *others, heroSeq) {
+//        if (others->type() == hi->type())
+//            continue;
+        runSkills(tt, others, hi);
+    }
+}
+
 GameMenuType EventCenter::askForNewEvent() {
     qDebug() << "Wait For New Event";
     AI* ai = curHero->getAI();
@@ -530,8 +538,7 @@ bool EventCenter::askForUseCard(HeroItem* hi,
 
     AI* ai = hi->getAI();
     if (ai == NULL) {
-        menu->setHeroInfo(hi);
-        showCards(hi);
+        listHeroInfo(hi);
         acquire(AskType::AskForCards);
     } else {
         acquireAI(ai, AskType::AskForCards);
@@ -614,8 +621,7 @@ void EventCenter::release() {
  */
 void EventCenter::chosenHero(HeroItem* hero) {
     if (askType != AskType::AskForPoint) {
-        menu->setHeroInfo(hero);
-        showCards(hero);
+        listHeroInfo(hero);
         return;
     }
 }
@@ -670,8 +676,7 @@ void EventCenter::chosenCard(QList<int> l) {
         sk->skillPrepare(sp);
         sk->skillFlow(sp);
         curHero->removeCard(l[0]);
-        showCards(curHero);
-        menu->setHeroInfo(curHero);
+        listHeroInfo(curHero);
     }
 }
 
@@ -734,9 +739,10 @@ void EventCenter::getCard(int num) {
 }
 
 void EventCenter::listHeroInfo(HeroItem* hi) {
-    emit changeHeroInfo(hi);
+    // emit changeHeroInfo(hi);
     scene->views()[0]->centerOn(hi);
     showCards(hi);
+    menu->setHeroInfo(hi);
 }
 
 void EventCenter::moveAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
@@ -794,7 +800,7 @@ void EventCenter::attackAnimate(HeroItem* srcItem, HeroItem* targetItem) {
 }
 
 void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
-    QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerTime::TriggerAttackBegin);
+    QList<SkillBase*> l = from->hasSkillTriggerAt(TriggerTime::AttackBegin);
     to->addHealth(- from->aa->attack());
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
@@ -809,6 +815,7 @@ void EventCenter::attackCalc(HeroItem *from, HeroItem *to) {
             }
         }
     }
+    checkDying(targetHero);
 }
 
 void EventCenter::skillAnimate(HeroItem* srcItem, GameMapElement* targetItem) {
@@ -846,8 +853,6 @@ void EventCenter::setHeroPosition(HeroItem* hi, QPoint pos) {
     hi->setPoint(pos);
     hi->setPos(ic->getBeginPosOfHero(pos));
 }
-
-
 
 QList<int> EventCenter::discardCard(HeroItem* hi, int num) {
     QList<int> cards = hi->cards();
@@ -973,7 +978,6 @@ void EventCenter::runSkills(TriggerTime tt,
     if (l.size() != 0) {
         for (int i = 0; i < l.size(); i++) {
             SkillPara sp(this, QVariant(), from, to);
-
             l[i]->skillFlow(sp);
         }
     }
@@ -1000,3 +1004,11 @@ void EventCenter::showCards(HeroItem* hero) {
 //    }
     menu->updateCardsArea(ic->cardList(hero->cards()));
 }
+
+void EventCenter::checkDying(HeroItem* hi) {
+    if (DeathStatus::Dying == hi->heroAliveState()) {
+        qDebug() << "Hero " << hi->heroName() << " is dying";
+        askForAll(hi, TriggerTime::OnDying);
+    }
+}
+
