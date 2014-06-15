@@ -14,7 +14,7 @@ TARGET = vv
 TEMPLATE = app
 
 
-SOURCES  += main.cpp \
+SOURCES  += \
     Game/gameprocess.cpp \
     Game/eventcenter.cpp \
     Game/skillcenter.cpp \
@@ -40,7 +40,9 @@ SOURCES  += main.cpp \
     Game/Items/equipment.cpp \
     Game/Items/Hero/attackability.cpp \
     Game/Items/Hero/moveability.cpp \
-    Game/ai.cpp
+    Game/ai.cpp \
+    forms/dialogskillchosen.cpp \
+    main.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -71,7 +73,8 @@ HEADERS  += \
     Game/Items/equipment.h \
     Game/Items/Hero/attackability.h \
     Game/Items/Hero/moveability.h \
-    Game/ai.h
+    Game/ai.h \
+    forms/dialogskillchosen.h
 
 INCLUDEPATH += include
 INCLUDEPATH += .
@@ -85,13 +88,10 @@ INCLUDEPATH += Package
 
 FORMS    += forms/modechoose.ui \
     forms/mainwindow.ui \
-    forms/gameSetting.ui \
     forms/front.ui \
     forms/enviroSettings.ui \
-    forms/chooseHero.ui \
     forms/chooseGame.ui \
-    forms/chooseBirth.ui \
-    equipmentshop.ui
+    forms/dialogskillchosen.ui
 
 TRANSLATIONS = lang__zhCN.ts
 

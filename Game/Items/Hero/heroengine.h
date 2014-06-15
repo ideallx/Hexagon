@@ -13,12 +13,14 @@
 
 class GameBackInfo;
 class HeroItem;
+class SkillBase;
 
 class AbstractHeroPacakage : public QObject {
  public:
     virtual int heroNumInPackage() = 0;
     virtual HeroPackage heroPackageIndicator() = 0;
     virtual HeroInfo getHeroInfo(int n) = 0;
+    virtual QList<SkillBase*> getSkillByHeroNum(int i) = 0;
 };
 
 

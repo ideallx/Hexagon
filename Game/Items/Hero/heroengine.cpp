@@ -6,9 +6,9 @@
 
 HeroFactory::HeroFactory(GameBackInfo* gbi)
     : scene(NULL),
-    innerDir(gbi->getConfigDir() + "heros/"),
-    lineLength(gbi->getLineLength()),
-    heroAmount(0) {
+      innerDir(gbi->getConfigDir() + "heros/"),
+      lineLength(gbi->getLineLength()),
+      heroAmount(0) {
 }
 
 HeroItem* HeroFactory::createHero(ExternInfo ei) {
@@ -29,6 +29,7 @@ HeroItem* HeroFactory::createHero(ExternInfo ei) {
     item->setHeroName(getHeroInfoByNum(ei.h).heroName);
     item->setPoint(ei.p);
     item->setCamp(ei.c);
+    item->addHeroSkills(hpl[0]->getSkillByHeroNum(static_cast<int>(ei.h)));
     return item;
 }
 

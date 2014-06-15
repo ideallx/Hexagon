@@ -212,8 +212,26 @@ HeroPackageNormal::HeroPackageNormal() {
     hil.append(ss);
     hil.append(zlzj);
     hil.append(hwz);
+
+    addSkills(HeroNum::AnYingZhiRen,
+              new HsGuiShou,
+              new HsQianXing,
+              new HsLengXue);
 }
 
+void HeroPackageNormal::addSkills(HeroNum hn, SkillBase* s1, SkillBase* s2, SkillBase* s3) {
+    skillHash.insert(static_cast<int>(hn) * 3, s1);
+    skillHash.insert(static_cast<int>(hn) * 3 + 1, s2);
+    skillHash.insert(static_cast<int>(hn) * 3 + 2, s3);
+}
+
+QList<SkillBase*> HeroPackageNormal::getSkillByHeroNum(int i) {
+    QList<SkillBase*> result;
+    result.append(skillHash[3 * i]);
+    result.append(skillHash[3 * i + 1]);
+    result.append(skillHash[3 * i + 2]);
+    return result;
+}
 
 
 CsKuangBao::CsKuangBao()
@@ -256,6 +274,7 @@ CsChuanSong::CsChuanSong()
 void CsChuanSong::skillAct(SkillPara sp) {
     HeroItem* hi = static_cast<HeroItem*>(sp.from);
     sp.ec->setHeroPosition(hi, static_cast<GameMapElement*>(to)->point());
+    // hi->removeCard()
 }
 
 void CsChuanSong::skillRange(SkillPara sp) {

@@ -14,6 +14,7 @@
 #include "ai.h"
 #include "normalpackage.h"
 #include "backinfo.h"
+#include "forms/dialogskillchosen.h"
 
 #define GIVEN_CONDITION
 
@@ -202,11 +203,9 @@ void EventCenter::run() {
 
 void EventCenter::gameBegin() {
     heroSeq = ic->getActSequence();
+    chooseSkillFor(heroSeq[0]);
 #ifdef GIVEN_CONDITION
     curHero = heroSeq[0];
-    curHero->addHeroSkill(new HsGuiShou());
-    curHero->addHeroSkill(new HsQianXing());
-    curHero->addHeroSkill(new HsLengXue());
     setHeroPosition(curHero, QPoint(0, 12));
 
     curHero = heroSeq[1];
@@ -303,6 +302,7 @@ void EventCenter::turnEnd() {
     if (curHero->cards().size() > curHero->endTurnMaxCards()) {
         askForNCard(curHero, curHero->cards().size() -
                     HeroItem::endTurnMaxCards());
+        qDebug() << "Discard " << resultsCard.size() << " cards";
         foreach (int hc, resultsCard) {
             if (!curHero->removeCard(hc))
                 throw QString("Turn End Discard Error");
@@ -1023,3 +1023,10 @@ void EventCenter::checkDying(HeroItem* hi) {
     }
 }
 
+void EventCenter::chooseSkillFor(HeroItem *hi) {
+    DialogSkillChosen *dsc = new DialogSkillChosen(
+                QString("%1heros/skill_icons/%2").arg(gbi->getConfigDir())
+                .arg(hi->heroName()));
+    hi->setSkillAvailable(dsc->exec());
+    // qDebug() << "skill chosen" << dsc->exec();
+}

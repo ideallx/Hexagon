@@ -14,7 +14,8 @@ HeroItem::HeroItem(int lineLength)
       lineLength(lineLength),
       theMoney(0),
       ai(NULL),
-      isAlive(DeathStatus::Alive) {
+      isAlive(DeathStatus::Alive),
+      skillAvailable(0) {
     setZValue(1.2);
     setFlags(ItemIsSelectable);
     setAcceptHoverEvents(true);
@@ -97,11 +98,6 @@ int HeroItem::removeCard(int cardId) {
 void HeroItem::addSkill(SkillBase* s) {
     if (!skills.contains(s))
         skills.append(s);
-}
-
-void HeroItem::addHeroSkill(SkillBase* s) {
-    if (!heroSkills.contains(s))
-        heroSkills.append(s);
 }
 
 void HeroItem::removeSkill(SkillBase* s) {
@@ -199,12 +195,22 @@ QList<int> HeroItem::skillCoolDown() {
     return result;
 }
 
+QList<SkillBase*> HeroItem::getSkills() {
+    QList<SkillBase*> result;
+    result.append(getHeroSkill(0));
+    result.append(getHeroSkill(1));
+    result.append(getHeroSkill(2));
+    return result;
+}
 
+// input is 0 1 2
 SkillBase* HeroItem::getHeroSkill(int n) {
-    if (n < 0 || n > 3)
+    if (n < 0 || n > 2)
         return NULL;
-    else
+    else if (skillAvailable & (1 << n))
         return heroSkills[n];
+    else
+        return NULL;
 }
 
 void HeroItem::addState(HeroState state, int lastTime) {

@@ -65,6 +65,8 @@ class EventCenter : public QObject {
     void checkDying(HeroItem *hi);
     void askForAll(HeroItem* hi, TriggerTime tt);
 
+    void chooseSkillFor(HeroItem* hi);
+
  private:
     typedef void (EventCenter::* Callback)(bool);
     void setupConnection();

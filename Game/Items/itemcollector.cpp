@@ -234,6 +234,7 @@ QList<QPoint> ItemCollector::listRange(HeroItem* hero, RangeMode t) {
 QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
                                               MapRangeType t,
                                               int range) {
+    qDebug() << "find point arount " << o;
     QList<QPoint> set;
     if (t == MapRangeType::Round) {
         return recursionSeries(&set, o, range);

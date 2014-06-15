@@ -268,7 +268,7 @@ void GameMenu::setHeroSkillCoolDown(QList<SkillBase*> in) {
 }
 
 void GameMenu::skillClicked(int n) {
-    if (skills.size() == 0) {
+    if (skills.size() == 0 || skills[n] == NULL) {
         return;
     }
     if (skills[n]->cdNow() != 0) {
@@ -284,6 +284,9 @@ void GameMenu::setSkillTip(int n) {
         return;
     }
     SkillBase* sk = skills[n];
+    if (NULL == sk) {
+        return; //TODO no skill
+    }
     ss->getSkill(n)->setToolTip(QString("%1/%2").arg(sk->cdNow()).arg(sk->cdMax()));
 
     // 2 benefits:

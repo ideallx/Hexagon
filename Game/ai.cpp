@@ -154,6 +154,8 @@ void AI::thinkHowToReact() {
     case AskType::AskForCards:
         useCard();
         break;
+    case AskType::AskForAIReact:    // due to some error, keep the status
+        break;
     default:
         qDebug() << "Think Error" << static_cast<int>(askForWhat);
         break;

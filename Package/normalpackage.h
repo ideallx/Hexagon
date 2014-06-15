@@ -77,9 +77,12 @@ class HeroPackageNormal : public AbstractHeroPacakage {
     int heroNumInPackage() { return 20; }
     HeroPackage heroPackageIndicator() { return HeroPackage::HeroPackage_Normal; }
     HeroInfo getHeroInfo(int n) { return hil[n]; }
+    void addSkills(HeroNum hn, SkillBase* s1, SkillBase* s2, SkillBase* s3);
+    QList<SkillBase*> getSkillByHeroNum(int i);
 
  private:
     QList<HeroInfo> hil;
+    QHash<int, SkillBase*>skillHash;
 };
 
 

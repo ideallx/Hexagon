@@ -42,6 +42,7 @@ class SkillBase : public QObject {
     virtual bool isWorkNow() = 0;
     virtual int cdMax() { return cooldownMax; }
     virtual int cdNow() { return cooldown; }
+    // virtual int id();           // may be card ID or hero ID
     void addCoolDown(int n);
     virtual SkillType type() { return SkillType::SkillActive; }
     inline DamageType damType() { return dt; }

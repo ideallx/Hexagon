@@ -22,7 +22,6 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
  public:
     explicit HeroItem(int lineLength);
 
-
     // InnerInfo
     void setHeroProperty(Sexual s, int ar, int m, int h);
     void setHeroProperty(HeroInfo);
@@ -48,11 +47,12 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
 
     QList<int> skillCoolDown();
     void addSkill(SkillBase* s);
-    void addHeroSkill(SkillBase* s);
+    void addHeroSkills(QList<SkillBase*> sl) { heroSkills = sl; }
     void removeSkill(SkillBase* s);
     QList<SkillBase*> hasSkillTriggerAt(TriggerTime);
     SkillBase* getHeroSkill(int n);
-    inline QList<SkillBase*> getSkills() { return heroSkills; }
+    QList<SkillBase*> getSkills();
+    void setSkillAvailable(int sa) {skillAvailable = sa; }
 
     inline QPoint point() const { return thePoint;}
     inline void setPoint(QPoint p) { thePoint = p; }
@@ -91,7 +91,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void endRoundSettle();
     void reduceAllSkillCooldown();
     void reduceAllStatesCooldown();
-    static int beginTurnGetCards() { return 5; }
+    static int beginTurnGetCards() { return 2; }
     static int endTurnMaxCards() { return 3; }
 
     QRectF boundingRect() const;
@@ -127,6 +127,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     int theMoney;
     AI* ai;
     DeathStatus isAlive;
+    int skillAvailable;
 
  signals:
     void mouseClicked(QGraphicsSceneMouseEvent *event);
