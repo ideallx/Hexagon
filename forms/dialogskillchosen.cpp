@@ -12,7 +12,6 @@ DialogSkillChosen::DialogSkillChosen(QString path, QWidget *parent) :
     ui->label->setPixmap(QString("%1S1.jpg").arg(path));
     ui->label_2->setPixmap(QString("%1S2.jpg").arg(path));
     ui->label_3->setPixmap(QString("%1S3.jpg").arg(path));
-    qDebug() << QString("%1S1.jpg");
 }
 
 DialogSkillChosen::~DialogSkillChosen()

@@ -271,7 +271,7 @@ void GameMenu::skillClicked(int n) {
     if (skills.size() == 0 || skills[n] == NULL) {
         return;
     }
-    if (skills[n]->cdNow() != 0) {
+    if (skills[n]->cdNow() != skills[n]->cdMax()) {
         setPrompt("Waiting For CoolDown: " + skills[n]->objectName());
     } else {
         emit skillUsed(n);

@@ -99,10 +99,16 @@ SkillScene::~SkillScene() {
 }
 
 
-void SkillScene::setHeroSkillButton(QList<QPixmap>in) {
-    skill1->setBrush(in[0].scaledToHeight(80, Qt::SmoothTransformation));
-    skill2->setBrush(in[1].scaledToHeight(80, Qt::SmoothTransformation));
-    skill3->setBrush(in[2].scaledToHeight(80, Qt::SmoothTransformation));
+void SkillScene::setHeroSkillButton(QList<QPixmap> in) {
+    if (!in[0].isNull())
+        skill1->setBrush(in[0].scaledToHeight(80,
+                                              Qt::SmoothTransformation));
+    if (!in[1].isNull())
+        skill2->setBrush(in[1].scaledToHeight(80,
+                                              Qt::SmoothTransformation));
+    if (!in[2].isNull())
+        skill3->setBrush(in[2].scaledToHeight(80,
+                                              Qt::SmoothTransformation));
     skill1->setPen(Qt::NoPen);
     skill2->setPen(Qt::NoPen);
     skill3->setPen(Qt::NoPen);

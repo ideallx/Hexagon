@@ -163,7 +163,7 @@ HeroItem* ItemCollector::getHeroByPoint(QPoint point) {
 }
 
 bool ItemCollector::listAddJudge(QList<QPoint>* set, QPoint point) {
-    if (type == RangeMode::ModeMove) {
+    if (RangeMode::ModeMove == type) {
         if (isPointAvailable(point) && isPointMovable(point)) {
             if (getHeroByPoint(point))
                 return false;
@@ -171,7 +171,7 @@ bool ItemCollector::listAddJudge(QList<QPoint>* set, QPoint point) {
                 set->append(point);
             return true;
         }
-    } else if (type == RangeMode::ModeAttack) {
+    } else if (RangeMode::ModeAttack == type) {
         HeroItem* hi = getHeroByPoint(point);
         if (isPointAvailable(point) && hi) {
             if (hi->camp() == tempHero->camp())
@@ -180,6 +180,9 @@ bool ItemCollector::listAddJudge(QList<QPoint>* set, QPoint point) {
                 set->append(point);
             return true;
         }
+    } else if (RangeMode::ModeSkill == type) {
+        if (!set->contains(point))
+            set->append(point);
     }
     return false;
 }
@@ -235,6 +238,7 @@ QList<QPoint> ItemCollector::listSpecialRange(QPoint o,
                                               MapRangeType t,
                                               int range) {
     qDebug() << "find point arount " << o;
+    type = RangeMode::ModeSkill;
     QList<QPoint> set;
     if (t == MapRangeType::Round) {
         return recursionSeries(&set, o, range);

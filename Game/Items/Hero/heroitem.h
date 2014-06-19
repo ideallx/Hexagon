@@ -69,7 +69,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
     void setwholePic(QString path);
 
     void setSkillPics(QString path);
-    inline QList<QPixmap> skillButtons() { return theSkillButtons; }
+    QList<QPixmap> skillButtons();
 
 
     inline void setCards(QList<int> c) { theCards = c; }

@@ -83,6 +83,25 @@ void HeroItem::setSkillPics(QString path) {
     theSkillButtons.append(pic);
 }
 
+QList<QPixmap> HeroItem::skillButtons() {
+    QList<QPixmap> result;
+    if (skillAvailable & 0x01)
+        result.append(theSkillButtons[0]);
+    else
+        result.append(QPixmap("60, 60"));
+
+    if (skillAvailable & 0x02)
+        result.append(theSkillButtons[1]);
+    else
+        result.append(QPixmap("60, 60"));
+
+    if (skillAvailable & 0x04)
+        result.append(theSkillButtons[2]);
+    else
+        result.append(QPixmap("60, 60"));
+    return result;
+}
+
 void HeroItem::addCards(QList<int> c) {
     theCards += c;
 }
@@ -152,6 +171,8 @@ void HeroItem::endRoundSettle() {
 
 void HeroItem::reduceAllSkillCooldown() {
     foreach(SkillBase* sb, heroSkills) {
+        if (NULL == sb)
+            continue;
         if (sb->cdNow() != sb->cdMax()) {
             sb->addCoolDown(1);
         }
