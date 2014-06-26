@@ -42,7 +42,8 @@ SOURCES  += \
     Game/Items/Hero/moveability.cpp \
     Game/ai.cpp \
     forms/dialogskillchosen.cpp \
-    main.cpp
+    main.cpp \
+    forms/dialogherochosen.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -74,7 +75,8 @@ HEADERS  += \
     Game/Items/Hero/attackability.h \
     Game/Items/Hero/moveability.h \
     Game/ai.h \
-    forms/dialogskillchosen.h
+    forms/dialogskillchosen.h \
+    forms/dialogherochosen.h
 
 INCLUDEPATH += include
 INCLUDEPATH += .
@@ -91,7 +93,8 @@ FORMS    += forms/modechoose.ui \
     forms/front.ui \
     forms/enviroSettings.ui \
     forms/chooseGame.ui \
-    forms/dialogskillchosen.ui
+    forms/dialogskillchosen.ui \
+    forms/dialogherochosen.ui
 
 TRANSLATIONS = lang__zhCN.ts
 
