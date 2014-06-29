@@ -88,8 +88,11 @@
      </item>
      <item>
       <widget class="QProgressBar" name="heroHp">
+       <property name="maximum">
+        <number>10</number>
+       </property>
        <property name="value">
-        <number>24</number>
+        <number>10</number>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -220,9 +223,6 @@
   <zorder></zorder>
   <zorder></zorder>
   <zorder></zorder>
-  <zorder>items</zorder>
-  <zorder>buttonOK</zorder>
-  <zorder>buttonCancel</zorder>
  </widget>
  <customwidgets>
   <customwidget>

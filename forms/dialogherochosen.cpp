@@ -21,7 +21,7 @@ void DialogHeroChosen::importAllHeros(QList<HeroItem*> hl) {
 
 // eight contents of HeroNum
 #define showPix(n) ui->label##n->setPixmap(allHeros[shownHeros[n]]->wholePic()-> \
-    scaledToWidth(commonWidth));
+    scaledToWidth(commonWidth, Qt::SmoothTransformation));
 
 void DialogHeroChosen::importInitialList(QList<int> hn) {
     shownHeros = hn;

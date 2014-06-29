@@ -515,6 +515,7 @@ GameMenuType EventCenter::askForNewEvent() {
             heroSkillTest(askForSelectPoint());
             break;
         case GameMenuType::Cancel:
+            chosenCancel();
             break;
         case GameMenuType::EndTurn:
             break;
@@ -650,6 +651,12 @@ void EventCenter::chosenTarget(QPoint in) {
 
 
 void EventCenter::chosenMenu(GameMenuType gmt) {
+    if (GameMenuType::Cancel == gmt) {
+        askType = AskType::AskForNone;
+        chosenCancel();
+        return;
+    }
+
     if (askType != AskType::AskForNone) {
         return;
     }
@@ -688,6 +695,7 @@ void EventCenter::chosenCard(QList<int> l) {
 }
 
 void EventCenter::chosenCancel() {
+    mapClear();
     if (isAnimating)
         return;
     if (askType == AskType::AskForCards) {

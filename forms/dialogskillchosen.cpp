@@ -8,14 +8,14 @@ DialogSkillChosen::DialogSkillChosen(QString path, QWidget *parent) :
     ui(new Ui::DialogSkillChosen),
     chosenNum(0) {
     ui->setupUi(this);
-    int commonWidth = 100;
+    int commonWidth = 300;
     this->setWindowTitle("Choose Your Hero Skills");
     ui->label->setPixmap(QPixmap(QString("%1S1.jpg").arg(path))
-                         .scaledToWidth(commonWidth));
+                         .scaledToWidth(commonWidth, Qt::SmoothTransformation));
     ui->label_2->setPixmap(QPixmap(QString("%1S2.jpg").arg(path))
-                           .scaledToWidth(commonWidth));
+                           .scaledToWidth(commonWidth, Qt::SmoothTransformation));
     ui->label_3->setPixmap(QPixmap(QString("%1S3.jpg").arg(path))
-                           .scaledToWidth(commonWidth));
+                           .scaledToWidth(commonWidth, Qt::SmoothTransformation));
 }
 
 DialogSkillChosen::~DialogSkillChosen()
