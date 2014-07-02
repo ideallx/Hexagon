@@ -610,6 +610,14 @@ void EventCenter::loopExec() {
     if (gameTerminated) {
         throw QString(tr("Game Terminated"));
     }
+
+    if (GameMenuType::Cancel == resultsGMT) {
+        askType = AskType::AskForNone;
+        throw QString(tr("Current Action Cancaled"));
+    } else if (GameMenuType::EndTurn == resultsGMT) {
+        askType = AskType::AskForNone;
+        throw QString(tr("Current Turn Ended"));
+    }
 }
 
 void EventCenter::acquireAI(AI* ai, AskType at) {
@@ -701,9 +709,9 @@ void EventCenter::chosenCancel() {
     if (askType == AskType::AskForCards) {
         resultsCard.clear();
         qDebug() << "card cancel";
-        release();
-        return;
     }
+    release();
+    return;
 }
 
 void EventCenter::openShop() {

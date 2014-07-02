@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include "dialogskillchosen.h"
 #include "ui_dialogskillchosen.h"
+#include "picturelabel.h"
 
 DialogSkillChosen::DialogSkillChosen(QString path, QWidget *parent) :
     QDialog(parent),
@@ -10,12 +11,28 @@ DialogSkillChosen::DialogSkillChosen(QString path, QWidget *parent) :
     ui->setupUi(this);
     int commonWidth = 300;
     this->setWindowTitle("Choose Your Hero Skills");
-    ui->label->setPixmap(QPixmap(QString("%1S1.jpg").arg(path))
-                         .scaledToWidth(commonWidth, Qt::SmoothTransformation));
-    ui->label_2->setPixmap(QPixmap(QString("%1S2.jpg").arg(path))
-                           .scaledToWidth(commonWidth, Qt::SmoothTransformation));
-    ui->label_3->setPixmap(QPixmap(QString("%1S3.jpg").arg(path))
-                           .scaledToWidth(commonWidth, Qt::SmoothTransformation));
+
+    labels.append(ui->label);
+    labels.append(ui->label_2);
+    labels.append(ui->label_3);
+
+    checkboxs.append(ui->checkSkill1);
+    checkboxs.append(ui->checkSkill2);
+    checkboxs.append(ui->checkSkill3);
+
+    qsm = new QSignalMapper(this);
+    connect(qsm, SIGNAL(mapped(int)),
+            this, SLOT(labelClicked(int)));
+
+    for (int i = 0; i < 3; i++) {
+        labels[i]->setPixmap(QPixmap(QString("%1S%2.jpg").arg(path).arg(i + 1))
+                             .scaledToWidth(commonWidth,
+                                            Qt::SmoothTransformation));
+        connect(labels[i], SIGNAL(clicked()),
+                qsm, SLOT(map()));
+        qsm->setMapping(labels[i], i);
+    }
+
 }
 
 DialogSkillChosen::~DialogSkillChosen()
@@ -25,55 +42,24 @@ DialogSkillChosen::~DialogSkillChosen()
 
 void DialogSkillChosen::on_checkSkill1_clicked(bool checked)
 {
-    if (checked) {
-        chosenNum++;
-        if (ui->checkSkill2->isChecked())
-            ui->checkSkill3->setEnabled(false);
-        else if (ui->checkSkill3->isChecked())
-            ui->checkSkill2->setEnabled(false);
-    } else {
-        chosenNum--;
-        ui->checkSkill2->setEnabled(true);
-        ui->checkSkill3->setEnabled(true);
-    }
+    Q_UNUSED(checked);
+    checkCheckBoxes();
 }
 
 void DialogSkillChosen::on_checkSkill2_clicked(bool checked)
 {
-    if (checked) {
-        chosenNum++;
-        if (ui->checkSkill1->isChecked())
-            ui->checkSkill3->setEnabled(false);
-        else if (ui->checkSkill3->isChecked())
-            ui->checkSkill1->setEnabled(false);
-    } else {
-        chosenNum--;
-        ui->checkSkill1->setEnabled(true);
-        ui->checkSkill3->setEnabled(true);
-    }
+    Q_UNUSED(checked);
+    checkCheckBoxes();
 }
 
 void DialogSkillChosen::on_checkSkill3_clicked(bool checked)
 {
-    if (checked) {
-        chosenNum++;
-        if (ui->checkSkill1->isChecked())
-            ui->checkSkill2->setEnabled(false);
-        else if (ui->checkSkill2->isChecked())
-            ui->checkSkill1->setEnabled(false);
-    } else {
-        chosenNum--;
-        ui->checkSkill1->setEnabled(true);
-        ui->checkSkill2->setEnabled(true);
-    }
+    Q_UNUSED(checked);
+    checkCheckBoxes();
 }
 
 void DialogSkillChosen::on_buttonBox_accepted()
 {
-    if (2 != chosenNum) {   // every hero 2 skills
-        QMessageBox::warning(NULL, tr("Choose Screen"), "Please Choose 2 Skills");
-        return;
-    }
     int result = 0;
     if (ui->checkSkill1->isChecked())
         result |= 0x01;
@@ -83,4 +69,51 @@ void DialogSkillChosen::on_buttonBox_accepted()
         result |= 0x04;
 
     done(result);
+}
+
+void DialogSkillChosen::checkCheckBoxes() {
+    QList<QCheckBox*> notChecked;
+    for (int i = 0; i < 3; i++) {
+        if (!checkboxs[i]->isChecked()) {
+            notChecked.append(checkboxs[i]);
+        }
+    }
+    if (notChecked.size() == 0) {
+        throw QString("All Skills are available");
+    } else if (notChecked.size() == 1) {
+        notChecked[0]->setEnabled(false);
+        ui->buttonBox->setEnabled(true);
+    } else {
+        ui->buttonBox->setEnabled(false);
+        foreach (QCheckBox* cb, notChecked)
+            cb->setEnabled(true);
+    }
+}
+
+void DialogSkillChosen::labelClicked(int n) {
+    QCheckBox* cb = checkboxs[n];
+    if (cb->isEnabled()) {
+        cb->setChecked(!cb->isChecked());
+        checkCheckBoxes();
+    }
+}
+
+// 3 5 6
+void DialogSkillChosen::on_buttonBox_rejected()
+{
+    switch (rand() % 3) {
+    case 0:
+        done(3); break;
+    case 1:
+        done(5); break;
+    case 2:
+        done(6); break;
+    default:        // if you can do this
+        done(7); break;
+    }
+}
+
+void DialogSkillChosen::on_DialogSkillChosen_rejected()
+{
+    on_buttonBox_rejected();
 }

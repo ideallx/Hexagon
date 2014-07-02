@@ -43,7 +43,8 @@ SOURCES  += \
     Game/ai.cpp \
     forms/dialogskillchosen.cpp \
     main.cpp \
-    forms/dialogherochosen.cpp
+    forms/dialogherochosen.cpp \
+    forms/picturelabel.cpp
 
 HEADERS  += \
     mainwindow.h \
@@ -76,7 +77,8 @@ HEADERS  += \
     Game/Items/Hero/moveability.h \
     Game/ai.h \
     forms/dialogskillchosen.h \
-    forms/dialogherochosen.h
+    forms/dialogherochosen.h \
+    forms/picturelabel.h
 
 INCLUDEPATH += include
 INCLUDEPATH += .
@@ -87,6 +89,7 @@ INCLUDEPATH += Game/Items/Hero
 INCLUDEPATH += Game/Items/Card
 INCLUDEPATH += Widget
 INCLUDEPATH += Package
+INCLUDEPATH += forms
 
 FORMS    += forms/modechoose.ui \
     forms/mainwindow.ui \

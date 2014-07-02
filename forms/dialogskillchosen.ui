@@ -26,7 +26,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="PictureLabel" name="label">
          <property name="text">
           <string/>
          </property>
@@ -47,7 +47,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="PictureLabel" name="label_2">
          <property name="text">
           <string/>
          </property>
@@ -68,7 +68,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="PictureLabel" name="label_3">
          <property name="text">
           <string/>
          </property>
@@ -93,6 +93,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PictureLabel</class>
+   <extends>QLabel</extends>
+   <header location="global">picturelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
