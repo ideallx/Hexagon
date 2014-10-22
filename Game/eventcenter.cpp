@@ -24,7 +24,7 @@ EventCenter::EventCenter(BackView *bv, QWidget* parent)
       parent(parent),
       isAnimating(false),
       bv(bv),
-      askType(AskType::AskForNone),
+      askType(AskType::AskForMenu),
       playerHeroNum(0),
       resultsNum(0),
       gameTerminated(false),
@@ -287,10 +287,10 @@ void EventCenter::turnBegin() {
     menu->setPrompt("");
     qDebug() << curHero->heroName() + "'s" << "Turn Begin";
 
+    setCurHero(curHero);
     getCard(HeroItem::beginTurnGetCards());
     curHero->beginTurnSettle();
     menu->beginTurnReset();
-    setCurHero(curHero);
     emit roundInfoChanged(buildRoundInfo());
 }
 
@@ -447,7 +447,7 @@ void EventCenter::heroUseSkill(int n) {
     if (isAnimating)
         return;
 
-    if ((askType != AskType::AskForNone) &&
+    if ((askType != AskType::AskForMenu) &&
             (askType != AskType::AskForSkill)) {
         return;
     }
@@ -489,7 +489,7 @@ GameMenuType EventCenter::askForNewEvent() {
         ai->aisTurn();
     }
 
-    acquire(AskType::AskForNone);
+    acquire(AskType::AskForMenu);
     try {
         scene->clearRange();
         switch (resultsGMT) {
@@ -532,6 +532,9 @@ GameMenuType EventCenter::askForNewEvent() {
         }
     } catch (QString e) {
         qDebug() << e;
+        scene->clearRange();
+        menu->hideAllMenu();
+        resultsGMT = GameMenuType::EndTurn;
     }
 
     return resultsGMT;
@@ -611,12 +614,16 @@ void EventCenter::loopExec() {
         throw QString(tr("Game Terminated"));
     }
 
-    if (GameMenuType::Cancel == resultsGMT) {
-        askType = AskType::AskForNone;
-        throw QString(tr("Current Action Cancaled"));
-    } else if (GameMenuType::EndTurn == resultsGMT) {
-        askType = AskType::AskForNone;
-        throw QString(tr("Current Turn Ended"));
+    if (askType != AskType::AskForMenu) {
+        if (GameMenuType::Cancel == resultsGMT) {
+            askType = AskType::AskForMenu;
+            throw QString(tr("Current Action Cancaled"));
+        } else if (GameMenuType::EndTurn == resultsGMT) {
+            if (askType != AskType::AskForCards) {
+                askType = AskType::AskForMenu;
+                throw QString(tr("Current Turn Ended"));
+            }
+        }
     }
 }
 
@@ -660,12 +667,12 @@ void EventCenter::chosenTarget(QPoint in) {
 
 void EventCenter::chosenMenu(GameMenuType gmt) {
     if (GameMenuType::Cancel == gmt) {
-        askType = AskType::AskForNone;
+        askType = AskType::AskForMenu;
         chosenCancel();
         return;
     }
 
-    if (askType != AskType::AskForNone) {
+    if (askType != AskType::AskForMenu) {
         return;
     }
 

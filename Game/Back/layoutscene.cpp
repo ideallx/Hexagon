@@ -204,7 +204,7 @@ void CardScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
         return;
 
     if (chosenItem.contains(oldItem)) {
-        oldItem->setPos(oldItem->pos().x(), 0.2*height());
+        oldItem->setPos(oldItem->pos().x(), 0.2 * height());
         chosenItem.removeAt(chosenItem.indexOf(oldItem));
     } else {
         if (chosenNumber == 1) {

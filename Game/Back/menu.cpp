@@ -244,11 +244,6 @@ void GameMenu::beginTurnReset() {
 }
 
 void GameMenu::chosenCardNumChanged(int n) {
-//    if (cardPhase == CardPhase::CardNormal)
-//        return;
-//    if (cardPhase == CardPhase::CardChooseOne)
-//        return;
-
     if (n == waitingCardNum)
         ui->buttonOK->setEnabled(true);
     else

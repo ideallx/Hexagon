@@ -13,7 +13,7 @@ AI::AI(HeroItem *hi, ItemCollector *ic)
       targetEnemyHero(NULL),
       sem(new QSemaphore),
       ic(ic),
-      askForWhat(AskType::AskForNone) {
+      askForWhat(AskType::AskForMenu) {
     qDebug() << "AI";
 }
 

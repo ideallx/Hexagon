@@ -221,7 +221,7 @@ enum class GameMenuType {
 };
 
 enum class AskType {
-    AskForNone,
+    AskForMenu,
     AskForCards,
     AskForPoint,
     AskForSkill,
