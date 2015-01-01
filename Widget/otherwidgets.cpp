@@ -2,7 +2,7 @@
 #include "otherwidgets.h"
 #include "ui_modechoose.h"
 #include "gameWidget.h"
-#include "ui_gameSetting.h"
+//#include "ui_gameSetting.h"
 
 
 ModeChooseWidget::ModeChooseWidget(QWidget *parent)

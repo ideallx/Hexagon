@@ -4,9 +4,7 @@
 #include <QObject>
 #include <QDialog>
 #include "enums.h"
-#include "ui_chooseHero.h"
 #include "ui_chooseGame.h"
-#include "ui_chooseBirth.h"
 
 class EventCenter;
 class ItemCollector;
@@ -32,9 +30,9 @@ class GameProcess : public QObject {
     void chooseBirthScreen();
     void modeChooseScreen();
 
-    Ui::chooseHero* uic;
+//    Ui::chooseHero* uic;
     Ui::ChooseGame* uig;
-    Ui::ChooseBirth* uib;
+//    Ui::ChooseBirth* uib;
 
     QWidget* parent;
     ModeChooseWidget* mcw;
