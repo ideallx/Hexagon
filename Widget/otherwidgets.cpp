@@ -2,24 +2,22 @@
 #include "otherwidgets.h"
 #include "ui_modechoose.h"
 #include "gameWidget.h"
-//#include "ui_gameSetting.h"
 
+const int ModeIconWidth = 100;
+const int ModeIconHeight = 30;
 
 ModeChooseWidget::ModeChooseWidget(QWidget *parent)
     : QWidget(parent),
     ui(new Ui::modeChoose) {
     ui->setupUi(this);
-    ui->singleGame->setFixedSize(100, 30);
-    ui->lanGame->setFixedSize(100, 30);
-    ui->replay->setFixedSize(100, 30);
-    ui->settings->setFixedSize(100, 30);
-    ui->cardsView->setFixedSize(100, 30);
-    ui->mapsView->setFixedSize(100, 30);
-    ui->herosView->setFixedSize(100, 30);
-    ui->about->setFixedSize(100, 30);
-
-//    qdlg = new QDialog(this);
-//    qdlg->hide();
+    ui->singleGame->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->lanGame->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->replay->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->settings->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->cardsView->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->mapsView->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->herosView->setFixedSize(ModeIconWidth, ModeIconHeight);
+    ui->about->setFixedSize(ModeIconWidth, ModeIconHeight);
 }
 
 ModeChooseWidget::~ModeChooseWidget() {

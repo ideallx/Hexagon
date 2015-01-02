@@ -21,6 +21,7 @@ class HeroItem : public QObject, public QGraphicsEllipseItem {
 
  public:
     explicit HeroItem(int lineLength);
+	virtual ~HeroItem();
 
     // InnerInfo
     void setHeroProperty(Sexual s, int ar, int m, int h);

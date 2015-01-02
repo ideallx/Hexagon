@@ -19,16 +19,17 @@
 #define GIVEN_CONDITION
 
 EventCenter::EventCenter(BackView *bv, QWidget* parent)
-    : roundNum(0),
-      gameBegined(false),
-      parent(parent),
-      isAnimating(false),
-      bv(bv),
-      askType(AskType::AskForMenu),
-      playerHeroNum(0),
-      resultsNum(0),
-      gameTerminated(false),
-      loop(new QEventLoop) {
+    : roundNum(0)
+	, gameBegined(false)
+	, parent(parent)
+	, isAnimating(false)
+	, bv(bv)
+	, askType(AskType::AskForMenu)
+	, resultsGMT (GameMenuType::Cancel)
+    , playerHeroNum(0)
+	, resultsNum(0)
+	, gameTerminated(false)
+	, loop(new QEventLoop) {
 }
 
 EventCenter::~EventCenter() {
@@ -504,7 +505,7 @@ GameMenuType EventCenter::askForNewEvent() {
         case GameMenuType::Skill: {
                 SkillPara sp(this, QVariant(), curHero, NULL);
                 SkillBase *skl = curHero->getHeroSkill(resultsNum);
-                if (skl->type() == SkillType::SkillActive) {
+                if (skl->type() == SkillType::Active) {
                     skl->skillPrepare(sp);
                     listHeroInfo(curHero);
                 }
@@ -613,7 +614,7 @@ void EventCenter::loopExec() {
     if (gameTerminated) {
         throw QString(tr("Game Terminated"));
     }
-
+	
     if (askType != AskType::AskForMenu) {
         if (GameMenuType::Cancel == resultsGMT) {
             askType = AskType::AskForMenu;
@@ -630,7 +631,7 @@ void EventCenter::loopExec() {
 void EventCenter::acquireAI(AI* ai, AskType at) {
     Q_ASSERT(ai != NULL);
     askType = at;
-    ai->aisReact();
+    ai->aisReact(at);
 }
 
 void EventCenter::release() {

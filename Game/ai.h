@@ -22,7 +22,7 @@ class AI : public QThread {
     void thinkHowToReact();
     void thinkNextEvent();
     void aisTurn();
-    void aisReact();
+    void aisReact(AskType at);
 
     inline void addFriend(HeroItem* hi) { friendHeros.append(hi); }
     inline void addEnemy(HeroItem* hi) { enemyHeros.append(hi); }

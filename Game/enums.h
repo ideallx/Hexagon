@@ -198,16 +198,16 @@ enum class HeroState {
 };
 
 enum class SkillType {
-    SkillActive,
-    SkillPositive,
-    SkillPositiveTrigger
+    Active,
+    Positive,
+    PositiveTrigger
 };
 
 enum class EquipmentType {
-    EquipWeapon,
-    EquipArmor,
-    EquipOmament,
-    EquipShoe
+    Weapon,
+    Armor,
+    Omament,
+    Shoe
 };
 
 enum class GameMenuType {

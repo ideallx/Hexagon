@@ -131,7 +131,7 @@ class HsGuiShou : public AttackBuffSkill {
     HsGuiShou();
     void skillAct(SkillPara sp);
     void skillClicked(SkillPara sp);
-    virtual SkillType type() { return SkillType::SkillPositive; }
+    virtual SkillType type() { return SkillType::Positive; }
 };
 
 class HsQianXing : public AttackBuffSkill {

@@ -9,6 +9,7 @@
 #include "enums.h"
 #include "skillcenter.h"
 
+class Data;
 class HandCard;
 class GameBackInfo;
 class MapMark;
@@ -27,7 +28,7 @@ class AbstractCardPackage : public QObject {
 class CardEngine : public QObject {
  public:
     explicit CardEngine(GameBackInfo *gbi);
-    QList<HandCard*> generateHandCards();
+    bool generateHandCards(QList<HandCard*>& result);
     void addPackage(AbstractCardPackage* acp);
     void registerSkill(AbstractCardPackage* acp);
 
@@ -37,7 +38,7 @@ class CardEngine : public QObject {
     int cardsId;
     QString path;
     int skillsNum;
-    QList<AbstractCardPackage*> cpl;
+    QList<AbstractCardPackage*> cpl;		// all packages available
     QHash<int, SkillBase*>skills;
 
  friend class VvTestTest;

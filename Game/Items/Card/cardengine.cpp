@@ -5,21 +5,20 @@
 #include "heroitem.h"
 
 CardEngine::CardEngine(GameBackInfo *gbi)
-    : cardAmount(0),
-      cardsId(0),
-      path(gbi->getConfigDir() + "cards/"),
-      skillsNum(0) {
+    : cardAmount(0)
+	, cardsId(0)
+	, path(gbi->getConfigDir() + "cards/")
+	, skillsNum(0) {
 }
 
-QList<HandCard*> CardEngine::generateHandCards() {
-    QList<HandCard*> result;
+bool CardEngine::generateHandCards(QList<HandCard*>& result) {
     for (int i = 0; i < cpl.size(); i++) {
         QList<CardInfo> hcl = cpl[i]->getAllCards();
         for (int j = 0; j < hcl.size(); j++) {
             result.append(createCard(hcl[j]));
         }
     }
-    return result;
+	return true;
 }
 
 HandCard* CardEngine::createCard(CardInfo ci) {

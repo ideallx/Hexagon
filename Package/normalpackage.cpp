@@ -82,51 +82,51 @@ CardPackageNormal::CardPackageNormal() {
 
 #define BUILDEQUIP const EquipmentInfo
 EquipmentPackageNormal::EquipmentPackageNormal() {
-    BUILDEQUIP ajlzx = {EquipmentType::EquipShoe,
+    BUILDEQUIP ajlzx = {EquipmentType::Shoe,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::AnJingLingZhiXue,
                         4, "AnJingLingZhiXue"};
-    BUILDEQUIP andzd = {EquipmentType::EquipArmor,
+    BUILDEQUIP andzd = {EquipmentType::Armor,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::ANuoDeZhiDun,
                         5, "ANuoDeZhiDun"};
-    BUILDEQUIP blqzj = {EquipmentType::EquipOmament,
+    BUILDEQUIP blqzj = {EquipmentType::Omament,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::BuLanQiZhiJie,
                         4, "BuLanQiZhiJie"};
-    BUILDEQUIP flksz = {EquipmentType::EquipWeapon,
+    BUILDEQUIP flksz = {EquipmentType::Weapon,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::FuLuoKenShenZhang,
                         8, "FuLuoKenShenZhang"};
-    BUILDEQUIP jgb   = {EquipmentType::EquipWeapon,
+    BUILDEQUIP jgb   = {EquipmentType::Weapon,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::JinGuBang,
                         7, "JinGuBang"};
-    BUILDEQUIP lqddj = {EquipmentType::EquipOmament,
+    BUILDEQUIP lqddj = {EquipmentType::Omament,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::LaoQianDeDaoJu,
                         4, "LaoQianDeDaoJu"};
-    BUILDEQUIP lrg   = {EquipmentType::EquipWeapon,
+    BUILDEQUIP lrg   = {EquipmentType::Weapon,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::LieRiGong,
                         7, "LieRiGong"};
-    BUILDEQUIP lwfz  = {EquipmentType::EquipWeapon,
+    BUILDEQUIP lwfz  = {EquipmentType::Weapon,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::LongWangFaZhang,
                         6, "LongWangFaZhang"};
-    BUILDEQUIP msypf = {EquipmentType::EquipArmor,
+    BUILDEQUIP msypf = {EquipmentType::Armor,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::MoShuYangDePiFeng,
                         6, "MoShuYangDePiFeng"};
-    BUILDEQUIP rszf  = {EquipmentType::EquipWeapon,
+    BUILDEQUIP rszf  = {EquipmentType::Weapon,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::RanShaoZhiFu,
                         6, "RanShaoZhiFu"};
-    BUILDEQUIP xjlbs = {EquipmentType::EquipWeapon,
+    BUILDEQUIP xjlbs = {EquipmentType::Weapon,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::XueJingLingBiShou,
                         8, "XueJingLingBiShou"};
-    BUILDEQUIP ysdzf = {EquipmentType::EquipArmor,
+    BUILDEQUIP ysdzf = {EquipmentType::Armor,
                         EquipmentPackage::EquipmentPackage_Normal,
                         EquipNormalPackageId::YuShenDeZhuFu,
                         5, "YuShenDeZhuFu"};

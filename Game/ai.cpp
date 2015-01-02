@@ -7,7 +7,6 @@
 #include "coordinate.h"
 #include "itemcollector.h"
 
-
 AI::AI(HeroItem *hi, ItemCollector *ic)
     : AiHero (hi),
       targetEnemyHero(NULL),
@@ -26,6 +25,7 @@ void AI::askCard(CardNormalPackageType cnpt, int n) {
 void AI::dothings(AskType at) {
     Q_UNUSED(at);
     qDebug() << "AI do things";
+	qDebug() << "sem release";
     sem->release();
     askForWhat = at;
 }
@@ -45,6 +45,7 @@ HeroItem* AI::findAttackTarget() {
 }
 
 void AI::thinkNextEvent() {
+	qDebug() << "sem acquire";
     sem->acquire();
     if (AiHero->ma->remainingTimes() && !isTargetNearAI()) {
         qDebug() << "AI ready to move";
@@ -68,6 +69,7 @@ void AI::processTurnEnd() {
 
 void AI::processMove() {
     emit menuClicked(GameMenuType::Move);
+	qDebug() << "sem acquire";
     sem->acquire();
 
     QList<QPoint> result =
@@ -100,6 +102,7 @@ void AI::processAttack() {
     int msec = 500;
     waitForTime(msec);
     emit menuClicked(GameMenuType::Attack);
+	qDebug() << "sem acquire";
     sem->acquire();
 
     emit rangeClicked(targetEnemyHero->point());
@@ -115,6 +118,7 @@ void AI::waitForTime(int msec) {
 
 void AI::run() {
     while (true) {
+		qDebug() << "sem acquire";
         sem->acquire();
         findAttackTarget();
         try {
@@ -138,15 +142,18 @@ void AI::run() {
 
 void AI::aisTurn() {
     askForWhat = AskType::AskForAITurn;
+	qDebug() << "sem release";
     sem->release();
 }
 
-void AI::aisReact() {
-    askForWhat = AskType::AskForAIReact;
+void AI::aisReact(AskType at) {
+    askForWhat = at;
+	qDebug() << "sem release";
     sem->release();
 }
 
 void AI::thinkHowToReact() {
+	qDebug() << "sem acquire";
     sem->acquire();
     qDebug() << "AI Prepare to React";
 

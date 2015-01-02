@@ -60,7 +60,6 @@ HEADERS  += \
     Game/Back/layoutscene.h \
     Game/Items/mapelement.h \
     Game/Items/carditem.h \
-    Game/Items/camphealth.h \
     Game/Items/Hero/herowhole.h \
     Game/Items/Hero/heroitem.h \
     Game/Items/Hero/heroengine.h \

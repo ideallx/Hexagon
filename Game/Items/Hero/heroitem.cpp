@@ -26,6 +26,11 @@ HeroItem::HeroItem(int lineLength)
     equipments.append(NULL);
 }
 
+HeroItem::~HeroItem() {
+	delete aa;
+	delete ma;
+}
+
 QRectF HeroItem::boundingRect() const {
     return rect();
 }

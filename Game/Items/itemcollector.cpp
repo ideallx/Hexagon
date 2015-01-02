@@ -93,7 +93,7 @@ void ItemCollector::addHeroList(QList<ExternInfo> info) {
 }
 
 void ItemCollector::addCardList() {
-    unusedCards = ce->generateHandCards();
+    ce->generateHandCards(unusedCards);
 }
 
 void ItemCollector::addMapElementList() {
